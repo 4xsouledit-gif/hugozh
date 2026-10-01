@@ -11,7 +11,7 @@ source = "https://gohugo.io/contribute/development/"
 
 参与 Hugo 项目有很多种方式，不限于写代码。你可以：
 
-- 在[论坛](https://discourse.gohugo.io)回答问题；
+- 在[论坛](https://discourse.gohugo.io)回答问题（中文交流见[中文分类](https://discourse.gohugo.io/c/chinese/42)）；
 - 改进[文档](https://github.com/gohugoio/hugoDocs)；
 - 关注[议题队列](https://github.com/gohugoio/hugo/issues)；
 - 创建或改进[主题](https://themes.gohugo.io/)；

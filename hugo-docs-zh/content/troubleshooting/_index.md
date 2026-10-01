@@ -53,4 +53,4 @@ hugo build --printPathWarnings
 
 ## 获取帮助
 
-Hugo 论坛是活跃的用户与开发者社区，可以在那里提问、分享经验并找到示例。提问前请先阅读论坛的求助指南，并准备好 `hugo env` 的输出与一个最小复现示例，这样更容易得到有用的回答。论坛地址见 [discourse.gohugo.io](https://discourse.gohugo.io)。
+Hugo 论坛是活跃的用户与开发者社区，可以在那里提问、分享经验并找到示例。提问前请先阅读论坛的求助指南，并准备好 `hugo env` 的输出与一个最小复现示例，这样更容易得到有用的回答。论坛地址见 [discourse.gohugo.io](https://discourse.gohugo.io)；中文提问请直接用官方论坛的[中文分类](https://discourse.gohugo.io/c/chinese/42)。

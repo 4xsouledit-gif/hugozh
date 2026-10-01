@@ -9,7 +9,7 @@ source = "https://gohugo.io/troubleshooting/faq/"
 
 ## 关于这份常见问题
 
-Hugo 的[论坛](https://discourse.gohugo.io)是活跃的用户与开发者社区，两万多个主题中往往已经有人回答过你的问题。提问之前，请先阅读论坛的[求助指南](https://discourse.gohugo.io/t/requesting-help/9132)。下面列出新用户最常问到的若干问题。
+Hugo 的[论坛](https://discourse.gohugo.io)是活跃的用户与开发者社区，两万多个主题中往往已经有人回答过你的问题；中文提问请用官方论坛的[中文分类](https://discourse.gohugo.io/c/chinese/42)。提问之前，请先阅读论坛的[求助指南](https://discourse.gohugo.io/t/requesting-help/9132)。下面列出新用户最常问到的若干问题。
 
 ## 提示某个功能不可用
 

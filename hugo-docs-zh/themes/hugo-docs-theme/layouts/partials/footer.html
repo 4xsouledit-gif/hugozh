@@ -2,6 +2,7 @@
   <div class="site-footer-inner">
     <p>本站是社区维护的<strong>非官方</strong>中文翻译，内容译自 <a href="{{ site.Params.upstream }}" target="_blank" rel="noopener">Hugo 官方文档</a>；仅供学习参考，如有歧义，一切以官方英文原文为准。</p>
     <p>站点：<a href="{{ site.BaseURL }}">{{ site.BaseURL }}</a></p>
+    <p>遇到问题？到 <a href="https://discourse.gohugo.io/c/chinese/42" target="_blank" rel="noopener">Hugo 官方论坛 · 中文分类</a>提问（中文区，提问前请先读 <a href="https://discourse.gohugo.io/t/requesting-help/9132" target="_blank" rel="noopener">求助指南</a>）</p>
     <p>原文仓库：<a href="{{ site.Params.upstreamRepo }}" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo {{ hugo.Version }} 构建 · {{ partial "time.html" (dict "label" "构建于" "date" now) }}</p>
     <p>站点版本 {{ site.Params.version | default "dev" }}{{ with site.Lastmod }}{{ if not .IsZero }} · 内容最近更新 {{ partial "time.html" (dict "date" .) }}{{ end }}{{ end }} · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
     <p class="footer-mark">

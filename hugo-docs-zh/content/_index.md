@@ -8,6 +8,8 @@ date = 2026-10-01
 
 > 译文由 [亦幸](https://github.com/hencter) 和 [DeepSeek Harness](https://www.deepseek.com/) 整理，仅供学习参考。Hugo 迭代较快，如与官方英文原文有出入，请以官方文档为准。
 
+**遇到问题？** 文档之外，Hugo 官方论坛的[中文分类](https://discourse.gohugo.io/c/chinese/42)是中文提问与交流的落点；提问前请先读[求助指南](https://discourse.gohugo.io/t/requesting-help/9132)，并附上 `hugo env` 输出与最小复现示例。中文区之外，[官方论坛](https://discourse.gohugo.io)其余分类也有两万多个主题可直接搜索。
+
 ## 本站包含哪些内容
 
 | 章节 | 内容 |

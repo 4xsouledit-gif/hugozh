@@ -15,7 +15,8 @@ Resource base for this skill is `<skill-directory>`: the trap catalogue at
 `<skill-directory>/references/site-structure.md`, the SEO checklist at
 `<skill-directory>/references/seo.md`, version control and dates at
 `<skill-directory>/references/versioning.md` and `<skill-directory>/references/dates.md`, shortcode
-authoring at `<skill-directory>/references/shortcodes.md`, and the command notes at `<skill-directory>/references/commands.md`. The command notes prescribe only the
+authoring at `<skill-directory>/references/shortcodes.md`, optional multilingual setup at
+`<skill-directory>/references/i18n.md`, and the command notes at `<skill-directory>/references/commands.md`. The command notes prescribe only the
 flags this workflow relies on and point at `hugo gen doc` for the reference itself — they are not a
 transcription of it.
 

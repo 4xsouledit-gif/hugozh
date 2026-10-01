@@ -18,6 +18,7 @@ hugo-static-site/
     ├── commands.md                 # command notes: what the workflow uses (reference: `hugo gen doc`)
     ├── dates.md                    # date fields, time zones, localized formats, relative time
     ├── gotchas.md                  # G1…G22: symptom → cause → fix
+    ├── i18n.md                     # optional multilingual setup, switcher, i18n strings
     ├── seo.md                      # head tags, JSON-LD pitfall, sitemap/robots, performance
     ├── shortcodes.md               # authoring custom shortcodes: notation, methods, nesting
     ├── site-structure.md           # theme layers, front matter, navigation, i18n

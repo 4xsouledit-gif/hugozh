@@ -1,6 +1,6 @@
 # Hugo 官方文档 · 中文翻译站
 
-一个**自包含**的 Hugo 站点：内容为 Hugo 官方文档（<https://gohugo.io/>）的简体中文翻译，版式全部由项目自身的 `layouts/` 与 `assets/` 提供，**不需要安装任何外部主题，也不需要联网即可构建与预览**。
+一个**自包含**的 Hugo 站点：内容为 Hugo 官方文档（<https://gohugo.io/>）的简体中文翻译；版式由仓库内的两个主题（`themes/hugo-docs-theme` 版式基础层、`themes/hugo-docs-theme-zh` 中文排版叠加层）提供，项目 `layouts/` 只保留跨主题共用的骨架约束，**不依赖任何外部主题，也不需要联网即可构建与预览**。
 
 - 站点类型：静态站点（Hugo）
 - 规模：**16 个一级章节，共 202 页**（201 个内容文件 + 首页 `content/_index.md`）
@@ -251,6 +251,10 @@ enableGitInfo = true
 ```
 
 一个实测结论：Hugo 的本地化 token（`:date_long` 等）**对中文会回退成英文**（同一模板下 `locale = "de-DE"` 输出 `1. Oktober 2026`，`locale = "zh-CN"` 输出 `October 1, 2026`）。因此中文格式由**中文叠加主题**显式给出：`[params] dateFormat = "2006年1月2日"`（放在 `[params.cjk]` **之前**——TOML 中表头之后的键会归入该表）。相关坑见 skill 的 G21/G22。
+
+## 多语言（当前未启用）
+
+本站只发布简体中文，因此没有 `[languages]` 配置、也没有 `i18n/` 目录——单语言站点只需要 `locale` 用于日期与数字格式化。将来若要加英文：按**文件名**翻译（`about.md` + `about.en.md`，同路径同名即自动配对；无法同名时用 front matter 的 `translationKey`）或按**语言分目录**（`[languages.en] contentDir = 'content/en'`，二者不可混用），并同步 `label` / `locale` / `direction`（0.158 起分别取代 `languageName` / `languageCode` / `languageDirection`）。切换器、`T` 字符串表、缺翻译占位符与验证方式见 skill 的 `references/i18n.md`。
 
 ## 调整外观
 

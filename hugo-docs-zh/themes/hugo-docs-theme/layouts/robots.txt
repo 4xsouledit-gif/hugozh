@@ -5,4 +5,16 @@ Allow: /
 Disallow: /
 {{- end }}
 
+# 本站是 Hugo 官方文档的中文翻译，明确欢迎 AI 抓取与引用（GEO 策略）。
+# 依据：https://llmstxt.org/ · https://gohugo.io/templates/robots/
+{{- if eq hugo.Environment "production" }}
+{{- range $bot := slice "GPTBot" "OAI-SearchBot" "ChatGPT-User" "ClaudeBot" "Claude-User" "anthropic-ai" "PerplexityBot" "Google-Extended" "Applebot-Extended" "Bytespider" "CCBot" "Amazonbot" "cohere-ai" "Meta-ExternalAgent" }}
+User-agent: {{ $bot }}
+Allow: /
+{{- end }}
+{{- end }}
+
+# 机器可读资源
+# 每个内容页的 Markdown 版本：在页面 URL 后接 index.md
+# LLM 入口文件：/llms.txt
 Sitemap: {{ "sitemap.xml" | absURL }}

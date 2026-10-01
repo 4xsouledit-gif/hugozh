@@ -99,3 +99,33 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
     name = "Hugo 官网"
     url = "https://gohugo.io/"
     weight = 99
+
+# ============================================================
+#  面向 AI 代理的输出（GEO）
+#  · md   ：每个内容页额外产出 index.md（正文 Markdown + 可引用的元数据），
+#           让代理不必解析 20KB HTML；模板用 text/template（isPlainText）避免 HTML 转义。
+#  · llms ：首页额外产出 /llms.txt（站点地图式的 AI 入口文件）。
+#  键名依据：https://gohugo.io/configuration/output-formats/
+#  模板命名规则 [page kind].[output format].[suffix]：
+#  https://gohugo.io/configuration/output-formats/#template-lookup-order
+# ============================================================
+[mediaTypes.'text/markdown']
+  suffixes = ['md']
+
+[outputFormats.md]
+  mediaType   = 'text/markdown'
+  baseName    = 'index'
+  isPlainText = true
+  isHTML      = false
+
+[outputFormats.llms]
+  mediaType   = 'text/plain'
+  baseName    = 'llms'
+  isPlainText = true
+  isHTML      = false
+  notAlternative = true
+
+[outputs]
+  home = ['html', 'rss', 'llms']
+  section = ['html', 'rss', 'md']
+  page = ['html', 'md']

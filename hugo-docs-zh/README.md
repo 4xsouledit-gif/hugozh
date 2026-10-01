@@ -345,3 +345,39 @@ hugo --minify --config hugo.toml,hugo.nogit.toml           # 没有 .git
 ```
 
 另注：若平台做的是**浅克隆**（`--depth 1`），构建不会失败，但所有页面的「最后更新」都会等于那一次提交的日期（信息失真，不影响构建）。
+
+## 面向 AI 代理的输出（SEO / GEO）
+
+站点不只给人看，也给 AI 代理与答案引擎看。为此额外产出三类机器可读资源：
+
+| 资源 | 路径 | 说明 |
+| --- | --- | --- |
+| **LLM 入口文件** | `/llms.txt` | 站点摘要 + 分主题入口 + 机器可读资源清单 + 内容约定（约定见 <https://llmstxt.org/>） |
+| **每页 Markdown** | 任意页面 URL 后接 `index.md` | 例如 `/functions/strings/chomp/index.md`：头部给出官方原文、规范地址、最近更新、最后提交、**函数签名与返回类型**，随后是该页 Markdown 原文 |
+| **发现链** | HTML `<head>` | `<link rel="alternate" type="text/markdown" href="…/index.md">`，代理无需猜路径 |
+
+配置（`hugo.toml`）与模板（`themes/hugo-docs-theme/layouts/{_default/single.md.md,_default/list.md.md,index.llms.txt}`）都基于官方 output format 机制：
+
+```toml
+[mediaTypes.'text/markdown']
+  suffixes = ['md']
+
+[outputFormats.md]
+  mediaType   = 'text/markdown'
+  baseName    = 'index'
+  isPlainText = true      # 用 text/template 解析，避免 Markdown 被 HTML 转义
+  isHTML      = false
+
+[outputs]
+  home    = ['html', 'rss', 'llms']
+  section = ['html', 'rss', 'md']
+  page    = ['html', 'md']
+```
+
+要点与坑：
+
+- 模板命名遵循 `[page kind].[output format].[suffix]`，因此是 `single.md.md` / `list.md.md` / `index.llms.txt`（依据：<https://gohugo.io/configuration/output-formats/#template-lookup-order>）。
+- `isPlainText = true` 是关键：否则 Markdown 正文会被 `html/template` 转义成实体。
+- 页面模板会**剥离独占一行的短代码定界符**（`{{</* note */>}}` … `{{</* /note */>}}`），保留其内部内容，避免代理拿到未解析的标记。
+- 新增输出会让构建设置的「页面数」翻倍（1019 → 1967），这是正常的：它是「页面数 × 输出格式数」，不是内容变多。
+- `robots.txt` 显式允许主流 AI 抓取器（GPTBot、ClaudeBot、PerplexityBot、Google-Extended 等）并保留 `Sitemap:` 行。

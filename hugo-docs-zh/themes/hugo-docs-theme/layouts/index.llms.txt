@@ -1,0 +1,34 @@
+{{- /* /llms.txt —— 给 AI 代理/答案引擎的入口文件（output format: llms，text/plain）。
+       结构遵循 llms.txt 约定：标题 + 摘要 + 分主题入口 + 机器可读资源 + 内容约定。
+       依据：https://llmstxt.org/ （站点侧实现说明见 hugo-docs-zh/README.md） */ -}}
+# {{ site.Title }}
+
+> {{ site.Params.description }}
+
+- 站点：{{ site.BaseURL }}
+- 官方上游：{{ site.Params.upstream }}（本站译文与上游页面 1:1 对应）
+- 许可：译文遵循上游 Apache-2.0；站点主题、构建脚本与 AI 技能包为 MIT
+- 性质：社区维护的**非官方**中文翻译；如有出入，以官方英文原文为准
+- 语言：简体中文（zh-CN）
+
+## 分主题入口
+
+{{- range site.Home.Sections.ByWeight }}
+- [{{ .LinkTitle }}]({{ .Permalink }})：{{ .Description }}
+{{- end }}
+
+## 机器可读资源
+
+- 每个内容页都有 Markdown 版本：在页面 URL 后接 `index.md`，例如
+  {{ site.BaseURL }}methods/page/section/index.md
+- 全站页面清单：{{ site.BaseURL }}sitemap.xml
+- 订阅源：{{ site.BaseURL }}index.xml
+- 技能包（供 AI 编码代理使用的 Hugo 作业手册）：{{ site.BaseURL }}skill/
+- 技能包清单（含每个文件的 sha256）：{{ site.BaseURL }}skill/skill-manifest.json
+
+## 内容约定（便于切分与引用）
+
+- 每页正文从二级标题开始（页面标题由 front matter 提供，不在正文重复）。
+- 代码块使用围栏并标注语言；函数与方法页在正文开头给出「签名 / 返回类型」结构化信息。
+- 每页给出官方英文原文链接与最近更新时间（来自 Git 提交）。
+- 术语表条目按术语排列，标题形如「中文（english）」，便于对齐英文检索词。

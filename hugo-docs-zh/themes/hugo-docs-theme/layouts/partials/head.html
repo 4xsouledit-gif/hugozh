@@ -59,6 +59,10 @@
   {{- with .OutputFormats.Get "rss" }}
   <link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}">
   {{- end }}
+  {{- /* 供 AI 代理发现的 Markdown 版本（每个内容页都有 index.md） */}}
+  {{- with .OutputFormats.Get "md" }}
+  <link rel="alternate" type="text/markdown" href="{{ .Permalink }}" title="本页 Markdown（供 AI 代理抓取）">
+  {{- end }}
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
 

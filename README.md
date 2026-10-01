@@ -72,14 +72,14 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]   # 左优先；项目自身�
 baseURL = "https://hugozh.cn/"
 ```
 
-## 首次推送到远端
+## 远端仓库
+
+公开仓库：**<https://github.com/hencter/hugozh>**（`main` 分支与 `v1.0.0` / `v1.1.0` 标签已推送）。
 
 ```bash
-git remote add origin git@github.com:<你的账号>/<仓库名>.git
-git push -u origin main --tags
+git clone https://github.com/hencter/hugozh.git
+cd hugozh/hugo-docs-zh && hugo server -D      # http://localhost:1313/
 ```
-
-（本仓库目前没有远端；`main` 分支与 `v1.0.0`/`v1.1.0` 标签已在本地就绪。）
 
 ## 贡献
 

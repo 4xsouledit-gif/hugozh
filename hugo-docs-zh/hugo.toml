@@ -37,7 +37,7 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
 [params]
   description = "Hugo 官方文档全部 19 个一级章节、948 页的社区简体中文翻译（非官方），附英文原文链接，便于对照阅读。"
   tagline = "把 Hugo 带到中文世界"          # 首页主视觉的眉题
-  repoURL = ""                             # 公开仓库地址；填了就显示「查看源码」按钮
+  repoURL = "https://github.com/hencter/hugozh"   # 公开仓库地址；显示为首页「查看源码」按钮
   upstream = "https://gohugo.io/"
   upstreamRepo = "https://github.com/gohugoio/hugoDocs"
   version = "v1.1.0"      # 站点版本，显示在页脚；与 Git tag 对应

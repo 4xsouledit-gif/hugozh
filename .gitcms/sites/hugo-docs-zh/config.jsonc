@@ -9,7 +9,7 @@
         "references": {
           "write": {
             "mode": "root_relative",
-            "base_path": "/"
+            "base_path": "/uploads/"
           },
           "allow_default_library_fallback": true
         },
@@ -18,7 +18,7 @@
         },
         "driver": "git",
         "storage": {
-          "root_path": "public"
+          "root_path": "hugo-docs-zh/static/uploads"
         }
       }
     ]

@@ -22,7 +22,11 @@ foreach ($parent in @('functions', 'methods', 'quick-reference', 'content-manage
         if ($lines[$j] -ne "weight = $w") { $lines[$j] = "weight = $w"; $hit = $true }
       }
     }
-    if ($hit) { Set-Content -LiteralPath $idx -Value $lines -Encoding UTF8; $changed++; Write-Output ("  {0}/{1} -> {2}" -f $parent, $d.Name, $w) }
+    if ($hit) {
+      [System.IO.File]::WriteAllText($idx, (($lines -join "`n") + "`n"))
+      $changed++
+      Write-Output ("  {0}/{1} -> {2}" -f $parent, $d.Name, $w)
+    }
   }
 }
 Write-Output "已调整 $changed 个章节首页 weight"

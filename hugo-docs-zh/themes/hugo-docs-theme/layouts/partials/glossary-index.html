@@ -9,6 +9,10 @@
   {{- if hasPrefix .RelPermalink "/quick-reference/glossary/" -}}
     {{- $href := .RelPermalink -}}
     {{- $keys := slice (urlize .Title) -}}
+    {{- /* 标题形如「映射（map）」时，把括号内的英文也作为索引键，
+          这样 [map](g) 与 [映射](g) 两种写法都能命中。 */ -}}
+    {{- $en := .Title | replaceRE "^.*[（(]([^）)]+)[）)].*$" "$1" -}}
+    {{- if and $en (ne $en .Title) }}{{ $keys = $keys | append (urlize $en) }}{{ end -}}
     {{- with .File }}{{ $keys = $keys | append (urlize .BaseFileName) }}{{ end -}}
     {{- range $keys -}}
       {{- if . -}}

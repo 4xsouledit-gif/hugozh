@@ -143,6 +143,9 @@ source = "https://gohugo.io/functions/strings/truncate/"
 
 ## 五、自检（提交前必须做）
 
+> ⚠ **必须在 `hugo-docs-zh/` 目录下执行**。在工作区根目录跑 `hugo` 会构建一个**空站点**并返回
+> `exit=0`——这是假阳性，不能作为自检证据。
+
 ```powershell
 # 只校验语法与渲染，不写 public/，避免与其它代理并发冲突
 hugo --ignoreCache --renderToMemory --quiet

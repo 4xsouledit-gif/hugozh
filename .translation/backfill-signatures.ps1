@@ -79,7 +79,8 @@ foreach ($section in @('functions', 'methods')) {
     $new += $toml
     $new += $zhLines[$close]
     if ($close + 1 -lt $zhLines.Count) { $new += $zhLines[($close + 1)..($zhLines.Count - 1)] }
-    Set-Content -LiteralPath $zhPath -Value $new -Encoding UTF8
+    # 显式写 LF：Set-Content 在 Windows 上写 CRLF，会与 .gitattributes 的 eol=lf 产生幻影改动
+    [System.IO.File]::WriteAllText($zhPath, (($new -join "`n") + "`n"))
     $updated++
   }
 }

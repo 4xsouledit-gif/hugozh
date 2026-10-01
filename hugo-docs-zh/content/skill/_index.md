@@ -6,9 +6,31 @@ date = 2026-10-01
 weight = 5
 +++
 
-这个站点是靠一个 **AI 编码代理**建起来的——16 个章节、220 多页译文、两个主题、SEO 与版本控制。过程中踩的坑、被文档静默坑过的地方、以及最后固化成规则的做法，全部打包成了这个技能包：**`hugo-static-site`**。
+这个站点是靠一个 **AI 编码代理**建起来的——20 个章节、约 950 个文件、两个主题、SEO 与版本控制。过程中踩的坑、被文档静默坑过的地方、以及最后固化成规则的做法，全部打包成了这个技能包：**`hugo-static-site`**。
 
 它不是教程，而是**给代理用的作业手册**：当有人要求「给这个 Hugo 站加一个短代码」「把页面时间做成中文」「为什么构建失败了」，代理加载它之后应当直接知道该查什么、该避什么。
+
+## 快速安装
+
+**一、给 DSH 用户（一行命令）**
+
+```bash
+git clone --depth 1 https://github.com/hencter/hugozh.git /tmp/hugozh \
+  && mkdir -p ~/.dsh/skills \
+  && cp -r /tmp/hugozh/.dsh/skills/hugo-static-site ~/.dsh/skills/
+```
+
+也可以放进**项目内**（随仓库走，推荐）：把技能包目录放到 `<你的项目>/.dsh/skills/hugo-static-site/`。装好后**重开一个会话**即可——技能目录是在会话启动时扫描的。
+
+**二、给任意 AI 编码代理（无需 git，按清单逐文件取用）**
+
+本站已把技能包 11 个文件原样发布在 `/skill/` 下，并附一份机器可读清单（含每个文件的站内地址与 sha256）：
+
+> 请安装技能包 `hugo-static-site`：读取 <https://hugozh.cn/skill/skill-manifest.json>，把 `files[].url` 指向的每个文件按 `files[].path` 写入 `~/.dsh/skills/hugo-static-site/`，落盘后用 `files[].sha256` 校验；目录名必须是 `hugo-static-site`。
+
+**三、不用 DSH 也能读**
+
+技能包就是 Markdown：直接看本站镜像 [`SKILL.md`](/skill/SKILL.md) 与 [`references/gotchas.md`](/skill/references/gotchas.md)（其余文件同在 `/skill/` 下），或下载仓库 ZIP：<https://codeload.github.com/hencter/hugozh/zip/refs/heads/main>。
 
 ## 它解决的真实问题
 

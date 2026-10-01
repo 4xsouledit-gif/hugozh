@@ -29,6 +29,9 @@ Write-Output ("短代码调用名（应只有 note / quick-reference）: {0}" -f
 $lit = @(Select-String -Path (Join-Path $content '*.md'), (Join-Path $content '*\*.md'), (Join-Path $content '*\*\*.md'), (Join-Path $content '*\*\*\*.md') -Pattern 'HAHAHUGOSHORTCODE' -ErrorAction SilentlyContinue)
 Write-Output ("HAHAHUGOSHORTCODE 命中: {0}" -f $lit.Count)
 
+Write-Output "`n══════ 6. 技能包镜像与站点保持一致 ══════"
+& (Join-Path $PSScriptRoot 'sync-skill-static.ps1') -Verify
+
 Write-Output "`n══════ 6. 规模 ══════"
 $md = @(Get-ChildItem (Join-Path $root 'hugo-docs-zh\content') -Recurse -File -Filter '*.md')
 $html = @(Get-ChildItem (Join-Path $root 'hugo-docs-zh\public') -Recurse -File -Filter '*.html' -ErrorAction SilentlyContinue)

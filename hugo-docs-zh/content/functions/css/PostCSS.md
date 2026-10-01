@@ -3,7 +3,7 @@ title = "css.PostCSS"
 linkTitle = "PostCSS"
 description = "返回用 PostCSS 处理给定 CSS 资源后生成的资源。"
 date = 2026-10-02
-weight = 40
+weight = 30
 source = "https://gohugo.io/functions/css/postcss/"
 
 [params.functions_and_methods]

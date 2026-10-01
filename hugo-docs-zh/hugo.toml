@@ -57,6 +57,8 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
     # 与上游 gohugo.io 一致：解析块级属性（如表格后的 {.no-wrap-first-col}）。
     # 不开这一项时，这类独立一行会被当作表格数据行，渲染出垃圾文本。
     [markup.goldmark.parser]
+      # 与上游一致：为定义列表的描述项（dt）自动生成 id，否则 #minify、#vars 一类锚点全部失效。
+      autoDefinitionTermID = true
       [markup.goldmark.parser.attribute]
         block = true
   [markup.highlight]

@@ -1,0 +1,14 @@
+{{- /* 速查页短代码：按子节（命名空间 / 对象）分组列出页面，函数别名以括号标注在名称右侧。
+     本站自有实现（上游同名短代码属于无开源许可的 hugoDocs 主题，未复用其代码）。
+     用法：{{< quick-reference section="functions" >}} / {{< quick-reference section="methods" >}} */ -}}
+{{- $sec := .Get "section" -}}
+{{- with site.GetPage (printf "/%s" $sec) -}}
+{{- range .Sections.ByWeight }}
+<h3 id="{{ .LinkTitle | urlize }}">{{ .LinkTitle }}</h3>
+<ul class="qr-list">
+  {{- range .Pages.ByWeight }}
+  <li><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ with .Params.functions_and_methods }}{{ with .aliases }} <span class="qr-alias">（{{ delimit . "、" }}）</span>{{ end }}{{ end }}</li>
+  {{- end }}
+</ul>
+{{- end }}
+{{- end -}}

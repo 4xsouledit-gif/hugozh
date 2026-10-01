@@ -5,6 +5,7 @@ description = "介绍 Hugo 内置与自定义短代码的机制、定界符、�
 date = 2026-10-01
 weight = 90
 source = "https://gohugo.io/shortcodes/"
+aliases = ["/content-management/shortcodes/"]
 +++
 
 ## 本节目的是什么

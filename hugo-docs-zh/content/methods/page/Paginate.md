@@ -7,7 +7,7 @@ weight = 490
 source = "https://gohugo.io/methods/page/paginate/"
 
 [params.functions_and_methods]
-signatures = ['PAGE.Paginate COLLECTION [N]']
+signatures = ["PAGE.Paginate COLLECTION [N]"]
 returnType = "page.Pager"
 +++
 

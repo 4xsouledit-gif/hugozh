@@ -5,6 +5,7 @@ description = "在内容中使用 Emoji 短名，以及开启方式与常用名�
 date = 2026-10-01
 weight = 20
 source = "https://gohugo.io/quick-reference/emojis/"
+aliases = ["/content-management/emojis/"]
 +++
 
 ## 启用 Emoji 处理

@@ -86,10 +86,10 @@ source = "https://gohugo.io/functions/strings/truncate/"
 
 1. 正文**从 `##` 开始**，绝不出现一级标题。
 2. **站内链接一律根相对**：`[截断](/functions/strings/truncate/)`。只有 `source` 字段写外链。
-3. **上游的 `[术语](g)` 写法可以原样保留**：本站已加链接渲染钩子
-   （`themes/hugo-docs-theme/layouts/_markup/render-link.html`），会把它解析为
-   `/quick-reference/glossary/<术语>/`；术语页尚未翻译时自动退化为纯文本，不会产生死链。
-   **不要**改写成 `[术语](/quick-reference/glossary/…)`（slug 容易写错），保持 `(g)` 即可。
+3. **上游的 `[术语](g)` 写法原样保留，且括号里的链接文字写英文原词**（如 `[resource getter](g)`）：
+   本站的术语表索引以**术语页文件名（英文 slug）**为键，写成中文会匹配不上、退化为纯文本。
+   句子里需要中文时写成「[resource getter](g)（资源获取器）」或直接在正文用中文，链接文字保持英文。
+   **不要**改写成 `[术语](/quick-reference/glossary/…)`（slug 容易写错）。
 4. 代码、标识符、函数名、键名、CLI 参数、文件名**不译**；代码块保留原语言标记。
 5. 原文的 `> [!NOTE]` / `> [!TIP]` 等 callout 语法保持原样。
 6. 表格、列表结构保持；不要为了「好看」改动结构。

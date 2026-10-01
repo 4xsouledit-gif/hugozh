@@ -1,0 +1,8 @@
+{{- if .IsPage -}}
+{{- with .TableOfContents -}}
+<aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  {{ . }}
+</aside>
+{{- end -}}
+{{- end -}}

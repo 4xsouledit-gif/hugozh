@@ -1,0 +1,7 @@
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="{{ site.Params.upstream }}" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="{{ site.Params.upstreamRepo }}" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo {{ hugo.Version }} 构建 · {{ partial "time.html" (dict "label" "构建于" "date" now) }}</p>
+    <p>站点版本 {{ site.Params.version | default "dev" }}{{ with site.Lastmod }}{{ if not .IsZero }} · 内容最近更新 {{ . | time.Format ":date_long" }}{{ end }}{{ end }} · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>

@@ -1,0 +1,29 @@
+{{ define "main" }}
+{{- $pages := .CurrentSection.Pages.ByWeight -}}
+{{- $index := -1 -}}
+{{- range $i, $p := $pages -}}
+  {{- if eq $p.RelPermalink $.RelPermalink -}}{{- $index = $i -}}{{- end -}}
+{{- end -}}
+<article class="doc">
+  <header class="doc-header">
+    {{ with .CurrentSection }}<p class="doc-eyebrow"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></p>{{ end }}
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="doc-description">{{ . }}</p>{{ end }}
+  </header>
+  <div class="doc-body">{{ .Content }}</div>
+  <footer class="doc-footer">
+    {{ with .Params.source }}<p class="doc-source">英文原文：<a href="{{ . }}" target="_blank" rel="noopener">{{ . }}</a></p>{{ end }}
+    <p class="doc-meta">
+      {{- with .Date }}{{ if not .IsZero }}{{ partial "time.html" (dict "label" "发布于" "date" .) }}{{ end }}{{ end -}}
+      {{- with .Lastmod }}{{ if not .IsZero }}<span class="doc-sep">·</span>{{ partial "time.html" (dict "label" "最后更新" "date" .) }}{{ end }}{{ end -}}
+      {{- with .GitInfo }}<span class="doc-sep">·</span><span class="doc-commit" title="{{ .Subject }}（{{ .AuthorName }}）">提交 {{ .AbbreviatedHash }}</span>{{ end -}}
+    </p>
+  </footer>
+  {{ if gt (len $pages) 1 }}
+  <nav class="doc-pager" aria-label="相邻页面">
+    {{ if gt $index 0 }}{{ $prev := index $pages (sub $index 1) }}<a class="pager-prev" href="{{ $prev.RelPermalink }}">← 上一篇：{{ $prev.LinkTitle }}</a>{{ end }}
+    {{ if and (ge $index 0) (lt $index (sub (len $pages) 1)) }}{{ $next := index $pages (add $index 1) }}<a class="pager-next" href="{{ $next.RelPermalink }}">下一篇：{{ $next.LinkTitle }} →</a>{{ end }}
+  </nav>
+  {{ end }}
+</article>
+{{ end }}

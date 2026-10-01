@@ -1,0 +1,13 @@
+# 中文叠加层：只提供 CJK 排版，可被任何中文站点复用。
+# 它的文件级覆盖优先于右侧主题；params 从最左开始生效。
+# 依据：https://gohugo.io/hugo-modules/theme-components/
+
+[params]
+  [params.cjk]
+    # 基础主题的 head.html 依据它决定是否加载 assets/css/cjk.css
+    enabled = true
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = '0.158.0'

@@ -1,0 +1,18 @@
+# ── Hugo 构建产物与缓存（可随时用 hugo 重新生成，不入库）──
+hugo-docs-zh/public/
+hugo-docs-zh/resources/
+hugo-docs-zh/.hugo_build.lock
+
+# ── 上游文档克隆（只读参考，另行 clone，不属于本仓库）──
+hugoDocs/
+
+# ── DSH 本地状态 ──
+.dsh/sessions/
+.dsh-write-probe.txt
+
+# ── 编辑器与系统 ──
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini

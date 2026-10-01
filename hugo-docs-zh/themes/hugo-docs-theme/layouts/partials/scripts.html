@@ -1,0 +1,6 @@
+{{- with resources.Get "js/scrollspy.js" }}
+{{- $spy := . | minify | fingerprint }}
+<script defer src="{{ $spy.RelPermalink }}" integrity="{{ $spy.Data.Integrity }}"></script>
+{{- else }}
+{{- errorf "找不到脚本 assets/js/scrollspy.js" }}
+{{- end }}

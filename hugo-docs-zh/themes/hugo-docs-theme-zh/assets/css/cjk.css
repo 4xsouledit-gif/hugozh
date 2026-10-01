@@ -1,0 +1,52 @@
+/* ============================================================
+   中文排版叠加层（主题组件：hugo-docs-theme-zh）
+   只在基础样式之后加载，用于覆盖西文优先的排版假设。
+   仅使用系统字体栈，不引入外部字体请求（避免阻塞渲染）。
+   ============================================================ */
+
+:root {
+  --cjk-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC",
+    "Hiragino Sans GB", "Heiti SC", sans-serif;
+  --cjk-serif: "Songti SC", "SimSun", "Noto Serif SC", "Source Han Serif SC", serif;
+  --cjk-mono: "Cascadia Mono", Consolas, "JetBrains Mono", "Sarasa Mono SC",
+    "Noto Sans Mono CJK SC", monospace;
+}
+
+body {
+  font-family: var(--cjk-sans);
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--cjk-mono);
+}
+
+/* 中文需要更宽的行距才能长时间阅读 */
+p,
+li,
+dd {
+  line-height: 1.9;
+}
+
+/* 两端对齐 + 表意文字间距，避免中文段落右侧参差 */
+.content p {
+  text-align: justify;
+  text-justify: inter-ideograph;
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+/* 中文与半角标点混排时不要从词中断行 */
+:lang(zh) {
+  word-break: normal;
+  line-break: strict;
+}

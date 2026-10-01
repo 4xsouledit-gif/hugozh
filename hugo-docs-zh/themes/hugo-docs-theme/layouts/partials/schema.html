@@ -1,0 +1,28 @@
+{{- /* JSON-LD 结构化数据。
+       TechArticle 用于普通页面，WebSite 用于首页；日期只在实际存在时输出。
+       jsonify 会转义 HTML 特殊字符，可安全内联进 <script>。 */ -}}
+{{- $type := cond .IsPage "TechArticle" "WebSite" -}}
+{{- $name := cond .IsHome site.Title .Title -}}
+{{- $desc := or .Description .Summary site.Params.description | plainify | truncate 160 -}}
+{{- $data := dict
+      "@context" "https://schema.org"
+      "@type" $type
+      "name" $name
+      "headline" $name
+      "description" $desc
+      "url" .Permalink
+      "inLanguage" site.Language.Locale
+      "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" site.BaseURL)
+      "publisher" (dict "@type" "Organization" "name" site.Title "url" site.BaseURL)
+-}}
+{{- with .PublishDate }}{{ if not .IsZero }}
+{{- $data = merge $data (dict "datePublished" (.Format "2006-01-02T15:04:05Z07:00")) }}
+{{- end }}{{ end -}}
+{{- with .Lastmod }}{{ if not .IsZero }}
+{{- $data = merge $data (dict "dateModified" (.Format "2006-01-02T15:04:05Z07:00")) }}
+{{- end }}{{ end -}}
+{{- /* 直接把对象交给 JS 上下文：html/template 会输出经过净化的 JSON。
+       若写成 {{ $data | jsonify }}，再在 <script> 里插入，Go 会把它当字符串
+       字面量编码成 "{\"...\"}"，结构化数据即失效。
+       依据：https://gohugo.io/functions/safe/js/ */ -}}
+<script type="application/ld+json">{{ $data }}</script>

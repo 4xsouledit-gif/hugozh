@@ -1,0 +1,21 @@
+{{- /* 输出语义化 <time>：本地化长日期 + 相对时间。
+     参数：date（time.Time），label（可选前缀，如「发布于」）。
+     调用：{{ partial "time.html" (dict "label" "发布于" "date" .Date) }}
+     依据：https://gohugo.io/functions/time/format/ （:date_long 等本地化布局） */ -}}
+{{- $t := .date -}}
+{{- $label := .label | default "" -}}
+{{- with $t }}{{ if not .IsZero -}}
+{{- $iso := .Format "2006-01-02T15:04:05Z07:00" -}}
+{{- $human := time.Format ":date_long" . -}}
+{{- $rel := "" -}}
+{{- $d := now.Sub . -}}
+{{- $days := int (div (int $d.Hours) 24) -}}
+{{- if ge $days 0 -}}
+{{- if eq $days 0 }}{{ $rel = "今天" }}
+{{- else if eq $days 1 }}{{ $rel = "昨天" }}
+{{- else if lt $days 30 }}{{ $rel = printf "%d 天前" $days }}
+{{- else if lt $days 365 }}{{ $rel = printf "%d 个月前" (div $days 30) }}
+{{- else }}{{ $rel = printf "%d 年前" (div $days 365) }}{{ end -}}
+{{- end -}}
+{{ with $label }}{{ . }} {{ end }}<time datetime="{{ $iso }}" title="{{ $human }}">{{ $human }}</time>{{ with $rel }}<span class="doc-rel">（{{ . }}）</span>{{ end -}}
+{{- end }}{{ end -}}

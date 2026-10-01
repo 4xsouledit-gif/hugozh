@@ -1,0 +1,85 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {{- $title := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) -}}
+  {{- $desc := or .Description .Summary site.Params.description | plainify | truncate 160 -}}
+  {{- $image := "" -}}
+  {{- with .Params.images }}{{ $image = index . 0 }}{{ end -}}
+  {{- if not $image }}{{ with site.Params.ogImage }}{{ $image = . }}{{ end }}{{ end -}}
+  {{- $imageURL := "" -}}
+  {{- with $image }}{{ $imageURL = . | absURL }}{{ end -}}
+
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $desc }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  {{- if or .Params.noindex (ne hugo.Environment "production") }}
+  <meta name="robots" content="noindex, nofollow">
+  {{- else }}
+  <meta name="robots" content="index, follow">
+  {{- end }}
+  {{ hugo.Generator }}
+
+  {{- /* Open Graph */}}
+  <meta property="og:site_name" content="{{ site.Title }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:description" content="{{ $desc }}">
+  <meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:locale" content="{{ replace site.Language.Locale "-" "_" }}">
+  {{- range .AllTranslations }}
+  {{- if ne .Language.Locale site.Language.Locale }}
+  <meta property="og:locale:alternate" content="{{ replace .Language.Locale "-" "_" }}">
+  {{- end }}
+  {{- end }}
+  {{- with $imageURL }}
+  <meta property="og:image" content="{{ . }}">
+  {{- end }}
+  {{- if .IsPage }}
+  {{- with .PublishDate }}{{ if not .IsZero }}
+  <meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
+  {{- end }}{{ end }}
+  {{- with .Lastmod }}{{ if not .IsZero }}
+  <meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
+  {{- end }}{{ end }}
+  {{- end }}
+
+  {{- /* Twitter 卡片 */}}
+  <meta name="twitter:card" content="{{ cond (ne $imageURL "") "summary_large_image" "summary" }}">
+  {{- with site.Params.twitterHandle }}
+  <meta name="twitter:site" content="{{ . }}">
+  {{- end }}
+
+  {{- /* 多语言替代版本：只有站点确实存在多语言时才输出 */}}
+  {{- if gt (len .AllTranslations) 1 }}
+  {{- range .AllTranslations }}
+  <link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}">
+  {{- end }}
+  {{- end }}
+
+  {{- /* 订阅源与主题色 */}}
+  {{- with .OutputFormats.Get "rss" }}
+  <link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}">
+  {{- end }}
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+
+  {{- /* 结构化数据 */}}
+  {{ partial "schema.html" . }}
+
+  {{- /* 样式：基础层必需，中文叠加层可选 */}}
+  {{- with resources.Get "css/main.css" }}
+  {{- $r := . | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $r.RelPermalink }}" integrity="{{ $r.Data.Integrity }}">
+  {{- else }}{{ errorf "基础主题缺少 assets/css/main.css" }}{{ end }}
+  {{- with resources.Get "css/syntax.css" }}
+  {{- $r := . | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $r.RelPermalink }}" integrity="{{ $r.Data.Integrity }}">
+  {{- else }}{{ errorf "基础主题缺少 assets/css/syntax.css" }}{{ end }}
+  {{- $cjk := false }}
+  {{- with site.Params.cjk }}{{ $cjk = .enabled | default false }}{{ end }}
+  {{- if $cjk }}{{ with resources.Get "css/cjk.css" }}
+  {{- $r := . | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $r.RelPermalink }}" integrity="{{ $r.Data.Integrity }}">
+  {{- end }}{{ end }}
+</head>

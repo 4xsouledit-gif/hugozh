@@ -1,0 +1,25 @@
+<aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    {{- $page := . -}}
+    {{- $currentSection := "" -}}
+    {{- with .CurrentSection }}{{ $currentSection = .RelPermalink }}{{ end -}}
+    {{- range site.Home.Sections.ByWeight }}
+    {{- $isCurrent := eq $currentSection .RelPermalink }}
+    <div class="sidebar-group">
+      <a class="sidebar-section{{ if $isCurrent }} is-active{{ end }}" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{- if $isCurrent }}
+      {{- with .Pages.ByWeight }}
+      <ul class="sidebar-list">
+        {{- range . }}
+        <li>
+          <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} class="is-active" aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+        </li>
+        {{- end }}
+      </ul>
+      {{- end }}
+      {{- end }}
+    </div>
+    {{- end }}
+  </nav>
+</aside>

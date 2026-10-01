@@ -1,0 +1,78 @@
+# ============================================================
+#  Hugo 官方文档 · 中文翻译 —— 站点配置
+#  要求：Hugo 0.158 或更高版本（标准版即可，不依赖 extended）
+#  预览：hugo server     构建：hugo
+# ============================================================
+
+baseURL = "https://example.org/"
+locale = "zh-cn"
+defaultContentLanguage = "zh-cn"
+title = "Hugo 官方文档 · 中文翻译"
+enableRobotsTXT = true
+hasCJKLanguage = true
+summaryLength = 70
+timeZone = "Asia/Shanghai"
+
+# 版本控制联动：开启后 Hugo 读取 Git 历史，
+#   .GitInfo（提交哈希/作者/主题）与 :git 日期映射都可用。
+# 依据：https://gohugo.io/methods/page/gitinfo/
+enableGitInfo = true
+
+# 日期字段解析顺序：优先取 Git 提交时间，其次 front matter 的 lastmod / date。
+# 这样「最后更新」反映真实提交，而不是手写日期。
+# 依据：https://gohugo.io/configuration/all/#frontmatter
+[frontmatter]
+  lastmod = [':git', 'lastmod', 'date']
+  date = ['date', ':git']
+
+# 多主题：从左到右优先级递减；项目自身的 layouts 永远先于所有主题。
+# 查找顺序 = 项目 → hugo-docs-theme-zh（中文叠加层）→ hugo-docs-theme（版式基础层）
+# 依据：https://gohugo.io/hugo-modules/theme-components/
+theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
+
+[params]
+  description = "Hugo 官方文档「入门」与「内容管理」核心章节的简体中文翻译。"
+  upstream = "https://gohugo.io/"
+  upstreamRepo = "https://github.com/gohugoio/hugoDocs"
+  version = "v1.0.0"      # 站点版本，显示在页脚；与 Git tag 对应
+
+  # SEO：留空即不输出对应标签
+  ogImage = ""            # 站点默认分享图，写站点内绝对路径，如 "/images/og.png"
+  twitterHandle = ""      # 如 "@gohugoio"，用于 twitter:site
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[menus]
+  [[menus.main]]
+    name = "首页"
+    url = "/"
+    weight = 1
+  [[menus.main]]
+    name = "入门"
+    url = "/getting-started/"
+    weight = 10
+  [[menus.main]]
+    name = "内容管理"
+    url = "/content-management/"
+    weight = 20
+  [[menus.main]]
+    name = "命令"
+    url = "/commands/"
+    weight = 30
+  [[menus.main]]
+    name = "Hugo 官网"
+    url = "https://gohugo.io/"
+    weight = 99

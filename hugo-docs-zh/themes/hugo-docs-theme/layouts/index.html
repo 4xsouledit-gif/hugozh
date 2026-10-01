@@ -1,0 +1,20 @@
+{{ define "main" }}
+<article class="doc doc-home">
+  <header class="doc-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="doc-description">{{ . }}</p>{{ end }}
+  </header>
+  <div class="doc-body">{{ .Content }}</div>
+  {{ range site.Home.Sections.ByWeight }}
+  <section class="home-section">
+    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+    {{ with .Description }}<p class="home-section-desc">{{ . }}</p>{{ end }}
+    {{ $pages := .Pages.ByWeight }}
+    {{ $count := len $pages }}
+    {{ if gt $count 0 }}
+    <p class="home-section-meta">{{ $count }} 篇 · {{ range $i, $p := $pages }}{{ if lt $i 6 }}{{ if $i }} · {{ end }}<a href="{{ $p.RelPermalink }}">{{ $p.LinkTitle }}</a>{{ end }}{{ end }}{{ if gt $count 6 }} · <a href="{{ .RelPermalink }}">查看全部 →</a>{{ end }}</p>
+    {{ end }}
+  </section>
+  {{ end }}
+</article>
+{{ end }}

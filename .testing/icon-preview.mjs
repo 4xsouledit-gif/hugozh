@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(here, '..');
 const svg = fs.readFileSync(path.join(ROOT, 'hugo-docs-zh', 'static', 'favicon.svg'), 'utf8');
-const PAD = 0.08;
+const PAD = 0.04;
 
 const sizes = [16, 32, 48, 64, 128, 180, 512];
 const cells = sizes.map((s) => {

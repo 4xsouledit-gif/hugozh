@@ -22,7 +22,7 @@ const browser = await chromium.launch();
 // 注意几何约束：徽标宽高比 ≈ 0.92（偏高），在方形画布中「四边留白完全相等」不可能同时成立，
 // 除非拉伸变形。这里采用统一规则：先按 PAD 划出正方形内容盒，再把徽标等比放入并居中；
 // 因为徽标偏高，实际左右空隙会略大于上下空隙（这是等比不变形的必然结果）。
-const PAD = 0.08; // 画布四边留白比例（改这一个值即可整体调整）
+const PAD = 0.04; // 画布四边留白比例（改这一个值即可整体调整；0.04 = 每边 4%）
 
 async function renderIcon(size, file, background) {
   const box = Math.round(size * (1 - 2 * PAD));

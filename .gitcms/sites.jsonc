@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "sites": [
+    {
+      "key": "hugo-docs-zh",
+      "display_name": "Hugo Docs Zh",
+      "website_url": "https://hugozh.cn",
+      "root_path": "hugo-docs-zh"
+    }
+  ]
+}

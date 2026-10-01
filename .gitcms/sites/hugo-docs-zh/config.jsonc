@@ -1,0 +1,216 @@
+{
+  "version": "1.2",
+  "media": {
+    "default_library": "repo_media",
+    "libraries": [
+      {
+        "key": "repo_media",
+        "label": "Repository media",
+        "references": {
+          "write": {
+            "mode": "root_relative",
+            "base_path": "/"
+          },
+          "allow_default_library_fallback": true
+        },
+        "limits": {
+          "max_file_size_mb": 10
+        },
+        "driver": "git",
+        "storage": {
+          "root_path": "public"
+        }
+      }
+    ]
+  },
+  "ssg_framework": "hugo",
+  "default_branch": "main",
+  "frontmatter_format": "yaml",
+  "sitemap_url": "https://hugozh.cn/sitemap.xml",
+  "publishing_mode": "editorial_workflow",
+  "i18n": {
+    "enabled": true,
+    "locales": [
+      "en",
+      "go-template",
+      "js",
+      "os"
+    ],
+    "default_locale": "en",
+    "prefix_default_locale": false
+  },
+  "collections": [
+    {
+      "name": "functions",
+      "git_path": "/content/functions/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "grouped",
+      "i18n": {
+        "enabled": true,
+        "strategy": "path"
+      },
+      "frontmatter_schema": []
+    },
+    {
+      "name": "methods",
+      "git_path": "/content/methods/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "grouped",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "quick-reference",
+      "git_path": "/content/quick-reference/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "grouped",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "commands",
+      "git_path": "/content/commands/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "configuration",
+      "git_path": "/content/configuration/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "content-management",
+      "git_path": "/content/content-management/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "host-and-deploy",
+      "git_path": "/content/host-and-deploy/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "templates",
+      "git_path": "/content/templates/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "shortcodes",
+      "git_path": "/content/shortcodes/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "hugo-pipes",
+      "git_path": "/content/hugo-pipes/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "render-hooks",
+      "git_path": "/content/render-hooks/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "references",
+      "git_path": "/static/skill/references/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "troubleshooting",
+      "git_path": "/content/troubleshooting/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "tools",
+      "git_path": "/content/tools/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "hugo-modules",
+      "git_path": "/content/hugo-modules/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "installation",
+      "git_path": "/content/installation/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "contribute",
+      "git_path": "/content/contribute/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "getting-started",
+      "git_path": "/content/getting-started/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "about",
+      "git_path": "/content/about/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "news",
+      "git_path": "/content/news/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    },
+    {
+      "name": "skill",
+      "git_path": "/content/skill/",
+      "file_extension": ".md",
+      "filename_pattern": "",
+      "collection_type": "flat",
+      "frontmatter_schema": []
+    }
+  ]
+}

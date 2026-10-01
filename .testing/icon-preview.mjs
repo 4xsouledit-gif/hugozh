@@ -31,7 +31,7 @@ const html = `<!doctype html><meta charset="utf-8"><style>
   .box { margin-top:20px; font-size:13px; color:#5a606a; }
 </style>
 <div class="row">${cells}</div>
-<div class="box">虚线 = 图标画布边界；留白比例 PAD=${PAD}（画布每边 8%）。徽标宽高比 ≈ 0.92，
+<div class="box">虚线 = 图标画布边界；留白比例 PAD=${PAD}（画布每边 ${Math.round(PAD * 100)}%）。徽标宽高比 ≈ 0.92，
 俯视可见左右空隙略大于上下——方形容器内等比不变形时二者无法同时相等。</div>`;
 
 const browser = await chromium.launch();

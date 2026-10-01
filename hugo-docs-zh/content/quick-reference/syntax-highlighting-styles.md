@@ -26,7 +26,7 @@ style = 'monokai'
 
 默认情况下 Hugo 用内联 CSS 应用高亮；若想改用外部样式表，把配置中的
 [`noClasses`](/configuration/markup/#noclasses) 设为 `false`，再用
-[`hugo gen chromastyles`](/commands/hugo_gen_chromastyles/) 命令生成样式表。
+[`hugo gen chromastyles`](/commands/hugo-gen-chromastyles/) 命令生成样式表。
 
 ## 明暗模式
 

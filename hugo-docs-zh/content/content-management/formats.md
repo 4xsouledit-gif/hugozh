@@ -5,6 +5,7 @@ description = "Hugo 支持的各类内容格式、外部程序依赖与 markup �
 date = 2026-10-01
 weight = 10
 source = "https://gohugo.io/content-management/formats/"
+aliases = ["/content-management/content-formats/", "/content/markdown-extras/", "/content/supported-formats/", "/doc/supported-formats/"]
 +++
 
 内容格式（content format）指内容源文件所使用的标记语言。Hugo 首先依据前置元数据（front matter）里的 `markup` 标识符选择内容渲染器，只有未提供该字段时才回退到文件扩展名。格式是逐文件判定的，因此同一个站点里可以混用多种格式：

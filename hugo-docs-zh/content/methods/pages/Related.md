@@ -7,7 +7,6 @@ weight = 230
 source = "https://gohugo.io/methods/pages/related/"
 
 [params.functions_and_methods]
-signatures = ["PAGES.Related PAGE", "PAGES.Related OPTIONS"]
 returnType = "page.Pages"
 +++
 

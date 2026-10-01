@@ -52,6 +52,13 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
 
 [markup]
   [markup.goldmark]
+    # 与上游一致：把 LaTeX 公式原样透传给前端渲染器（否则 $$…$$ 会按字面显示）。
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block  = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)']]
     [markup.goldmark.renderer]
       unsafe = true
     # 与上游 gohugo.io 一致：解析块级属性（如表格后的 {.no-wrap-first-col}）。

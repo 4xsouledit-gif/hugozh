@@ -4,7 +4,7 @@
 
 | | |
 | --- | --- |
-| 站点源码 | [`hugo-docs-zh/`](hugo-docs-zh/) — 17 个章节、200+ 页译文，自包含 Hugo 项目 |
+| 站点源码 | [`hugo-docs-zh/`](hugo-docs-zh/) — 20 个章节、948 个 Markdown 文件（上游 19 章 1:1 翻译 + 1 个原创技能包章节） |
 | 技能包 | [`.dsh/skills/hugo-static-site/`](.dsh/skills/hugo-static-site/) — MIT 许可，可单独取用 |
 | 许可 | 译文 [Apache-2.0](LICENSE-APACHE)（演绎自上游文档）· 代码与技能包 [MIT](LICENSE) · 署名见 [NOTICE](NOTICE) |
 

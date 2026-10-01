@@ -5,6 +5,7 @@ description = "为 Chroma 代码高亮器生成 CSS 样式表。"
 date = 2026-10-01
 weight = 250
 source = "https://gohugo.io/commands/hugo_gen_chromastyles/"
+aliases = ["/commands/hugo_gen_chromastyles/"]
 +++
 
 `hugo gen chromastyles` 是 `hugo gen` 的子命令，按给定的样式名生成 Chroma 代码高亮器所需的 CSS 样式表。当配置中的 `markup.highlight.noClasses` 被禁用（也就是不再为高亮代码输出内联样式）时，站点必须引入这张样式表，否则高亮代码不会有任何颜色。

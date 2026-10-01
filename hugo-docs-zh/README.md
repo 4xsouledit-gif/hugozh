@@ -3,7 +3,7 @@
 一个**自包含**的 Hugo 站点：内容为 Hugo 官方文档（<https://gohugo.io/>）的简体中文翻译；版式由仓库内的两个主题（`themes/hugo-docs-theme` 版式基础层、`themes/hugo-docs-theme-zh` 中文排版叠加层）提供，项目 `layouts/` 只保留跨主题共用的骨架约束，**不依赖任何外部主题，也不需要联网即可构建与预览**。
 
 - 站点类型：静态站点（Hugo）
-- 规模：**16 个一级章节，共 202 页**（201 个内容文件 + 首页 `content/_index.md`）
+- 规模：**20 个一级章节、948 个 Markdown 文件**（19 个译文章节 + 1 个原创「技能包」章节；含 20 个章节首页与 1 个全站首页）
 - 语言：简体中文（`zh-cn`）
 - 上游原文仓库：<https://github.com/gohugoio/hugoDocs>（本工作区中的 `hugoDocs/` 为只读克隆，请勿修改）
 
@@ -83,7 +83,7 @@ hugo-docs-zh/
 
 ## 页面清单
 
-共 **16 个一级章节、201 个内容文件**，加上首页合计 **202 页**。「页数」为该章节目录下 `*.md` 的实际数量（含该章的 `_index.md`）。
+共 **20 个一级章节、948 个 Markdown 文件**（19 个译文章节 1:1 对应上游 + 1 个原创「技能包」章节）。「文件数」为该章节目录下 `*.md` 的实际数量（含该章的 `_index.md`）。
 
 | # | 章节（中文） | 目录 / 上游路径 | 页数 |
 | --- | --- | --- | ---: |
@@ -105,7 +105,7 @@ hugo-docs-zh/
 | 16 | 参与贡献 | `content/contribute/` · `/contribute/` | 4 |
 | — | **合计** | 16 章 | **201** |
 
-另有一页全站首页（`content/_index.md`），因此站点共有 **202 个页面**。`commands/` 章页数最多（每条命令与子命令一页）；`quick-reference/` 目前只有术语表以外的三页（`_index.md`、`emojis.md`、`glob-patterns.md`）。
+另有一页全站首页（`content/_index.md`）。规模最大的三章是 `functions/`（313 页）、`methods/`（268 页）与 `commands/`（45 页）；`quick-reference/glossary/` 收录 159 条术语。
 
 > 上表统计的是**归位完成后**的状态：`getting-started/` 下的 `installation.md`、`configuration.md` 已移入 `/installation/`、`/configuration/`，`content-management/` 下的 `types.md`、`emojis.md`、`render-hooks.md`、`shortcodes.md` 已移入 `/templates/`、`/quick-reference/`、`/render-hooks/`、`/shortcodes/`。这 6 个旧文件已删除，`content/` 下 `.md` 总数与上表一致。
 

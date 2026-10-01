@@ -1,0 +1,21 @@
+# ============================================================
+#  无 Git 环境的兜底配置（部署平台只给源码、目录里没有 .git 时使用）
+#
+#  为什么需要它：hugo.toml 里 enableGitInfo = true，Hugo 会为每个页面读取
+#  Git 提交信息；一旦目录不是 Git 仓库，构建会直接失败（实测 0.167.0）：
+#    failed to create page from pageMetaSource : "content/_index.md:1:1":
+#    failed to load Git data: fatal: not a git repository ...
+#
+#  用法（在 hugo-docs-zh/ 下二选一）：
+#    有 .git   hugo --minify
+#    无 .git   hugo --minify --config hugo.toml,hugo.nogit.toml
+#  平台构建命令可写成（POSIX sh）：
+#    cd hugo-docs-zh && if [ -d .git ]; then hugo --minify; else hugo --minify --config hugo.toml,hugo.nogit.toml; fi
+# ============================================================
+
+enableGitInfo = false
+
+[frontmatter]
+  # 去掉 ':git' 一环（没有 Git 时无法求值），其余回退链保持不变
+  lastmod = ['lastmod', 'modified', 'date']
+  date = ['date']

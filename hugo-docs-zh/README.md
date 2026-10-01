@@ -313,3 +313,35 @@ hugo new content <章节>/<页面>.md     # 例如 hugo new content getting-star
 - 原文版权归 Hugo 项目及其文档贡献者所有，原文仓库：<https://github.com/gohugoio/hugoDocs>。
 - 本站仅包含中文译文，以及为展示译文而编写的模板、样式与脚本，仅供学习交流，**不能替代官方文档**；如有歧义，一切以官方英文原文为准。
 - 如官方文档的许可条款有更新，请以官方仓库中的许可文件为准，并据此调整本站的使用与再分发方式。
+
+## Git 集成与「无 Git 环境」构建
+
+站点开启了 `enableGitInfo = true`，并让 `lastmod` 优先取该文件最后一次提交的日期
+（配置见 `hugo.toml`；官方说明：<https://gohugo.io/methods/page/gitinfo/>、<https://gohugo.io/configuration/all/#enablegitinfo>）：
+
+```toml
+enableGitInfo = true
+[frontmatter]
+  lastmod = [':git', 'lastmod', 'modified', 'date']
+```
+
+页面底部因此会显示「最后更新」与短提交号（模板里用 `{{ with .GitInfo }}` 保护，即使为空也不会报错）。
+
+**实测（observed，非文档记载）**：如果构建目录里**没有 `.git`**，Hugo 会**整站构建失败**，而不是降级：
+
+```
+failed to create page from pageMetaSource : "content/_index.md:1:1":
+failed to load Git data: fatal: not a git repository (or any of the parent directories): .git
+```
+
+因此凡是「只上传源码、不带 Git」的部署方式，请加兜底配置 `hugo.nogit.toml`（关闭 Git 信息、去掉 `:git` 回退链）：
+
+```bash
+cd hugo-docs-zh
+hugo --minify                                              # 目录里有 .git
+hugo --minify --config hugo.toml,hugo.nogit.toml           # 没有 .git
+# 平台构建命令可写成：
+# cd hugo-docs-zh && if [ -d .git ]; then hugo --minify; else hugo --minify --config hugo.toml,hugo.nogit.toml; fi
+```
+
+另注：若平台做的是**浅克隆**（`--depth 1`），构建不会失败，但所有页面的「最后更新」都会等于那一次提交的日期（信息失真，不影响构建）。

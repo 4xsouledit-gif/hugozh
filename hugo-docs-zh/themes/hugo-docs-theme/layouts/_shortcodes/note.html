@@ -1,0 +1,13 @@
+{{- /* 提示框短代码（标准记法）：
+       {{< note >}}正文{{< /note >}}
+       {{< note type="warning" title="标题" >}}正文{{< /note >}}
+     参数：type = note|tip|warning|danger（默认 note）、title（可选）。
+     写本文档时的约定：用标准记法调用，因此 .Inner 是 Markdown 原文，需要 markdownify。
+     若改成 Markdown 记法（{{% %}}），.Inner 已是渲染后的 HTML，应直接输出。
+     依据：https://gohugo.io/templates/shortcode/ */ -}}
+{{- $type := .Get "type" | default "note" -}}
+{{- $title := .Get "title" -}}
+<aside class="callout callout-{{ $type }}">
+  {{- with $title }}<p class="callout-title">{{ . }}</p>{{ end -}}
+  <div class="callout-body">{{ .Inner | markdownify }}</div>
+</aside>

@@ -98,6 +98,10 @@ hugo gen chromastyles --style=monokai --mode=dark --modeSelector > assets/css/hi
 
 上例渲染出的正是形如 `{{</* shortcode-1 */>}}` 与 `{{%/* shortcode-2 */%}}` 的转义文本——它们展示的是短代码的长相，而不会在构建时真的执行。注意这段示例本身就写在围栏代码块里，而其中的嵌套转义仍然被解析：**围栏代码块并不豁免短代码提取**，正文里凡是出现短代码写法的地方（包括行内代码与围栏代码块中的示例）都必须转义。`highlight` 短代码的调用形式是 `{{</* highlight go "linenos=inline, hl_lines=3 6-8, style=emacs" */>}}` … `{{</* /highlight */>}}`，参数与围栏选项一一对应，用法见[短代码](/shortcodes/)。
 
+{{< note type="warning" title="未转义不是单页问题" >}}
+Hugo 在 Markdown 解析**之前**就提取短代码。一旦定界符未转义，Hugo 会去找同名短代码模板；找不到就报 `failed to extract shortcode`，**整个站点构建失败**，而不只是这一页。
+{{< /note >}}
+
 ## 支持的语言
 
 语言标识用于 `transform.Highlight` 函数、`highlight` 短代码与围栏代码块，写标识而不是语言名称：

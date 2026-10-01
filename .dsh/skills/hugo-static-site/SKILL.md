@@ -14,8 +14,8 @@ Resource base for this skill is `<skill-directory>`: the trap catalogue at
 `<skill-directory>/references/versions.md`, layout/front-matter conventions at
 `<skill-directory>/references/site-structure.md`, the SEO checklist at
 `<skill-directory>/references/seo.md`, version control and dates at
-`<skill-directory>/references/versioning.md` and `<skill-directory>/references/dates.md`, and the
-command notes at `<skill-directory>/references/commands.md`. The command notes prescribe only the
+`<skill-directory>/references/versioning.md` and `<skill-directory>/references/dates.md`, shortcode
+authoring at `<skill-directory>/references/shortcodes.md`, and the command notes at `<skill-directory>/references/commands.md`. The command notes prescribe only the
 flags this workflow relies on and point at `hugo gen doc` for the reference itself — they are not a
 transcription of it.
 
@@ -135,6 +135,31 @@ Layering that survives contact with a real site:
 - an overlay theme = one concern, e.g. CJK typography: its own `assets/css/cjk.css` plus a
   `[params]` switch the base theme reads. Guard that read, or a missing param table errors:
   `{{ $on := false }}{{ with site.Params.cjk }}{{ $on = .enabled | default false }}{{ end }}`.
+
+## Shortcodes
+
+Create a shortcode at `layouts/_shortcodes/<name>.html` — a theme's copy participates in the same
+lookup, so a site can override one shortcode; subdirectories namespace the name
+(`media/audio.html` → `{{</* media/audio */>}}`).
+
+The decision that shapes everything else is the notation, because it fixes rendering order
+(<https://gohugo.io/content-management/shortcodes/#notation>):
+
+- **Markdown notation** (`{{% … %}}`) runs *before* the Markdown renderer: `.Inner` is raw Markdown
+  and its headings reach `.TableOfContents`.
+- **Standard notation** (`{{< … >}}`) runs *after* it: `.Inner` is unrendered text — pipe it through
+  `markdownify` — and its headings never reach the table of contents.
+- Nested shortcodes render inside-out; the parent receives its children's rendered output as
+  `.Inner`, and a child reaches the parent through `.Parent`.
+
+Workflow for a request: decide the output and whether it still needs Markdown → decide arguments
+(named vs positional, `.Get` / `.IsNamedParams`) → decide whether it wraps content (`.Inner`) →
+write the template → call it from one page → build and read the generated HTML → document the call
+syntax where it is used.
+
+Full guide, method list, nesting, the render-hook comparison, and a verified example:
+`references/shortcodes.md`. And keep the iron rule: shortcode syntax shown inside content must be
+escaped.
 
 ## SEO
 

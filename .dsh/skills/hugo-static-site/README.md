@@ -19,6 +19,7 @@ hugo-static-site/
     ├── dates.md                    # date fields, time zones, localized formats, relative time
     ├── gotchas.md                  # G1…G22: symptom → cause → fix
     ├── seo.md                      # head tags, JSON-LD pitfall, sitemap/robots, performance
+    ├── shortcodes.md               # authoring custom shortcodes: notation, methods, nesting
     ├── site-structure.md           # theme layers, front matter, navigation, i18n
     ├── versioning.md               # what to track, gitInfo, commit-backed "last updated"
     └── versions.md                 # version-keyed renames and defaults

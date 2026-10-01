@@ -38,7 +38,7 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   description = "Hugo 官方文档「入门」与「内容管理」核心章节的简体中文翻译。"
   upstream = "https://gohugo.io/"
   upstreamRepo = "https://github.com/gohugoio/hugoDocs"
-  version = "v1.0.0"      # 站点版本，显示在页脚；与 Git tag 对应
+  version = "v1.1.0"      # 站点版本，显示在页脚；与 Git tag 对应
 
   # SEO：留空即不输出对应标签
   ogImage = ""            # 站点默认分享图，写站点内绝对路径，如 "/images/og.png"

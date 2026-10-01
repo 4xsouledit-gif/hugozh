@@ -522,6 +522,42 @@ a:hover {
   border-radius: 4px;
 }
 
+/* ---------- 短代码：提示框（layouts/_shortcodes/note.html） ---------- */
+
+.callout {
+  margin: 1.5rem 0;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.callout-title {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+}
+
+.callout-body > :first-child {
+  margin-top: 0;
+}
+
+.callout-body > :last-child {
+  margin-bottom: 0;
+}
+
+.callout-tip {
+  border-left-color: #2f855a;
+}
+
+.callout-warning {
+  border-left-color: #b7791f;
+}
+
+.callout-danger {
+  border-left-color: #c53030;
+}
+
 .pager-next {
   margin-left: auto;
 }

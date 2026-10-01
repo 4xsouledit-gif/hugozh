@@ -196,6 +196,22 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
 - **资源管道**：`head.html` / `scripts.html` 用 `minify | fingerprint` 处理 CSS 与 JS，指纹文件名带 SRI 完整性校验；中文层的 `cjk.css` 由 `[params.cjk] enabled` 控制是否加载。
 - **顶部导航**：`partials/header.html` 读取 `hugo.toml` 的 `[[menus.main]]`，目前为 首页 / 入门 / 内容管理 / 命令 / Hugo 官网；左侧目录则始终列出全部 16 章。
 
+## 短代码
+
+本站自带一个提示框短代码，模板在 `themes/hugo-docs-theme/layouts/_shortcodes/note.html`：
+
+```md
+{{</* note type="warning" title="标题" */}}
+正文，支持 Markdown。
+{{</* /note */}}
+```
+
+- 参数：`type` = `note`（默认）| `tip` | `warning` | `danger`，`title` 可选；
+- 采用**标准记法**（`{{< >}}`），所以模板里对 `.Inner` 调用了 `markdownify`——标准记法下 `.Inner` 是未渲染的 Markdown 原文，而 Markdown 记法（`{{% %}}`）下 `.Inner` 已是 HTML，两种记法不能用同一句模板；
+- 新增短代码：在 `layouts/_shortcodes/` 放一个与调用名同名的 `.html`（子目录即命名空间，如 `media/audio.html` → `{{</* media/audio */>}}`），主题里的同名文件可被项目覆盖；
+- 常用方法（`.Get`/`.Params`/`.IsNamedParams`/`.Inner`/`.InnerDeindent`/`.Parent`/`.Ordinal`/`.Page`…）、嵌套与渲染顺序、与 render hook 的分工，见 skill 的 `references/shortcodes.md`；
+- 验证：`hugo --ignoreCache --printUnusedTemplates` 会列出没人调用的模板；调用未闭合或模板不存在都会让整站构建失败。
+
 ## SEO
 
 `partials/head.html` 输出：唯一 `<title>`、`<meta name="description">`（页面 `description` → `.Summary` → 站点默认，`plainify` 后截断 160 字）、绝对 `<link rel="canonical">`、`og:*` 与 `twitter:card`、多语言 `hreflang`（仅当站点确有多种语言时）、RSS 替代链接与 `theme-color`；`partials/schema.html` 输出 JSON-LD（页面 `TechArticle`，首页 `WebSite`）。

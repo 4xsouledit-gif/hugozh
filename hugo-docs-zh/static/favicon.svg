@@ -1,16 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hugo 中文文档">
-  <title>Hugo 中文文档 · hugozh.cn</title>
-  <defs>
-    <linearGradient id="hugozh" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ff4088"/>
-      <stop offset="1" stop-color="#c9177e"/>
-    </linearGradient>
-  </defs>
-  <!-- 徽标底：圆角方块，沿用 Hugo 官方品牌粉（也是本站主题的激活色） -->
-  <rect x="1" y="1" width="62" height="62" rx="14" fill="url(#hugozh)"/>
-  <!-- 「中」：用矩形与线条拼出，不依赖任何字体，任何环境渲染一致 -->
-  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="square">
-    <rect x="21.5" y="22.5" width="21" height="19"/>
-    <path d="M32 13.5v37"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 10.6 344.6 373.8" role="img" aria-label="Hugo">
+  <title>Hugo</title>
+  <!-- 图形提取自 Hugo 官方 logo（hugo-logo-wide.svg）中的粉色徽标与白色 H：
+       六边形 path 原样取自官方文件的第 5 条 path，H 为官方白色 path 中「H」那一段子路径。
+       Hugo logos are copyright © Steve Francia 2013–. 本站为非官方社区项目，
+       此处标识仅用于说明本站所译文档的主题，不表示任何官方关联或背书。 -->
+  <path fill="#ff4088" stroke="#c9177e" stroke-width="27"
+        d="M195.81 24.13l114.41 66.54a44 44 0 0 1 21.88 38.04v136.43a48 48 0 0 1-24.45 41.82L194.1 370.9a49 49 0 0 1-48.48-.23L41.05 310.48a53 53 0 0 1-26.56-45.93V135.08a55 55 0 0 1 26.1-46.8l102.8-63.46a51 51 0 0 1 52.42-.69z"/>
+  <path fill="#ffffff"
+        d="M93.91 299.92V92.7h43.35v75.48h71.92V92.7h43.48v207.22h-43.48v-90.61h-71.92v90.61z"/>
 </svg>

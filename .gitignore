@@ -29,3 +29,6 @@ hugo-docs-zh/.tmp*/
 # Playwright 测试的依赖与截图（不入库）
 .testing/node_modules/
 .testing/*.png
+
+# Node 工具依赖（Playwright，用于品牌资产与回归测试）
+node_modules/

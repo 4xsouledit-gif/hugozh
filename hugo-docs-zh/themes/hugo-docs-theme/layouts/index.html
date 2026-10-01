@@ -2,6 +2,9 @@
 {{- $skill := site.GetPage "/skill" -}}
 <article class="doc doc-home">
   <section class="hero">
+    {{- /* 官方宽版 logo（H/U/G/O 四枚徽标）：指示性使用，说明本站所译文档的主题；
+           版权声明与「非官方」声明见页脚（每页可见）。 */}}
+    <img class="hero-logo" src="{{ "images/hugo-logo-wide.svg" | relURL }}" width="320" height="84" alt="Hugo">
     <p class="hero-eyebrow">{{ site.Params.tagline | default "把 Hugo 带到中文世界" }}</p>
     <h1>Hugo 中文文档 · 布道站</h1>
     {{ with site.Params.description }}<p class="hero-lead">{{ . }}</p>{{ end }}

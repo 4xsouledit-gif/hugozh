@@ -642,6 +642,14 @@ a:hover {
   border-bottom: 1px solid var(--border-soft);
 }
 
+/* 首页 hero 的官方宽版 logo（H/U/G/O）：指示性使用，说明本文档的主题 */
+.hero-logo {
+  display: block;
+  width: min(320px, 72%);
+  height: auto;
+  margin: 0 0 1.15rem;
+}
+
 .hero-eyebrow {
   margin: 0 0 0.5rem;
   color: var(--accent);

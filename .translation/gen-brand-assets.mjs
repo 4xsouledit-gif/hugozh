@@ -18,11 +18,17 @@ const svg = fs.readFileSync(path.join(STATIC, 'favicon.svg'), 'utf8');
 
 const browser = await chromium.launch();
 
-// ---- 1) 图标：透明背景，方形画布内等比居中 ----
+// ---- 1) 图标：统一留白（画布四边同一比例），徽标等比居中 ----
+// 注意几何约束：徽标宽高比 ≈ 0.92（偏高），在方形画布中「四边留白完全相等」不可能同时成立，
+// 除非拉伸变形。这里采用统一规则：先按 PAD 划出正方形内容盒，再把徽标等比放入并居中；
+// 因为徽标偏高，实际左右空隙会略大于上下空隙（这是等比不变形的必然结果）。
+const PAD = 0.08; // 画布四边留白比例（改这一个值即可整体调整）
+
 async function renderIcon(size, file, background) {
+  const box = Math.round(size * (1 - 2 * PAD));
   const page = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 });
   await page.setContent(`<body style="margin:0;width:${size}px;height:${size}px;display:flex;align-items:center;justify-content:center;background:${background || 'transparent'}">
-    <div style="width:${Math.round(size * 0.94)}px;height:${Math.round(size * 0.94)}px">${svg.replace('<svg ', '<svg width="100%" height="100%" ')}</div>
+    <div style="width:${box}px;height:${box}px;display:flex;align-items:center;justify-content:center">${svg.replace('<svg ', '<svg width="100%" height="100%" preserveAspectRatio="xMidYMid meet" ')}</div>
   </body>`);
   await page.screenshot({ path: file, omitBackground: !background });
   await page.close();

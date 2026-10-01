@@ -114,5 +114,5 @@ shortcode|[`SHORTCODE.Store`][]
 [`collections.NewScratch`]: /functions/collections/newscratch/
 [`hugo.Store`]: /functions/hugo/store/
 
-[`newScratch`]: /functions/collections/newScratch/
+[`newScratch`]: /functions/collections/newscratch/
 [给模板变量赋值]: https://go.dev/doc/go1.11#texttemplatepkgtexttemplate

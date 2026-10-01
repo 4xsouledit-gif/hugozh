@@ -115,6 +115,6 @@ Hugo 会通过[模板查找顺序][]自动解析模板，并且可以针对任�
 没有缓存版本。|[`partialCached`][] 函数是它的缓存版本。
 
 [`partial`]: /functions/partials/include/
-[`partialCached`]: /functions/partials/includeCached/
+[`partialCached`]: /functions/partials/includecached/
 [template lookup order]: /templates/lookup-order/
 [view template]: /templates/types/#view

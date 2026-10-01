@@ -28,7 +28,7 @@ baseURL = 'https://example.org/docs/'
 >
 > 请改用 [`absURL`][]、[`absLangURL`][]、[`relURL`][] 或 [`relLangURL`][] 函数。
 
-[`absLangURL`]: /functions/urls/absLangURL/
-[`absURL`]: /functions/urls/absURL/
-[`relLangURL`]: /functions/urls/relLangURL/
-[`relURL`]: /functions/urls/relURL/
+[`absLangURL`]: /functions/urls/abslangurl/
+[`absURL`]: /functions/urls/absurl/
+[`relLangURL`]: /functions/urls/rellangurl/
+[`relURL`]: /functions/urls/relurl/

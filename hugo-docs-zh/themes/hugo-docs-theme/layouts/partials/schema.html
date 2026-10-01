@@ -1,7 +1,7 @@
 {{- /* JSON-LD 结构化数据。
        TechArticle 用于普通页面，WebSite 用于首页；日期只在实际存在时输出。
        jsonify 会转义 HTML 特殊字符，可安全内联进 <script>。 */ -}}
-{{- $type := cond .IsPage "TechArticle" "WebSite" -}}
+{{- $type := cond .IsHome "WebSite" (cond .IsPage "TechArticle" "CollectionPage") -}}
 {{- $name := cond .IsHome site.Title .Title -}}
 {{- $desc := or .Description .Summary site.Params.description | plainify | truncate 160 -}}
 {{- $data := dict
@@ -12,8 +12,11 @@
       "description" $desc
       "url" .Permalink
       "inLanguage" (site.Params.htmlLang | default "zh-CN")
-      "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" site.BaseURL)
+      "author" (dict "@type" "Organization" "name" site.Title "url" site.BaseURL)
       "publisher" (dict "@type" "Organization" "name" site.Title "url" site.BaseURL)
+      "image" (site.Params.ogImage | absURL)
+      "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+      "isPartOf" (dict "@type" "WebSite" "name" site.Title "url" site.BaseURL)
 -}}
 {{- with .PublishDate }}{{ if not .IsZero }}
 {{- $data = merge $data (dict "datePublished" (.Format "2006-01-02T15:04:05Z07:00")) }}

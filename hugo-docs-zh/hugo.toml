@@ -9,6 +9,9 @@ locale = "zh-CN"
 defaultContentLanguage = "zh-cn"
 title = "Hugo 中文文档"
 enableRobotsTXT = true
+
+# 站点未使用分类法，去掉自动生成的空 /tags/ 与 /categories/（否则会进 sitemap 且被索引）
+disableKinds = ['taxonomy', 'term']
 hasCJKLanguage = true
 summaryLength = 70
 timeZone = "Asia/Shanghai"
@@ -47,6 +50,8 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
 
   # SEO：留空即不输出对应标签
   ogImage = "/images/og-image.png"        # 社交分享图（1200×630，由 .translation/gen-brand-assets.py 生成）
+  ogImageWidth = 1200                   # 分享图尺寸，供 og:image:width/height 使用
+  ogImageHeight = 630
   twitterHandle = ""      # 如 "@gohugoio"，用于 twitter:site
 
 [sitemap]
@@ -129,3 +134,7 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   home = ['html', 'rss', 'llms']
   section = ['html', 'rss', 'md']
   page = ['html', 'md']
+
+# 首页 RSS 曾达 2.1MB / 884 条；限流到 50 条（依据 https://gohugo.io/configuration/services/）
+[services.rss]
+  limit = 50

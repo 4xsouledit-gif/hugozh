@@ -7,8 +7,28 @@
   <link rel="icon" href="{{ "images/icon-512.png" | relURL }}" sizes="512x512" type="image/png">
   <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
 
-  {{- $title := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) -}}
-  {{- $desc := or .Description .Summary site.Params.description | plainify | truncate 160 -}}
+  {{- /* 标题带上级章节：上游有大量同名页（「简介」×5、「Params」×5…），只写 .Title 会产生 40 组重复标题。
+         若标题里已含上级章节名（如「Page 方法」），则不重复拼接。 */ -}}
+  {{- $ctx := "" -}}
+  {{- with .Parent }}{{ if ne .Kind "home" }}{{ $ctx = .Title }}{{ end }}{{ end -}}
+  {{- $title := site.Title -}}
+  {{- if not .IsHome -}}
+    {{- if and (ne $ctx "") (not (strings.Contains .Title $ctx)) -}}
+      {{- $title = printf "%s · %s · %s" .Title $ctx site.Title -}}
+    {{- else -}}
+      {{- $title = printf "%s · %s" .Title site.Title -}}
+    {{- end -}}
+  {{- end -}}
+  {{- /* 描述：上游 API 页的 description 很短（实测中位数仅 25 字符），把签名/返回类型拼进去，
+         对搜索结果摘要与 AI 引用都更有信息量。 */ -}}
+  {{- $desc := or .Description .Summary site.Params.description | plainify -}}
+  {{- with .Params.functions_and_methods -}}
+    {{- $sig := "" -}}
+    {{- with .signatures }}{{ $sig = delimit . "；" }}{{ end -}}
+    {{- if $sig }}{{ $desc = printf "%s 签名：%s" $desc $sig }}{{ end -}}
+    {{- with .returnType }}{{ $desc = printf "%s，返回类型 %s" $desc . }}{{ end -}}
+  {{- end -}}
+  {{- $desc = $desc | truncate 160 -}}
   {{- $image := "" -}}
   {{- with .Params.images }}{{ $image = index . 0 }}{{ end -}}
   {{- if not $image }}{{ with site.Params.ogImage }}{{ $image = . }}{{ end }}{{ end -}}
@@ -18,7 +38,8 @@
   <title>{{ $title }}</title>
   <meta name="description" content="{{ $desc }}">
   <link rel="canonical" href="{{ .Permalink }}">
-  {{- if or .Params.noindex (ne hugo.Environment "production") }}
+  {{- /* 404 页与预览环境都不应进索引（/404.html 曾被 index,follow 收录） */}}
+  {{- if or .Params.noindex (eq .Kind "404") (ne hugo.Environment "production") }}
   <meta name="robots" content="noindex, nofollow">
   {{- else }}
   <meta name="robots" content="index, follow">
@@ -36,6 +57,11 @@
          本站为单语言站点，不输出该标签，以兼容部署平台可能提供的旧版 Hugo。 */}}
   {{- with $imageURL }}
   <meta property="og:image" content="{{ . }}">
+  {{- if eq $image site.Params.ogImage }}{{ with site.Params.ogImageWidth }}
+  <meta property="og:image:width" content="{{ . }}">
+  {{- end }}{{ with site.Params.ogImageHeight }}
+  <meta property="og:image:height" content="{{ . }}">
+  {{- end }}{{ end }}
   {{- end }}
   {{- if .IsPage }}
   {{- with .PublishDate }}{{ if not .IsZero }}
@@ -46,8 +72,13 @@
   {{- end }}{{ end }}
   {{- end }}
 
-  {{- /* Twitter 卡片 */}}
+  {{- /* Twitter 卡片：Twitter 会回退到 OG，但显式给出更稳（X 摘要卡只用 twitter:*） */}}
   <meta name="twitter:card" content="{{ cond (ne $imageURL "") "summary_large_image" "summary" }}">
+  <meta name="twitter:title" content="{{ $title }}">
+  <meta name="twitter:description" content="{{ $desc }}">
+  {{- with $imageURL }}
+  <meta name="twitter:image" content="{{ . }}">
+  {{- end }}
   {{- with site.Params.twitterHandle }}
   <meta name="twitter:site" content="{{ . }}">
   {{- end }}

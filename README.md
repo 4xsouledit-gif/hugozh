@@ -25,7 +25,7 @@ hugo --cleanDestinationDir --ignoreCache \
      --printPathWarnings --printUnusedTemplates --printI18nWarnings   # 严格构建
 ```
 
-要求 **Hugo 0.158+**（标准版即可）。配置里使用 0.158 起生效的 `locale` 键；若停留在更早版本，请把 `hugo.toml` 中的 `locale` 改回 `languageCode`。
+要求 **Hugo 0.147+**（标准版即可；已在 **v0.147.5** 与 **v0.167.0** 上实机构建验证）。模板刻意不依赖 0.158+ 的语言 API（改用 `[params] htmlLang`），因此部署平台自带的旧版 Hugo 也能直接构建。配置里的 `locale` 是 0.158 起生效的键，在更早版本上会被忽略，不影响构建——中文日期格式由中文叠加主题的 `[params] dateFormat` 提供。
 
 ## 目录结构
 

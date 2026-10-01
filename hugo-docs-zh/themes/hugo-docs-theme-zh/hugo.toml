@@ -15,4 +15,4 @@
 [module]
   [module.hugoVersion]
     extended = false
-    min = '0.158.0'
+    min = '0.147.0'   # 站点刻意兼容旧版 Hugo（部署平台可能只提供 0.147）

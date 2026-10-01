@@ -1,4 +1,5 @@
 <head>
+  {{- $htmlLang := site.Params.htmlLang | default "zh-CN" -}}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -26,12 +27,9 @@
   <meta property="og:description" content="{{ $desc }}">
   <meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
   <meta property="og:url" content="{{ .Permalink }}">
-  <meta property="og:locale" content="{{ replace site.Language.Locale "-" "_" }}">
-  {{- range .AllTranslations }}
-  {{- if ne .Language.Locale site.Language.Locale }}
-  <meta property="og:locale:alternate" content="{{ replace .Language.Locale "-" "_" }}">
-  {{- end }}
-  {{- end }}
+  <meta property="og:locale" content="{{ replace $htmlLang "-" "_" }}">
+  {{- /* 多语言备用 locale（og:locale:alternate）需要 0.158+ 的 .Language.Locale；
+         本站为单语言站点，不输出该标签，以兼容部署平台可能提供的旧版 Hugo。 */}}
   {{- with $imageURL }}
   <meta property="og:image" content="{{ . }}">
   {{- end }}
@@ -50,12 +48,8 @@
   <meta name="twitter:site" content="{{ . }}">
   {{- end }}
 
-  {{- /* 多语言替代版本：只有站点确实存在多语言时才输出 */}}
-  {{- if gt (len .AllTranslations) 1 }}
-  {{- range .AllTranslations }}
-  <link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}">
-  {{- end }}
-  {{- end }}
+  {{- /* hreflang 备用链接同理：单语言站点不输出（.Language.Locale 需 0.158+）。
+         将来若改为多语言，请显式升级到 0.158+ 并逐语言写出 hreflang。 */}}
 
   {{- /* 订阅源与主题色 */}}
   {{- with .OutputFormats.Get "rss" }}

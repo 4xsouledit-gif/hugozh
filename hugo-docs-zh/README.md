@@ -11,12 +11,12 @@
 
 | 项目 | 要求 |
 | --- | --- |
-| Hugo | **0.158 或更高版本**（已在 v0.167.0 上验证） |
+| Hugo | **0.147 或更高版本**（已在 v0.147.5 与 v0.167.0 上实机构建验证） |
 | 版本类型 | **标准版即可**，不需要 extended（项目不使用 SCSS 管道） |
 | 站点配置键 | 使用 `locale`；该键在 0.158 之前名为 `languageCode`（Hugo 0.158.0 起弃用） |
 | 其他 | 无 Node.js、无 npm 依赖、无外部主题、无需联网 |
 
-若必须在 0.158 之前的 Hugo 上构建，请把 `hugo.toml` 中的 `locale` 改回 `languageCode`。
+在 0.158 之前的 Hugo 上，`locale` 键会被忽略（不影响构建与输出）；模板不依赖 0.158+ 的 `site.Language.Locale`，语言标签由 `[params] htmlLang` 提供，中文日期格式由中文叠加主题的 `[params] dateFormat` 提供。因此**部署平台自带的旧版 Hugo（如 EdgeOne Pages 的 0.147.5）可直接构建本站**。
 
 ## 快速开始
 
@@ -302,8 +302,8 @@ hugo new content <章节>/<页面>.md     # 例如 hugo new content getting-star
 
 ## 验证状态
 
-- 本项目的文件由本工作区生成，**生成环境无法运行命令行、也无法访问 gohugo.io**；因此构建验证依赖使用者在本地执行 `hugo server`（建议 Hugo 0.158+）。
-- 已知的一处历史问题已修复：`hugo.toml` 中的 `languageCode` 自 Hugo 0.158.0 起弃用，已改为 `locale`——这也是本站要求 0.158+ 的原因。
+- 本项目的文件由本工作区生成，**生成环境无法运行命令行、也无法访问 gohugo.io**；因此构建验证依赖使用者在本地执行 `hugo server`（Hugo 0.147+）。
+- 已知的一处历史问题已修复：`hugo.toml` 中的 `languageCode` 自 Hugo 0.158.0 起弃用，已改为 `locale`；同时模板把 `site.Language.Locale` 换成 `[params] htmlLang`，因此本站可在 **0.147 起**构建（EdgeOne Pages 等平台默认提供的就是 0.147.5）。
 - 另一处已修复的问题：内容中曾出现**未转义的短代码定界符**（写在行内代码里也会触发），导致整站构建失败；现已全部改用 `{{</* … */>}}` / `{{%/* … */%}}` 转义写法（详见上文「短代码注意事项」）。
 - 构建产物中会包含 Hugo 默认分类法生成的 `tags/`、`categories/` 空页面（本站内容未使用分类法）。如需彻底去掉，在 `hugo.toml` 中加入 `disableKinds = ["taxonomy", "term"]` 即可。
 - 译文中的**个别默认值与版本号请以 `source` 指向的官网页面为准**。

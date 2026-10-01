@@ -650,6 +650,19 @@ a:hover {
   margin: 0 0 1.15rem;
 }
 
+/* Hugo 图片管道拼贴出的 banner（shortcode: {{< banner >}}） */
+.site-banner {
+  margin: 0 0 1.6rem;
+}
+
+.site-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+}
+
 .hero-eyebrow {
   margin: 0 0 0.5rem;
   color: var(--accent);

@@ -15,6 +15,7 @@ const IMAGES = path.join(STATIC, 'images');
 fs.mkdirSync(IMAGES, { recursive: true });
 
 const svg = fs.readFileSync(path.join(STATIC, 'favicon.svg'), 'utf8');
+const officialSvg = fs.readFileSync(path.join(IMAGES, 'hugo-logo-wide.svg'), 'utf8');
 
 const browser = await chromium.launch();
 
@@ -71,5 +72,34 @@ await page.setContent(og, { waitUntil: 'load' });
 await page.screenshot({ path: path.join(IMAGES, 'og-image.png') });
 await page.close();
 
+// ---- 3) 拼贴素材：交给 Hugo 的图片管道在构建时合成 banner ----
+const ASSETS = path.join(SITE, 'assets', 'brand');
+fs.mkdirSync(ASSETS, { recursive: true });
+
+// 3a) 底板 1600×520（柔和渐变）
+const plane = await browser.newPage({ viewport: { width: 1600, height: 520 }, deviceScaleFactor: 1 });
+await plane.setContent(`<body style="margin:0"><div style="width:1600px;height:520px;background:
+  radial-gradient(900px 420px at 12% 0%, #fff 0%, #fdf2f7 55%, #f8e6ef 100%)"></div></body>`);
+await plane.screenshot({ path: path.join(ASSETS, 'plane.png') });
+await plane.close();
+
+// 3b) 官方宽 logo 里四枚徽标（各自带字母）——按区域裁剪，透明背景，高 320px。
+// 四枚几何完全相同、只在 x 方向平移；偏移量取自各 path 的起始顶点
+// （pink 195.81 / blue 575.26 / green 958.07 / yellow 1345.211）。
+// 裁剪框必须四枚一致，否则会像最初版本那样把徽标两侧切掉。
+const badgeW = 344.6, badgeH = 373.8, badgeY = 10.6, refX = 1;
+const offsets = { h: 0, u: 379.45, g: 762.26, o: 1149.4 };
+for (const [name, dx] of Object.entries(offsets)) {
+  const scale = 320 / badgeH;
+  const p = await browser.newPage({ viewport: { width: Math.ceil(1493 * scale), height: Math.ceil(391 * scale) }, deviceScaleFactor: 1 });
+  await p.setContent(`<body style="margin:0"><div style="width:${(1493 * scale).toFixed(2)}px;height:${(391 * scale).toFixed(2)}px">${officialSvg.replace('<svg ', '<svg width="100%" height="100%" ')}</div></body>`);
+  await p.screenshot({
+    path: path.join(ASSETS, `hex-${name}.png`),
+    omitBackground: true,
+    clip: { x: (refX + dx) * scale, y: badgeY * scale, width: badgeW * scale, height: badgeH * scale },
+  });
+  await p.close();
+}
+
 await browser.close();
-console.log('已生成：static/apple-touch-icon.png、static/images/{icon-64,icon-512,og-image}.png');
+console.log('已生成：static/apple-touch-icon.png、static/images/{icon-64,icon-512,og-image}.png、assets/brand/{plane,hex-h,hex-u,hex-g,hex-o}.png');

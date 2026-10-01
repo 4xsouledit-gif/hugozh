@@ -1,0 +1,37 @@
+{{- /* 用 Hugo 的图片管道拼贴 banner（构建时合成，产物进 public/）：
+       ① 底板 assets/brand/plane.png（1600×520）
+       ② 低透明度徽标作斜向纹理（12 处，Opacity 滤镜）
+       ③ 四色徽标 H/U/G/O 作主视觉（各按需缩放后 Overlay）
+       依据：https://gohugo.io/functions/images/overlay/ · https://gohugo.io/functions/images/opacity/
+       素材来自官方 logo 的切图，生成脚本：.translation/gen-brand-assets.mjs */ -}}
+{{- $plane := resources.Get "brand/plane.png" -}}
+{{- if not $plane }}{{ errorf "缺少 assets/brand/plane.png（运行 node .translation/gen-brand-assets.mjs）" }}{{ end -}}
+{{- $banner := $plane -}}
+
+{{- /* ② 纹理：一枚徽标缩到 140px、透明度 6%，斜向重复铺开 */ -}}
+{{- with resources.Get "brand/hex-h.png" }}
+  {{- $tile := .Resize "140x" }}
+  {{- $tile = $tile.Filter (images.Opacity 0.06) }}
+  {{- range $i := seq 0 11 }}
+    {{- $banner = $banner.Filter (images.Overlay $tile (add 30 (mul (mod $i 6) 262)) (add 10 (mul (div $i 6) 250))) }}
+  {{- end }}
+{{- end }}
+
+{{- /* ③ 主视觉：H/U/G/O 四枚徽标，大小与高低错落 */ -}}
+{{- $specs := slice
+      (dict "n" "h" "x" 120 "y" 132 "w" 250)
+      (dict "n" "u" "x" 430 "y" 96  "w" 240)
+      (dict "n" "g" "x" 740 "y" 158 "w" 230)
+      (dict "n" "o" "x" 1050 "y" 88 "w" 250) -}}
+{{- range $spec := $specs }}
+  {{- with resources.Get (printf "brand/hex-%s.png" $spec.n) }}
+    {{- $img := .Resize (printf "%dx" $spec.w) }}
+    {{- $banner = $banner.Filter (images.Overlay $img $spec.x $spec.y) }}
+  {{- end }}
+{{- end }}
+
+{{- $banner = $banner.Resize "1600x" -}}
+<figure class="site-banner">
+  <img src="{{ $banner.RelPermalink }}" width="{{ $banner.Width }}" height="{{ $banner.Height }}"
+       alt="Hugo 四色徽标（H、U、G、O）艺术拼贴" loading="lazy" decoding="async">
+</figure>

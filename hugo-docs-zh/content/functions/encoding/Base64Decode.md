@@ -5,6 +5,11 @@ description = "返回给定内容的 base64 解码结果。"
 date = 2026-10-02
 weight = 20
 source = "https://gohugo.io/functions/encoding/base64decode/"
+
+[params.functions_and_methods]
+signatures = ["encoding.Base64Decode INPUT"]
+returnType = "string"
+aliases = ["base64Decode"]
 +++
 
 ```go-html-template

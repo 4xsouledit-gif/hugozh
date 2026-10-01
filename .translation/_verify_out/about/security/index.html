@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>安全模型 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="Hugo 的安全边界、运行时与依赖安全，以及模板信任模型。">
+  <link rel="canonical" href="https://example.org/about/security/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="安全模型 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="Hugo 的安全边界、运行时与依赖安全，以及模板信任模型。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/about/security/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"Hugo 的安全边界、运行时与依赖安全，以及模板信任模型。","headline":"安全模型","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"安全模型","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/about/security/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/about/">关于</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/about/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/about/features/">特性</a>
+        </li>
+        <li>
+          <a href="/about/license/">许可</a>
+        </li>
+        <li>
+          <a href="/about/security/" class="is-active" aria-current="page">安全模型</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/about/">关于</a></p>
+    <h1>安全模型</h1>
+    <p class="doc-description">Hugo 的安全边界、运行时与依赖安全，以及模板信任模型。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="安全边界">安全边界</h2>
+<ul>
+<li><code>layouts</code> 中的模板是可信的。</li>
+<li><code>archetypes</code>、<code>assets</code>、<code>resources</code>、<code>data</code>、<code>i18n</code> 和 <code>static</code> 中的资源是可信的。</li>
+<li><code>content</code> 中的内容，以及由内容适配器在 <code>content</code> 中生成的内容，是不可信的；唯一例外是启用内联短代码时。对于内容适配器，这一范围仅限于适配器的输出结果。</li>
+<li>开发服务器 <code>hugo server</code> 及其 livereload 脚本是可信的，仅用于<strong>本地</strong>开发。</li>
+<li>Hugo 没有线上生产服务器；任何导致构建失败的畸形输入（例如格式错误的内容前置元数据）都不被定义为拒绝服务（DoS）。这也包括触发运行时错误的输入，例如 <code>fatal error: stack overflow</code>；这类问题请作为<a href="https://github.com/gohugoio/hugo/issues" target="_blank" rel="noopener">缺陷</a>报告。</li>
+</ul>
+<h2 id="运行时安全">运行时安全</h2>
+<p>Hugo 生成的是静态网站：最终输出直接在浏览器中运行，并与所集成的各类 API 交互。但在开发和构建站点期间，<code>hugo</code> 可执行文件本身就是运行时环境。</p>
+<p>保障运行时安全是一项复杂的任务。Hugo 通过稳健的沙箱方案和带默认保护的严格安全策略来应对，主要特性包括：</p>
+<ul>
+<li>虚拟文件系统：Hugo 使用虚拟文件系统限制文件访问。只有主项目（而非外部组件）可以访问项目根目录之外的文件或目录。</li>
+<li>只读访问：用户自定义组件对文件系统只有只读权限，防止意外修改。</li>
+<li>受控的外部二进制文件：Hugo 会为 Asciidoctor 支持等功能使用外部二进制文件，但这些文件经过严格预定义并带有特定参数，且默认禁用。安全策略中说明了这些限制。</li>
+<li>不执行任意命令：为降低风险，Hugo 有意不实现那些允许用户执行任意操作系统命令的通用函数。</li>
+<li>务实的默认值：默认安全策略旨在平衡安全性与可用性，让常见工作流开箱即用，同时把更敏感的能力留作显式启用。这些默认值可能在今后的版本中收紧，但每个项目最终有责任审阅策略，并按自身的信任模型与需求进行调整。</li>
+</ul>
+<p>沙箱与严格默认值的这种组合，有效降低了 Hugo 构建过程中潜在的安全漏洞。</p>
+<h2 id="依赖安全">依赖安全</h2>
+<p>Hugo 使用 Go 模块管理依赖，并编译为静态二进制文件。Go 模块会生成 <code>go.sum</code> 文件，这是一项关键的安全特性：该文件像数据库一样，存储所有依赖（包括间接引入的传递依赖）的预期加密校验和。</p>
+<p>扩展 Go 模块功能的 Hugo 模块同样会生成 <code>go.sum</code> 文件。为确保依赖完整性，请把这个 <code>go.sum</code> 文件提交到版本控制中。如果 Hugo 在构建过程中检测到校验和不匹配，构建就会失败，这表明可能存在篡改项目依赖的尝试。</p>
+<h2 id="web-应用安全">Web 应用安全</h2>
+<p>Hugo 的安全理念植根于既有安全标准，主要对齐 OWASP 定义的威胁。对于 HTML 输出，Hugo 遵循明确的信任模型：假设模板与配置的作者（即开发者）可信，而提供给这些模板的数据则被视为不可信。这一区分对理解 Hugo 如何处理潜在安全风险至关重要。</p>
+<p>为避免开发者确知安全的数据被意外转义，Hugo 提供 <code>safe</code> 系列函数，例如 <code>safe.HTML</code>。这些函数允许开发者显式把数据标记为可信，从而绕过默认的转义机制；当数据由可靠来源生成或取得时，这一点很重要。但存在一个例外：启用内联短代码后，您即隐含地信任了短代码中的逻辑，以及内容文件中包含的数据。</p>
+<p>需要记住的是，Hugo 是静态站点生成器。这一架构选择消除了动态用户输入带来的复杂性与漏洞，从而显著缩小攻击面：与动态网站不同，Hugo 生成静态 HTML 文件，降低了实时攻击的风险。在内容方面，Hugo 默认的 Markdown 渲染器已配置为净化潜在不安全的内容，可移除或转义潜在恶意的代码或脚本；如果您对内容来源的安全性有很高信心，也可以重新配置这一设置。</p>
+<p>本质上，Hugo 通过在开发者与数据之间建立清晰的信任边界来优先保证输出安全：默认情况下偏向谨慎，净化潜在不安全的内容并转义数据；开发者可以通过 <code>safe</code> 系列函数和配置设置调整这些默认行为，但必须清楚理解由此带来的安全影响。Hugo 的静态站点生成模式消除了动态漏洞，进一步强化了它的安全态势。</p>
+<h2 id="配置">配置</h2>
+<p>上述安全策略集中在 <code>security</code> 配置分区中，例如外部二进制文件在何种条件下可以被调用。上游文档把详细设置放在 <code>/configuration/security/</code> 页面；本站配置相关的入门内容见<a href="/configuration/">配置 Hugo</a>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/about/security/" target="_blank" rel="noopener">https://gohugo.io/about/security/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/about/license/">← 上一篇：许可</a>
+    
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安全边界">安全边界</a></li>
+    <li><a href="#运行时安全">运行时安全</a></li>
+    <li><a href="#依赖安全">依赖安全</a></li>
+    <li><a href="#web-应用安全">Web 应用安全</a></li>
+    <li><a href="#配置">配置</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

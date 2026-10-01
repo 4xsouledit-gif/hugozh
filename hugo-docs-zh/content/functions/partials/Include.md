@@ -5,6 +5,11 @@ description = "执行给定模板，可选择性地传入上下文。若局部�
 date = 2026-10-02
 weight = 20
 source = "https://gohugo.io/functions/partials/include/"
+
+[params.functions_and_methods]
+signatures = ["partials.Include NAME [CONTEXT]"]
+returnType = "any"
+aliases = ["partial"]
 +++
 
 没有 [`return`][] 语句时，`partial` 函数返回 `template.HTML` 类型的字符串。有 `return` 语句时，`partial` 函数可以返回任意数据类型。

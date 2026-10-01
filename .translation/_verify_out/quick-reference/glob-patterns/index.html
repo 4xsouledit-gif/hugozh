@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>Glob 模式 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="Glob 模式的通配符、匹配规则与在 Hugo 中的用法。">
+  <link rel="canonical" href="https://example.org/quick-reference/glob-patterns/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="Glob 模式 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="Glob 模式的通配符、匹配规则与在 Hugo 中的用法。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/quick-reference/glob-patterns/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"Glob 模式的通配符、匹配规则与在 Hugo 中的用法。","headline":"Glob 模式","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"Glob 模式","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/quick-reference/glob-patterns/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/quick-reference/">速查</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/quick-reference/glob-patterns/" class="is-active" aria-current="page">Glob 模式</a>
+        </li>
+        <li>
+          <a href="/quick-reference/emojis/">Emoji</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/quick-reference/">速查</a></p>
+    <h1>Glob 模式</h1>
+    <p class="doc-description">Glob 模式的通配符、匹配规则与在 Hugo 中的用法。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="什么是-glob-模式">什么是 Glob 模式</h2>
+<p>Glob 模式（glob pattern）是用一组通配符来匹配多个值的写法。它把多个目标压缩成一个简短的表达式，因此适合对成组的数据或配置做批量处理，例如一次匹配某个目录下的全部图片，或一次匹配若干种文件扩展名。</p>
+<p>下表列出 Hugo 支持的 glob 语法与匹配行为。每一行给出一种匹配类型、所用模式、用于测试的字符串，以及在测试字符串上求值得到的布尔结果。</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">匹配类型</th>
+					<th style="text-align: left">Glob 模式</th>
+					<th style="text-align: left">测试字符串</th>
+					<th style="text-align: left">是否匹配</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">简单通配</td>
+					<td style="text-align: left"><code>images/*.jpg</code></td>
+					<td style="text-align: left"><code>images/a.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">字面量匹配</td>
+					<td style="text-align: left"><code>images/a\*.jpg</code></td>
+					<td style="text-align: left"><code>images/a*.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">单层通配</td>
+					<td style="text-align: left"><code>images/*/a.jpg</code></td>
+					<td style="text-align: left"><code>images/foo/a.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">单层通配</td>
+					<td style="text-align: left"><code>images/*/a.jpg</code></td>
+					<td style="text-align: left"><code>images/foo/bar/a.jpg</code></td>
+					<td style="text-align: left">false</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">多层通配</td>
+					<td style="text-align: left"><code>images/**/a.jpg</code></td>
+					<td style="text-align: left"><code>images/foo/bar/a.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">多层通配</td>
+					<td style="text-align: left"><code>images/**/a.jpg</code></td>
+					<td style="text-align: left"><code>images/a.jpg</code></td>
+					<td style="text-align: left">false</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">单个字符</td>
+					<td style="text-align: left"><code>image.???</code></td>
+					<td style="text-align: left"><code>image.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">单个字符</td>
+					<td style="text-align: left"><code>image.???</code></td>
+					<td style="text-align: left"><code>image.avif</code></td>
+					<td style="text-align: left">false</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">定界符排除</td>
+					<td style="text-align: left"><code>?at</code></td>
+					<td style="text-align: left"><code>f/at</code></td>
+					<td style="text-align: left">false</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">字符列表</td>
+					<td style="text-align: left"><code>images/a.[jp]pg</code></td>
+					<td style="text-align: left"><code>images/a.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">取反列表</td>
+					<td style="text-align: left"><code>images/a.[!p]pg</code></td>
+					<td style="text-align: left"><code>images/a.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">字符范围</td>
+					<td style="text-align: left"><code>images/a-[a-c].jpg</code></td>
+					<td style="text-align: left"><code>images/a-b.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">字符范围</td>
+					<td style="text-align: left"><code>images/a-[a-c].jpg</code></td>
+					<td style="text-align: left"><code>images/a-z.jpg</code></td>
+					<td style="text-align: left">false</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">取反范围</td>
+					<td style="text-align: left"><code>images/a-[!a-c].jpg</code></td>
+					<td style="text-align: left"><code>images/a-z.jpg</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">模式备选</td>
+					<td style="text-align: left"><code>images/*.{jpg,png}</code></td>
+					<td style="text-align: left"><code>images/logo.png</code></td>
+					<td style="text-align: left">true</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">不匹配</td>
+					<td style="text-align: left"><code>images/*.{jpg,png}</code></td>
+					<td style="text-align: left"><code>images/logo.webp</code></td>
+					<td style="text-align: left">false</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="匹配规则">匹配规则</h2>
+<p>匹配逻辑遵循以下规则。</p>
+<ul>
+<li>标准通配符（<code>*</code>）匹配任意字符，但不匹配定界符。</li>
+<li>超级通配符（<code>**</code>）匹配包括定界符在内的任意字符；但当它位于两个定界符之间时，至少需要一个中间字符，也就是说它不匹配零层目录。</li>
+<li>单个字符（<code>?</code>）恰好匹配一个字符，且不匹配定界符。</li>
+<li>取反（<code>!</code>）用在方括号内部时，匹配除列表或范围中指定的字符之外的任意字符。</li>
+<li>字符范围（<code>[a-z]</code>）匹配指定范围内的任意单个字符。</li>
+</ul>
+<h2 id="定界符">定界符</h2>
+<p>定界符是斜杠（<code>/</code>）；只有在匹配语义化版本（semantic version）字符串时，定界符才是点号（<code>.</code>）。</p>
+<h2 id="转义">转义</h2>
+<p>模式中的反斜杠用来取消下一个字符的特殊含义。上表里 <code>images/a\*.jpg</code> 能匹配 <code>images/a*.jpg</code>，正是因为其中的 <code>*</code> 被转义成了字面量，不再充当通配符。因此当文件名本身含有 <code>*</code>、<code>?</code>、<code>[</code>、<code>]</code>、<code>{</code>、<code>}</code> 这类字符时，需要逐个转义后才能写成模式。</p>
+<p>把模式写进配置文件时还要注意引号：TOML 的基本字符串（双引号）本身会把反斜杠当作转义字符，所以上游示例改用单引号的字面量字符串，例如 <code>files = ['! docs/*']</code>。</p>
+<h2 id="在-hugo-中的用法">在 Hugo 中的用法</h2>
+<p>Glob 模式出现在多个函数与配置项中，匹配的对象各不相同。</p>
+<p><strong>资源查找。</strong> 函数 <code>resources.GetMatch</code> 与 <code>resources.Match</code> 用来查找全局资源，方法 <code>Resources.GetMatch</code> 与 <code>Resources.Match</code> 用来查找页面资源。这两组都使用不区分大小写的 glob 模式。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.GetMatch</span><span class="w"> </span><span class="s">&#34;images/*.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Resources.GetMatch</span><span class="w"> </span><span class="s">&#34;cover.*&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p><strong>页面资源元数据。</strong> 页面前置字段 <code>resources</code> 数组中的 <code>pattern</code> 是 glob 模式，按相对于页面包的文件路径匹配一个或多个页面资源，匹配同样不区分大小写；匹配到多个资源时，同一份元数据会应用到每一个资源。</p>
+<p><strong>页面匹配器。</strong> 级联的 <code>target</code>、构建选项 <code>_build</code> 以及分段（segments）的筛选条件都使用页面匹配器，其中的 <code>environment</code>、<code>kind</code>、<code>path</code> 都是 glob 模式，例如 <code>{staging,production}</code>、<code>{taxonomy,term}</code>、<code>{/books,/books/**}</code>。</p>
+<p><strong>模块挂载。</strong> <code>module.mounts</code> 的 <code>files</code> 接受一个 glob 切片（glob slice），用来指定包含或排除哪些文件。切片中的模式以 <code>!</code> 加一个空格开头时表示取反；一旦取反项命中，切片中其余模式就不再参与求值，因此取反适合做早期、粗粒度的排除。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[module]
+</span></span><span class="line"><span class="cl">  [[module.mounts]]
+</span></span><span class="line"><span class="cl">    source = &#39;content&#39;
+</span></span><span class="line"><span class="cl">    target = &#39;content&#39;
+</span></span><span class="line"><span class="cl">    files = [&#39;! docs/*&#39;]</span></span></code></pre></div><p><strong>部署目标。</strong> <code>deployment.targets</code> 的 <code>include</code> 与 <code>exclude</code> 都是 glob 模式：本地文件未通过这两项过滤时不会上传，远端文件未通过这两项过滤时不会被删除。</p>
+<p><strong>HTTP 缓存。</strong> <code>HTTPCache</code> 的 <code>includes</code>、<code>excludes</code>，以及轮询所用的 <code>includes</code>、<code>excludes</code>，都是 glob 模式切片。这些模式针对完整的远程 URL 匹配，并以 <code>/</code> 作为路径分隔符，例如 <code>**.json</code>。</p>
+<p><strong>开发服务器。</strong> <code>[[server.redirects]]</code> 的 <code>from</code> 是 glob 模式，<code>fromHeaders</code> 的值也用 glob 模式匹配请求头；若 <code>from</code> 与 <code>fromRe</code> 同时设置，请求的 URL 必须同时匹配两者。</p>
+<p><strong>命令行。</strong> 全局选项 <code>--ignoreVendorPaths</code> 用一个 glob 模式指定哪些模块路径忽略其中的 <code>_vendor</code>；<a href="/commands/hugo-mod-clean/">hugo mod clean</a> 的 <code>--pattern</code> 用 glob 模式挑选要清理的模块路径。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo mod clean --pattern <span class="s2">&#34;**hugo*&#34;</span></span></span></code></pre></div><h2 id="注意事项与差异">注意事项与差异</h2>
+<ul>
+<li><strong>并非所有「模式」都是 glob。</strong> 部署 matcher 的 <code>pattern</code> 与服务器重定向的 <code>fromRe</code> 都是正则表达式，不能套用上面的通配符表。</li>
+<li><strong>大小写。</strong> 资源查找与页面资源元数据的 <code>pattern</code> 采用不区分大小写的匹配；上游文档未对其它位置作此说明，不要默认它们也不区分大小写。</li>
+<li><strong><code>**</code> 不匹配零层目录。</strong> <code>images/**/a.jpg</code> 匹配 <code>images/foo/bar/a.jpg</code>，但不匹配 <code>images/a.jpg</code>。</li>
+<li><strong>定界符有例外。</strong> 只有匹配语义化版本字符串时，定界符才是点号（<code>.</code>），其余场合都是斜杠（<code>/</code>）。</li>
+</ul>
+<p>某个位置支持何种模式、匹配范围又是什么，最终以该处的说明为准，例如<a href="/configuration/">配置 Hugo</a>、<a href="/hugo-modules/">Hugo 模块</a>与<a href="/content-management/">内容管理</a>中的对应页面。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/quick-reference/glob-patterns/" target="_blank" rel="noopener">https://gohugo.io/quick-reference/glob-patterns/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    
+    <a class="pager-next" href="/quick-reference/emojis/">下一篇：Emoji →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是-glob-模式">什么是 Glob 模式</a></li>
+    <li><a href="#匹配规则">匹配规则</a></li>
+    <li><a href="#定界符">定界符</a></li>
+    <li><a href="#转义">转义</a></li>
+    <li><a href="#在-hugo-中的用法">在 Hugo 中的用法</a></li>
+    <li><a href="#注意事项与差异">注意事项与差异</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

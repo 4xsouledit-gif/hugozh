@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>内容管理 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="内容管理章节总览：内容格式、前置元数据、内容组织与页面资源。">
+  <link rel="canonical" href="https://example.org/content-management/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="内容管理 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="内容管理章节总览：内容格式、前置元数据、内容组织与页面资源。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.org/content-management/">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://example.org/content-management/index.xml" title="Hugo 官方文档 · 中文翻译">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"内容管理章节总览：内容格式、前置元数据、内容组织与页面资源。","headline":"内容管理","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"内容管理","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/content-management/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/content-management/">内容管理</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/content-management/content-formats/">内容格式</a>
+        </li>
+        <li>
+          <a href="/content-management/front-matter/">前置元数据</a>
+        </li>
+        <li>
+          <a href="/content-management/page-bundles/">页面包</a>
+        </li>
+        <li>
+          <a href="/content-management/page-resources/">页面资源</a>
+        </li>
+        <li>
+          <a href="/content-management/organization/">内容组织</a>
+        </li>
+        <li>
+          <a href="/content-management/sections/">内容区块</a>
+        </li>
+        <li>
+          <a href="/content-management/archetypes/">原型</a>
+        </li>
+        <li>
+          <a href="/content-management/summaries/">摘要</a>
+        </li>
+        <li>
+          <a href="/content-management/related-content/">相关内容</a>
+        </li>
+        <li>
+          <a href="/content-management/menus/">菜单</a>
+        </li>
+        <li>
+          <a href="/content-management/taxonomies/">分类法</a>
+        </li>
+        <li>
+          <a href="/content-management/multilingual/">多语言</a>
+        </li>
+        <li>
+          <a href="/content-management/urls/">URL 管理</a>
+        </li>
+        <li>
+          <a href="/content-management/markdown-attributes/">Markdown 属性</a>
+        </li>
+        <li>
+          <a href="/content-management/syntax-highlighting/">语法高亮</a>
+        </li>
+        <li>
+          <a href="/content-management/image-processing/">图像处理</a>
+        </li>
+        <li>
+          <a href="/content-management/diagrams/">图表</a>
+        </li>
+        <li>
+          <a href="/content-management/mathematics/">数学公式</a>
+        </li>
+        <li>
+          <a href="/content-management/comments/">评论</a>
+        </li>
+        <li>
+          <a href="/content-management/build-options/">构建选项</a>
+        </li>
+        <li>
+          <a href="/content-management/content-adapters/">内容适配器</a>
+        </li>
+        <li>
+          <a href="/content-management/data-sources/">数据源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      
+<article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow">文档章节</p>
+    <h1>内容管理</h1>
+    <p class="doc-description">内容管理章节总览：内容格式、前置元数据、内容组织与页面资源。</p>
+  </header>
+  <div class="doc-body"><h2 id="内容管理概览">内容管理概览</h2>
+<p>内容管理关注的是内容本身：把文件放进 <code>content/</code> 目录，用前置元数据（front matter）描述页面属性，再由模板渲染成站点。本章按主题概述相关内容，各主题在官方文档中位于 <code>/content-management/</code> 下的独立页面。</p>
+<p>内容进入站点的基本流程是：</p>
+<ol>
+<li>用 <code>hugo new content</code> 基于原型（archetype）创建 Markdown 等内容文件。</li>
+<li>在文件开头的 front matter 中填写标题、日期、分类等元数据。</li>
+<li>把文件放到合适的目录中，形成 section（内容区块）与页面包（page bundle）结构。</li>
+<li>由模板把内容、菜单、分类法（taxonomy）等渲染成最终页面。</li>
+</ol>
+<h2 id="内容格式">内容格式</h2>
+<p>Hugo 根据文件扩展名判断内容格式，常用格式包括：</p>
+<table>
+	<thead>
+			<tr>
+					<th>格式</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Markdown</td>
+					<td>默认格式，由 Goldmark 渲染，是最常用的写作格式</td>
+			</tr>
+			<tr>
+					<td>HTML</td>
+					<td>直接书写 HTML 的内容</td>
+			</tr>
+			<tr>
+					<td>Emacs Org Mode</td>
+					<td>使用 Org Mode 语法书写</td>
+			</tr>
+			<tr>
+					<td>AsciiDoc</td>
+					<td>需要本机安装相应的外部转换程序</td>
+			</tr>
+			<tr>
+					<td>Pandoc</td>
+					<td>借助 Pandoc 转换多种标记语言</td>
+			</tr>
+			<tr>
+					<td>reStructuredText</td>
+					<td>需要本机安装相应的外部转换程序</td>
+			</tr>
+	</tbody>
+</table>
+<p>Markdown、HTML 与 Emacs Org Mode 由 Hugo 内置支持；AsciiDoc、Pandoc、reStructuredText 需要本机安装对应的外部程序。各格式的解析与渲染细节在配置的 <code>markup</code> 区段中调整，官方页面为 <code>/content-management/formats/</code>。</p>
+<h2 id="前置元数据front-matter">前置元数据（front matter）</h2>
+<p>front matter 是内容文件开头的一段元数据，Hugo 支持三种写法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">title = &#34;我的第一篇内容&#34;
+</span></span><span class="line"><span class="cl">date = 2026-10-01
+</span></span><span class="line"><span class="cl">draft = true
+</span></span><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">正文从这里开始。</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l">我的第一篇内容</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="ld">2026-10-01</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">正文从这里开始。</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;title&#34;: &#34;我的第一篇内容&#34;,
+</span></span><span class="line"><span class="cl">  &#34;date&#34;: &#34;2026-10-01&#34;,
+</span></span><span class="line"><span class="cl">  &#34;draft&#34;: true
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></div><ul>
+<li>TOML 用一对 <code>+++</code> 包围。</li>
+<li>YAML 用一对 <code>---</code> 包围。</li>
+<li>JSON 用一对花括号包围。</li>
+</ul>
+<p>常见字段：</p>
+<table>
+	<thead>
+			<tr>
+					<th>字段</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>title</code></td>
+					<td>页面标题</td>
+			</tr>
+			<tr>
+					<td><code>date</code></td>
+					<td>内容的创建或发布日期</td>
+			</tr>
+			<tr>
+					<td><code>lastmod</code></td>
+					<td>最后修改日期</td>
+			</tr>
+			<tr>
+					<td><code>draft</code></td>
+					<td>为 <code>true</code> 时属于草稿，默认不参与构建（可用 <code>--buildDrafts</code> 一并构建）</td>
+			</tr>
+			<tr>
+					<td><code>weight</code></td>
+					<td>排序权重，数值越小越靠前，常用于列表与菜单排序</td>
+			</tr>
+			<tr>
+					<td><code>slug</code></td>
+					<td>覆盖由标题推导出的 URL 片段</td>
+			</tr>
+			<tr>
+					<td><code>url</code></td>
+					<td>直接指定该页面的路径</td>
+			</tr>
+			<tr>
+					<td><code>aliases</code></td>
+					<td>旧地址列表，构建时为这些地址生成重定向页面</td>
+			</tr>
+			<tr>
+					<td><code>type</code></td>
+					<td>内容类型，参与模板查找</td>
+			</tr>
+			<tr>
+					<td><code>layout</code></td>
+					<td>指定该页面使用的模板</td>
+			</tr>
+			<tr>
+					<td><code>tags</code>、<code>categories</code></td>
+					<td>默认分类法的术语（term）</td>
+			</tr>
+			<tr>
+					<td><code>cascade</code></td>
+					<td>把所列的值向下传递给子页面</td>
+			</tr>
+	</tbody>
+</table>
+<p>除内置字段外还可以写入任意自定义参数，模板中通过 <code>.Params</code> 读取。字段的完整列表与取值规则见官方 <code>/content-management/front-matter/</code>。</p>
+<h2 id="内容组织与-section内容区块">内容组织与 section（内容区块）</h2>
+<p><code>content/</code> 目录的层级结构就是站点的内容结构，其中的顶层子目录构成 section（内容区块），每个 section 都可以有首页、自己的模板与页面列表。</p>
+<p>组织内容时有两种特殊的目录形态，合称页面包（page bundle）：</p>
+<ul>
+<li>分支包（branch bundle）：目录中有一个 <code>_index.md</code>，它代表该 section 的首页；目录内可以放置该 section 共享的资源与模板。分支包可以继续包含子目录。</li>
+<li>叶子包（leaf bundle）：目录中有一个 <code>index.md</code>，它代表一个不可再分的页面；目录内的其他文件成为该页面的页面资源（page resources），不会被单独渲染为页面。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── _index.md
+</span></span><span class="line"><span class="cl">├── posts/
+</span></span><span class="line"><span class="cl">│   ├── _index.md
+</span></span><span class="line"><span class="cl">│   ├── first-post/
+</span></span><span class="line"><span class="cl">│   │   ├── index.md
+</span></span><span class="line"><span class="cl">│   │   └── cover.jpg
+</span></span><span class="line"><span class="cl">│   └── second-post.md
+</span></span><span class="line"><span class="cl">└── about/
+</span></span><span class="line"><span class="cl">    └── index.md</span></span></code></pre></div><p>要点：</p>
+<ul>
+<li><code>_index.md</code> 用于分支包（section 首页），<code>index.md</code> 用于叶子包（单个页面）。</li>
+<li>叶子包中的图片、数据文件等与页面一起被当作页面资源处理，便于相对引用。</li>
+<li>内容的 <code>type</code> 与 <code>layout</code> 决定使用哪个模板，目录结构本身也会影响模板查找与列表页的生成。更完整的说明见官方 <code>/content-management/sections/</code> 与 <code>/content-management/page-bundles/</code>。</li>
+</ul>
+<h2 id="页面资源与图像处理">页面资源与图像处理</h2>
+<ul>
+<li>页面资源（page resources）：与叶子包的 <code>index.md</code> 同目录的文件是该页面专属的资源，模板中可通过 <code>.Resources</code>、<code>.Resources.Get</code>、<code>.Resources.GetMatch</code> 等访问。</li>
+<li>全局资源：放在 <code>assets/</code> 目录中的文件通过 <code>resources.Get</code> 等方法获取，可经由资源管道处理后再输出。</li>
+<li>图像处理：对图像资源调用 <code>.Resize</code>、<code>.Fit</code>、<code>.Fill</code>、<code>.Crop</code> 等方法即可得到处理后的图像，用于生成响应式图片；处理行为可在配置的 <code>imaging</code> 区段中调整。</li>
+<li>通过模块挂载（mounts）可以把项目外部的目录映射进 <code>content/</code>、<code>assets/</code> 等位置，从而复用共享资源。</li>
+</ul>
+<p>相关内容见官方 <code>/content-management/page-resources/</code> 与 <code>/content-management/image-processing/</code>。</p>
+<h2 id="markdown-属性与渲染钩子render-hook">Markdown 属性与渲染钩子（render hook）</h2>
+<ul>
+<li>Markdown 属性（Markdown attributes）：在标题、段落、列表、代码块等 Markdown 元素后附加一组属性，渲染为对应的 HTML 属性，官方页面为 <code>/content-management/markdown-attributes/</code>。</li>
+<li>渲染钩子（render hook）：覆盖 Markdown 中链接、图片、标题、代码块、引用块等元素的默认渲染方式。钩子模板放在 <code>layouts/_default/_markup/</code> 目录中，文件名对应元素类型。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">└── _default/
+</span></span><span class="line"><span class="cl">    └── _markup/
+</span></span><span class="line"><span class="cl">        ├── render-link.html
+</span></span><span class="line"><span class="cl">        ├── render-image.html
+</span></span><span class="line"><span class="cl">        ├── render-heading.html
+</span></span><span class="line"><span class="cl">        └── render-codeblock.html</span></span></code></pre></div><p>以链接渲染钩子为例，可以这样配合局部模板（partial）输出链接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Destination</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">safeURL</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Title</span><span class="w"> </span><span class="cp">}}</span> <span class="na">title</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.Text</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></span></span></code></pre></div><p>更多示例见官方 <code>/render-hooks/</code>。</p>
+<h2 id="短代码shortcode">短代码（shortcode）</h2>
+<p>短代码（shortcode）是内容文件中可调用的模板片段，用于在 Markdown 里引入模板逻辑，而不必开启不安全渲染。</p>
+<ul>
+<li>自定义短代码放在 <code>layouts/shortcodes/</code> 目录，文件名即短代码名。</li>
+<li>调用形式有两种：<code>{{&lt; name &gt;}}</code> 与 <code>{{% name %}}</code>；前者不把短代码内部的内容按 Markdown 渲染，后者会。<code>name</code> 处写短代码名，结束处用同样的标记闭合。</li>
+<li>参数可以是位置参数，也可以是 <code>key=&quot;value&quot;</code> 形式的命名参数。</li>
+<li>Hugo 还内置了一批短代码（例如插入图片、代码片段、视频等的短代码），用法与自定义短代码相同。</li>
+</ul>
+<p>例如，一个名为 <code>notice</code> 的短代码可以这样调用：<code>{{&lt; notice type=&quot;info&quot; &gt;}}</code> … <code>{{&lt; /notice &gt;}}</code>。</p>
+<p>对应的短代码模板示例（<code>layouts/shortcodes/notice.html</code>）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;notice notice-</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;type&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">default</span><span class="w"> </span><span class="s">&#34;info&#34;</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.Inner</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span></span></span></code></pre></div><p>完整说明见官方 <code>/shortcodes/</code>。</p>
+<h2 id="分类法taxonomy">分类法（taxonomy）</h2>
+<ul>
+<li>分类法（taxonomy）把内容按术语（term）归类，Hugo 默认启用 <code>tags</code> 与 <code>categories</code> 两种分类法。</li>
+<li>可以在配置中自定义分类法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">taxonomies</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">tag</span> <span class="p">=</span> <span class="s2">&#34;tags&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">category</span> <span class="p">=</span> <span class="s2">&#34;categories&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">author</span> <span class="p">=</span> <span class="s2">&#34;authors&#34;</span></span></span></code></pre></div><ul>
+<li>在 front matter 中用同名键为页面指派术语：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l">我的第一篇内容</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">tags</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">Hugo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">静态站点</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">categories</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">笔记</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span></span></span></code></pre></div><ul>
+<li>模板中可通过 <code>.GetTerms</code>、<code>.Site.Taxonomies</code> 等访问分类数据；每种分类法与每个术语都会生成对应的列表页面。详见官方 <code>/content-management/taxonomies/</code>。</li>
+</ul>
+<h2 id="菜单">菜单</h2>
+<ul>
+<li>站点菜单既可以在 front matter 中声明，也可以在配置文件里定义。</li>
+<li>front matter 中的菜单项：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l">关于</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">menus</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">main</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">20</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">parent</span><span class="p">:</span><span class="w"> </span><span class="l">文档</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span></span></span></code></pre></div><ul>
+<li>配置文件中的菜单项（<code>config/_default/menus.toml</code>，或根配置的 <code>[menus]</code> 区段）：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">menus</span><span class="p">.</span><span class="nx">main</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;首页&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">pageRef</span> <span class="p">=</span> <span class="s2">&#34;/&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">weight</span> <span class="p">=</span> <span class="mi">10</span></span></span></code></pre></div><ul>
+<li>常用的键包括 <code>name</code>、<code>pageRef</code>（指向站内页面）、<code>url</code>（外部或自定义地址）、<code>weight</code>（排序）、<code>parent</code>（父级菜单项）、<code>identifier</code>（供 <code>parent</code> 引用的标识）。</li>
+<li>菜单项的呈现方式、排序与激活状态由菜单模板决定，详见官方 <code>/content-management/menus/</code>。</li>
+</ul>
+<h2 id="摘要summary">摘要（summary）</h2>
+<p>摘要（summary）用于在列表页展示内容梗概，来源有三种：</p>
+<ul>
+<li>front matter 中的 <code>summary</code> 字段；</li>
+<li>正文中的 `</li>
+</ul>
+<p>` 分隔符，其前面的内容作为摘要；</p>
+<ul>
+<li>未提供上述内容时，Hugo 按 <code>summaryLength</code> 自动截取正文开头。</li>
+</ul>
+<p>模板中通过 <code>.Summary</code> 获取摘要，用 <code>.Truncated</code> 判断内容是否被截断。含中日韩文本的站点通常需要启用 <code>hasCJKLanguage</code>，以便按正确的方式统计长度。详见官方 <code>/content-management/summaries/</code>。</p>
+<h2 id="相关内容">相关内容</h2>
+<ul>
+<li>相关内容（related content）依据一组索引字段计算页面之间的相似度，在模板中通过 <code>.Related</code> 或 <code>.Site.RegularPages.Related</code> 等获取结果。</li>
+<li>索引在配置的 <code>related</code> 区段中声明，可以指定参与比较的字段及各自权重：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">related</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">threshold</span> <span class="p">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">includeNewer</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;keywords&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;tags&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;date&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">10</span></span></span></code></pre></div><ul>
+<li>相关内容的呈现方式由模板决定。详见官方 <code>/content-management/related/</code>。</li>
+</ul>
+<h2 id="原型archetype与创建内容">原型（archetype）与创建内容</h2>
+<ul>
+<li>原型（archetype）是创建新内容时使用的模板，默认放在 <code>archetypes/</code> 目录中，<code>default.md</code> 是所有内容类型的兜底原型。</li>
+<li>用 <code>hugo new content</code> 创建内容，命令会依据目标路径确定内容类型，从而选用对应的原型：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 使用默认原型创建一篇内容</span>
+</span></span><span class="line"><span class="cl">hugo new content posts/my-first-post.md
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定内容类型，从对应的原型生成</span>
+</span></span><span class="line"><span class="cl">hugo new content --kind posts posts/my-first-post.md</span></span></code></pre></div><ul>
+<li>原型文件既可以是只有 front matter 的片段，也可以包含正文骨架；其中的字段会成为新内容的初始值。</li>
+<li>原型模板是 Go 模板，可以使用 <code>.Date</code>、<code>.File</code>、<code>.Type</code> 等变量生成初始值，例如：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">title: &#34;新内容&#34;
+</span></span><span class="line"><span class="cl">date: {{ .Date }}
+</span></span><span class="line"><span class="cl">draft: true
+</span></span><span class="line"><span class="cl">---</span></span></code></pre></div><p>完整说明见官方 <code>/content-management/archetypes/</code> 与 <code>/commands/hugo_new_content/</code>。</p>
+<h2 id="其他内容管理主题">其他内容管理主题</h2>
+<p>官方内容管理章节还包含以下主题，路径均为 <code>/content-management/</code> 下的子页面（具体路径可能随文档改版调整）：</p>
+<table>
+	<thead>
+			<tr>
+					<th>主题</th>
+					<th>官方路径</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>内容类型</td>
+					<td><code>/templates/types/</code></td>
+					<td>按 <code>type</code> 组织内容并决定模板</td>
+			</tr>
+			<tr>
+					<td>多语言</td>
+					<td><code>/content-management/multilingual/</code></td>
+					<td>多语言站点与翻译内容</td>
+			</tr>
+			<tr>
+					<td>URL 管理</td>
+					<td><code>/content-management/urls/</code></td>
+					<td>自定义路径、别名与永久链接</td>
+			</tr>
+			<tr>
+					<td>语法高亮</td>
+					<td><code>/content-management/syntax-highlighting/</code></td>
+					<td>代码块高亮</td>
+			</tr>
+			<tr>
+					<td>数学公式</td>
+					<td><code>/content-management/mathematics/</code></td>
+					<td>在内容中排布数学公式</td>
+			</tr>
+			<tr>
+					<td>图表</td>
+					<td><code>/content-management/diagrams/</code></td>
+					<td>用文本描述生成流程图等图表</td>
+			</tr>
+			<tr>
+					<td>Emoji</td>
+					<td><code>/content-management/emojis/</code></td>
+					<td>在内容中插入 Emoji</td>
+			</tr>
+			<tr>
+					<td>评论</td>
+					<td><code>/content-management/comments/</code></td>
+					<td>接入第三方评论服务</td>
+			</tr>
+			<tr>
+					<td>构建选项</td>
+					<td><code>/content-management/build-options/</code></td>
+					<td>控制页面与资源的构建行为</td>
+			</tr>
+	</tbody>
+</table></div>
+  
+  <section class="home-section">
+    <h2>本章内容</h2>
+    <ul class="page-list">
+      
+      <li>
+        <a href="/content-management/content-formats/">内容格式</a>
+        <span class="page-list-desc">Hugo 支持的各类内容格式、外部程序依赖与 markup 配置分节。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/front-matter/">前置元数据</a>
+        <span class="page-list-desc">前置元数据的三种写法、常用字段、自定义参数、级联与日期回退规则。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/page-bundles/">页面包</a>
+        <span class="page-list-desc">分支包与叶子包的目录结构与区别，以及 headless bundle 和多语言命名。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/page-resources/">页面资源</a>
+        <span class="page-list-desc">页面资源的概念、模板访问方法、发布控制，以及图像处理的入口。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/organization/">内容组织</a>
+        <span class="page-list-desc">内容目录如何映射为站点的逻辑树、URL 与 section。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/sections/">内容区块</a>
+        <span class="page-list-desc">用 section 组织内容，控制 URL、列表模板与排序。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/archetypes/">原型</a>
+        <span class="page-list-desc">用 archetype 为新建内容预置前置元数据与正文骨架。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/summaries/">摘要</a>
+        <span class="page-list-desc">摘要的来源、模板用法，以及中文内容的长度统计。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/related-content/">相关内容</a>
+        <span class="page-list-desc">用索引字段计算页面相似度，在模板中输出相关内容列表。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/menus/">菜单</a>
+        <span class="page-list-desc">在配置或前置元数据中定义菜单项，并在模板中遍历与高亮。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/taxonomies/">分类法</a>
+        <span class="page-list-desc">配置分类法与术语，为页面归类并生成分类页面。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/multilingual/">多语言</a>
+        <span class="page-list-desc">按语言组织内容与翻译表，生成多语言站点与语言切换入口。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/urls/">URL 管理</a>
+        <span class="page-list-desc">说明 Hugo 如何推导 URL，并用 slug、url、别名与永久链接定制地址。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/markdown-attributes/">Markdown 属性</a>
+        <span class="page-list-desc">在 Markdown 元素后追加属性块，为标题、段落、图片等设置 HTML 属性。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/syntax-highlighting/">语法高亮</a>
+        <span class="page-list-desc">介绍 Hugo 基于 Chroma 的代码块高亮、常用配置项与自定义样式表。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:30:50&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/image-processing/">图像处理</a>
+        <span class="page-list-desc">介绍图像资源处理方法、成像配置以及响应式图片的生成方式。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/diagrams/">图表</a>
+        <span class="page-list-desc">介绍 Hugo 中绘制图表的几种方案及其渲染时机与取舍。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/mathematics/">数学公式</a>
+        <span class="page-list-desc">介绍在内容中排布数学公式的常见方案、配置与注意事项。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/comments/">评论</a>
+        <span class="page-list-desc">介绍如何通过局部模板在 Hugo 站点中接入第三方评论服务。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/build-options/">构建选项</a>
+        <span class="page-list-desc">介绍页面级 build 选项、无头包、cascade 与站点级构建配置。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/content-adapters/">内容适配器</a>
+        <span class="page-list-desc">用内容适配器在构建站点时根据外部数据动态生成页面。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/content-management/data-sources/">数据源</a>
+        <span class="page-list-desc">用 data 目录与各类资源中的数据增强或生成内容。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+    </ul>
+  </section>
+  
+</article>
+
+    </main>
+    
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

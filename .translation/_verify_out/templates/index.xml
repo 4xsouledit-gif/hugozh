@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>模板 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/templates/</link>
+		<description>Recent content in 模板 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 01 Oct 2026 15:27:52 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/templates/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>404 页面</title>
+				<link>https://example.org/templates/404/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/404/</guid>
+				<description>&lt;h2 id=&#34;自定义-404-页面&#34;&gt;自定义 404 页面&lt;/h2&gt;&#xA;&lt;p&gt;在站点根目录输出一个 404 错误页面，需要在 &lt;code&gt;layouts&lt;/code&gt; 目录的&lt;strong&gt;根&lt;/strong&gt;下创建 404 模板。注意它与普通页面模板的位置不同：单页模板、列表模板都放在子目录中（或者按 Hugo 的模板查找规则层层向上查找），而 404 模板只认 &lt;code&gt;layouts&lt;/code&gt; 根目录，放在别处不会被采用。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>robots.txt</title>
+				<link>https://example.org/templates/robots/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/robots/</guid>
+				<description>&lt;h2 id=&#34;启用-robotstxt-生成&#34;&gt;启用 robots.txt 生成&lt;/h2&gt;&#xA;&lt;p&gt;要让 Hugo 从模板生成 &lt;code&gt;robots.txt&lt;/code&gt;，先修改项目配置：&lt;/p&gt;&#xA;&lt;figure class=&#34;code-block&#34; data-file=&#34;hugo.toml&#34;&gt;&#xA;  &lt;figcaption class=&#34;code-block-file&#34;&gt;hugo.toml&lt;/figcaption&gt;&#xA;  &lt;div class=&#34;highlight&#34; file=&#34;hugo.toml&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;enableRobotsTXT&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xA;&lt;/figure&gt;&lt;p&gt;开启之后，Hugo 会在站点根目录输出 &lt;code&gt;robots.txt&lt;/code&gt;，默认内容来自内建模板，只有一行：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>站点地图</title>
+				<link>https://example.org/templates/sitemap/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/sitemap/</guid>
+				<description>&lt;h2 id=&#34;概览&#34;&gt;概览&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 内建的站点地图模板符合 &lt;a href=&#34;https://www.sitemaps.org/protocol.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;sitemap 协议&lt;/a&gt; v0.9 版。&lt;/p&gt;&#xA;&lt;p&gt;单语言项目中，Hugo 使用内建的 sitemap 模板，在 &lt;code&gt;publishDir&lt;/code&gt; 根目录生成一个 &lt;code&gt;sitemap.xml&lt;/code&gt;。&lt;/p&gt;&#xA;&lt;p&gt;多语言项目则会生成两份内容：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;在每种语言（每个站点）的根目录下，使用内建的 sitemap 模板生成各自语言的 &lt;code&gt;sitemap.xml&lt;/code&gt;；&lt;/li&gt;&#xA;&lt;li&gt;在 &lt;code&gt;publishDir&lt;/code&gt; 根目录下，使用内建的 sitemapindex 模板生成一个索引文件 &lt;code&gt;sitemapindex.xml&lt;/code&gt;，把各语言的地图汇总起来。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;配置&#34;&gt;配置&lt;/h2&gt;&#xA;&lt;p&gt;站点地图的默认行为可在项目配置的 &lt;code&gt;[sitemap]&lt;/code&gt; 小节中调整，可用的键包括：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>RSS 订阅</title>
+				<link>https://example.org/templates/rss/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/rss/</guid>
+				<description>&lt;h2 id=&#34;配置&#34;&gt;配置&lt;/h2&gt;&#xA;&lt;p&gt;默认情况下，构建项目时 Hugo 会为**首页、section、分类法（taxonomy）与分类法条目（term）**页面生成 RSS 订阅源。生成范围由项目配置中的 &lt;code&gt;[outputs]&lt;/code&gt; 决定。例如，只为首页和 section 页面生成，而不为分类法与条目页面生成：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>菜单模板</title>
+				<link>https://example.org/templates/menu/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/menu/</guid>
+				<description>&lt;h2 id=&#34;概览&#34;&gt;概览&lt;/h2&gt;&#xA;&lt;p&gt;先&lt;a href=&#34;https://example.org/content-management/menus/&#34;&gt;定义菜单项&lt;/a&gt;，再用菜单方法渲染菜单。Hugo 在 &lt;code&gt;site.Menus&lt;/code&gt; 上暴露所有菜单，例如 &lt;code&gt;site.Menus.main&lt;/code&gt;、&lt;code&gt;site.Menus.footer&lt;/code&gt;。&lt;/p&gt;&#xA;&lt;p&gt;决定渲染方式的因素有三个：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;菜单项的定义方式：自动生成、写在前置元数据中、写在项目配置中；&lt;/li&gt;&#xA;&lt;li&gt;菜单结构：平铺还是嵌套；&lt;/li&gt;&#xA;&lt;li&gt;菜单项的&lt;a href=&#34;https://example.org/content-management/multilingual/&#34;&gt;本地化方式&lt;/a&gt;：项目配置或翻译表。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;下面的示例把这些组合都考虑在内。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>分页</title>
+				<link>https://example.org/templates/pagination/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/pagination/</guid>
+				<description>&lt;h2 id=&#34;为什么需要分页&#34;&gt;为什么需要分页&lt;/h2&gt;&#xA;&lt;p&gt;在列表页上一次性展示大量页面集合并不友好：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;超长列表令人生畏且难以浏览，访客容易在海量信息中迷失；&lt;/li&gt;&#xA;&lt;li&gt;页面越大加载越慢，可能让人失去耐心而离开站点；&lt;/li&gt;&#xA;&lt;li&gt;没有任何筛选或组织时，找到一个特定条目变成了漫长的滚动。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;对 &lt;code&gt;home&lt;/code&gt;、&lt;code&gt;section&lt;/code&gt;、&lt;code&gt;taxonomy&lt;/code&gt;、&lt;code&gt;term&lt;/code&gt; 这几类列表页进行分页可以改善可用性。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>内建模板</title>
+				<link>https://example.org/templates/embedded/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/embedded/</guid>
+				<description>&lt;h2 id=&#34;内建模板清单&#34;&gt;内建模板清单&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 为常见需求内置了一批模板，无需自己编写即可直接调用。按调用方式可以把它们分为两类。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;内建局部模板&lt;/strong&gt;放在 &lt;code&gt;_internal/&lt;/code&gt; 下，用 &lt;code&gt;partial&lt;/code&gt; 函数调用：&lt;/p&gt;&#xA;&lt;table&gt;&#xA;&#x9;&lt;thead&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;内建模板&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;用途&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/thead&gt;&#xA;&#x9;&lt;tbody&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;code&gt;_internal/disqus.html&lt;/code&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Disqus 评论组件&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;code&gt;_internal/google_analytics.html&lt;/code&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Google Analytics 4&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;code&gt;_internal/opengraph.html&lt;/code&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Open Graph 协议元数据&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;code&gt;_internal/pagination.html&lt;/code&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;pager 之间的分页导航&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;code&gt;_internal/schema.html&lt;/code&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;microdata 结构化数据&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;&lt;code&gt;_internal/twitter_cards.html&lt;/code&gt;&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;X（Twitter）卡片元数据&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;p&gt;&lt;strong&gt;内建的输出模板&lt;/strong&gt;用于生成整份文件，它们同样位于 Hugo 的内建模板命名空间中，例如 RSS 的 &lt;code&gt;_internal/rss.xml&lt;/code&gt;、站点地图的 &lt;code&gt;_internal/sitemap.xml&lt;/code&gt; 与多语言索引的 &lt;code&gt;_internal/sitemapindex.xml&lt;/code&gt;。这类模板不需要在页面模板中调用，Hugo 在生成对应输出格式时自动使用。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>简介</title>
+				<link>https://example.org/templates/introduction/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/introduction/</guid>
+				<description>&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;Hugo 在 v0.146.0 中彻底重写了模板系统。相关文档正在陆续更新，你可以先阅读&lt;a href=&#34;https://example.org/templates/new-templatesystem-overview/&#34;&gt;新版模板系统概览&lt;/a&gt;。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;&lt;h2 id=&#34;模板是什么&#34;&gt;模板是什么&lt;/h2&gt;&#xA;&lt;p&gt;模板用变量、函数与方法把内容、资源与数据转换为发布出去的页面。Hugo 使用 Go 的 &lt;code&gt;text/template&lt;/code&gt; 与 &lt;code&gt;html/template&lt;/code&gt; 包：前者生成文本输出，后者生成对代码注入安全的 HTML 输出。渲染 HTML 文件时，Hugo 默认使用 &lt;code&gt;html/template&lt;/code&gt;。下面这个模板初始化两个变量，并在段落中显示它们的乘积：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>模板查找顺序</title>
+				<link>https://example.org/templates/lookup-order/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/lookup-order/</guid>
+				<description>&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;Hugo 在 v0.146.0 中彻底重写了模板系统。相关文档正在陆续更新，你可以先阅读&lt;a href=&#34;https://example.org/templates/new-templatesystem-overview/&#34;&gt;新版模板系统概览&lt;/a&gt;。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;&lt;h2 id=&#34;查找规则&#34;&gt;查找规则&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 为给定页面选择模板时，会考虑下列参数，并按具体程度给模板排序。这套顺序应当让人感到自然，具体取值差异见后文示例。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>新版模板系统概览</title>
+				<link>https://example.org/templates/new-templatesystem-overview/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/new-templatesystem-overview/</guid>
+				<description>&lt;p&gt;在 &lt;a href=&#34;https://github.com/gohugoio/hugo/releases/tag/v0.146.0&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Hugo v0.146.0&lt;/a&gt; 中，Hugo 完全重新实现了 Go 模板的处理方式，包括 &lt;code&gt;layouts&lt;/code&gt; 目录的结构调整与更强大的模板查找系统。为了尽量保持向后兼容，官方按「旧到新」做了映射，但仍有一些已知的破坏性变化。本文汇总其中最重要的部分。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>局部模板装饰器</title>
+				<link>https://example.org/templates/partial-decorators/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/partial-decorators/</guid>
+				<description>&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;局部模板装饰器是 Hugo v0.154.0 引入的新特性。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;&#xA;&lt;p&gt;局部模板装饰器（partial decorator）把两个文件连接起来：调用方模板提供一段代码，装饰器决定这段代码出现在哪里。这样局部模板就能包住内容，而不必知道被包裹块的标记结构或内部逻辑。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>短代码模板</title>
+				<link>https://example.org/templates/shortcode/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/shortcode/</guid>
+				<description>&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;创建自定义短代码之前，请先阅读&lt;a href=&#34;https://example.org/shortcodes/&#34;&gt;短代码&lt;/a&gt;。理解用法细节有助于设计出更好的模板。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 为许多常见任务提供了内置短代码，但更专门的需求往往需要自己编写。常见的自定义短代码包括音频播放器、视频播放器、图片画廊、图表、地图、表格，以及各种自定义元素。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>内容类型</title>
+				<link>https://example.org/templates/types/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/templates/types/</guid>
+				<description>&lt;h2 id=&#34;模板目录与查找依据&#34;&gt;模板目录与查找依据&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 在站点根目录的 &lt;code&gt;layouts/&lt;/code&gt; 目录中查找模板。虽然多数站点用不到全部模板，但一个中等复杂度的站点通常长这样：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;layouts/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── _markup/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── render-image.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   └── render-link.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── _partials/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── footer.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   └── header.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── _shortcodes/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   └── audio.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── books/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── page.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   └── section.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── baseof.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── home.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── page.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── section.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── taxonomy.html&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── term.html&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;具体用哪个模板由查找顺序（lookup order）决定，判定时综合模板类型（template type）、页面种类（page kind）、内容类型（content type）、section（内容区块）、语言与输出格式。要为某类页面写出可预期的模板，就必须先理解这套顺序。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

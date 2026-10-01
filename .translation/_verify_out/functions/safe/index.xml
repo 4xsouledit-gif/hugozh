@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>安全函数 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/functions/safe/</link>
+		<description>Recent content in 安全函数 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 02 Oct 2026 00:00:00 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/functions/safe/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>safe.CSS</title>
+				<link>https://example.org/functions/safe/css/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/safe/css/</guid>
+				<description>&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 使用 Go 的 &lt;a href=&#34;https://pkg.go.dev/text/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;text/template&lt;/code&gt;&lt;/a&gt; 与 &lt;a href=&#34;https://pkg.go.dev/html/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;html/template&lt;/code&gt;&lt;/a&gt; 包。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;text/template&lt;/code&gt; 包实现数据驱动的模板，用于生成文本输出；&lt;code&gt;html/template&lt;/code&gt; 包实现数据驱动的模板，用于生成可抵御代码注入的 HTML 输出。&lt;/p&gt;&#xA;&lt;p&gt;默认情况下，Hugo 在渲染 HTML 文件时使用 &lt;code&gt;html/template&lt;/code&gt; 包。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>safe.HTML</title>
+				<link>https://example.org/functions/safe/html/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/safe/html/</guid>
+				<description>&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 使用 Go 的 &lt;a href=&#34;https://pkg.go.dev/text/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;text/template&lt;/code&gt;&lt;/a&gt; 与 &lt;a href=&#34;https://pkg.go.dev/html/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;html/template&lt;/code&gt;&lt;/a&gt; 包。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;text/template&lt;/code&gt; 包实现数据驱动的模板，用于生成文本输出；&lt;code&gt;html/template&lt;/code&gt; 包实现数据驱动的模板，用于生成可抵御代码注入的 HTML 输出。&lt;/p&gt;&#xA;&lt;p&gt;默认情况下，Hugo 在渲染 HTML 文件时使用 &lt;code&gt;html/template&lt;/code&gt; 包。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>safe.HTMLAttr</title>
+				<link>https://example.org/functions/safe/htmlattr/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/safe/htmlattr/</guid>
+				<description>&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 使用 Go 的 &lt;a href=&#34;https://pkg.go.dev/text/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;text/template&lt;/code&gt;&lt;/a&gt; 与 &lt;a href=&#34;https://pkg.go.dev/html/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;html/template&lt;/code&gt;&lt;/a&gt; 包。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;text/template&lt;/code&gt; 包实现数据驱动的模板，用于生成文本输出；&lt;code&gt;html/template&lt;/code&gt; 包实现数据驱动的模板，用于生成可抵御代码注入的 HTML 输出。&lt;/p&gt;&#xA;&lt;p&gt;默认情况下，Hugo 在渲染 HTML 文件时使用 &lt;code&gt;html/template&lt;/code&gt; 包。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>safe.JS</title>
+				<link>https://example.org/functions/safe/js/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/safe/js/</guid>
+				<description>&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 使用 Go 的 &lt;a href=&#34;https://pkg.go.dev/text/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;text/template&lt;/code&gt;&lt;/a&gt; 与 &lt;a href=&#34;https://pkg.go.dev/html/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;html/template&lt;/code&gt;&lt;/a&gt; 包。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;text/template&lt;/code&gt; 包实现数据驱动的模板，用于生成文本输出；&lt;code&gt;html/template&lt;/code&gt; 包实现数据驱动的模板，用于生成可抵御代码注入的 HTML 输出。&lt;/p&gt;&#xA;&lt;p&gt;默认情况下，Hugo 在渲染 HTML 文件时使用 &lt;code&gt;html/template&lt;/code&gt; 包。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>safe.JSStr</title>
+				<link>https://example.org/functions/safe/jsstr/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/safe/jsstr/</guid>
+				<description>&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 使用 Go 的 &lt;a href=&#34;https://pkg.go.dev/text/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;text/template&lt;/code&gt;&lt;/a&gt; 与 &lt;a href=&#34;https://pkg.go.dev/html/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;html/template&lt;/code&gt;&lt;/a&gt; 包。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;text/template&lt;/code&gt; 包实现数据驱动的模板，用于生成文本输出；&lt;code&gt;html/template&lt;/code&gt; 包实现数据驱动的模板，用于生成可抵御代码注入的 HTML 输出。&lt;/p&gt;&#xA;&lt;p&gt;默认情况下，Hugo 在渲染 HTML 文件时使用 &lt;code&gt;html/template&lt;/code&gt; 包。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>safe.URL</title>
+				<link>https://example.org/functions/safe/url/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/safe/url/</guid>
+				<description>&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 使用 Go 的 &lt;a href=&#34;https://pkg.go.dev/text/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;text/template&lt;/code&gt;&lt;/a&gt; 与 &lt;a href=&#34;https://pkg.go.dev/html/template&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;html/template&lt;/code&gt;&lt;/a&gt; 包。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;text/template&lt;/code&gt; 包实现数据驱动的模板，用于生成文本输出；&lt;code&gt;html/template&lt;/code&gt; 包实现数据驱动的模板，用于生成可抵御代码注入的 HTML 输出。&lt;/p&gt;&#xA;&lt;p&gt;默认情况下，Hugo 在渲染 HTML 文件时使用 &lt;code&gt;html/template&lt;/code&gt; 包。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

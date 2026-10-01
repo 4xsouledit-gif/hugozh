@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>全局函数 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/functions/global/</link>
+		<description>Recent content in 全局函数 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 02 Oct 2026 00:11:37 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/functions/global/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>page</title>
+				<link>https://example.org/functions/global/page/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/global/page/</guid>
+				<description>&lt;h2 id=&#34;用法&#34;&gt;用法&lt;/h2&gt;&#xA;&lt;p&gt;在上下文接收 &lt;code&gt;Page&lt;/code&gt; 对象的模板顶层，以下写法等价：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Params.foo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Page.Params.foo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Params.foo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当上下文里没有 &lt;code&gt;Page&lt;/code&gt; 对象时，可以使用全局 &lt;code&gt;page&lt;/code&gt; 函数：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Params.foo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;不要在短代码（shortcode）、由短代码调用的&lt;em&gt;局部模板&lt;/em&gt;（partial），以及被缓存的&lt;em&gt;局部模板&lt;/em&gt;中使用全局 &lt;code&gt;page&lt;/code&gt; 函数。参见下文&lt;a href=&#34;#%e7%a4%ba%e4%be%8b&#34;&gt;示例&lt;/a&gt;。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;&lt;p&gt;Hugo 几乎总是将 &lt;code&gt;Page&lt;/code&gt; 作为数据上下文传给顶层模板（例如 &lt;code&gt;baseof.html&lt;/code&gt;）。唯一的例外是多主机（multihost）的 sitemap 模板。这意味着你可以在模板中用 &lt;code&gt;.&lt;/code&gt; 访问当前页面。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>site</title>
+				<link>https://example.org/functions/global/site/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/global/site/</guid>
+				<description>&lt;p&gt;用 &lt;code&gt;site&lt;/code&gt; 函数可以不受当前上下文影响地返回 &lt;code&gt;Site&lt;/code&gt; 对象。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;site&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Params.foo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当上下文里有 &lt;code&gt;Site&lt;/code&gt; 对象时，你可以使用 &lt;code&gt;Site&lt;/code&gt; 属性：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- current context --&amp;gt;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Site.Params.foo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- template context --&amp;gt;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;na&#34;&gt;$.Site.Params.foo&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;为了简化模板，无论上下文里有没有 &lt;code&gt;Site&lt;/code&gt; 对象，都请使用全局 &lt;code&gt;site&lt;/code&gt; 函数。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;</description>
+			</item>
+	</channel>
+</rss>

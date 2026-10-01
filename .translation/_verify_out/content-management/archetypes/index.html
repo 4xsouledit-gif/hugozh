@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>原型 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用 archetype 为新建内容预置前置元数据与正文骨架。">
+  <link rel="canonical" href="https://example.org/content-management/archetypes/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="原型 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用 archetype 为新建内容预置前置元数据与正文骨架。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/content-management/archetypes/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用 archetype 为新建内容预置前置元数据与正文骨架。","headline":"原型","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"原型","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/content-management/archetypes/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/content-management/">内容管理</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/content-management/content-formats/">内容格式</a>
+        </li>
+        <li>
+          <a href="/content-management/front-matter/">前置元数据</a>
+        </li>
+        <li>
+          <a href="/content-management/page-bundles/">页面包</a>
+        </li>
+        <li>
+          <a href="/content-management/page-resources/">页面资源</a>
+        </li>
+        <li>
+          <a href="/content-management/organization/">内容组织</a>
+        </li>
+        <li>
+          <a href="/content-management/sections/">内容区块</a>
+        </li>
+        <li>
+          <a href="/content-management/archetypes/" class="is-active" aria-current="page">原型</a>
+        </li>
+        <li>
+          <a href="/content-management/summaries/">摘要</a>
+        </li>
+        <li>
+          <a href="/content-management/related-content/">相关内容</a>
+        </li>
+        <li>
+          <a href="/content-management/menus/">菜单</a>
+        </li>
+        <li>
+          <a href="/content-management/taxonomies/">分类法</a>
+        </li>
+        <li>
+          <a href="/content-management/multilingual/">多语言</a>
+        </li>
+        <li>
+          <a href="/content-management/urls/">URL 管理</a>
+        </li>
+        <li>
+          <a href="/content-management/markdown-attributes/">Markdown 属性</a>
+        </li>
+        <li>
+          <a href="/content-management/syntax-highlighting/">语法高亮</a>
+        </li>
+        <li>
+          <a href="/content-management/image-processing/">图像处理</a>
+        </li>
+        <li>
+          <a href="/content-management/diagrams/">图表</a>
+        </li>
+        <li>
+          <a href="/content-management/mathematics/">数学公式</a>
+        </li>
+        <li>
+          <a href="/content-management/comments/">评论</a>
+        </li>
+        <li>
+          <a href="/content-management/build-options/">构建选项</a>
+        </li>
+        <li>
+          <a href="/content-management/content-adapters/">内容适配器</a>
+        </li>
+        <li>
+          <a href="/content-management/data-sources/">数据源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/content-management/">内容管理</a></p>
+    <h1>原型</h1>
+    <p class="doc-description">用 archetype 为新建内容预置前置元数据与正文骨架。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="原型是什么">原型是什么</h2>
+<p>一份内容文件由前置元数据（front matter）与正文标记组成，正文通常是 Markdown，也可以是 Hugo 支持的其他内容格式；前置元数据可以是 TOML、YAML 或 JSON。原型（archetype）是创建新内容时使用的模板，<code>hugo new content</code> 命令会以某个原型为依据，在 <code>content</code> 目录下生成新文件。Hugo 内置的默认原型相当于：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;{{ replace .File.ContentBaseName `-` ` ` | title }}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">date</span> <span class="p">=</span> <span class="s1">&#39;{{ .Date }}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">draft</span> <span class="p">=</span> <span class="kc">true</span></span></span></code></pre></div><p>执行命令时，Hugo 会对原型中的模板动作求值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new content posts/my-first-post.md</span></span></code></pre></div><p>用上面的默认原型，得到的新文件大致是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;My First Post&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">date</span> <span class="p">=</span> <span class="s1">&#39;2023-08-24T11:49:46-07:00&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">draft</span> <span class="p">=</span> <span class="kc">true</span></span></span></code></pre></div><p>可以为一种或多种内容类型分别建立原型，例如文章使用专属原型，其余内容仍走默认原型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">archetypes/
+</span></span><span class="line"><span class="cl">├── default.md
+</span></span><span class="line"><span class="cl">└── posts.md</span></span></code></pre></div><h2 id="查找顺序">查找顺序</h2>
+<p>原型在站点根目录的 <code>archetypes/</code> 目录中查找，找不到时回退到主题或已安装模块的 <code>archetypes/</code> 目录。针对具体内容类型的原型优先于默认原型。假设启用了名为 <code>my-theme</code> 的主题，执行 <code>hugo new content posts/my-first-post.md</code> 时的查找顺序为：</p>
+<ol>
+<li><code>archetypes/posts.md</code></li>
+<li><code>themes/my-theme/archetypes/posts.md</code></li>
+<li><code>archetypes/default.md</code></li>
+<li><code>themes/my-theme/archetypes/default.md</code></li>
+</ol>
+<p>若这些文件都不存在，Hugo 使用内置的默认原型。</p>
+<h2 id="可用的函数与上下文">可用的函数与上下文</h2>
+<p>原型中可以使用任意模板函数，例如内置默认原型用字符串替换把文件名里的连字符换成空格。原型可访问的上下文包括：</p>
+<ul>
+<li><code>.Date</code>：当前日期时间，按 RFC3339 格式化。</li>
+<li><code>.File</code>：当前页面的文件信息。</li>
+<li><code>.Type</code>：由顶层目录名推断出的内容类型，或由 <code>hugo new content</code> 的 <code>--kind</code> 标志指定的类型。</li>
+<li><code>.Site</code>：当前站点对象。</li>
+</ul>
+<p>要写入其他格式的日期时间，用 <code>time.Now</code> 自行格式化：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;{{ replace .File.ContentBaseName `-` ` ` | title }}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">date</span> <span class="p">=</span> <span class="s1">&#39;{{ time.Now.Format &#34;2006-01-02&#34; }}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">draft</span> <span class="p">=</span> <span class="kc">true</span></span></span></code></pre></div><h2 id="用原型预置正文">用原型预置正文</h2>
+<p>原型通常用于预置前置元数据，但也可以用来预置正文。例如文档站点中的函数页面都遵循「简述、签名、示例、备注」的固定结构，就可以把这一骨架写进原型，提醒作者按格式补齐：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ .Date }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{ replace .File.ContentBaseName `-` ` ` | title }}&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">用第三人称单数、一般现在时简述该函数的作用。例如：
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="sb">`someFunction`</span> 返回把字符串 <span class="sb">`s`</span> 重复 <span class="sb">`n`</span> 次的结果。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gu">## Signature
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s">```text
+</span></span></span><span class="line"><span class="cl">func someFunction(s string, n int) string
+</span></span><span class="line"><span class="cl"><span class="s">```</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gu">## Examples
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">一个或多个可运行的示例，每例放在独立的围栏代码块中。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gu">## Notes
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">需要时补充的说明。</span></span></code></pre></div><p>正文里同样可以写模板动作，但要记住：它们只在创建内容的那一刻求值一次。多数情况下，把模板动作放进构建时求值的模板更合适。</p>
+<h2 id="叶子包原型">叶子包原型</h2>
+<p>也可以为叶子包（leaf bundle）建立原型。例如摄影站点的每个画廊都是一个包含正文与图片的叶子包，先为它建立原型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">archetypes/
+</span></span><span class="line"><span class="cl">├── galleries/
+</span></span><span class="line"><span class="cl">│   ├── images/
+</span></span><span class="line"><span class="cl">│   │   └── .gitkeep
+</span></span><span class="line"><span class="cl">│   └── index.md
+</span></span><span class="line"><span class="cl">└── default.md</span></span></code></pre></div><p>原型中的子目录必须至少包含一个文件，否则创建内容时 Hugo 不会创建该子目录；文件的名字与大小无关，上面的 <code>.gitkeep</code> 就是一个用来占位的空文件。随后创建画廊：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new galleries/bryce-canyon</span></span></code></pre></div><p>得到的结果是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── galleries/
+</span></span><span class="line"><span class="cl">│   └── bryce-canyon/
+</span></span><span class="line"><span class="cl">│       ├── images/
+</span></span><span class="line"><span class="cl">│       │   └── .gitkeep
+</span></span><span class="line"><span class="cl">│       └── index.md
+</span></span><span class="line"><span class="cl">└── _index.md</span></span></code></pre></div><h2 id="指定原型">指定原型</h2>
+<p>用 <code>--kind</code> 命令行标志可以在创建内容时显式指定原型。假设站点有 articles 与 tutorials 两个 section，并各有一个同名原型，则：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new content articles/something.md
+</span></span><span class="line"><span class="cl">hugo new content --kind tutorials articles/something.md</span></span></code></pre></div><p>第一条命令使用 <code>archetypes/articles.md</code>，第二条虽然目标仍在 articles 目录下，却使用 <code>archetypes/tutorials.md</code>——内容的位置与所用的原型由此解耦。</p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="/getting-started/quick-start/">快速开始</a></li>
+<li><a href="/getting-started/basic-usage/">基本用法</a></li>
+<li><a href="/content-management/front-matter/">前置元数据</a></li>
+<li><a href="/templates/types/">内容类型</a></li>
+<li><a href="/content-management/page-bundles/">页面包</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/content-management/archetypes/" target="_blank" rel="noopener">https://gohugo.io/content-management/archetypes/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/content-management/sections/">← 上一篇：内容区块</a>
+    <a class="pager-next" href="/content-management/summaries/">下一篇：摘要 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#原型是什么">原型是什么</a></li>
+    <li><a href="#查找顺序">查找顺序</a></li>
+    <li><a href="#可用的函数与上下文">可用的函数与上下文</a></li>
+    <li><a href="#用原型预置正文">用原型预置正文</a></li>
+    <li><a href="#叶子包原型">叶子包原型</a></li>
+    <li><a href="#指定原型">指定原型</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

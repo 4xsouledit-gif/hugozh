@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>部署到 SourceHut Pages · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用手工上传或 SourceHut 构建系统发布 Hugo 站点。">
+  <link rel="canonical" href="https://example.org/host-and-deploy/host-on-sourcehut-pages/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="部署到 SourceHut Pages · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用手工上传或 SourceHut 构建系统发布 Hugo 站点。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/host-and-deploy/host-on-sourcehut-pages/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用手工上传或 SourceHut 构建系统发布 Hugo 站点。","headline":"部署到 SourceHut Pages","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"部署到 SourceHut Pages","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/host-and-deploy/host-on-sourcehut-pages/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/host-and-deploy/">托管与部署</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/host-and-deploy/deploy-with-hugo-deploy/">用 hugo deploy 部署</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/deploy-with-rclone/">用 rclone 部署</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/deploy-with-rsync/">用 rsync 部署</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-aws-amplify/">部署到 AWS Amplify</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-azure-static-web-apps/">部署到 Azure Static Web Apps</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-cloudflare/">部署到 Cloudflare Pages</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-codeberg-pages/">部署到 Codeberg Pages</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-firebase/">部署到 Firebase</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-github-pages/">部署到 GitHub Pages</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-gitlab-pages/">部署到 GitLab Pages</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-netlify/">部署到 Netlify</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-render/">部署到 Render</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-sourcehut-pages/" class="is-active" aria-current="page">部署到 SourceHut Pages</a>
+        </li>
+        <li>
+          <a href="/host-and-deploy/host-on-vercel/">部署到 Vercel</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/host-and-deploy/">托管与部署</a></p>
+    <h1>部署到 SourceHut Pages</h1>
+    <p class="doc-description">用手工上传或 SourceHut 构建系统发布 Hugo 站点。</p>
+  </header>
+  
+  <div class="doc-body"><p>下面的步骤说明如何把站点发布到 SourceHut Pages，可以手工部署，也可以交给 SourceHut 构建系统自动完成。</p>
+<blockquote><p><strong>提示</strong>
+不要把构建输出目录 <code>public</code> 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。</p>
+</blockquote><h2 id="前置条件">前置条件</h2>
+<ul>
+<li>熟悉 <a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a> 或 <a href="https://www.mercurial-scm.org/" target="_blank" rel="noopener">Mercurial</a> 版本控制</li>
+<li>已读完 Hugo 的<a href="/getting-started/quick-start/">快速入门</a></li>
+<li>拥有 <a href="https://meta.sr.ht/login" target="_blank" rel="noopener">SourceHut 账号</a></li>
+<li>本地有一份准备发布的 Hugo 站点</li>
+</ul>
+<p>下文出现的 <code>&lt;YourUsername&gt;</code> 都指你实际的 SourceHut 用户名，使用时需要替换成真实值。</p>
+<h2 id="baseurl-注意事项">baseURL 注意事项</h2>
+<p>如果你使用 SourceHut Pages 提供的默认地址（例如 <code>https://&lt;YourUsername&gt;.srht.site/</code>），项目配置中的 <code>baseURL</code> 必须写成该完整 URL。若想改用其他域名，请查阅官方文档的<a href="https://srht.site/custom-domains" target="_blank" rel="noopener">自定义域名</a>部分。</p>
+<h2 id="手工部署">手工部署</h2>
+<p>这种方式不需要付费账号。开始前需要创建一个 <a href="https://meta.sr.ht/oauth2/personal-token" target="_blank" rel="noopener">SourceHut 个人访问令牌</a>，并安装、配置 <a href="https://sr.ht/~xenrox/hut/" target="_blank" rel="noopener">hut</a> 命令行工具。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo build
+</span></span><span class="line"><span class="cl">tar -C public -cvz . &gt; site.tar.gz
+</span></span><span class="line"><span class="cl">hut init
+</span></span><span class="line"><span class="cl">hut pages publish -d &lt;YourUsername&gt;.srht.site site.tar.gz</span></span></code></pre></div><p>命令先构建站点，把 <code>public</code> 目录打包成 <code>site.tar.gz</code>，再通过 <code>hut pages publish</code> 上传到指定域名。SourceHut 会自动为你申请 TLS 证书，站点随后可通过 <code>https://&lt;YourUsername&gt;.srht.site/</code>（或你提供的自定义域名）访问。</p>
+<h2 id="自动部署">自动部署</h2>
+<p>这种方式需要付费账号，并依赖 SourceHut 构建系统。</p>
+<p>首先在项目根目录创建 <code>.build.yml</code>，定义<a href="https://man.sr.ht/builds.sr.ht/#build-manifests" target="_blank" rel="noopener">构建清单</a>。下面是一个最简模板：</p>
+<figure class="code-block" data-file=".build.yml">
+  <figcaption class="code-block-file">.build.yml</figcaption>
+  <div class="highlight" file=".build.yml"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">alpine/edge</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">packages</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">hugo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">hut</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">oauth</span><span class="p">:</span><span class="w"> </span><span class="l">pages.sr.ht/PAGES:RW</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">site</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;YourUsername&gt;.srht.site</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">tasks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl">- <span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    cd $site
+</span></span></span><span class="line"><span class="cl"><span class="sd">    hugo build
+</span></span></span><span class="line"><span class="cl"><span class="sd">    tar -C public -cvz . &gt; ../site.tar.gz</span><span class="w">
+</span></span></span><span class="line"><span class="cl">- <span class="nt">upload</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    hut pages publish -d $site site.tar.gz</span></span></span></code></pre></div>
+</figure><p><code>oauth: pages.sr.ht/PAGES:RW</code> 授予构建任务发布页面的权限，<code>environment.site</code> 指定目标域名，<code>package</code> 任务构建并打包，<code>upload</code> 任务负责发布。</p>
+<p>如果站点需要用 <a href="https://gohugo.io/functions/css/sass/#dart-sass" target="_blank" rel="noopener">Dart Sass</a> 把 Sass 编译成 CSS，请把 <code>DART_SASS_VERSION</code> 设为<a href="https://github.com/sass/dart-sass/releases" target="_blank" rel="noopener">最新版本号</a>，并在执行 Hugo 构建之前加入 Dart Sass 的安装步骤。注意 Alpine 系统要使用 <code>linux-x64-musl</code> 版本。</p>
+<figure class="code-block" data-file=".build.yml">
+  <figcaption class="code-block-file">.build.yml</figcaption>
+  <div class="highlight" file=".build.yml"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">alpine/edge</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">packages</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">hugo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">hut</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">curl</span><span class="w"> </span><span class="c"># For Dart Sass installation</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">oauth</span><span class="p">:</span><span class="w"> </span><span class="l">pages.sr.ht/PAGES:RW</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">site</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;YourUsername&gt;.srht.site</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">tasks</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl">- <span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    DART_SASS_VERSION=1.105.0
+</span></span></span><span class="line"><span class="cl"><span class="sd">    mkdir -p $HOME/.local
+</span></span></span><span class="line"><span class="cl"><span class="sd">    curl -L https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64-musl.tar.gz -o dart-sass.tar.gz
+</span></span></span><span class="line"><span class="cl"><span class="sd">    tar -xzf dart-sass.tar.gz -C $HOME/.local
+</span></span></span><span class="line"><span class="cl"><span class="sd">    rm dart-sass.tar.gz
+</span></span></span><span class="line"><span class="cl"><span class="sd">    chmod -R +x $HOME/.local/dart-sass/src
+</span></span></span><span class="line"><span class="cl"><span class="sd">    export PATH=&#34;$HOME/.local/dart-sass:$PATH&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">    sass --version # Verify installation
+</span></span></span><span class="line"><span class="cl"><span class="sd">    cd $site
+</span></span></span><span class="line"><span class="cl"><span class="sd">    hugo build
+</span></span></span><span class="line"><span class="cl"><span class="sd">    tar -C public -cvz . &gt; ../site.tar.gz</span><span class="w">
+</span></span></span><span class="line"><span class="cl">- <span class="nt">upload</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    hut pages publish -d $site site.tar.gz</span></span></span></code></pre></div>
+</figure><p>创建一个名为 <code>&lt;YourUsername&gt;.srht.site</code>（或在适用时使用你的自定义域名）的仓库，并把本地项目推送到该仓库。随后可以在 <code>https://builds.sr.ht/</code> 查看页面的构建进度。</p>
+<p>构建通过后，SourceHut 会自动为你申请 TLS 证书，站点可通过 <code>https://&lt;YourUsername&gt;.srht.site/</code>（或你提供的自定义域名）访问。</p>
+<h2 id="后续配置">后续配置</h2>
+<p><strong>自定义域名</strong>：在 SourceHut Pages 中绑定自定义域名后，仓库名与构建清单里的 <code>site</code> 都要改成该域名，配置中的 <code>baseURL</code> 也要同步更新；证书仍由 SourceHut 自动签发。</p>
+<p><strong>重定向与子路径</strong>：站点资源引用建议使用 Hugo 生成的相对地址；页面级跳转可使用 Hugo 的 aliases。</p>
+<h2 id="相关资源">相关资源</h2>
+<ul>
+<li><a href="https://man.sr.ht/pages.sr.ht/" target="_blank" rel="noopener">SourceHut Pages 通用文档</a></li>
+<li><a href="https://man.sr.ht/pages.sr.ht/custom-domains.md" target="_blank" rel="noopener">自定义域名设置</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/host-and-deploy/host-on-sourcehut-pages/" target="_blank" rel="noopener">https://gohugo.io/host-and-deploy/host-on-sourcehut-pages/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/host-and-deploy/host-on-render/">← 上一篇：部署到 Render</a>
+    <a class="pager-next" href="/host-and-deploy/host-on-vercel/">下一篇：部署到 Vercel →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前置条件">前置条件</a></li>
+    <li><a href="#baseurl-注意事项">baseURL 注意事项</a></li>
+    <li><a href="#手工部署">手工部署</a></li>
+    <li><a href="#自动部署">自动部署</a></li>
+    <li><a href="#后续配置">后续配置</a></li>
+    <li><a href="#相关资源">相关资源</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

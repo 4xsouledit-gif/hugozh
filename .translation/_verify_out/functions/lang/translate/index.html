@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>lang.Translate · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="使用 i18n 目录中的翻译表返回翻译后的字符串。">
+  <link rel="canonical" href="https://example.org/functions/lang/translate/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="lang.Translate · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="使用 i18n 目录中的翻译表返回翻译后的字符串。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/lang/translate/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"使用 i18n 目录中的翻译表返回翻译后的字符串。","headline":"lang.Translate","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"lang.Translate","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/lang/translate/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/lang/">lang</a></p>
+    <h1>lang.Translate</h1>
+    <p class="doc-description">使用 i18n 目录中的翻译表返回翻译后的字符串。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">lang.Translate KEY [CONTEXT]</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>string</code></dd>
+  <dt>别名</dt>
+  <dd><code>T</code>、<code>i18n</code></dd>
+</dl>
+  <div class="doc-body"><p><code>lang.Translate</code> 函数返回与给定键关联的值：先搜索当前语言的<a href="#%e7%bf%bb%e8%af%91%e8%a1%a8">翻译表</a>，再搜索 <a href="/configuration/all/#defaultcontentlanguage"><code>defaultContentLanguage</code></a> 对应的翻译表。</p>
+<p>若未找到，该函数返回空字符串。</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>要列出缺失的译文与回退使用的译文，请在项目配置中把 <a href="/configuration/all/#printi18nwarnings"><code>printI18nWarnings</code></a> 设为 <code>true</code>，或在构建项目时使用 <code>--printI18nWarnings</code> 命令行参数。</p>
+<p>要为缺失的译文与回退使用的译文渲染占位符，请在项目配置中把 <a href="/configuration/all/#enablemissingtranslationplaceholders"><code>enableMissingTranslationPlaceholders</code></a> 设为 <code>true</code>。</p></div>
+</aside><h2 id="翻译表">翻译表</h2>
+<p><a href="/quick-reference/glossary/translation-table/">翻译表（translation table）</a></p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">i18n/en.toml
+</span></span><span class="line"><span class="cl">i18n/pt-BR.toml</span></span></code></pre></div><p>Hugo 按以下基本名称（base name）依次查找匹配的翻译表：</p>
+<ol>
+<li>当前语言的 <a href="/configuration/all/#locale"><code>locale</code></a></li>
+<li>当前语言的 <a href="/configuration/languages/#%e8%af%ad%e8%a8%80%e9%94%ae">key</a></li>
+<li><a href="/configuration/all/#defaultcontentlanguage"><code>defaultContentLanguage</code></a> 的 locale</li>
+<li><a href="/configuration/all/#defaultcontentlanguage"><code>defaultContentLanguage</code></a> 的 key</li>
+</ol>
+<p>也支持 <a href="https://datatracker.ietf.org/doc/html/rfc5646#section-2.2.7" target="_blank" rel="noopener">RFC 5646 § 2.2.7</a> 中定义的、带私有子标签（private use subtag）的人造语言。为简洁起见，可以省略 <code>art-x-</code> 前缀。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">i18n/art-x-hugolang.toml
+</span></span><span class="line"><span class="cl">i18n/hugolang.toml</span></span></code></pre></div><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>私有子标签不得超过 8 个字母数字字符。</p></div>
+</aside><h2 id="简单翻译">简单翻译</h2>
+<p>假设你的多语言项目支持两种语言：英语和波兰语。请在 <code>i18n</code> 目录中为每种语言创建一个翻译表。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">i18n/
+</span></span><span class="line"><span class="cl">├── en.toml
+</span></span><span class="line"><span class="cl">└── pl.toml</span></span></code></pre></div><p>英语翻译表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">privacy</span> <span class="p">=</span> <span class="s1">&#39;privacy&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">security</span> <span class="p">=</span> <span class="s1">&#39;security&#39;</span></span></span></code></pre></div><p>波兰语翻译表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">privacy</span> <span class="p">=</span> <span class="s1">&#39;prywatność&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">security</span> <span class="p">=</span> <span class="s1">&#39;bezpieczeństwo&#39;</span></span></span></code></pre></div><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>下例为简洁起见使用 <code>T</code> 这个别名。</p></div>
+</aside><p>查看英语站点时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;privacy&#34;</span><span class="w"> </span><span class="cp">}}</span> → privacy
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;security&#34;</span><span class="w"> </span><span class="cp">}}</span> → security</span></span></code></pre></div><p>查看波兰语站点时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;privacy&#34;</span><span class="w"> </span><span class="cp">}}</span> → prywatność
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;security&#34;</span><span class="w"> </span><span class="cp">}}</span> → bezpieczeństwo</span></span></code></pre></div><h2 id="带复数形式的翻译">带复数形式的翻译</h2>
+<p>假设你的多语言项目支持两种语言：英语和波兰语。请在 <code>i18n</code> 目录中为每种语言创建一个翻译表。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">i18n/
+</span></span><span class="line"><span class="cl">├── en.toml
+</span></span><span class="line"><span class="cl">└── pl.toml</span></span></code></pre></div><p>Unicode 的 <a href="https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html" target="_blank" rel="noopener">CLDR 复数规则表</a> 描述了各语言的复数类别。</p>
+<p>英语翻译表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">day</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">one</span> <span class="p">=</span> <span class="s1">&#39;day&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">other</span> <span class="p">=</span> <span class="s1">&#39;days&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">day_with_count</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">one</span> <span class="p">=</span> <span class="s1">&#39;{{ . }} day&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">other</span> <span class="p">=</span> <span class="s1">&#39;{{ . }} days&#39;</span></span></span></code></pre></div><p>波兰语翻译表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">day</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">one</span> <span class="p">=</span> <span class="s1">&#39;miesiąc&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">few</span> <span class="p">=</span> <span class="s1">&#39;miesiące&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">many</span> <span class="p">=</span> <span class="s1">&#39;miesięcy&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">other</span> <span class="p">=</span> <span class="s1">&#39;miesiąca&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">day_with_count</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">one</span> <span class="p">=</span> <span class="s1">&#39;{{ . }} miesiąc&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">few</span> <span class="p">=</span> <span class="s1">&#39;{{ . }} miesiące&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">many</span> <span class="p">=</span> <span class="s1">&#39;{{ . }} miesięcy&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">other</span> <span class="p">=</span> <span class="s1">&#39;{{ . }} miesiąca&#39;</span></span></span></code></pre></div><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>下例为简洁起见使用 <code>T</code> 这个别名。</p></div>
+</aside><p>查看英语站点时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">0</span><span class="w"> </span><span class="cp">}}</span> → days
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="cp">}}</span> → day
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="cp">}}</span> → days
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="cp">}}</span> → days
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">0</span><span class="w"> </span><span class="cp">}}</span> → 0 days
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="cp">}}</span> → 1 day
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="cp">}}</span> → 2 days
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="cp">}}</span> → 5 days</span></span></code></pre></div><p>查看波兰语站点时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">0</span><span class="w"> </span><span class="cp">}}</span> → miesięcy
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="cp">}}</span> → miesiąc
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="cp">}}</span> → miesiące
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day&#34;</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="cp">}}</span> → miesięcy
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">0</span><span class="w"> </span><span class="cp">}}</span> → 0 miesięcy
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="cp">}}</span> → 1 miesiąc
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="cp">}}</span> → 2 miesiące
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;day_with_count&#34;</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="cp">}}</span> → 5 miesięcy</span></span></code></pre></div><p>在上面的复数示例中，我们在上下文中传入了一个整数（第二个参数）。你也可以在上下文中传入一个 map，并提供 <code>count</code> 键来控制复数形式。</p>
+<p>翻译表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">age</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">one</span> <span class="p">=</span> <span class="s1">&#39;{{ .name }} is {{ .count }} year old.&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">other</span> <span class="p">=</span> <span class="s1">&#39;{{ .name }} is {{ .count }} years old.&#39;</span></span></span></code></pre></div><p>模板代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;age&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;name&#34;</span><span class="w"> </span><span class="s">&#34;Will&#34;</span><span class="w"> </span><span class="s">&#34;count&#34;</span><span class="w"> </span><span class="nx">1</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span> → Will is 1 year old.
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;age&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;name&#34;</span><span class="w"> </span><span class="s">&#34;John&#34;</span><span class="w"> </span><span class="s">&#34;count&#34;</span><span class="w"> </span><span class="nx">3</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span> → John is 3 years old.</span></span></code></pre></div><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>翻译表可以同时包含简单翻译与带复数形式的翻译。</p></div>
+</aside><h2 id="保留键">保留键</h2>
+<p>Hugo 使用 <a href="https://github.com/nicksnyder/go-i18n" target="_blank" rel="noopener"><code>nicksnyder/go-i18n</code></a> 包在翻译表中查找值。该包为内部用途保留了以下键：</p>
+<dl>
+<dt><code>id</code></dt>
+<dd>（<code>string</code>）唯一标识该消息。</dd>
+<dt><code>description</code></dt>
+<dd>（<code>string</code>）描述该消息，为译者提供可能有用的补充上下文。</dd>
+<dt><code>hash</code></dt>
+<dd>（<code>string</code>）唯一标识该消息所翻译自的原文内容。</dd>
+<dt><code>leftdelim</code></dt>
+<dd>（<code>string</code>）Go 模板的左定界符。</dd>
+<dt><code>rightdelim</code></dt>
+<dd>（<code>string</code>）Go 模板的右定界符。</dd>
+<dt><code>zero</code></dt>
+<dd>（<code>string</code>）<a href="https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html" target="_blank" rel="noopener">CLDR</a> 复数形式 &ldquo;zero&rdquo; 对应的消息内容。</dd>
+<dt><code>one</code></dt>
+<dd>（<code>string</code>）<a href="https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html" target="_blank" rel="noopener">CLDR</a> 复数形式 &ldquo;one&rdquo; 对应的消息内容。</dd>
+<dt><code>two</code></dt>
+<dd>（<code>string</code>）<a href="https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html" target="_blank" rel="noopener">CLDR</a> 复数形式 &ldquo;two&rdquo; 对应的消息内容。</dd>
+<dt><code>few</code></dt>
+<dd>（<code>string</code>）<a href="https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html" target="_blank" rel="noopener">CLDR</a> 复数形式 &ldquo;few&rdquo; 对应的消息内容。</dd>
+<dt><code>many</code></dt>
+<dd>（<code>string</code>）<a href="https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html" target="_blank" rel="noopener">CLDR</a> 复数形式 &ldquo;many&rdquo; 对应的消息内容。</dd>
+<dt><code>other</code></dt>
+<dd>（<code>string</code>）<a href="https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html" target="_blank" rel="noopener">CLDR</a> 复数形式 &ldquo;other&rdquo; 对应的消息内容。</dd>
+</dl>
+<p>如果需要为某个保留键提供译文，可以在该词前加下划线。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">_description</span> <span class="p">=</span> <span class="s1">&#39;descripción&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">_few</span> <span class="p">=</span> <span class="s1">&#39;pocos&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">_many</span> <span class="p">=</span> <span class="s1">&#39;muchos&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">_one</span> <span class="p">=</span> <span class="s1">&#39;uno&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">_other</span> <span class="p">=</span> <span class="s1">&#39;otro&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">_two</span> <span class="p">=</span> <span class="s1">&#39;dos&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">_zero</span> <span class="p">=</span> <span class="s1">&#39;cero&#39;</span></span></span></code></pre></div><p>然后在模板中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;_description&#34;</span><span class="w"> </span><span class="cp">}}</span> → descripción
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;_few&#34;</span><span class="w"> </span><span class="cp">}}</span> → pocos
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;_many&#34;</span><span class="w"> </span><span class="cp">}}</span> → muchos
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;_one&#34;</span><span class="w"> </span><span class="cp">}}</span> → uno
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;_two&#34;</span><span class="w"> </span><span class="cp">}}</span> → dos
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;_zero&#34;</span><span class="w"> </span><span class="cp">}}</span> → cero
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="s">&#34;_other&#34;</span><span class="w"> </span><span class="cp">}}</span> → otro</span></span></code></pre></div></div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/lang/translate/" target="_blank" rel="noopener">https://gohugo.io/functions/lang/translate/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/functions/lang/merge/">← 上一篇：Merge</a>
+    
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#翻译表">翻译表</a></li>
+    <li><a href="#简单翻译">简单翻译</a></li>
+    <li><a href="#带复数形式的翻译">带复数形式的翻译</a></li>
+    <li><a href="#保留键">保留键</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

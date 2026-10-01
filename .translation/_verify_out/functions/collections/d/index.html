@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>collections.D · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="根据给定的种子、数量和最大值，返回一个已排序且互不重复的随机整数切片。">
+  <link rel="canonical" href="https://example.org/functions/collections/d/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="collections.D · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="根据给定的种子、数量和最大值，返回一个已排序且互不重复的随机整数切片。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/collections/d/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"根据给定的种子、数量和最大值，返回一个已排序且互不重复的随机整数切片。","headline":"collections.D","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"collections.D","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/collections/d/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/collections/">collections</a></p>
+    <h1>collections.D</h1>
+    <p class="doc-description">根据给定的种子、数量和最大值，返回一个已排序且互不重复的随机整数切片。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">collections.D SEED N HIGH</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>[]int</code></dd>
+</dl>
+  <div class="doc-body"><p>（0.149.0 新增）</p>
+<p><code>collections.D</code> 函数使用给定的 <code>SEED</code> 值，返回半开区间 <code>[0, HIGH)</code> 内一组已排序且互不重复的随机整数。结果切片的元素个数为 <code>N</code> 与 <code>HIGH</code> 中较小的那个。</p>
+<ul>
+<li><code>N</code> 和 <code>H</code> 必须是闭区间 <code>[0, 1000000]</code> 内的整数</li>
+<li><code>SEED</code> 必须是闭区间 <code>[0, 2^64 - 1]</code> 内的整数</li>
+</ul>
+<h2 id="返回值">返回值</h2>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">条件</th>
+					<th style="text-align: left">返回值</th>
+					<th></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>N &lt;= HIGH</code></td>
+					<td style="text-align: left">使用 J. S. Vitter 的 <a href="https://getkerf.wordpress.com/2016/03/30/the-best-algorithm-no-one-knows-about/" target="_blank" rel="noopener">Method D</a> 做顺序随机抽样，得到大小为 <code>N</code> 的有序随机样本</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>N &gt; HIGH</code></td>
+					<td style="text-align: left">完整的已排序区间 <code>[0, HIGH)</code>，大小为 <code>HIGH</code></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>N == 0</code></td>
+					<td style="text-align: left">空切片</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>N &lt; 0</code></td>
+					<td style="text-align: left">错误</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>N &gt; 10^6</code></td>
+					<td style="text-align: left">错误</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>HIGH == 0</code></td>
+					<td style="text-align: left">空切片</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>HIGH &lt; 0</code></td>
+					<td style="text-align: left">错误</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>HIGH &gt; 10^6</code></td>
+					<td style="text-align: left">错误</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>SEED &lt; 0</code></td>
+					<td style="text-align: left">错误</td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="示例">示例</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">collections</span><span class="na">.D</span><span class="w"> </span><span class="nx">6</span><span class="w"> </span><span class="nx">7</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span> → [4, 9, 10, 20, 22, 24, 41]</span></span></code></pre></div><p>上面的示例每次调用都会生成_相同_的随机数。要在同一区间内生成_不同_的一组 7 个随机数，请修改 seed 值。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">collections</span><span class="na">.D</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="nx">7</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span> → [3, 11, 19, 25, 32, 33, 38]</span></span></code></pre></div><p>当 <code>N</code> 大于 <code>HIGH</code> 时，该函数返回完整的已排序区间 [0, <code>HIGH</code>)，大小为 <code>HIGH</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">collections</span><span class="na">.D</span><span class="w"> </span><span class="nx">6</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="nx">7</span><span class="w"> </span><span class="cp">}}</span> → [0 1 2 3 4 5 6]</span></span></code></pre></div><p>一个常见的用例是从页面集合中随机挑选页面。例如，以<a href="/methods/time/yearday/">一年中的第几天</a>作为 seed 值，渲染 5 个随机页面的列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">collections</span><span class="na">.D</span><span class="w"> </span><span class="nx">time</span><span class="na">.Now.YearDay</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="o">(</span><span class="nx">$p</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">len</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="o">(</span><span class="k">index</span><span class="w"> </span><span class="nx">$p</span><span class="w"> </span><span class="na">.</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>上面这种写法比使用 <a href="/functions/collections/shuffle/"><code>collections.Shuffle</code></a> 函数快得多。</p>
+<h2 id="seed-值">Seed 值</h2>
+<p>选择合适的 seed 值取决于你的目标。</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">目标</th>
+					<th style="text-align: left">seed 示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">结果一致</td>
+					<td style="text-align: left"><code>42</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">每次调用结果不同</td>
+					<td style="text-align: left"><code>int time.Now.UnixNano</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">每天结果相同</td>
+					<td style="text-align: left"><code>time.Now.YearDay</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">每个页面结果相同</td>
+					<td style="text-align: left"><code>hash.FNV32a .Path</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">每个页面每天结果不同</td>
+					<td style="text-align: left"><code>hash.FNV32a (print .Path time.Now.YearDay)</code></td>
+			</tr>
+	</tbody>
+</table>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/collections/d/" target="_blank" rel="noopener">https://gohugo.io/functions/collections/d/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/functions/collections/complement/">← 上一篇：complement</a>
+    <a class="pager-next" href="/functions/collections/delimit/">下一篇：delimit →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#返回值">返回值</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#seed-值">Seed 值</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

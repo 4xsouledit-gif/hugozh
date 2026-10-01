@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>菜单模板 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="在模板中遍历菜单项，渲染平铺或嵌套的导航结构。">
+  <link rel="canonical" href="https://example.org/templates/menu/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="菜单模板 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="在模板中遍历菜单项，渲染平铺或嵌套的导航结构。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/templates/menu/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"在模板中遍历菜单项，渲染平铺或嵌套的导航结构。","headline":"菜单模板","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"菜单模板","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/templates/menu/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/templates/">模板</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/templates/404/">404 页面</a>
+        </li>
+        <li>
+          <a href="/templates/robots/">robots.txt</a>
+        </li>
+        <li>
+          <a href="/templates/sitemap/">站点地图</a>
+        </li>
+        <li>
+          <a href="/templates/rss/">RSS 订阅</a>
+        </li>
+        <li>
+          <a href="/templates/menu/" class="is-active" aria-current="page">菜单模板</a>
+        </li>
+        <li>
+          <a href="/templates/pagination/">分页</a>
+        </li>
+        <li>
+          <a href="/templates/embedded/">内建模板</a>
+        </li>
+        <li>
+          <a href="/templates/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/templates/lookup-order/">模板查找顺序</a>
+        </li>
+        <li>
+          <a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>
+        </li>
+        <li>
+          <a href="/templates/partial-decorators/">局部模板装饰器</a>
+        </li>
+        <li>
+          <a href="/templates/shortcode/">短代码模板</a>
+        </li>
+        <li>
+          <a href="/templates/types/">内容类型</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/templates/">模板</a></p>
+    <h1>菜单模板</h1>
+    <p class="doc-description">在模板中遍历菜单项，渲染平铺或嵌套的导航结构。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="概览">概览</h2>
+<p>先<a href="/content-management/menus/">定义菜单项</a>，再用菜单方法渲染菜单。Hugo 在 <code>site.Menus</code> 上暴露所有菜单，例如 <code>site.Menus.main</code>、<code>site.Menus.footer</code>。</p>
+<p>决定渲染方式的因素有三个：</p>
+<ol>
+<li>菜单项的定义方式：自动生成、写在前置元数据中、写在项目配置中；</li>
+<li>菜单结构：平铺还是嵌套；</li>
+<li>菜单项的<a href="/content-management/multilingual/">本地化方式</a>：项目配置或翻译表。</li>
+</ol>
+<p>下面的示例把这些组合都考虑在内。</p>
+<h2 id="示例">示例</h2>
+<p>这个**局部模板（partial）**递归「遍历」菜单结构，渲染出经过本地化、且具备可访问性的嵌套列表：</p>
+<figure class="code-block" data-file="layouts/_partials/menu.html">
+  <figcaption class="code-block-file">layouts/_partials/menu.html</figcaption>
+  <div class="highlight" file="layouts/_partials/menu.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.page</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="nx">$menuID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.menuID</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="nx">site</span><span class="na">.Menus</span><span class="w"> </span><span class="nx">$menuID</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;inline/menu/walk.html&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;page&#34;</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="s">&#34;menuEntries&#34;</span><span class="w"> </span><span class="na">.</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">define</span><span class="w"> </span><span class="s">&#34;_partials/inline/menu/walk.html&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{-</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.page</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{-</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="na">.menuEntries</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="nx">$attrs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;href&#34;</span><span class="w"> </span><span class="na">.URL</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">$page</span><span class="na">.IsMenuCurrent</span><span class="w"> </span><span class="na">.Menu</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="nx">$attrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">merge</span><span class="w"> </span><span class="nx">$attrs</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;class&#34;</span><span class="w"> </span><span class="s">&#34;active&#34;</span><span class="w"> </span><span class="s">&#34;aria-current&#34;</span><span class="w"> </span><span class="s">&#34;page&#34;</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">$page</span><span class="na">.HasMenuCurrent</span><span class="w"> </span><span class="na">.Menu</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="nx">$attrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">merge</span><span class="w"> </span><span class="nx">$attrs</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;class&#34;</span><span class="w"> </span><span class="s">&#34;ancestor&#34;</span><span class="w"> </span><span class="s">&#34;aria-current&#34;</span><span class="w"> </span><span class="s">&#34;true&#34;</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="nx">$name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Name</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Identifier</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">T</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{-</span><span class="w"> </span><span class="nx">$name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">a</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{-</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">$k</span><span class="o">,</span><span class="w"> </span><span class="nx">$v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">$attrs</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{-</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">$v</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">            <span class="cp">{{-</span><span class="w"> </span><span class="k">printf</span><span class="w"> </span><span class="s">&#34; %s=%q&#34;</span><span class="w"> </span><span class="nx">$k</span><span class="w"> </span><span class="nx">$v</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">safeHTMLAttr</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">-}}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$name</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Children</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{-</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;inline/menu/walk.html&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;page&#34;</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="s">&#34;menuEntries&#34;</span><span class="w"> </span><span class="na">.</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><p>要点如下：</p>
+<ul>
+<li>用 <code>index site.Menus $menuID</code> 取出指定 ID 的菜单，菜单不存在时 <code>with</code> 会跳过整段输出；</li>
+<li><code>.IsMenuCurrent</code> 判断当前页是否就是该菜单项，命中时加上高亮属性；<code>.HasMenuCurrent</code> 判断当前页是否位于该菜单项的子层级中，命中时标记为祖先项，两者常常配合使用；</li>
+<li><code>.Identifier</code> 优先作为翻译表的键交给 <code>T</code> 函数处理，取不到翻译结果时回退到 <code>.Name</code>，这就是菜单项本地化的实现方式；</li>
+<li><code>.Children</code> 返回子菜单项集合，递归调用同一个模板即完成嵌套渲染。</li>
+</ul>
+<p>调用上面的局部模板，传入菜单 ID 和当前页面：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;menu.html&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;menuID&#34;</span><span class="w"> </span><span class="s">&#34;main&#34;</span><span class="w"> </span><span class="s">&#34;page&#34;</span><span class="w"> </span><span class="na">.</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;menu.html&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;menuID&#34;</span><span class="w"> </span><span class="s">&#34;footer&#34;</span><span class="w"> </span><span class="s">&#34;page&#34;</span><span class="w"> </span><span class="na">.</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><h2 id="页面引用">页面引用</h2>
+<p>无论菜单项以何种方式定义，只要它指向某个页面，就能通过 <code>.Page</code> 拿到该页面的上下文，从而读取页面参数。比如在每个菜单项的名称后面显示页面参数 <code>version</code>：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">site</span><span class="na">.Menus.main</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.URL</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="na">.Name</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Page</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Params.version</span><span class="w"> </span><span class="cp">-}}</span>
+</span></span><span class="line"><span class="cl">        (<span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>)
+</span></span><span class="line"><span class="cl">      <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><p>写这类模板时要防御性地使用 <code>with</code> 或 <code>if</code>，因为存在两种例外：菜单项指向的是外部资源，此时没有关联页面；或者关联页面并没有定义 <code>version</code> 参数，直接取值会得到空值。</p>
+<h2 id="菜单项参数">菜单项参数</h2>
+<p>在项目配置或前置元数据中定义菜单项时，可以附带 <code>params</code> 键。下面这个例子为每个链接元素渲染一个 <code>class</code> 属性：</p>
+<figure class="code-block" data-file="layouts/_partials/menu.html">
+  <figcaption class="code-block-file">layouts/_partials/menu.html</figcaption>
+  <div class="highlight" file="layouts/_partials/menu.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">site</span><span class="na">.Menus.main</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">a</span> <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Params.class</span><span class="w"> </span><span class="cp">-}}</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">-}}</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.URL</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="na">.Name</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><p>同样要防御性地处理 <code>params.class</code> 未定义的菜单项，用 <code>with</code> 判断之后再输出属性，避免渲染出空的 <code>class</code>。</p>
+<h2 id="本地化">本地化</h2>
+<p>Hugo 提供两种菜单项本地化方法，详见<a href="/content-management/multilingual/">多语言</a>章节：在项目配置中为每种语言分别定义菜单项，或者用翻译表按键查找名称。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/templates/menu/" target="_blank" rel="noopener">https://gohugo.io/templates/menu/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/templates/rss/">← 上一篇：RSS 订阅</a>
+    <a class="pager-next" href="/templates/pagination/">下一篇：分页 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概览">概览</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#页面引用">页面引用</a></li>
+    <li><a href="#菜单项参数">菜单项参数</a></li>
+    <li><a href="#本地化">本地化</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

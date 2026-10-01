@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>js.Batch · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="返回一个批处理器（batcher），用于构建带全局代码分割、钩子与运行器配置灵活的 JavaScript 打包组。">
+  <link rel="canonical" href="https://example.org/functions/js/batch/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="js.Batch · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="返回一个批处理器（batcher），用于构建带全局代码分割、钩子与运行器配置灵活的 JavaScript 打包组。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/js/batch/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"返回一个批处理器（batcher），用于构建带全局代码分割、钩子与运行器配置灵活的 JavaScript 打包组。","headline":"js.Batch","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"js.Batch","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/js/batch/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/js/">js</a></p>
+    <h1>js.Batch</h1>
+    <p class="doc-description">返回一个批处理器（batcher），用于构建带全局代码分割、钩子与运行器配置灵活的 JavaScript 打包组。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">js.Batch [ID]</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>js.Batcher</code></dd>
+</dl>
+  <div class="doc-body"><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p><code>js.Batch</code> 函数由 <a href="https://github.com/evanw/esbuild" target="_blank" rel="noopener"><code>evanw/esbuild</code></a> 包提供支持，为打包、转换与压缩提供了成熟且高性能的基础。</p></div>
+</aside><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>这个特性的可运行示例见<a href="https://github.com/bep/hugojsbatchdemo/" target="_blank" rel="noopener">这个测试与演示仓库</a>。</p></div>
+</aside><p>批次 <code>ID</code> 用于创建该批次的基础目录，允许使用正斜杠。<code>js.Batch</code> 函数返回一个对象，其 API 结构如下：</p>
+<ul>
+<li><a href="#group">Group</a>
+<ul>
+<li><a href="#script">Script</a>
+<ul>
+<li><a href="#optionssetter">SetOptions</a></li>
+</ul>
+</li>
+<li><a href="#instance">Instance</a>
+<ul>
+<li><a href="#optionssetter">SetOptions</a></li>
+</ul>
+</li>
+<li><a href="#runner">Runner</a>
+<ul>
+<li><a href="#optionssetter">SetOptions</a></li>
+</ul>
+</li>
+<li><a href="#config">Config</a>
+<ul>
+<li><a href="#optionssetter">SetOptions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="group">Group</h2>
+<p><code>Group</code> 方法接受一个 <code>ID</code>（<code>string</code>）作为参数，其中不能带斜杠。它返回一个对象，包含下列方法：</p>
+<h3 id="script">Script</h3>
+<p><code>Script</code> 方法接受一个 <code>ID</code>（<code>string</code>）作为参数，其中不能带斜杠。它返回一个 <a href="#optionssetter">OptionsSetter</a>，可用于为该脚本设置<a href="#%e8%84%9a%e6%9c%ac%e9%80%89%e9%a1%b9">脚本选项</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">js</span><span class="na">.Batch</span><span class="w"> </span><span class="s">&#34;js/mybatch&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Group</span><span class="w"> </span><span class="s">&#34;mygroup&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Script</span><span class="w"> </span><span class="s">&#34;myscript&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{</span><span class="w"> </span><span class="na">.SetOptions</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;resource&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;myscript.js&#34;</span><span class="o">))</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p><code>SetOptions</code> 接受一个<a href="#%e8%84%9a%e6%9c%ac%e9%80%89%e9%a1%b9">脚本选项</a>映射。注意如果你希望该脚本由某个 <a href="#runner">Runner</a> 处理，就需要设置 <code>export</code> 选项，使其与你想要传给运行器的内容一致（默认是 <code>*</code>）。</p>
+<h3 id="instance">Instance</h3>
+<p><code>Instance</code> 方法接受两个 <code>string</code> 参数 <code>SCRIPT_ID</code> 与 <code>INSTANCE_ID</code>，其中不能带斜杠。它返回一个 <a href="#optionssetter">OptionsSetter</a>，可用于为该实例设置<a href="#%e5%8f%82%e6%95%b0%e9%80%89%e9%a1%b9">参数选项</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">js</span><span class="na">.Batch</span><span class="w"> </span><span class="s">&#34;js/mybatch&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Group</span><span class="w"> </span><span class="s">&#34;mygroup&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Instance</span><span class="w"> </span><span class="s">&#34;myscript&#34;</span><span class="w"> </span><span class="s">&#34;myinstance&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{</span><span class="w"> </span><span class="na">.SetOptions</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;params&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;param1&#34;</span><span class="w"> </span><span class="s">&#34;value1&#34;</span><span class="o">))</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p><code>SetOptions</code> 接受一个<a href="#%e5%8f%82%e6%95%b0%e9%80%89%e9%a1%b9">参数选项</a>映射。实例选项会以 JSON 形式传给同一组中的任何 <a href="#runner">Runner</a> 脚本。</p>
+<h3 id="runner">Runner</h3>
+<p><code>Runner</code> 方法接受一个 <code>ID</code>（<code>string</code>）作为参数，其中不能带斜杠。它返回一个 <a href="#optionssetter">OptionsSetter</a>，可用于为该运行器设置<a href="#%e8%84%9a%e6%9c%ac%e9%80%89%e9%a1%b9">脚本选项</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">js</span><span class="na">.Batch</span><span class="w"> </span><span class="s">&#34;js/mybatch&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Group</span><span class="w"> </span><span class="s">&#34;mygroup&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Runner</span><span class="w"> </span><span class="s">&#34;myrunner&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{</span><span class="w"> </span><span class="na">.SetOptions</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;resource&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;myrunner.js&#34;</span><span class="o">))</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p><code>SetOptions</code> 接受一个<a href="#%e8%84%9a%e6%9c%ac%e9%80%89%e9%a1%b9">脚本选项</a>映射。</p>
+<p>运行器会收到一份数据结构，其中包含该组的全部实例，并对所定义 <code>export</code> 的 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import" target="_blank" rel="noopener">JavaScript 导入</a>保持实时绑定（live binding）。</p>
+<p>运行器脚本的导出必须是一个函数，它接受一个参数，即该组的数据结构。一份组数据结构的 JSON 示例是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;leaflet&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;scripts&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;mapjsx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;binding&#34;</span><span class="p">:</span> <span class="err">JAVASCRIPT_BINDING</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;instances&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;params&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;c&#34;</span><span class="p">:</span> <span class="s2">&#34;h-64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;lat&#34;</span><span class="p">:</span> <span class="mf">48.8533173846729</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;lon&#34;</span><span class="p">:</span> <span class="mf">2.3497416090232535</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;r&#34;</span><span class="p">:</span> <span class="s2">&#34;map.jsx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;title&#34;</span><span class="p">:</span> <span class="s2">&#34;Cathédrale Notre-Dame de Paris&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;zoom&#34;</span><span class="p">:</span> <span class="mi">23</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">},</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&#34;params&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;c&#34;</span><span class="p">:</span> <span class="s2">&#34;h-64&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;lat&#34;</span><span class="p">:</span> <span class="mf">59.96300872062237</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;lon&#34;</span><span class="p">:</span> <span class="mf">10.663529183196863</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;r&#34;</span><span class="p">:</span> <span class="s2">&#34;map.jsx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;title&#34;</span><span class="p">:</span> <span class="s2">&#34;Holmenkollen&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&#34;zoom&#34;</span><span class="p">:</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div><p>下面是一个用 React 渲染元素的运行器脚本示例。注意导出名（<code>default</code>）必须与<a href="#%e8%84%9a%e6%9c%ac%e9%80%89%e9%a1%b9">脚本选项</a>中的 <code>export</code> 选项一致（<code>default</code> 是运行器脚本的默认值）。本页示例的可运行版本见这个 <code>js.Batch</code> <a href="https://github.com/bep/hugojsbatchdemo/" target="_blank" rel="noopener">演示仓库</a>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom/client&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">Run</span><span class="p">(</span><span class="nx">group</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Running react-create-elements.js&#39;</span><span class="p">,</span> <span class="nx">group</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">scripts</span> <span class="o">=</span> <span class="nx">group</span><span class="p">.</span><span class="nx">scripts</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">script</span> <span class="k">of</span> <span class="nx">scripts</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">instance</span> <span class="k">of</span> <span class="nx">script</span><span class="p">.</span><span class="nx">instances</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="cm">/* This is a convention in this project. */</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nx">elId</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">script</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nx">instance</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">let</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">elId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="sb">`Element with id </span><span class="si">${</span><span class="nx">elId</span><span class="si">}</span><span class="sb"> not found`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">createRoot</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">reactEl</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">script</span><span class="p">.</span><span class="nx">binding</span><span class="p">,</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">params</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">reactEl</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div><h3 id="config">Config</h3>
+<p>返回一个 <a href="#optionssetter">OptionsSetter</a>，可用于为该批次设置<a href="#%e6%9e%84%e5%bb%ba%e9%80%89%e9%a1%b9">构建选项</a>。</p>
+<p>这些选项与 <code>js.Build</code> 的大体相同，但要注意：</p>
+<ul>
+<li><code>targetPath</code> 是自动设置的（可能会有多个输出）。</li>
+<li><code>format</code> 必须是 <code>esm</code>，目前这是唯一支持<a href="https://esbuild.github.io/api/#splitting" target="_blank" rel="noopener">代码分割</a>的格式。</li>
+<li><code>params</code> 会在脚本中以 <code>@params/config</code> 命名空间的形式可用。这样你就可以同时导入 <a href="#script">Script</a> 或 <a href="#runner">Runner</a> 的参数，以及 <a href="#config">Config</a> 的参数：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">params</span> <span class="nx">from</span> <span class="s2">&#34;@params&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">config</span> <span class="nx">from</span> <span class="s2">&#34;@params/config&#34;</span><span class="p">;</span></span></span></code></pre></div><p>批次的 <code>Config</code> 可以在任何模板（包括 <em>短代码</em> 模板）中设置，但只会设置一次（先设置者生效）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">js</span><span class="na">.Batch</span><span class="w"> </span><span class="s">&#34;js/mybatch&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Config</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">       <span class="cp">{{</span><span class="w"> </span><span class="na">.SetOptions</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;target&#34;</span><span class="w"> </span><span class="s">&#34;es2023&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;format&#34;</span><span class="w"> </span><span class="s">&#34;esm&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;jsx&#34;</span><span class="w"> </span><span class="s">&#34;automatic&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;loaders&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;.png&#34;</span><span class="w"> </span><span class="s">&#34;dataurl&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;minify&#34;</span><span class="w"> </span><span class="k">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;params&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;param1&#34;</span><span class="w"> </span><span class="s">&#34;value1&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="选项">选项</h2>
+<h3 id="构建选项">构建选项</h3>
+<dl>
+<dt><code>format</code></dt>
+<dd>(<code>string</code>) 目前 <code>esbuild</code> 只支持以 <code>esm</code> 作为<a href="https://esbuild.github.io/api/#splitting" target="_blank" rel="noopener">代码分割</a>的输出格式。</dd>
+<dt><code>defines</code></dt>
+<dd>(<code>map</code>) 这个选项让你定义一组在构建时执行的字符串替换。它必须是一个映射，其中每个键都会被它的值替换。
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$defines</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;process.env.NODE_ENV&#34;</span><span class="w"> </span><span class="s">`&#34;development&#34;`</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div></dd>
+<dt><code>drop</code></dt>
+<dd><strong>（0.144.0 新增）</strong></dd>
+<dd>(<code>string</code>) 在构建前改写源码，丢弃特定构造：取 <code>debugger</code> 或 <code>console</code> 之一。</dd>
+<dd>参见 <a href="https://esbuild.github.io/api/#drop" target="_blank" rel="noopener">https://esbuild.github.io/api/#drop</a></dd>
+<dt><code>externals</code></dt>
+<dd>(<code>slice</code>) 外部依赖。可以用它裁掉确定不会执行到的依赖。参见 <a href="https://esbuild.github.io/api/#external" target="_blank" rel="noopener">https://esbuild.github.io/api/#external</a>。</dd>
+<dt><code>inject</code></dt>
+<dd>(<code>slice</code>) 这个选项让你把某个全局变量自动替换为另一个文件中的导入。其中的路径必须相对于 <code>assets</code>。参见 <a href="https://esbuild.github.io/api/#inject" target="_blank" rel="noopener">https://esbuild.github.io/api/#inject</a>。</dd>
+<dt><code>JSX</code></dt>
+<dd>(<code>string</code>) 如何处理与转换 JSX 语法，取 <code>transform</code>、<code>preserve</code>、<code>automatic</code> 之一。默认是 <code>transform</code>。其中 <code>automatic</code> 转换由 React 17+ 引入，会自动导入所需的 JSX 辅助函数。参见 <a href="https://esbuild.github.io/api/#jsx" target="_blank" rel="noopener">https://esbuild.github.io/api/#jsx</a>。</dd>
+<dt><code>JSXImportSource</code></dt>
+<dd>(<code>string</code>) 从哪个库自动导入 JSX 辅助函数，仅在 <code>JSX</code> 为 <code>automatic</code> 时有效。指定的库需要通过 npm 安装，并暴露相应的导出。参见 <a href="https://esbuild.github.io/api/#jsx-import-source" target="_blank" rel="noopener">https://esbuild.github.io/api/#jsx-import-source</a>。
+<p><code>JSX</code> 与 <code>JSXImportSource</code> 搭配使用，可以在 Preact 这类非 React 的 JSX 库中省去手工导入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.jsx&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;JSX&#34;</span><span class="w"> </span><span class="s">&#34;automatic&#34;</span><span class="w"> </span><span class="s">&#34;JSXImportSource&#34;</span><span class="w"> </span><span class="s">&#34;preact&#34;</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>上面的配置下，使用 Preact 组件与 JSX 时不必每次都导入 <code>h</code> 与 <code>Fragment</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-jsx" data-lang="jsx"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">render</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;preact&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">App</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">&lt;&gt;</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="p">&lt;/&gt;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">container</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;app&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">container</span><span class="p">)</span> <span class="nx">render</span><span class="p">(&lt;</span><span class="nt">App</span> <span class="p">/&gt;,</span> <span class="nx">container</span><span class="p">);</span></span></span></code></pre></div></dd>
+<dt><code>loaders</code></dt>
+<dd><strong>（0.140.0 新增）</strong></dd>
+<dd>(<code>map</code>) 为给定文件类型配置加载器后，就可以用 <code>import</code> 语句或 <code>require</code> 调用加载该类型文件。例如把 <code>.png</code> 扩展名配置为 data URL 加载器，导入 <code>.png</code> 文件就会得到包含该图片内容的数据 URL。可用的加载器有 <code>none</code>、<code>base64</code>、<code>binary</code>、<code>copy</code>、<code>css</code>、<code>dataurl</code>、<code>default</code>、<code>empty</code>、<code>file</code>、<code>global-css</code>、<code>js</code>、<code>json</code>、<code>jsx</code>、<code>local-css</code>、<code>text</code>、<code>ts</code>、<code>tsx</code>。参见 <a href="https://esbuild.github.io/api/#loader" target="_blank" rel="noopener">https://esbuild.github.io/api/#loader</a>。</dd>
+<dt><code>minify</code></dt>
+<dd>(<code>bool</code>) 是否压缩生成的 JS 代码。默认是 <code>false</code>。</dd>
+<dt><code>params</code></dt>
+<dd>(<code>map</code> 或 <code>slice</code>) 可以在 JS 文件中以 JSON 形式导入的参数，例如：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.js&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;params&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;api&#34;</span><span class="w"> </span><span class="s">&#34;https://example.org/api&#34;</span><span class="o">))</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>然后在 JS 文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">params</span> <span class="nx">from</span> <span class="s1">&#39;@params&#39;</span><span class="p">;</span></span></span></code></pre></div><p>注意它适合配置项之类的小数据；数据较大时，应把文件放入或挂载到 <code>assets</code> 中直接导入。</p>
+</dd>
+<dt><code>platform</code></dt>
+<dd><strong>（0.140.0 新增）</strong></dd>
+<dd>(<code>string</code>) 取 <code>browser</code>、<code>node</code>、<code>neutral</code> 之一。默认是 <code>browser</code>。参见 <a href="https://esbuild.github.io/api/#platform" target="_blank" rel="noopener">https://esbuild.github.io/api/#platform</a>。</dd>
+<dt><code>shims</code></dt>
+<dd>(<code>map</code>) 这个选项让你把某个组件替换为另一个。常见用法是生产环境通过 shim 从 CDN 加载 React 这类依赖，而开发环境仍使用打包进来的完整 <code>node_modules</code> 依赖：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$shims</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;react&#34;</span><span class="w"> </span><span class="s">&#34;js/shims/react.js&#34;</span><span class="w">  </span><span class="s">&#34;react-dom&#34;</span><span class="w"> </span><span class="s">&#34;js/shims/react-dom.js&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;shims&#34;</span><span class="w"> </span><span class="nx">$shims</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p><em>shim</em> 文件的内容可能形如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// js/shims/react.js
+</span></span></span><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">React</span><span class="p">;</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// js/shims/react-dom.js
+</span></span></span><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">ReactDOM</span><span class="p">;</span></span></span></code></pre></div><p>这样配置之后，下面这些导入在两种场景下都能正常工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom/client&#39;</span><span class="p">;</span></span></span></code></pre></div></dd>
+<dt><code>sourceMap</code></dt>
+<dd>(<code>string</code>) 要生成的 source map 类型，取 <code>external</code>、<code>inline</code>、<code>linked</code>、<code>none</code> 之一。默认是 <code>none</code>。<code>linked</code> 与 <code>external</code> 的 source map 会写到目标路径，文件名为输出文件名加 &ldquo;.map&rdquo;；取 <code>linked</code> 时还会在输出文件中写入 <code>sourceMappingURL</code>。</dd>
+<dt><code>sourcesContent</code></dt>
+<dd><strong>（0.140.0 新增）</strong></dd>
+<dd>(<code>bool</code>) 是否在 source map 中包含源文件的内容。默认是 <code>true</code>。</dd>
+<dt><code>target</code></dt>
+<dd>(<code>string</code>) 语言目标，取 <code>es5</code>、<code>es2015</code>、<code>es2016</code>、<code>es2017</code>、<code>es2018</code>、<code>es2019</code>、<code>es2020</code>、<code>es2021</code>、<code>es2022</code>、<code>es2023</code>、<code>es2024</code>、<code>es2025</code>、<code>esnext</code> 之一。默认是 <code>esnext</code>。</dd>
+</dl>
+<h3 id="脚本选项">脚本选项</h3>
+<dl>
+<dt><code>resource</code></dt>
+<dd>要构建的资源。可以是文件资源，也可以是虚拟资源。</dd>
+<dt><code>export</code></dt>
+<dd>运行器要绑定到的导出。设为 <code>*</code> 表示导出<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#namespace_import" target="_blank" rel="noopener">整个命名空间</a>。<a href="#runner">Runner</a> 脚本默认是 <code>default</code>，其他<a href="#script">脚本</a>默认是 <code>*</code>。</dd>
+<dt><code>importContext</code></dt>
+<dd>用于解析导入的附加上下文。Hugo 总是先检查它，再回退到 <code>assets</code> 与 <code>node_modules</code>。一个常见用法是解析页面包内的导入。参见<a href="#%e5%af%bc%e5%85%a5%e4%b8%8a%e4%b8%8b%e6%96%87">导入上下文</a>。</dd>
+<dt><code>params</code></dt>
+<dd>会以 JSON 形式传给脚本的参数映射。这些参数会绑定到 <code>@params</code> 命名空间：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">params</span> <span class="nx">from</span> <span class="s1">&#39;@params&#39;</span><span class="p">;</span></span></span></code></pre></div></dd>
+</dl>
+<h3 id="参数选项">参数选项</h3>
+<dl>
+<dt><code>params</code></dt>
+<dd>会以 JSON 形式传给脚本的参数映射。</dd>
+</dl>
+<h3 id="导入上下文">导入上下文</h3>
+<p>默认情况下，Hugo 会首先尝试解析 <code>assets</code> 目录中的导入，找不到时再交给 <code>esbuild</code> 解析（例如从 <code>node_modules</code> 中解析）。<code>importContext</code> 选项可用于设置解析导入时的第一个上下文。一个常见用法是解析<a href="/content-management/page-bundles/">页面包</a>内的导入。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$common</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Match</span><span class="w"> </span><span class="s">&#34;/js/headlessui/*.*&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$importContext</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">(</span><span class="k">slice</span><span class="w"> </span><span class="na">$.Page</span><span class="w"> </span><span class="o">(</span><span class="nx">$common</span><span class="na">.Mount</span><span class="w"> </span><span class="s">&#34;/js/headlessui&#34;</span><span class="w"> </span><span class="s">&#34;.&#34;</span><span class="o">))</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>你可以传入任何实现了 <a href="/methods/page/resources/#get"><code>Resource.Get</code></a> 的对象。传入切片即可设置多个上下文。</p>
+<p>上例用 <a href="/methods/page/resources/#mount"><code>Resources.Mount</code></a> 把 <code>assets</code> 中的某个目录相对于页面包来解析。</p>
+<h3 id="optionssetter">OptionsSetter</h3>
+<p><code>OptionsSetter</code> 是一种特殊的对象，只会返回一次。也就是说，你应该用 <a href="/functions/go-template/with/"><code>with</code></a> 把它包起来：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Script</span><span class="w"> </span><span class="s">&#34;myscript&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="na">.SetOptions</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;resource&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;myscript.js&#34;</span><span class="o">))</span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="build">Build</h2>
+<p><code>Build</code> 方法返回一个具有下列结构的对象：</p>
+<ul>
+<li>Groups（map）
+<ul>
+<li><a href="/methods/page/resources/"><code>Resources</code></a></li>
+</ul>
+</li>
+</ul>
+<p>每个 <a href="/methods/resource/"><code>Resource</code></a> 的媒体类型要么是 <code>application/javascript</code>，要么是 <code>text/css</code>。</p>
+<p>在模板中，你通常会处理某个给定 <code>ID</code> 的组（例如当前 section 的脚本）。由于构建是并发进行的，这需要在 <a href="/functions/templates/defer/"><code>templates.Defer</code></a> 块中完成：</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p><a href="/functions/templates/defer/"><code>templates.Defer</code></a> 充当同步点，用来处理不同模板并发添加的脚本。如果你的批次是在一个模板中一次性创建的，就不需要它。</p>
+<p>更多信息参见<a href="https://discourse.gohugo.io/t/js-batch-with-simple-global-script/53002/5" target="_blank" rel="noopener">这个讨论</a>。</p></div>
+</aside><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$group</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.group</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="o">(</span><span class="nx">templates</span><span class="na">.Defer</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;key&#34;</span><span class="w"> </span><span class="nx">$group</span><span class="w"> </span><span class="s">&#34;data&#34;</span><span class="w"> </span><span class="nx">$group</span><span class="w"> </span><span class="o">))</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="o">(</span><span class="k">js</span><span class="na">.Batch</span><span class="w"> </span><span class="s">&#34;js/mybatch&#34;</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Build</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="na">.Groups</span><span class="w"> </span><span class="na">$</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{</span><span class="w"> </span><span class="nx">$s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">eq</span><span class="w"> </span><span class="nx">$s</span><span class="na">.MediaType.SubType</span><span class="w"> </span><span class="s">&#34;css&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$s</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$s</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;module&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">          <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="已知问题">已知问题</h2>
+<p>在 <code>esbuild</code> <a href="https://esbuild.github.io/api/#splitting" target="_blank" rel="noopener">代码分割</a>特性的官方文档中，页首有一段警告说明。这两个问题是：</p>
+<ul>
+<li><code>esm</code> 是目前唯一实现的输出格式。这意味着它在旧式浏览器中无法工作。参见 <a href="https://caniuse.com/?search=ESM" target="_blank" rel="noopener">caniuse</a>。</li>
+<li>存在一个已知的导入顺序问题。</li>
+</ul>
+<p>在对这个新特性与不同库进行的<a href="https://github.com/bep/hugojsbatchdemo" target="_blank" rel="noopener">大量测试</a>中，我们并没有把该顺序问题视为麻烦。主要有两种情况：</p>
+<ol>
+<li>导入的执行顺序不确定，参见<a href="https://github.com/evanw/esbuild/issues/399#issuecomment-1458680887" target="_blank" rel="noopener">这条评论</a></li>
+<li>导入只有一种执行顺序，参见<a href="https://github.com/evanw/esbuild/issues/399#issuecomment-735355932" target="_blank" rel="noopener">这条评论</a></li>
+</ol>
+<p>很多人会说上述两种情况都属于<a href="https://en.wikipedia.org/wiki/Code_smell" target="_blank" rel="noopener">代码坏味道</a>。第一种在 Hugo 中有个简单的变通办法：把导入顺序写在一个单独的脚本里，并确保它较早传给 <code>esbuild</code>，例如放进一个名称在字母表中靠前的脚本组。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="s1">&#39;./lib2.js&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="s1">&#39;./lib1.js&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;entrypoints-workaround.js&#39;</span><span class="p">);</span></span></span></code></pre></div></div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/js/batch/" target="_blank" rel="noopener">https://gohugo.io/functions/js/batch/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/functions/js/babel/">← 上一篇：Babel</a>
+    <a class="pager-next" href="/functions/js/build/">下一篇：Build →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#group">Group</a>
+      <ul>
+        <li><a href="#script">Script</a></li>
+        <li><a href="#instance">Instance</a></li>
+        <li><a href="#runner">Runner</a></li>
+        <li><a href="#config">Config</a></li>
+      </ul>
+    </li>
+    <li><a href="#选项">选项</a>
+      <ul>
+        <li><a href="#构建选项">构建选项</a></li>
+        <li><a href="#脚本选项">脚本选项</a></li>
+        <li><a href="#参数选项">参数选项</a></li>
+        <li><a href="#导入上下文">导入上下文</a></li>
+        <li><a href="#optionssetter">OptionsSetter</a></li>
+      </ul>
+    </li>
+    <li><a href="#build">Build</a></li>
+    <li><a href="#已知问题">已知问题</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

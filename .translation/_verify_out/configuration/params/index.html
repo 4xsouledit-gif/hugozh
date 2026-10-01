@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>参数配置 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用 params 区段定义自定义站点参数，并在模板中读取。">
+  <link rel="canonical" href="https://example.org/configuration/params/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="参数配置 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用 params 区段定义自定义站点参数，并在模板中读取。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/configuration/params/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用 params 区段定义自定义站点参数，并在模板中读取。","headline":"参数配置","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"参数配置","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/configuration/params/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/configuration/">配置</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/configuration/introduction/">配置简介</a>
+        </li>
+        <li>
+          <a href="/configuration/all/">全部设置</a>
+        </li>
+        <li>
+          <a href="/configuration/build/">构建配置</a>
+        </li>
+        <li>
+          <a href="/configuration/caches/">缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/cascade/">级联配置</a>
+        </li>
+        <li>
+          <a href="/configuration/content-types/">内容类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/deployment/">部署目标配置</a>
+        </li>
+        <li>
+          <a href="/configuration/front-matter/">前置元数据配置</a>
+        </li>
+        <li>
+          <a href="/configuration/http-cache/">HTTP 缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/imaging/">图像处理配置</a>
+        </li>
+        <li>
+          <a href="/configuration/languages/">语言配置</a>
+        </li>
+        <li>
+          <a href="/configuration/markup/">Markup 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/media-types/">媒体类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/menus/">菜单配置</a>
+        </li>
+        <li>
+          <a href="/configuration/minify/">压缩配置</a>
+        </li>
+        <li>
+          <a href="/configuration/module/">模块配置</a>
+        </li>
+        <li>
+          <a href="/configuration/output-formats/">输出格式配置</a>
+        </li>
+        <li>
+          <a href="/configuration/outputs/">输出配置</a>
+        </li>
+        <li>
+          <a href="/configuration/page/">页面配置</a>
+        </li>
+        <li>
+          <a href="/configuration/params/" class="is-active" aria-current="page">参数配置</a>
+        </li>
+        <li>
+          <a href="/configuration/pagination/">分页配置</a>
+        </li>
+        <li>
+          <a href="/configuration/permalinks/">永久链接配置</a>
+        </li>
+        <li>
+          <a href="/configuration/privacy/">隐私配置</a>
+        </li>
+        <li>
+          <a href="/configuration/related-content/">相关内容配置</a>
+        </li>
+        <li>
+          <a href="/configuration/roles/">角色配置</a>
+        </li>
+        <li>
+          <a href="/configuration/security/">安全配置</a>
+        </li>
+        <li>
+          <a href="/configuration/segments/">片段配置</a>
+        </li>
+        <li>
+          <a href="/configuration/server/">服务器配置</a>
+        </li>
+        <li>
+          <a href="/configuration/services/">服务配置</a>
+        </li>
+        <li>
+          <a href="/configuration/sitemap/">站点地图配置</a>
+        </li>
+        <li>
+          <a href="/configuration/taxonomies/">分类法配置</a>
+        </li>
+        <li>
+          <a href="/configuration/ugly-urls/">丑陋 URL 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/versions/">版本配置</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/configuration/">配置</a></p>
+    <h1>参数配置</h1>
+    <p class="doc-description">用 params 区段定义自定义站点参数，并在模板中读取。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="用途">用途</h2>
+<p><code>params</code> 区段用于存放自定义参数：任何不属于 Hugo 内置配置项的键值对都可以写在 <code>[params]</code> 下。这些参数不会改变 Hugo 的构建行为，只是把数据交给模板使用，因此很适合放置站点副标题、联系方式、第三方服务 ID 一类的内容。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;en-US&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;Project Documentation&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">subtitle</span> <span class="p">=</span> <span class="s1">&#39;Reference, Tutorials, and Explanations&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">contact</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">email</span> <span class="p">=</span> <span class="s1">&#39;info@example.org&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">phone</span> <span class="p">=</span> <span class="s1">&#39;+1 206-555-1212&#39;</span></span></span></code></pre></div><h2 id="在模板中读取">在模板中读取</h2>
+<p>在模板里通过 <code>Site</code> 对象的 <code>Params</code> 方法访问自定义参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.Params.subtitle</span><span class="w"> </span><span class="cp">}}</span> → Reference, Tutorials, and Explanations
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.Params.contact.email</span><span class="w"> </span><span class="cp">}}</span> → info@example.org</span></span></code></pre></div><p>嵌套的映射（map）用点号逐层访问，<code>[params.contact]</code> 对应 <code>.Site.Params.contact</code>，其下的 <code>email</code> 对应 <code>.Site.Params.contact.email</code>。</p>
+<h2 id="键名的大小写与分隔符">键名的大小写与分隔符</h2>
+<p>键名建议使用 camelCase 或 snake_case。TOML、YAML 和 JSON 都允许 kebab-case 键名，但 kebab-case 不是合法的标识符，无法用于链式访问，因此下面两种写法都可以：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.params.camelCase.foo</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.params.snake_case.foo</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>而下面这种写法会失败：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.params.kebab</span><span class="err">-</span><span class="nx">case</span><span class="na">.foo</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>原因在于模板语言把 <code>-</code> 解释为减号而不是名称的一部分。若确实需要 kebab-case 键名，只能通过索引语法读取，所以更稳妥的做法是在配置阶段就避开它。</p>
+<h2 id="多语言项目">多语言项目</h2>
+<p>多语言项目把 <code>params</code> 区段写在各个语言键之下，每个语言拥有各自独立的参数，互不干扰：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">defaultContentLanguage</span> <span class="p">=</span> <span class="s1">&#39;en&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">languages</span><span class="p">.</span><span class="nx">de</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">direction</span> <span class="p">=</span> <span class="s1">&#39;ltr&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">label</span> <span class="p">=</span> <span class="s1">&#39;Deutsch&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;de-DE&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;Projekt Dokumentation&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">languages</span><span class="p">.</span><span class="nx">de</span><span class="p">.</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">subtitle</span> <span class="p">=</span> <span class="s1">&#39;Referenz, Tutorials und Erklärungen&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">languages</span><span class="p">.</span><span class="nx">de</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">contact</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">email</span> <span class="p">=</span> <span class="s1">&#39;info@de.example.org&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">phone</span> <span class="p">=</span> <span class="s1">&#39;+49 30 1234567&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">languages</span><span class="p">.</span><span class="nx">en</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">direction</span> <span class="p">=</span> <span class="s1">&#39;ltr&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">label</span> <span class="p">=</span> <span class="s1">&#39;English&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;en-US&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;Project Documentation&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">languages</span><span class="p">.</span><span class="nx">en</span><span class="p">.</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">subtitle</span> <span class="p">=</span> <span class="s1">&#39;Reference, Tutorials, and Explanations&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">languages</span><span class="p">.</span><span class="nx">en</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">contact</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">email</span> <span class="p">=</span> <span class="s1">&#39;info@example.org&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">phone</span> <span class="p">=</span> <span class="s1">&#39;+1 206-555-1212&#39;</span></span></span></code></pre></div><h2 id="命名空间">命名空间</h2>
+<p>为避免命名冲突，模块和主题的作者应当为自己特有的参数加上命名空间，而不是直接占用 <code>params</code> 下的顶层键名：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">modules</span><span class="p">.</span><span class="nx">myModule</span><span class="p">.</span><span class="nx">colors</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">background</span> <span class="p">=</span> <span class="s1">&#39;#efefef&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">font</span> <span class="p">=</span> <span class="s1">&#39;#222222&#39;</span></span></span></code></pre></div><p>站点侧读取这些设置时，同样从命名空间开始逐层访问：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Site.Params.module.mymodule</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$cfg</span><span class="na">.colors.background</span><span class="w"> </span><span class="cp">}}</span> → #efefef
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$cfg</span><span class="na">.colors.font</span><span class="w"> </span><span class="cp">}}</span> → #222222</span></span></code></pre></div><h2 id="要点回顾">要点回顾</h2>
+<table>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>区段名</td>
+					<td><code>params</code>，可嵌套任意层映射</td>
+			</tr>
+			<tr>
+					<td>键名风格</td>
+					<td>camelCase 或 snake_case（kebab-case 无法链式访问）</td>
+			</tr>
+			<tr>
+					<td>模板入口</td>
+					<td><code>.Site.Params</code>、<code>.Site.Params.&lt;键&gt;</code></td>
+			</tr>
+			<tr>
+					<td>多语言</td>
+					<td><code>[languages.&lt;lang&gt;.params]</code></td>
+			</tr>
+			<tr>
+					<td>模块/主题</td>
+					<td>建议加命名空间，如 <code>[params.modules.myModule]</code></td>
+			</tr>
+	</tbody>
+</table>
+<p>相关阅读：<a href="/configuration/">配置站点</a>、<a href="/getting-started/directory-structure/">目录结构</a>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/configuration/params/" target="_blank" rel="noopener">https://gohugo.io/configuration/params/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/configuration/page/">← 上一篇：页面配置</a>
+    <a class="pager-next" href="/configuration/pagination/">下一篇：分页配置 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#用途">用途</a></li>
+    <li><a href="#在模板中读取">在模板中读取</a></li>
+    <li><a href="#键名的大小写与分隔符">键名的大小写与分隔符</a></li>
+    <li><a href="#多语言项目">多语言项目</a></li>
+    <li><a href="#命名空间">命名空间</a></li>
+    <li><a href="#要点回顾">要点回顾</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

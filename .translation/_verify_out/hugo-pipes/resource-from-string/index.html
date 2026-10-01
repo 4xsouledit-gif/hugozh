@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>从字符串创建资源 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用字符串创建资源并发布到目标路径。">
+  <link rel="canonical" href="https://example.org/hugo-pipes/resource-from-string/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="从字符串创建资源 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用字符串创建资源并发布到目标路径。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/hugo-pipes/resource-from-string/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用字符串创建资源并发布到目标路径。","headline":"从字符串创建资源","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"从字符串创建资源","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/hugo-pipes/resource-from-string/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/hugo-pipes/">Hugo Pipes</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/hugo-pipes/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/transpile-sass-to-css/">把 Sass 编译为 CSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/postcss/">PostCSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/js/">JavaScript 构建</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/bundling/">资源打包</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/minification/">资源压缩</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/fingerprint/">资源指纹</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-string/" class="is-active" aria-current="page">从字符串创建资源</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-template/">从模板创建资源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/hugo-pipes/">Hugo Pipes</a></p>
+    <h1>从字符串创建资源</h1>
+    <p class="doc-description">用字符串创建资源并发布到目标路径。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="方法签名与用途">方法签名与用途</h2>
+<p><code>resources.FromString</code> 从一个字符串创建资源，并以目标路径作为缓存键：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">resources.FromString TARGETPATH STRING</span></span></code></pre></div><p>返回值类型是 <code>resource.Resource</code>，因此它可以继续参与管道，例如压缩或指纹。它适合生成那些内容来自配置或模板变量、而非来自磁盘文件的资源，典型的例子是 <code>security.txt</code> 与 <code>robots.txt</code>。</p>
+<h2 id="基本用法">基本用法</h2>
+<p>下面的例子根据站点配置里的邮箱生成一个 <code>security.txt</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$content</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">printf</span><span class="w"> </span><span class="s">&#34;Contact: mailto:%s\n&#34;</span><span class="w"> </span><span class="nx">site</span><span class="na">.Params.email</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.FromString</span><span class="w"> </span><span class="s">&#34;.well-known/security.txt&#34;</span><span class="w"> </span><span class="nx">$content</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.Publish</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>字符串中的换行需要显式写出，例如 <code>printf</code> 里的 <code>\n</code>；否则生成的文件内容会挤成一行。</p>
+<h2 id="在管道中发布">在管道中发布</h2>
+<p>如果想保持在一条管道里，可以用发布函数作为收尾：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$content</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">printf</span><span class="w"> </span><span class="s">&#34;Contact: mailto:%s\n&#34;</span><span class="w"> </span><span class="nx">site</span><span class="na">.Params.email</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">resources</span><span class="na">.FromString</span><span class="w"> </span><span class="s">&#34;.well-known/security.txt&#34;</span><span class="w"> </span><span class="nx">$content</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Publish</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>除了 <code>Publish</code>，<code>Permalink</code> 与 <code>RelPermalink</code> 方法同样会触发资源发布；如果只是想把内容写进当前页面而不生成文件，可以改用 <code>.Content</code>。</p>
+<h2 id="字符串中包含模板动作时">字符串中包含模板动作时</h2>
+<p>字符串里的模板动作不会被自动执行。遇到这种情况，可以先用 <code>resources.FromString</code> 把字符串变成资源，再用 <code>resources.ExecuteAsTemplate</code> 指定最终路径并执行其中的模板动作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$string</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">`Contact: mailto:{{ site.Params.email }}
+</span></span></span><span class="line"><span class="cl"><span class="s">Expires: {{ (now.AddDate 1 0 0).UTC.Format &#34;2006-01-02T15:04:05Z&#34; }}
+</span></span></span><span class="line"><span class="cl"><span class="s">`</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.FromString</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="w"> </span><span class="nx">$string</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">resources</span><span class="na">.ExecuteAsTemplate</span><span class="w"> </span><span class="s">&#34;.well-known/security.txt&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$r</span><span class="na">.Publish</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>这里先用空的目标路径把字符串包成资源，最终发布路径交由模板执行环节指定，这也是上游文档采用的写法。关于执行模板资源的完整说明，见<a href="/hugo-pipes/resource-from-template/">从模板创建资源</a>。</p>
+<h2 id="缓存与-gc">缓存与 &ndash;gc</h2>
+<p>因为缓存键是目标路径，同一目标路径的字符串资源在一次构建中会被复用；建议让一个目标路径只承载一种内容，避免不同内容之间相互覆盖或命中旧结果。</p>
+<p>构建时可用 <code>hugo build --gc</code> 在构建后清理未使用的缓存文件，参数说明见<a href="/commands/">命令</a>。</p>
+<h2 id="常见坑">常见坑</h2>
+<ul>
+<li>目标路径决定发布位置：<code>.well-known/security.txt</code> 会发布为 <code>public/.well-known/security.txt</code>，可以在<a href="/getting-started/directory-structure/">目录结构</a>中对照 <code>public</code> 目录的组织方式。</li>
+<li>字符串里的模板动作必须经过模板执行环节才会生效，直接发布只会得到原样的文本。</li>
+<li>资源只有在你引用或发布它之后才会出现在 <code>public</code> 目录里。</li>
+<li>生成文件的编码与换行都来自字符串本身，写多行内容时注意不要漏掉换行符。</li>
+</ul>
+<h2 id="相关页面">相关页面</h2>
+<ul>
+<li><a href="/hugo-pipes/">Hugo Pipes 简介</a></li>
+<li><a href="/hugo-pipes/resource-from-template/">从模板创建资源</a></li>
+<li><a href="/hugo-pipes/minification/">资源压缩</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/hugo-pipes/resource-from-string/" target="_blank" rel="noopener">https://gohugo.io/hugo-pipes/resource-from-string/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/hugo-pipes/fingerprint/">← 上一篇：资源指纹</a>
+    <a class="pager-next" href="/hugo-pipes/resource-from-template/">下一篇：从模板创建资源 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#方法签名与用途">方法签名与用途</a></li>
+    <li><a href="#基本用法">基本用法</a></li>
+    <li><a href="#在管道中发布">在管道中发布</a></li>
+    <li><a href="#字符串中包含模板动作时">字符串中包含模板动作时</a></li>
+    <li><a href="#缓存与-gc">缓存与 &ndash;gc</a></li>
+    <li><a href="#常见坑">常见坑</a></li>
+    <li><a href="#相关页面">相关页面</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

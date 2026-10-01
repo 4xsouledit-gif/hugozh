@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>弃用说明 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="Hugo 弃用功能、方法与配置项的流程，以及升级时如何查看提示。">
+  <link rel="canonical" href="https://example.org/troubleshooting/deprecation/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="弃用说明 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="Hugo 弃用功能、方法与配置项的流程，以及升级时如何查看提示。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/troubleshooting/deprecation/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"Hugo 弃用功能、方法与配置项的流程，以及升级时如何查看提示。","headline":"弃用说明","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"弃用说明","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/troubleshooting/deprecation/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/troubleshooting/">故障排查</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/troubleshooting/faq/">常见问题</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/audit/">审计</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/deprecation/" class="is-active" aria-current="page">弃用说明</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/inspection/">检查与调试</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/logging/">日志</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/performance/">性能</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/troubleshooting/">故障排查</a></p>
+    <h1>弃用说明</h1>
+    <p class="doc-description">Hugo 弃用功能、方法与配置项的流程，以及升级时如何查看提示。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="什么是弃用">什么是弃用</h2>
+<p>当一个项目宣布某项内容「弃用」（deprecate）时，它是在告诉用户三件事：</p>
+<ol>
+<li>不要再使用「甲」了。</li>
+<li>请改用「乙」。</li>
+<li>我们会在将来某个时间点移除「甲」。</li>
+</ol>
+<p>常见的<a href="https://en.wikipedia.org/wiki/Deprecation" target="_blank" rel="noopener">弃用原因</a>包括：</p>
+<ul>
+<li>某项功能已被更强大的替代方案取代。</li>
+<li>某项功能存在设计缺陷。</li>
+<li>某项功能被认为是多余的，为了简化整个系统，将来会被移除。</li>
+<li>软件的后续版本会有重大结构调整，导致继续支持旧功能不可能或不切实际。</li>
+<li>为了统一命名或提高一致性。</li>
+<li>过去只能独立使用的功能，现在与其配套功能合并。</li>
+</ul>
+<h2 id="弃用的节奏">弃用的节奏</h2>
+<p>项目团队在代码中弃用某项内容之后，Hugo 会：</p>
+<ol>
+<li>在 3 个次版本（minor release）中记录 INFO 级别的消息；</li>
+<li>再在 12 个次版本中记录 WARN 级别的消息；</li>
+<li>此后记录 ERROR 级别的消息，并让构建失败。</li>
+</ol>
+<p>这里的次版本指版本号中第二段数字递增的发布，例如 v0.1.1 =&gt; v0.2.0 就是一个次版本。</p>
+<h2 id="文档的处理">文档的处理</h2>
+<p>项目团队会：</p>
+<ol>
+<li>在弃用日期当天更新文档，加入说明弃用的注记以及相关的替代方案；</li>
+<li>在 Hugo 开始记录 ERROR 消息并导致构建失败之后的 6 个或更多次版本后移除代码。到那时 Hugo 仍然会抛出错误，但错误消息中不再提到弃用；</li>
+<li>在弃用日期两年之后移除对应的文档。</li>
+</ol>
+<p>因此，升级 Hugo 时看到弃用提示，最好当场处理，而不要等到功能被移除。</p>
+<h2 id="如何查看弃用提示">如何查看弃用提示</h2>
+<p>要看 INFO 级别的消息，必须使用 <code>--logLevel</code> 命令行标志：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo build --logLevel info</span></span></code></pre></div><p>只想保留弃用相关的提示时，可以过滤输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo build --logLevel info <span class="p">|</span> grep deprecate</span></span></code></pre></div><p>如果不指定 <code>--logLevel</code>，默认只会显示警告与错误，弃用初期的 INFO 提示就被淹没了，因此请在每次升级 Hugo 之后运行上面的命令。日志级别的完整说明见<a href="/troubleshooting/logging/">日志</a>，<code>hugo build</code> 的其他选项见<a href="/commands/">命令</a>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/troubleshooting/deprecation/" target="_blank" rel="noopener">https://gohugo.io/troubleshooting/deprecation/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/troubleshooting/audit/">← 上一篇：审计</a>
+    <a class="pager-next" href="/troubleshooting/inspection/">下一篇：检查与调试 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是弃用">什么是弃用</a></li>
+    <li><a href="#弃用的节奏">弃用的节奏</a></li>
+    <li><a href="#文档的处理">文档的处理</a></li>
+    <li><a href="#如何查看弃用提示">如何查看弃用提示</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

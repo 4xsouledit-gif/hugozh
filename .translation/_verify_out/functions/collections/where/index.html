@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>collections.Where · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="按指定的 key、运算符和值筛选给定切片，返回满足条件的元素。">
+  <link rel="canonical" href="https://example.org/functions/collections/where/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="collections.Where · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="按指定的 key、运算符和值筛选给定切片，返回满足条件的元素。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/collections/where/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"按指定的 key、运算符和值筛选给定切片，返回满足条件的元素。","headline":"collections.Where","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"collections.Where","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/collections/where/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/collections/">collections</a></p>
+    <h1>collections.Where</h1>
+    <p class="doc-description">按指定的 key、运算符和值筛选给定切片，返回满足条件的元素。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">collections.Where SLICE KEY [OPERATOR] VALUE</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>[]any</code></dd>
+  <dt>别名</dt>
+  <dd><code>where</code></dd>
+</dl>
+  <div class="doc-body"><h2 id="用法">用法</h2>
+<p><code>where</code> 函数返回给定切片，并移除不满足比较条件的元素。比较条件由 <code>KEY</code>、<code>OPERATOR</code> 和 <code>VALUE</code> 三个参数构成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">collections.Where SLICE KEY [OPERATOR] VALUE
+</span></span><span class="line"><span class="cl">                        --------------------
+</span></span><span class="line"><span class="cl">                        比较条件</span></span></code></pre></div><p>如果不提供 <code>OPERATOR</code> 参数，Hugo 会按相等进行比较。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;books&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.Data.books</span><span class="w"> </span><span class="s">&#34;genres&#34;</span><span class="w"> </span><span class="s">&#34;suspense&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="参数">参数</h3>
+<p>where 函数接收三到四个参数。<code>OPERATOR</code> 参数是可选的。</p>
+<dl>
+<dt><code>SLICE</code></dt>
+<dd>（<code>[]any</code>）一个页面集合，或由映射构成的切片。</dd>
+<dt><code>KEY</code></dt>
+<dd>（<code>string</code>）用于与 <code>VALUE</code> 比较的页面或映射值的 key。对于页面集合，常用的比较 key 有 <code>Section</code>、<code>Type</code> 和 <code>Params</code>。要与页面 <code>Params</code> 映射中的成员比较，请按下文所示链式书写子 key：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.foo&#34;</span><span class="w"> </span><span class="s">&#34;bar&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div></dd>
+<dt><code>OPERATOR</code></dt>
+<dd>（<code>string</code>）逻辑比较<a href="#%e8%bf%90%e7%ae%97%e7%ac%a6">运算符</a>。</dd>
+<dt><code>VALUE</code></dt>
+<dd>（<code>any</code>）用于比较的值。参与比较的值必须具有可比较的数据类型。例如：</dd>
+</dl>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">比较</th>
+					<th style="text-align: left">结果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>&quot;123&quot; &quot;eq&quot; &quot;123&quot;</code></td>
+					<td style="text-align: left"><code>true</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>&quot;123&quot; &quot;eq&quot; 123</code></td>
+					<td style="text-align: left"><code>false</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>false &quot;eq&quot; &quot;false&quot;</code></td>
+					<td style="text-align: left"><code>false</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>false &quot;eq&quot; false</code></td>
+					<td style="text-align: left"><code>true</code></td>
+			</tr>
+	</tbody>
+</table>
+<p>当参与比较的值之一是切片（或两者都是）时，请按下文所述使用 <code>in</code>、<code>not in</code> 或 <code>intersect</code> 运算符。</p>
+<h3 id="运算符">运算符</h3>
+<p>可使用以下任一逻辑运算符：</p>
+<dl>
+<dt><code>=</code>, <code>==</code>, <code>eq</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否等于 <code>VALUE</code>。</dd>
+<dt><code>!=</code>, <code>&lt;&gt;</code>, <code>ne</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否不等于 <code>VALUE</code>。</dd>
+<dt><code>&gt;=</code>, <code>ge</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否大于或等于 <code>VALUE</code>。</dd>
+<dt><code>&gt;</code>, <code>gt</code></dt>
+<dd><code>true</code> 判断给定字段值是否大于 <code>VALUE</code>。</dd>
+<dt><code>&lt;=</code>, <code>le</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否小于或等于 <code>VALUE</code>。</dd>
+<dt><code>&lt;</code>, <code>lt</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否小于 <code>VALUE</code>。</dd>
+<dt><code>in</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否为 <code>VALUE</code> 的成员。比较字符串与切片，或字符串与字符串。</dd>
+<dt><code>not in</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否不是 <code>VALUE</code> 的成员。比较字符串与切片，或字符串与字符串。</dd>
+<dt><code>intersect</code></dt>
+<dd>（<code>bool</code>）判断给定字段值（一个切片）是否与 <code>VALUE</code> 有一个或多个共同元素。</dd>
+<dt><code>like</code></dt>
+<dd>（<code>bool</code>）判断给定字段值是否匹配 <code>VALUE</code> 中指定的正则表达式。用 <code>like</code> 运算符比较 <code>string</code> 值。用其他数据类型与正则表达式比较时，<code>like</code> 运算符返回 <code>false</code>。</dd>
+</dl>
+<h2 id="示例">示例</h2>
+<p>以下示例演示了使用各种运算符和数据类型的比较。</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>下面的示例是在页面集合内进行比较，但同样的比较也适用于映射切片。</p></div>
+</aside><h3 id="字符串比较">字符串比较</h3>
+<p>将给定字段的值与 <code>string</code> 比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;books&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="s">&#34;books&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="数值比较">数值比较</h3>
+<p>将给定字段的值与 <code>int</code> 或 <code>float</code> 比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;books&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.price&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.price&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="nx">42</span><span class="na">.67</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.price&#34;</span><span class="w"> </span><span class="s">&#34;ge&#34;</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.price&#34;</span><span class="w"> </span><span class="s">&#34;gt&#34;</span><span class="w"> </span><span class="nx">42</span><span class="na">.67</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.price&#34;</span><span class="w"> </span><span class="s">&#34;le&#34;</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.price&#34;</span><span class="w"> </span><span class="s">&#34;lt&#34;</span><span class="w"> </span><span class="nx">42</span><span class="na">.67</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="布尔比较">布尔比较</h3>
+<p>将给定字段的值与 <code>bool</code> 比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;books&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.fiction&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.fiction&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.fiction&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.fiction&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="成员比较">成员比较</h3>
+<p>将 <code>scalar</code> 与 <code>slice</code> 比较。</p>
+<p>例如，要返回 <code>color</code> 页面参数为 &ldquo;red&rdquo; 或 &ldquo;yellow&rdquo; 的页面切片：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$fruit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;fruit&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$colors</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;red&#34;</span><span class="w"> </span><span class="s">&#34;yellow&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$fruit</span><span class="w"> </span><span class="s">&#34;Params.color&#34;</span><span class="w"> </span><span class="s">&#34;in&#34;</span><span class="w"> </span><span class="nx">$colors</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>要返回 <code>color</code> 页面参数既不是 <code>red</code> 也不是 <code>yellow</code> 的页面切片：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$fruit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;fruit&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$colors</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;red&#34;</span><span class="w"> </span><span class="s">&#34;yellow&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$fruit</span><span class="w"> </span><span class="s">&#34;Params.color&#34;</span><span class="w"> </span><span class="s">&#34;not in&#34;</span><span class="w"> </span><span class="nx">$colors</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="交集比较">交集比较</h3>
+<p>将 <code>slice</code> 与 <code>slice</code> 比较，返回具有共同值的元素。这在比较分类法（taxonomy）术语时经常用到。</p>
+<p>例如，要返回 <code>genres</code> 分类法中的任一术语为 &ldquo;suspense&rdquo; 或 &ldquo;romance&rdquo; 的页面切片：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;books&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$genres</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;suspense&#34;</span><span class="w"> </span><span class="s">&#34;romance&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$books</span><span class="w"> </span><span class="s">&#34;Params.genres&#34;</span><span class="w"> </span><span class="s">&#34;intersect&#34;</span><span class="w"> </span><span class="nx">$genres</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="正则表达式比较">正则表达式比较</h3>
+<p>要返回 <code>author</code> 页面参数以 &ldquo;victor&rdquo; 或 &ldquo;Victor&rdquo; 开头的页面切片：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.author&#34;</span><span class="w"> </span><span class="s">&#34;like&#34;</span><span class="w"> </span><span class="s">`(?i)^victor`</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>指定正则表达式时，请使用原始<a href="https://go.dev/ref/spec#String_literals" target="_blank" rel="noopener">字符串字面量</a>（反引号）而不是解释型字符串字面量（双引号），以简化语法。使用解释型字符串字面量时，必须转义反斜杠。</p>
+<p>Go 的正则表达式包实现了 <a href="https://github.com/google/re2/wiki/Syntax/" target="_blank" rel="noopener">RE2 语法</a>。大致来说，RE2 语法是 <a href="https://www.pcre.org/" target="_blank" rel="noopener">PCRE</a> 所接受语法的一个子集，并且有若干<a href="https://swtch.com/~rsc/regexp/regexp3.html#caveats" target="_blank" rel="noopener">注意事项</a>。注意不支持 RE2 的 <code>\C</code> 转义序列。</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>用 <code>like</code> 运算符比较字符串值。比较其他数据类型会得到空切片。</p></div>
+</aside><h3 id="日期比较">日期比较</h3>
+<p>比较预定义的前置元数据（front matter）日期，或自定义的前置元数据日期。</p>
+<h4 id="预定义日期">预定义日期</h4>
+<p>有四个预定义的前置元数据日期：<a href="/methods/page/date/"><code>date</code></a>、<a href="/methods/page/publishdate/"><code>publishDate</code></a>、<a href="/methods/page/lastmod/"><code>lastmod</code></a> 和 <a href="/methods/page/expirydate/"><code>expiryDate</code></a>。无论前置元数据采用哪种数据格式（TOML、YAML 还是 JSON），它们都是 <a href="https://pkg.go.dev/time#Time" target="_blank" rel="noopener"><code>time.Time</code></a> 值，因此可以精确比较。</p>
+<p>例如，要返回在当前年份之前创建的页面切片：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$startOfYear</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="na">.AsTime</span><span class="w"> </span><span class="o">(</span><span class="k">printf</span><span class="w"> </span><span class="s">&#34;%d-01-01&#34;</span><span class="w"> </span><span class="nx">now</span><span class="na">.Year</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Date&#34;</span><span class="w"> </span><span class="s">&#34;lt&#34;</span><span class="w"> </span><span class="nx">$startOfYear</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h4 id="自定义日期">自定义日期</h4>
+<p>对于自定义的前置元数据日期，比较方式取决于前置元数据的数据格式（TOML、YAML 或 JSON）。</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>让含自定义前置元数据日期的页面使用 TOML，就能实现精确的日期比较。</p></div>
+</aside><p>使用 TOML 时，日期值是一等公民。TOML 有日期数据类型，而 JSON 和 YAML 没有。如果给 TOML 日期加上引号，它就是字符串；如果不加引号，它就是 <a href="https://pkg.go.dev/time#Time" target="_blank" rel="noopener"><code>time.Time</code></a> 值，可以精确比较。</p>
+<p>在下面的 TOML 示例中，注意事件日期没有加引号。</p>
+<figure class="code-block" data-file="content/events/2024-user-conference.md">
+  <figcaption class="code-block-file">content/events/2024-user-conference.md</figcaption>
+  <div class="highlight" file="content/events/2024-user-conference.md"><pre tabindex="0" class="chroma"><code class="language-md" data-lang="md"><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">title = &#39;2024 User Conference&#34;
+</span></span><span class="line"><span class="cl">eventDate = 2024-04-01
+</span></span><span class="line"><span class="cl">+++</span></span></code></pre></div>
+</figure><p>要返回未来事件的切片：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$events</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Type&#34;</span><span class="w"> </span><span class="s">&#34;events&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$futureEvents</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$events</span><span class="w"> </span><span class="s">&#34;Params.eventDate&#34;</span><span class="w"> </span><span class="s">&#34;gt&#34;</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>使用 YAML 或 JSON，或者使用加了引号的 TOML 值时，自定义日期是字符串，无法与 <code>time.Time</code> 值比较。如果自定义日期的格式在各页面之间保持一致，也许可以用字符串比较。稳妥的做法是遍历切片来筛选页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$events</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Type&#34;</span><span class="w"> </span><span class="s">&#34;events&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$futureEvents</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">$events</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">gt</span><span class="w"> </span><span class="o">(</span><span class="nx">time</span><span class="na">.AsTime</span><span class="w"> </span><span class="na">.Params.eventDate</span><span class="o">)</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="nx">$futureEvents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$futureEvents</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">append</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="nil-比较">nil 比较</h3>
+<p>要返回前置元数据中存在 &ldquo;color&rdquo; 参数的页面切片，可与 <code>nil</code> 比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.color&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>要返回前置元数据中不存在 &ldquo;color&rdquo; 参数的页面切片，可与 <code>nil</code> 比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.color&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>上面两个示例中，注意 <code>nil</code> 都没有加引号。</p>
+<h3 id="嵌套比较">嵌套比较</h3>
+<p>下面两种写法等价：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Type&#34;</span><span class="w"> </span><span class="s">&#34;tutorials&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="s">&#34;Params.level&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;beginner&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="o">(</span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Type&#34;</span><span class="w"> </span><span class="s">&#34;tutorials&#34;</span><span class="o">)</span><span class="w"> </span><span class="s">&#34;Params.level&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="s">&#34;beginner&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="可移植的-section-比较">可移植的 section 比较</h3>
+<p>这一点对主题作者很有用：使用 <code>where</code> 函数配合 <code>Site</code> 对象上的 <a href="/methods/site/mainsections/"><code>MainSections</code></a> 方法，可以避免硬编码 section 名称。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Section&#34;</span><span class="w"> </span><span class="s">&#34;in&#34;</span><span class="w"> </span><span class="na">.Site.MainSections</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>用这种写法，主题作者可以要求用户在自己的项目配置中指定主要 section：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">mainSections</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;blog&#39;</span><span class="p">,</span><span class="s1">&#39;galleries&#39;</span><span class="p">]</span></span></span></code></pre></div><p>如果项目配置中没有定义 <code>mainSections</code>，<code>MainSections</code> 方法会返回只含一个元素的切片——即页面最多的顶级 section。</p>
+<h3 id="布尔值未定义值比较">布尔值/未定义值比较</h3>
+<p>考虑下面这样的项目结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── posts/
+</span></span><span class="line"><span class="cl">│   ├── _index.md
+</span></span><span class="line"><span class="cl">│   ├── post-1.md  &lt;-- 前置元数据：exclude = false
+</span></span><span class="line"><span class="cl">│   ├── post-2.md  &lt;-- 前置元数据：exclude = true
+</span></span><span class="line"><span class="cl">│   └── post-3.md  &lt;-- 前置元数据：未定义 exclude
+</span></span><span class="line"><span class="cl">└── _index.md</span></span></code></pre></div><p>前两个页面的前置元数据中有 &ldquo;exclude&rdquo; 字段，最后一个页面没有。测试_相等_时，第三个页面会被_排除_在结果之外；测试_不等_时，第三个页面会被_包含_在结果之中。</p>
+<h4 id="相等测试">相等测试</h4>
+<p>该模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>渲染为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-1/&#34;</span><span class="p">&gt;</span>Post 1<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>该模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>渲染为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-2/&#34;</span><span class="p">&gt;</span>Post 2<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><h4 id="不等测试">不等测试</h4>
+<p>该模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>渲染为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-2/&#34;</span><span class="p">&gt;</span>Post 2<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-3/&#34;</span><span class="p">&gt;</span>Post 3<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>该模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>渲染为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-1/&#34;</span><span class="p">&gt;</span>Post 1<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-3/&#34;</span><span class="p">&gt;</span>Post 3<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>要把字段未定义的页面从布尔_不等_测试中排除：</p>
+<ol>
+<li>用布尔比较创建一个切片</li>
+<li>用 <code>nil</code> 比较创建一个切片</li>
+<li>用 <a href="/functions/collections/complement/"><code>collections.Complement</code></a> 函数从第一个切片中减去第二个切片。</li>
+</ol>
+<p>该模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$p1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$p2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">$p1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">complement</span><span class="w"> </span><span class="nx">$p2</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>渲染为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-1/&#34;</span><span class="p">&gt;</span>Post 1<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>该模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$p1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$p2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.exclude&#34;</span><span class="w"> </span><span class="s">&#34;eq&#34;</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">$p1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">complement</span><span class="w"> </span><span class="nx">$p2</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div><p>渲染为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;/posts/post-1/&#34;</span><span class="p">&gt;</span>Post 2<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span></span></code></pre></div></div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/collections/where/" target="_blank" rel="noopener">https://gohugo.io/functions/collections/where/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/functions/collections/uniq/">← 上一篇：uniq</a>
+    
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#用法">用法</a>
+      <ul>
+        <li><a href="#参数">参数</a></li>
+        <li><a href="#运算符">运算符</a></li>
+      </ul>
+    </li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#字符串比较">字符串比较</a></li>
+        <li><a href="#数值比较">数值比较</a></li>
+        <li><a href="#布尔比较">布尔比较</a></li>
+        <li><a href="#成员比较">成员比较</a></li>
+        <li><a href="#交集比较">交集比较</a></li>
+        <li><a href="#正则表达式比较">正则表达式比较</a></li>
+        <li><a href="#日期比较">日期比较</a></li>
+        <li><a href="#nil-比较">nil 比较</a></li>
+        <li><a href="#嵌套比较">嵌套比较</a></li>
+        <li><a href="#可移植的-section-比较">可移植的 section 比较</a></li>
+        <li><a href="#布尔值未定义值比较">布尔值/未定义值比较</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

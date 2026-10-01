@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>JavaScript 构建 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用 js.Build 打包、转译、摇树与压缩 JavaScript 资源。">
+  <link rel="canonical" href="https://example.org/hugo-pipes/js/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="JavaScript 构建 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用 js.Build 打包、转译、摇树与压缩 JavaScript 资源。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/hugo-pipes/js/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用 js.Build 打包、转译、摇树与压缩 JavaScript 资源。","headline":"JavaScript 构建","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"JavaScript 构建","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/hugo-pipes/js/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/hugo-pipes/">Hugo Pipes</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/hugo-pipes/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/transpile-sass-to-css/">把 Sass 编译为 CSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/postcss/">PostCSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/js/" class="is-active" aria-current="page">JavaScript 构建</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/bundling/">资源打包</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/minification/">资源压缩</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/fingerprint/">资源指纹</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-string/">从字符串创建资源</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-template/">从模板创建资源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/hugo-pipes/">Hugo Pipes</a></p>
+    <h1>JavaScript 构建</h1>
+    <p class="doc-description">用 js.Build 打包、转译、摇树与压缩 JavaScript 资源。</p>
+  </header>
+  
+  <div class="doc-body"><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p><code>js.Build</code> 以 <a href="https://github.com/evanw/esbuild" target="_blank" rel="noopener"><code>evanw/esbuild</code></a> 为基础，在打包、转译与压缩方面性能高、成熟度好。</p></div>
+</aside><p>用 <code>js.Build</code> 可以：</p>
+<ul>
+<li>打包（bundle）</li>
+<li>转译（TypeScript 与 JSX）</li>
+<li>摇树（tree shake，移除无用代码）</li>
+<li>压缩（minify）</li>
+<li>生成 source map</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.js&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;minify&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">cond</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="k">true</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;sourceMap&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">cond</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="s">&#34;linked&#34;</span><span class="w"> </span><span class="s">&#34;none&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">fingerprint</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Data.Integrity</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="安装-nodejs-依赖">安装 Node.js 依赖</h2>
+<p>凡是不在 <code>assets</code> 目录内的导入，或者无法解析到 <code>assets</code> 内某个组件的导入，都会交给 <code>esbuild</code> 处理，并以<strong>项目目录</strong>作为解析起点，也就是说，查找 <code>node_modules</code> 之类的目录时都从项目根目录开始。因此，如果项目引用了 npm 依赖，必须先运行 <code>npm install</code> 再执行构建；若正在开发一个需要被导入、且依赖自身 <code>package.json</code> 中那些依赖的主题或组件，可用 <code>hugo mod npm pack</code> 把项目中的 npm 依赖汇总起来。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm install</span></span></code></pre></div><h2 id="配置选项">配置选项</h2>
+<p><code>js.Build</code> 接受一个选项映射，键名与取值如下。</p>
+<ul>
+<li><code>format</code>：输出格式，取 <code>iife</code>、<code>cjs</code>、<code>esm</code> 之一，默认 <code>iife</code>，即自执行函数，便于直接以 script 标签引入。</li>
+<li><code>importContext</code>：（自 v0.165.0 起）解析 import 语句时使用的资源获取上下文（resource getter）。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。</li>
+<li><code>targetPath</code>：不设置时以源文件路径作为目标路径的基准。注意目标 MIME 类型不同时（例如源文件是 TypeScript），目标路径的扩展名可能随之改变。</li>
+<li><code>defines</code>：一个映射，用于在构建时做字符串替换，每个键会被它的值替换。</li>
+<li><code>drop</code>：（自 v0.144.0 起）在构建前改写源码，丢弃特定构造，取 <code>debugger</code> 或 <code>console</code> 之一。参见 <a href="https://esbuild.github.io/api/#drop" target="_blank" rel="noopener">https://esbuild.github.io/api/#drop</a>。</li>
+<li><code>externals</code>：外部依赖切片。可以用它裁掉确定不会执行到的依赖。参见 <a href="https://esbuild.github.io/api/#external" target="_blank" rel="noopener">https://esbuild.github.io/api/#external</a>。</li>
+<li><code>inject</code>：切片，用于把某个全局变量自动替换为另一个文件中的导入。其中的路径必须相对于 <code>assets</code>。参见 <a href="https://esbuild.github.io/api/#inject" target="_blank" rel="noopener">https://esbuild.github.io/api/#inject</a>。</li>
+<li><code>JSX</code>：如何处理与转换 JSX 语法，取 <code>transform</code>、<code>preserve</code>、<code>automatic</code> 之一，默认 <code>transform</code>。其中 <code>automatic</code> 转换由 React 17+ 引入，会自动导入所需的 JSX 辅助函数。参见 <a href="https://esbuild.github.io/api/#jsx" target="_blank" rel="noopener">https://esbuild.github.io/api/#jsx</a>。</li>
+<li><code>JSXImportSource</code>：从哪个库自动导入 JSX 辅助函数，仅在 <code>JSX</code> 为 <code>automatic</code> 时有效。指定的库需要通过 npm 安装，并暴露相应的导出。参见 <a href="https://esbuild.github.io/api/#jsx-import-source" target="_blank" rel="noopener">https://esbuild.github.io/api/#jsx-import-source</a>。</li>
+<li><code>loaders</code>：（自 v0.140.0 起）为给定文件类型配置加载器后，就可以用 <code>import</code> 语句或 <code>require</code> 调用加载该类型文件。例如把 <code>.png</code> 扩展名配置为 data URL 加载器，导入 <code>.png</code> 文件就会得到包含该图片内容的数据 URL。可用的加载器有 <code>none</code>、<code>base64</code>、<code>binary</code>、<code>copy</code>、<code>css</code>、<code>dataurl</code>、<code>default</code>、<code>empty</code>、<code>file</code>、<code>global-css</code>、<code>js</code>、<code>json</code>、<code>jsx</code>、<code>local-css</code>、<code>text</code>、<code>ts</code>、<code>tsx</code>。参见 <a href="https://esbuild.github.io/api/#loader" target="_blank" rel="noopener">https://esbuild.github.io/api/#loader</a>。</li>
+<li><code>minify</code>：是否压缩生成的 JavaScript 代码，默认 <code>false</code>。</li>
+<li><code>params</code>：可以在 JavaScript 文件中以 JSON 形式导入的参数，类型为映射或切片。注意它适合配置项之类的小数据；数据较大时，应把文件放入或挂载到 <code>assets</code> 中直接导入。</li>
+<li><code>platform</code>：（自 v0.140.0 起）取 <code>browser</code>、<code>node</code>、<code>neutral</code> 之一，默认 <code>browser</code>。参见 <a href="https://esbuild.github.io/api/#platform" target="_blank" rel="noopener">https://esbuild.github.io/api/#platform</a>。</li>
+<li><code>shims</code>：映射，用于把某个组件替换为另一个。常见用法是生产环境通过 shim 从 CDN 加载 React 这类依赖，而开发环境仍使用打包进来的完整 <code>node_modules</code> 依赖。</li>
+<li><code>sourceMap</code>：要生成的 source map 类型，取 <code>external</code>、<code>inline</code>、<code>linked</code>、<code>none</code> 之一，默认 <code>none</code>。<code>linked</code> 与 <code>external</code> 的 source map 会写到目标路径，文件名为输出文件名加 <code>.map</code>；取 <code>linked</code> 时还会在输出文件中写入 <code>sourceMappingURL</code>。</li>
+<li><code>sourcesContent</code>：（自 v0.140.0 起）是否在 source map 中包含源文件的内容，默认 <code>true</code>。</li>
+<li><code>target</code>：语言目标，取 <code>es5</code>、<code>es2015</code>、<code>es2016</code>、<code>es2017</code>、<code>es2018</code>、<code>es2019</code>、<code>es2020</code>、<code>es2021</code>、<code>es2022</code>、<code>es2023</code>、<code>es2024</code>、<code>es2025</code> 或 <code>esnext</code> 之一，默认 <code>esnext</code>。</li>
+</ul>
+<p><code>JSX</code> 与 <code>JSXImportSource</code> 搭配使用，可以在 Preact 这类非 React 的 JSX 库中省去手工导入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.jsx&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;JSX&#34;</span><span class="w"> </span><span class="s">&#34;automatic&#34;</span><span class="w"> </span><span class="s">&#34;JSXImportSource&#34;</span><span class="w"> </span><span class="s">&#34;preact&#34;</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>上面的配置下，使用 Preact 组件与 JSX 时不必每次都导入 <code>h</code> 与 <code>Fragment</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-jsx" data-lang="jsx"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">render</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;preact&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">App</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">&lt;&gt;</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="p">&lt;/&gt;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">container</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;app&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">container</span><span class="p">)</span> <span class="nx">render</span><span class="p">(&lt;</span><span class="nt">App</span> <span class="p">/&gt;,</span> <span class="nx">container</span><span class="p">);</span></span></span></code></pre></div><p><code>shims</code> 的典型用法如下，对应的 shim 文件内容形如 <code>module.exports = window.React;</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$shims</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;react&#34;</span><span class="w"> </span><span class="s">&#34;js/shims/react.js&#34;</span><span class="w">  </span><span class="s">&#34;react-dom&#34;</span><span class="w"> </span><span class="s">&#34;js/shims/react-dom.js&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;shims&#34;</span><span class="w"> </span><span class="nx">$shims</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>下面这个例子把 <code>react</code> 与 <code>react-dom</code> 排除在打包之外，并替换 <code>process.env.NODE_ENV</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$externals</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;react&#34;</span><span class="w"> </span><span class="s">&#34;react-dom&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$defines</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;process.env.NODE_ENV&#34;</span><span class="w"> </span><span class="s">`&#34;development&#34;`</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;targetPath&#34;</span><span class="w"> </span><span class="s">&#34;main.js&#34;</span><span class="w"> </span><span class="s">&#34;externals&#34;</span><span class="w"> </span><span class="nx">$externals</span><span class="w"> </span><span class="s">&#34;defines&#34;</span><span class="w"> </span><span class="nx">$defines</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$built</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;scripts/main.js&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$built</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">defer</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span></span></span></code></pre></div><h2 id="从-assets-目录导入">从 assets 目录导入</h2>
+<p><code>js.Build</code> 完整支持 Hugo 的统一文件系统。简而言之，下面的写法会解析到分层文件系统中 <code>assets/my/module</code> 里最靠上的 <code>index.{js,ts,tsx,jsx}</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">hello</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;my/module&#39;</span><span class="p">;</span></span></span></code></pre></div><p>以 <code>.</code> 开头的导入相对当前文件解析；其他类型的文件（如 JSON、CSS）需要写出包含扩展名的相对路径：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">hello3</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;my/module/hello3&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">hello4</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./lib&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">data</span> <span class="nx">from</span> <span class="s1">&#39;my/module/data.json&#39;</span><span class="p">;</span></span></span></code></pre></div><p>用 <code>params</code> 选项可以在模板与 JavaScript 之间传递数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$js</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.js&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;params&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;api&#34;</span><span class="w"> </span><span class="s">&#34;https://example.org/api&#34;</span><span class="o">))</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>在 JavaScript 文件中以 <code>@params</code> 这个特殊模块接收：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">params</span> <span class="nx">from</span> <span class="s1">&#39;@params&#39;</span><span class="p">;</span></span></span></code></pre></div><p>另外，Hugo 默认会生成一份 <code>assets/jsconfig.json</code>，用于映射这些导入路径，方便在代码编辑器中跳转与获得智能提示；若不需要，可通过 <code>[build]</code> 分类下的 <code>noJSConfigInAssets</code> 关闭。</p>
+<h2 id="构建产物">构建产物</h2>
+<p>自 v0.165.0 起，除主输出之外，Hugo 还可能发布其他文件：</p>
+<ul>
+<li>由 esbuild 的 <code>file</code> 加载器复制到输出目录的文件，例如字体与图片</li>
+<li><code>sourceMap</code> 选项取 <code>external</code> 或 <code>linked</code> 时生成的 source map</li>
+</ul>
+<p>返回资源上的 <code>.Data.Artifacts</code> 以切片形式暴露这些产物，每一项都提供 <code>MediaType</code>、<code>Permalink</code> 与 <code>RelPermalink</code>。例如，为构建过程发布的图片文件渲染预加载链接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.js&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Build</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="na">.Data.Artifacts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">eq</span><span class="w"> </span><span class="na">.MediaType.MainType</span><span class="w"> </span><span class="s">&#34;image&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;preload&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">as</span><span class="o">=</span><span class="s">&#34;image&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.MediaType.Type</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="发布与指纹">发布与指纹</h2>
+<p>调用 <code>.RelPermalink</code> 或 <code>.Permalink</code> 会把构建结果发布到 <code>publishDir</code>。生产环境通常再串上 <code>resources.Fingerprint</code>，用带哈希的文件名与 <code>.Data.Integrity</code> 获得更好的缓存效果与完整性校验，参见<a href="/hugo-pipes/fingerprint/">资源指纹</a>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/hugo-pipes/js/" target="_blank" rel="noopener">https://gohugo.io/hugo-pipes/js/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/hugo-pipes/postcss/">← 上一篇：PostCSS</a>
+    <a class="pager-next" href="/hugo-pipes/bundling/">下一篇：资源打包 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装-nodejs-依赖">安装 Node.js 依赖</a></li>
+    <li><a href="#配置选项">配置选项</a></li>
+    <li><a href="#从-assets-目录导入">从 assets 目录导入</a></li>
+    <li><a href="#构建产物">构建产物</a></li>
+    <li><a href="#发布与指纹">发布与指纹</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

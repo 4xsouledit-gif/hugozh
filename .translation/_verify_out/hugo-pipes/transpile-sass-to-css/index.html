@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>把 Sass 编译为 CSS · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用 css.Sass 把 Sass 或 SCSS 编译为 CSS，并压缩与加指纹。">
+  <link rel="canonical" href="https://example.org/hugo-pipes/transpile-sass-to-css/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="把 Sass 编译为 CSS · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用 css.Sass 把 Sass 或 SCSS 编译为 CSS，并压缩与加指纹。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/hugo-pipes/transpile-sass-to-css/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用 css.Sass 把 Sass 或 SCSS 编译为 CSS，并压缩与加指纹。","headline":"把 Sass 编译为 CSS","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"把 Sass 编译为 CSS","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/hugo-pipes/transpile-sass-to-css/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/hugo-pipes/">Hugo Pipes</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/hugo-pipes/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/transpile-sass-to-css/" class="is-active" aria-current="page">把 Sass 编译为 CSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/postcss/">PostCSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/js/">JavaScript 构建</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/bundling/">资源打包</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/minification/">资源压缩</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/fingerprint/">资源指纹</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-string/">从字符串创建资源</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-template/">从模板创建资源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/hugo-pipes/">Hugo Pipes</a></p>
+    <h1>把 Sass 编译为 CSS</h1>
+    <p class="doc-description">用 css.Sass 把 Sass 或 SCSS 编译为 CSS，并压缩与加指纹。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="适用前提">适用前提</h2>
+<p>用 <code>css.Sass</code> 函数把 Sass 转译为 CSS。Hugo 的 extended 版与 extended/deploy 版内置了 LibSass 转译器；若想使用 Sass 语言的最新特性，则需另行安装 Dart Sass。Sass 有 SCSS 与缩进语法两种书写形式，Hugo 都支持。</p>
+<p>转译器的选择由 <code>transpiler</code> 选项决定，取值为 <code>libsass</code> 或 <code>dartsass</code>，默认是 <code>libsass</code>。内置的 LibSass 转译器已标记为过时并将在未来的版本中移除，因此建议改用 Dart Sass：把 <code>transpiler</code> 设为 <code>dartsass</code> 即可。</p>
+<p>采用 Dart Sass 时，把它装进 <code>PATH</code> 覆盖到的位置，Hugo 就能找到它。用 <code>hugo env</code> 命令可以列出当前生效的转译器。在持续集成的构建环境中，通常需要在构建开始前先安装 Dart Sass，除非你已按原样把 <code>resources</code> 目录提交进仓库。</p>
+<h2 id="取得资源">取得资源</h2>
+<p>样式表同样要先作为资源取出，再进入管道。资源位于资产目录 <code>assets</code> 中，例如 <code>assets/sass/main.scss</code> 就写为 <code>resources.Get &quot;sass/main.scss&quot;</code>。</p>
+<h2 id="管道方法链">管道方法链</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;transpiler&#34;</span><span class="w"> </span><span class="s">&#34;dartsass&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;sass/main.scss&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">css</span><span class="na">.Sass</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>选项以映射形式传入，要与其他函数串成管道链时紧随其后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;sass/main.scss&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">css</span><span class="na">.Sass</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Minify</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Fingerprint</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="配置选项">配置选项</h2>
+<p><code>css.Sass</code> 接受一个选项映射，常用键如下。</p>
+<ul>
+<li><code>transpiler</code>：转译器，<code>libsass</code> 或 <code>dartsass</code>，默认 <code>libsass</code>。</li>
+<li><code>outputStyle</code>：输出样式。LibSass 可取 <code>nested</code>（默认）、<code>expanded</code>、<code>compact</code>、<code>compressed</code>；Dart Sass 取 <code>expanded</code>（默认）或 <code>compressed</code>。</li>
+<li><code>enableSourceMap</code>：是否生成 source map，默认 <code>false</code>。另有 <code>sourceMapIncludeSources</code> 决定是否把源文件嵌入 source map，默认 <code>false</code>，适用于 Dart Sass。</li>
+<li><code>targetPath</code>：目标路径，相对于 <code>publishDir</code>；若不设置，则默认为资源原路径换用 <code>.css</code> 扩展名。</li>
+<li><code>includePaths</code>：一个路径切片，用于解析 <code>@use</code> 与 <code>@import</code>，例如 <code>node_modules/bootstrap/scss</code>。</li>
+<li><code>precision</code>：浮点运算精度，默认 <code>8</code>，适用于 LibSass。</li>
+<li><code>silenceDeprecations</code> 与 <code>silenceDependencyDeprecations</code>：用于压制度弃告警，后者默认 <code>false</code>，适用于 Dart Sass。</li>
+<li><code>vars</code>：键值映射，用来生成 Sass 变量。</li>
+</ul>
+<h2 id="sass-变量">Sass 变量</h2>
+<p><code>vars</code> 中的变量会在样式表里遇到 <code>hugo:vars</code> 这一内部标识符时注入。在配置文件中集中定义颜色与字号，再交给模板，是一种常见做法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">theme</span><span class="p">.</span><span class="nx">style</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">font-family</span> <span class="p">=</span> <span class="s1">&#39;&#34;Times New Roman&#34;, Times, serif&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">font-size</span> <span class="p">=</span> <span class="s1">&#39;24px&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">primary-color</span> <span class="p">=</span> <span class="s1">&#39;blue&#39;</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;transpiler&#34;</span><span class="w"> </span><span class="s">&#34;dartsass&#34;</span><span class="w"> </span><span class="s">&#34;vars&#34;</span><span class="w"> </span><span class="nx">site</span><span class="na">.Params.theme.style</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;sass/main.scss&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">css</span><span class="na">.Sass</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>样式表中以 <code>@use 'hugo:vars' as v;</code> 引入后，即可用 <code>v.$primary-color</code> 这样的形式取值。传入 <code>vars</code> 时，Hugo 会用正则匹配识别 <code>24px</code>、<code>#FF0000</code> 一类常见的带类型 CSS 值；必要时可用 <code>css.Quoted</code> 或 <code>css.Unquoted</code> 明确指定类型，避免自动推断造成歧义。</p>
+<h2 id="示例">示例</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;sass/main.scss&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;transpiler&#34;</span><span class="w"> </span><span class="s">&#34;dartsass&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;targetPath&#34;</span><span class="w"> </span><span class="s">&#34;css/main.css&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;outputStyle&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">cond</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="s">&#34;expanded&#34;</span><span class="w"> </span><span class="s">&#34;compressed&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;includePaths&#34;</span><span class="w"> </span><span class="o">(</span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;node_modules/bootstrap/scss&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">css</span><span class="na">.Sass</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">fingerprint</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Data.Integrity</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="缓存与并发">缓存与并发</h2>
+<p>管道链的结果按整条链缓存，同一次构建中只执行一次，反复调用不会重复编译。</p>
+<h2 id="发布与指纹">发布与指纹</h2>
+<p>调用 <code>.RelPermalink</code> 或 <code>.Permalink</code> 会触发发布。生产环境通常再串上 <code>resources.Fingerprint</code>，得到带哈希的文件名与 <code>.Data.Integrity</code>，便于设置长缓存并启用子资源完整性校验。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/hugo-pipes/transpile-sass-to-css/" target="_blank" rel="noopener">https://gohugo.io/hugo-pipes/transpile-sass-to-css/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/hugo-pipes/introduction/">← 上一篇：简介</a>
+    <a class="pager-next" href="/hugo-pipes/postcss/">下一篇：PostCSS →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#适用前提">适用前提</a></li>
+    <li><a href="#取得资源">取得资源</a></li>
+    <li><a href="#管道方法链">管道方法链</a></li>
+    <li><a href="#配置选项">配置选项</a></li>
+    <li><a href="#sass-变量">Sass 变量</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#缓存与并发">缓存与并发</a></li>
+    <li><a href="#发布与指纹">发布与指纹</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

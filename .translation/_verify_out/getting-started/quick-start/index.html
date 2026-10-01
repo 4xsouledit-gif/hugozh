@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>快速开始 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用几条命令创建 Hugo 项目、添加内容、启动本地服务器并生成静态站点。">
+  <link rel="canonical" href="https://example.org/getting-started/quick-start/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="快速开始 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用几条命令创建 Hugo 项目、添加内容、启动本地服务器并生成静态站点。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/getting-started/quick-start/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用几条命令创建 Hugo 项目、添加内容、启动本地服务器并生成静态站点。","headline":"快速开始","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"快速开始","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/getting-started/quick-start/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/getting-started/">入门</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/getting-started/quick-start/" class="is-active" aria-current="page">快速开始</a>
+        </li>
+        <li>
+          <a href="/getting-started/basic-usage/">基本用法</a>
+        </li>
+        <li>
+          <a href="/getting-started/directory-structure/">目录结构</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/getting-started/">入门</a></p>
+    <h1>快速开始</h1>
+    <p class="doc-description">用几条命令创建 Hugo 项目、添加内容、启动本地服务器并生成静态站点。</p>
+  </header>
+  
+  <div class="doc-body"><p>本教程带你完成四件事：创建项目、添加内容、配置项目、发布项目。</p>
+<h2 id="准备条件">准备条件</h2>
+<p>开始之前，请先：</p>
+<ol>
+<li>安装 Hugo。任何发行版（edition）都可以，但版本不能低于 v0.158.0，安装方式见<a href="/installation/">安装 Hugo</a>。</li>
+<li>安装 Git。</li>
+</ol>
+<p>你还需要熟悉命令行的基本操作。</p>
+<h2 id="创建项目">创建项目</h2>
+<p>用下面这组命令创建新的 Hugo 项目。</p>
+<h3 id="命令">命令</h3>
+<blockquote><p><strong>如果你是 Windows 用户：</strong></p>
+<ul>
+<li>不要使用命令提示符（Command Prompt）</li>
+<li>不要使用 Windows PowerShell</li>
+<li>请在 PowerShell，或 WSL、Git Bash 这类 Linux 终端中执行命令</li>
+</ul>
+<p>PowerShell 与 Windows PowerShell 是两个不同的应用。</p>
+</blockquote><p>先确认已安装 v0.158.0 或更高版本的 Hugo：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo version</span></span></code></pre></div><p>再创建使用 Ananke 主题的项目。下一小节会逐条解释这些命令。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new project quickstart
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> quickstart
+</span></span><span class="line"><span class="cl">git init
+</span></span><span class="line"><span class="cl">git submodule add https://github.com/gohugo-ananke/ananke themes/ananke
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;theme = &#39;ananke&#39;&#34;</span> &gt;&gt; hugo.toml
+</span></span><span class="line"><span class="cl">hugo server</span></span></code></pre></div><p>在终端显示的网址上查看站点。按 <code>Ctrl + C</code> 停止 Hugo 的开发服务器（development server）。</p>
+<h3 id="命令说明">命令说明</h3>
+<p>在 <code>quickstart</code> 目录中创建项目的<a href="/getting-started/directory-structure/#%e9%a1%b9%e7%9b%ae%e9%aa%a8%e6%9e%b6project-skeleton">项目骨架</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new project quickstart</span></span></code></pre></div><p>把当前目录切换到项目根目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> quickstart</span></span></code></pre></div><p>在当前目录初始化一个空的 Git 仓库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git init</span></span></code></pre></div><p>把 Ananke 主题克隆到 <code>themes</code> 目录，并以 Git 子模块（Git submodule）的形式加入项目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule add https://github.com/gohugo-ananke/ananke themes/ananke</span></span></code></pre></div><p>向项目配置文件追加一行，指定当前使用的主题：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;theme = &#39;ananke&#39;&#34;</span> &gt;&gt; hugo.toml</span></span></code></pre></div><p>启动 Hugo 的开发服务器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server</span></span></code></pre></div><p>按 <code>Ctrl + C</code> 停止开发服务器。</p>
+<h2 id="添加内容">添加内容</h2>
+<p>向项目添加一个新页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new content content/posts/my-first-post.md</span></span></code></pre></div><p>Hugo 在 <code>content/posts</code> 目录中创建了这个文件，用编辑器打开它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">title = &#39;My First Post&#39;
+</span></span><span class="line"><span class="cl">date = 2024-01-14T07:07:07+01:00
+</span></span><span class="line"><span class="cl">draft = true
+</span></span><span class="line"><span class="cl">+++</span></span></code></pre></div><p>注意<a href="/content-management/front-matter/">前置元数据</a>（front matter）中的 <code>draft</code> 为 <code>true</code>。默认情况下，构建项目时 Hugo 不会发布草稿内容。关于草稿、将来与过期内容的行为，见<a href="/getting-started/basic-usage/#%e8%8d%89%e7%a8%bf%e5%b0%86%e6%9d%a5%e4%b8%8e%e8%bf%87%e6%9c%9f%e5%86%85%e5%ae%b9">基本用法</a>。</p>
+<p>在正文中添加一些 Markdown，但先不要修改 <code>draft</code> 的值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">title = &#39;My First Post&#39;
+</span></span><span class="line"><span class="cl">date = 2024-01-14T07:07:07+01:00
+</span></span><span class="line"><span class="cl">draft = true
+</span></span><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gu">## 简介
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这是**粗体**文字，这是*强调*文字。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">访问 [<span class="nt">Hugo</span>](<span class="na">https://gohugo.io</span>) 官网！</span></span></code></pre></div><p>保存文件，然后启动开发服务器。下面两条命令都可以把草稿内容包含进来：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server --buildDrafts
+</span></span><span class="line"><span class="cl">hugo server -D</span></span></code></pre></div><p>在终端显示的网址上查看站点。继续添加和修改内容时，让开发服务器保持运行。</p>
+<p>对内容满意后，把前置元数据中的 <code>draft</code> 改为 <code>false</code>。</p>
+<blockquote><p>Hugo 的渲染引擎遵循 CommonMark 的 Markdown <a href="https://spec.commonmark.org/" target="_blank" rel="noopener">规范</a>，该组织还提供了一个由参考实现驱动的<a href="https://spec.commonmark.org/dingus/" target="_blank" rel="noopener">在线测试工具</a>。</p>
+</blockquote><h2 id="配置项目">配置项目</h2>
+<p>用编辑器打开项目根目录下的<a href="/configuration/">项目配置文件</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;en-us&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;My New Hugo Project&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">theme</span> <span class="p">=</span> <span class="s1">&#39;ananke&#39;</span></span></span></code></pre></div><p>做以下修改：</p>
+<ol>
+<li>设置项目的 <code>baseURL</code>。该值必须以协议开头、以斜杠结尾，如上例所示。</li>
+<li>把 <code>locale</code> 改成你所在的区域。</li>
+<li>设置项目的 <code>title</code>。</li>
+</ol>
+<p>启动开发服务器查看修改效果，记得包含草稿内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server -D</span></span></code></pre></div><blockquote><p>装好 Ananke 主题后，可以查看它的<a href="https://ananke-documentation.netlify.app/" target="_blank" rel="noopener">文档</a>与<a href="https://ananke-theme.netlify.app/" target="_blank" rel="noopener">演示站点</a>，了解如何配置和定制主题。</p>
+</blockquote><h2 id="发布项目">发布项目</h2>
+<p>这一步是_发布_（publish）项目，而不是_部署_（deploy）项目。</p>
+<p>发布时，Hugo 会把所有构建产物渲染到项目根目录的 <code>public</code> 目录中，其中包括各个站点的 HTML 文件，以及图片、CSS、JavaScript 等资源。命令很简单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo</span></span></code></pre></div><p>要了解如何_部署_项目，请查阅<a href="/host-and-deploy/">托管与部署</a>相关内容。</p>
+<h2 id="获取帮助">获取帮助</h2>
+<p>Hugo 的<a href="https://discourse.gohugo.io/" target="_blank" rel="noopener">官方论坛</a>是一个活跃的社区，用户和开发者在这里回答问题、分享经验、提供示例。搜索两万多个话题，往往就能找到答案。第一次提问前，请先阅读社区关于<a href="https://discourse.gohugo.io/t/requesting-help/9132" target="_blank" rel="noopener">如何提问</a>的说明。</p>
+<h2 id="其他资源">其他资源</h2>
+<p>想通过书籍、视频教程等途径继续学习 Hugo，可以查阅外部的学习资源页面。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/getting-started/quick-start/" target="_blank" rel="noopener">https://gohugo.io/getting-started/quick-start/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    
+    <a class="pager-next" href="/getting-started/basic-usage/">下一篇：基本用法 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#准备条件">准备条件</a></li>
+    <li><a href="#创建项目">创建项目</a>
+      <ul>
+        <li><a href="#命令">命令</a></li>
+        <li><a href="#命令说明">命令说明</a></li>
+      </ul>
+    </li>
+    <li><a href="#添加内容">添加内容</a></li>
+    <li><a href="#配置项目">配置项目</a></li>
+    <li><a href="#发布项目">发布项目</a></li>
+    <li><a href="#获取帮助">获取帮助</a></li>
+    <li><a href="#其他资源">其他资源</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

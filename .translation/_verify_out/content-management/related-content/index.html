@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>相关内容 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用索引字段计算页面相似度，在模板中输出相关内容列表。">
+  <link rel="canonical" href="https://example.org/content-management/related-content/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="相关内容 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用索引字段计算页面相似度，在模板中输出相关内容列表。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/content-management/related-content/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用索引字段计算页面相似度，在模板中输出相关内容列表。","headline":"相关内容","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"相关内容","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/content-management/related-content/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/content-management/">内容管理</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/content-management/content-formats/">内容格式</a>
+        </li>
+        <li>
+          <a href="/content-management/front-matter/">前置元数据</a>
+        </li>
+        <li>
+          <a href="/content-management/page-bundles/">页面包</a>
+        </li>
+        <li>
+          <a href="/content-management/page-resources/">页面资源</a>
+        </li>
+        <li>
+          <a href="/content-management/organization/">内容组织</a>
+        </li>
+        <li>
+          <a href="/content-management/sections/">内容区块</a>
+        </li>
+        <li>
+          <a href="/content-management/archetypes/">原型</a>
+        </li>
+        <li>
+          <a href="/content-management/summaries/">摘要</a>
+        </li>
+        <li>
+          <a href="/content-management/related-content/" class="is-active" aria-current="page">相关内容</a>
+        </li>
+        <li>
+          <a href="/content-management/menus/">菜单</a>
+        </li>
+        <li>
+          <a href="/content-management/taxonomies/">分类法</a>
+        </li>
+        <li>
+          <a href="/content-management/multilingual/">多语言</a>
+        </li>
+        <li>
+          <a href="/content-management/urls/">URL 管理</a>
+        </li>
+        <li>
+          <a href="/content-management/markdown-attributes/">Markdown 属性</a>
+        </li>
+        <li>
+          <a href="/content-management/syntax-highlighting/">语法高亮</a>
+        </li>
+        <li>
+          <a href="/content-management/image-processing/">图像处理</a>
+        </li>
+        <li>
+          <a href="/content-management/diagrams/">图表</a>
+        </li>
+        <li>
+          <a href="/content-management/mathematics/">数学公式</a>
+        </li>
+        <li>
+          <a href="/content-management/comments/">评论</a>
+        </li>
+        <li>
+          <a href="/content-management/build-options/">构建选项</a>
+        </li>
+        <li>
+          <a href="/content-management/content-adapters/">内容适配器</a>
+        </li>
+        <li>
+          <a href="/content-management/data-sources/">数据源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/content-management/">内容管理</a></p>
+    <h1>相关内容</h1>
+    <p class="doc-description">用索引字段计算页面相似度，在模板中输出相关内容列表。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="相关内容如何工作">相关内容如何工作</h2>
+<p>相关内容（related content）依据前置元数据（front matter）中的参数为页面之间计算相似度，用来生成「参见」一类的列表。判定相似度的索引（index）与各自的权重都在站点配置的 <code>related</code> 区段中声明，因此同一套内容可以通过调整配置改变相关结果的取向：更看重共享标签，还是更看重发布时间接近。</p>
+<h2 id="列出相关内容">列出相关内容</h2>
+<p>下面这个局部模板列出最多 5 个相关页面，也就是共享 <code>date</code>、<code>keywords</code> 等参数的页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages.Related</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>相关内容：<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p><code>Related</code> 方法只接受一个参数，这个参数可以是 <code>Page</code>，也可以是选项映射。选项映射包含以下选项：</p>
+<ul>
+<li><code>indices</code>：要在哪些索引中搜索。</li>
+<li><code>document</code>：为哪个页面查找相关内容，使用选项映射时必填。</li>
+<li><code>namedSlices</code>：要搜索的关键词，用 <code>keyVals</code> 函数构造键值对切片。</li>
+<li><code>fragments</code>：用于类型为 <code>fragments</code> 的索引的关键词列表，会与文档的片段（fragment）标识符匹配。</li>
+</ul>
+<p>同时用上全部选项的示例如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;indices&#34;</span><span class="w"> </span><span class="o">(</span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;tags&#34;</span><span class="w"> </span><span class="s">&#34;keywords&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;document&#34;</span><span class="w"> </span><span class="nx">$page</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;namedSlices&#34;</span><span class="w"> </span><span class="o">(</span><span class="k">slice</span><span class="w"> </span><span class="o">(</span><span class="nx">keyVals</span><span class="w"> </span><span class="s">&#34;tags&#34;</span><span class="w"> </span><span class="s">&#34;hugo&#34;</span><span class="w"> </span><span class="s">&#34;rocks&#34;</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="nx">keyVals</span><span class="w"> </span><span class="s">&#34;date&#34;</span><span class="w"> </span><span class="nx">$page</span><span class="na">.Date</span><span class="o">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;fragments&#34;</span><span class="w"> </span><span class="o">(</span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;heading-1&#34;</span><span class="w"> </span><span class="s">&#34;heading-2&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">}}</span></span></span></code></pre></div><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>该特性在 Hugo 0.111.0 中被简化：此前有 <code>Related</code>、<code>RelatedTo</code>、<code>RelatedIndices</code> 三个方法，现在只剩 <code>Related</code> 一个，旧方法仍然可用但已废弃。</p></div>
+</aside><h2 id="为内容标题建立索引">为内容标题建立索引</h2>
+<p>在 <code>related</code> 配置中加入一个类型为 <code>fragments</code> 的索引，Hugo 就会为正文标题建立索引并据此查找相关内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">related</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">threshold</span> <span class="p">=</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">includeNewer</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">toLower</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;fragmentrefs&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">type</span> <span class="p">=</span> <span class="s2">&#34;fragments&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">applyFilter</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">80</span></span></span></code></pre></div><p><code>name</code> 对应一个可选的前置元数据切片参数，用于从页面层链接到片段或标题层。开启 <code>applyFilter</code> 后，结果中每个页面的 <code>.HeadingsFiltered</code> 会给出过滤后的标题，便于在相关列表里显示到标题一级：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$related</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">site</span><span class="na">.RegularPages.Related</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">$related</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>参见<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">$i</span><span class="o">,</span><span class="w"> </span><span class="nx">$p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.LinkTitle</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.HeadingsFiltered</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">              <span class="cp">{{</span><span class="w"> </span><span class="nx">$link</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">printf</span><span class="w"> </span><span class="s">&#34;%s#%s&#34;</span><span class="w"> </span><span class="nx">$p</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="na">.ID</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">safeURL</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">              <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$link</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Title</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="默认配置">默认配置</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">related</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">threshold</span> <span class="p">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">includeNewer</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">toLower</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;keywords&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;date&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;tags&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">80</span></span></span></code></pre></div><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>一旦在项目配置中加入 <code>related</code> 区段，就必须提供完整配置，不能只覆盖其中个别默认值。该区段既可以全局设置，也可以按语言分别设置。</p></div>
+</aside><h2 id="顶层设置">顶层设置</h2>
+<table>
+	<thead>
+			<tr>
+					<th>键</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>threshold</code></td>
+					<td>int</td>
+					<td><code>80</code></td>
+					<td>取值范围 <code>[0, 100]</code>，越低匹配越多，但相关性可能越弱</td>
+			</tr>
+			<tr>
+					<td><code>includeNewer</code></td>
+					<td>bool</td>
+					<td><code>false</code></td>
+					<td>是否把发布日期晚于当前页面的内容纳入结果</td>
+			</tr>
+			<tr>
+					<td><code>toLower</code></td>
+					<td>bool</td>
+					<td><code>false</code></td>
+					<td>是否把索引与查询中的关键词统一转为小写，结果更准但略有性能开销</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="按索引的设置">按索引的设置</h2>
+<table>
+	<thead>
+			<tr>
+					<th>键</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>name</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>索引名，直接对应页面参数，支持字符串、列表以及时间日期对象</td>
+			</tr>
+			<tr>
+					<td><code>weight</code></td>
+					<td>int</td>
+					<td><code>0</code></td>
+					<td>该索引相对其他索引的重要性；为 <code>0</code> 相当于关闭该索引，也可以为负</td>
+			</tr>
+			<tr>
+					<td><code>type</code></td>
+					<td>string</td>
+					<td><code>basic</code></td>
+					<td>取 <code>basic</code> 或 <code>fragments</code></td>
+			</tr>
+			<tr>
+					<td><code>pattern</code></td>
+					<td>string</td>
+					<td>日期索引为 <code>2006</code></td>
+					<td>仅对日期有意义，如 <code>200601</code> 表示按年月加权</td>
+			</tr>
+			<tr>
+					<td><code>applyFilter</code></td>
+					<td>bool</td>
+					<td><code>false</code></td>
+					<td>是否对搜索结果应用类型专属过滤，仅用于 <code>fragments</code></td>
+			</tr>
+			<tr>
+					<td><code>cardinalityThreshold</code></td>
+					<td>int</td>
+					<td><code>0</code></td>
+					<td>取值范围 <code>[1, 100]</code>，出现频率高于该百分比的索引值会被移出索引，<code>0</code> 表示不过滤</td>
+			</tr>
+			<tr>
+					<td><code>minTokenLength</code></td>
+					<td>int</td>
+					<td><code>0</code></td>
+					<td>开启 <code>tokenize</code> 时按 Unicode 码点计算的最短词长，<code>0</code> 表示不限制</td>
+			</tr>
+			<tr>
+					<td><code>tokenize</code></td>
+					<td>bool</td>
+					<td><code>false</code></td>
+					<td>是否先按空白把字符串值切成词再建立索引</td>
+			</tr>
+			<tr>
+					<td><code>toLower</code></td>
+					<td>bool</td>
+					<td><code>false</code></td>
+					<td>索引级的同名词，含义与顶层设置一致</td>
+			</tr>
+	</tbody>
+</table>
+<p><code>tokenize</code> 只按空白切分，因此 <code>apple</code> 与 <code>apples</code> 会被当作两个不同的词，中文、日文等不以空格分词的语言不受支持。分词会让索引体积随词数增长，可配合 <code>minTokenLength</code> 排除短词、用 <code>cardinalityThreshold</code> 移除高频词；<code>minTokenLength</code> 先于 <code>cardinalityThreshold</code> 生效，被排除的词不会进入索引。</p>
+<h2 id="示例按分类法术语关联">示例：按分类法术语关联</h2>
+<p>设想一个书评站点，用 genres 与 authors 两个分类法（taxonomy）标识每篇书评，希望共享作者或类型的书评互相推荐：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">taxonomies</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">author</span> <span class="p">=</span> <span class="s2">&#34;authors&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">genre</span> <span class="p">=</span> <span class="s2">&#34;genres&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">related</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">includeNewer</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">threshold</span> <span class="p">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">toLower</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;authors&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;genres&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">1</span></span></span></code></pre></div><p><code>authors</code> 的权重是 <code>2</code>、<code>genres</code> 是 <code>1</code>，也就是说共享作者的份量是共享类型的两倍。渲染时仍然使用前面那个局部模板。</p>
+<h2 id="示例按标题词关联">示例：按标题词关联</h2>
+<p>若希望标题中含有相同词语的文章互相关联，例如标题里的 <code>Hugo</code>、<code>image</code>、<code>processing</code> 都参与匹配：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">related</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">threshold</span> <span class="p">=</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">toLower</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">related</span><span class="p">.</span><span class="nx">indices</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;title&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">weight</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tokenize</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">minTokenLength</span> <span class="p">=</span> <span class="mi">4</span></span></span></code></pre></div><p><code>tokenize</code> 为 <code>true</code> 时，Hugo 按空白切分标题并逐词建立索引；<code>minTokenLength = 4</code> 会排除 <code>and</code>、<code>the</code>、<code>for</code> 这类短词。</p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="/content-management/taxonomies/">分类法</a></li>
+<li><a href="/content-management/front-matter/">前置元数据</a></li>
+<li><a href="/configuration/">配置</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/content-management/related/" target="_blank" rel="noopener">https://gohugo.io/content-management/related/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/content-management/summaries/">← 上一篇：摘要</a>
+    <a class="pager-next" href="/content-management/menus/">下一篇：菜单 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#相关内容如何工作">相关内容如何工作</a></li>
+    <li><a href="#列出相关内容">列出相关内容</a></li>
+    <li><a href="#为内容标题建立索引">为内容标题建立索引</a></li>
+    <li><a href="#默认配置">默认配置</a></li>
+    <li><a href="#顶层设置">顶层设置</a></li>
+    <li><a href="#按索引的设置">按索引的设置</a></li>
+    <li><a href="#示例按分类法术语关联">示例：按分类法术语关联</a></li>
+    <li><a href="#示例按标题词关联">示例：按标题词关联</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

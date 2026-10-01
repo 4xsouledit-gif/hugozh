@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>模板查找顺序 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="Hugo 为给定页面挑选模板的查找规则，以及新版目录约定。">
+  <link rel="canonical" href="https://example.org/templates/lookup-order/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="模板查找顺序 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="Hugo 为给定页面挑选模板的查找规则，以及新版目录约定。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/templates/lookup-order/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"Hugo 为给定页面挑选模板的查找规则，以及新版目录约定。","headline":"模板查找顺序","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"模板查找顺序","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/templates/lookup-order/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/templates/">模板</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/templates/404/">404 页面</a>
+        </li>
+        <li>
+          <a href="/templates/robots/">robots.txt</a>
+        </li>
+        <li>
+          <a href="/templates/sitemap/">站点地图</a>
+        </li>
+        <li>
+          <a href="/templates/rss/">RSS 订阅</a>
+        </li>
+        <li>
+          <a href="/templates/menu/">菜单模板</a>
+        </li>
+        <li>
+          <a href="/templates/pagination/">分页</a>
+        </li>
+        <li>
+          <a href="/templates/embedded/">内建模板</a>
+        </li>
+        <li>
+          <a href="/templates/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/templates/lookup-order/" class="is-active" aria-current="page">模板查找顺序</a>
+        </li>
+        <li>
+          <a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>
+        </li>
+        <li>
+          <a href="/templates/partial-decorators/">局部模板装饰器</a>
+        </li>
+        <li>
+          <a href="/templates/shortcode/">短代码模板</a>
+        </li>
+        <li>
+          <a href="/templates/types/">内容类型</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/templates/">模板</a></p>
+    <h1>模板查找顺序</h1>
+    <p class="doc-description">Hugo 为给定页面挑选模板的查找规则，以及新版目录约定。</p>
+  </header>
+  
+  <div class="doc-body"><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>Hugo 在 v0.146.0 中彻底重写了模板系统。相关文档正在陆续更新，你可以先阅读<a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>。</p></div>
+</aside><h2 id="查找规则">查找规则</h2>
+<p>Hugo 为给定页面选择模板时，会考虑下列参数，并按具体程度给模板排序。这套顺序应当让人感到自然，具体取值差异见后文示例。</p>
+<dl>
+<dt>页面种类（kind）</dt>
+<dd>页面的 <code>Kind</code>（首页也算一种）。它同时决定该页面是<strong>单页</strong>（regular content page，HTML 模板从 <code>_default/single.html</code> 里找）还是<strong>列表页</strong>（章节列表、首页、分类法列表、分类法条目，HTML 模板从 <code>_default/list.html</code> 里找）。</dd>
+<dt>布局（layout）</dt>
+<dd>可以在 front matter 中设置。</dd>
+<dt>输出格式</dt>
+<dd>输出格式同时有 <code>name</code>（如 <code>rss</code>、<code>amp</code>、<code>html</code>）与 <code>suffix</code>（如 <code>xml</code>、<code>html</code>）。Hugo 优先选择两者都匹配的模板（如 <code>index.amp.html</code>），找不到再退而求其次。若输出格式的媒体类型定义了多个后缀，只考虑第一个。</dd>
+<dt>语言</dt>
+<dd>模板文件名中可以带语言标记。若站点语言是 <code>fr</code>，<code>index.fr.amp.html</code> 优于 <code>index.amp.html</code>，但 <code>index.amp.html</code> 又优于 <code>index.fr.html</code>。</dd>
+<dt>类型（type）</dt>
+<dd>取 front matter 中 <code>type</code> 的值；未设置时取根章节的名称（如 <code>blog</code>）。它总有值，都没设置时就是 <code>page</code>。</dd>
+<dt>章节（section）</dt>
+<dd>对 <code>section</code>、<code>taxonomy</code>、<code>term</code> 这几类页面有意义。</dd>
+</dl>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>模板可以放在项目或主题的 <code>layouts</code> 目录中，Hugo 会在两者之间交错查找，最终选出最具体的那一个。</p></div>
+</aside><h2 id="新版模板系统的变化">新版模板系统的变化</h2>
+<p>新版模板系统还调整了 <code>layouts</code> 目录的结构与各类标识符的权重。以下对应关系与权重顺序参见<a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>一节，两处内容保持一致。</p>
+<h3 id="模板标识符的权重">模板标识符的权重</h3>
+<p>参与模板权重的标识符，按重要程度排列如下：</p>
+<table>
+	<thead>
+			<tr>
+					<th>标识符</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>自定义布局</td>
+					<td>front matter 中设置的 <code>layout</code>。</td>
+			</tr>
+			<tr>
+					<td>页面种类</td>
+					<td><code>home</code>、<code>section</code>、<code>taxonomy</code>、<code>term</code>、<code>page</code> 之一。</td>
+			</tr>
+			<tr>
+					<td>标准布局（一）</td>
+					<td><code>list</code> 或 <code>single</code>。</td>
+			</tr>
+			<tr>
+					<td>输出格式</td>
+					<td>输出格式，如 <code>html</code>、<code>rss</code>。</td>
+			</tr>
+			<tr>
+					<td>标准布局（二）</td>
+					<td><code>all</code>。</td>
+			</tr>
+			<tr>
+					<td>语言</td>
+					<td>语言，如 <code>en</code>。</td>
+			</tr>
+			<tr>
+					<td>媒体类型</td>
+					<td>媒体类型，如 <code>text/html</code>。</td>
+			</tr>
+			<tr>
+					<td>页面路径</td>
+					<td>页面路径，如 <code>/blog/mypost</code>。</td>
+			</tr>
+			<tr>
+					<td>类型</td>
+					<td>front matter 中设置的 <code>type</code>。它会取代查找时页面路径里的 <code>section</code> 目录。</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="目录与模板名的变化">目录与模板名的变化</h3>
+<ul>
+<li>取消 <code>layouts/_default</code> 目录：把其中的文件全部上移到 <code>layouts/</code> 根目录。原 <code>_default/single.html</code> 相应地成为 <code>layouts/single.html</code>，用于渲染单页；原 <code>_default/list.html</code> 成为 <code>layouts/list.html</code>，用于渲染列表页；原 <code>_default/baseof.html</code> 成为 <code>layouts/baseof.html</code>，作为基础模板。</li>
+<li>首页不再有 <code>index.html</code> 这种模板：把 <code>index.html</code> 改名为 <code>home.html</code>。</li>
+<li><code>layouts/partials</code> 更名为 <code>layouts/_partials</code>；<code>layouts/shortcodes</code> 更名为 <code>layouts/_shortcodes</code>。</li>
+<li>旧系统里用于分类法条目的 <code>terms.html</code> 并没有一个「改名为 <code>term.html</code>」的官方对应关系：新版按页面种类查找 <code>term.html</code>、<code>list.html</code> 或 <code>all.html</code>，与旧文件名 <code>terms.html</code> 不是改名关系。</li>
+<li>不再有顶层的 <code>layouts/taxonomy</code>、<code>layouts/section</code> 目录，除非它本身代表一条页面路径。应把它们上移到 <code>layouts/</code>，以页面种类 <code>section</code>、<code>taxonomy</code> 或 <code>term</code> 作为基名；或者放进该分类法对应的页面路径目录。</li>
+<li>名为 <code>taxonomy.html</code> 的模板过去同时是 <code>term</code> 与 <code>taxonomy</code> 两种页面种类的候选，现在只对 <code>taxonomy</code> 生效。若要两者共用，请同时创建 <code>taxonomy.html</code> 与 <code>term.html</code>，或改用更通用的 <code>list.html</code>。</li>
+<li>新增了 <code>all</code> 这种「兜底」布局：如果只有 <code>layouts/all.html</code> 一个模板，它将用于所有 HTML 页面的渲染。</li>
+<li>取消了 <code>_internal</code> 内置模板的概念：现在只要创建同名局部模板，就能覆盖原本的内置模板。</li>
+<li>对于基础模板（如 <code>baseof.html</code>），旧版本允许把 layout、type 或 kind 之一用连字符接在 <code>baseof</code> 关键字前面。应把该标识符移到第一个点之后，例如把 <code>list-baseof.html</code> 改名为 <code>baseof.list.html</code>。</li>
+<li>模板文件名中可用的标识符包括：页面种类（<code>home</code>、<code>page</code>、<code>section</code>、<code>taxonomy</code>、<code>term</code>）、标准布局（<code>list</code>、<code>single</code>、<code>all</code>）、自定义布局（front matter 中 <code>layout</code> 字段的值）、语言（如 <code>en</code>）、输出格式（如 <code>html</code>、<code>rss</code>），以及代表媒体类型的后缀。例如 <code>all.en.html</code> 与 <code>home.rss.xml</code>。</li>
+</ul>
+<p>以 <code>_</code> 开头的目录保留给特殊用途：<code>_partials</code> 存放局部模板，<code>_shortcodes</code> 存放短代码模板，<code>_markup</code> 存放渲染钩子模板。其余任何不以 <code>_</code> 开头的目录都代表一条页面路径的根，可以按需任意嵌套，而 <code>_shortcodes</code> 与 <code>_markup</code> 这类以下划线开头的目录也可以放在树的任意层级。</p>
+<h2 id="让页面使用指定模板">让页面使用指定模板</h2>
+<p>你无法通过修改查找顺序让某个模板去匹配某个内容页，但可以让内容页去匹配模板：在 front matter 中指定 <code>type</code>、<code>layout</code>，或两者同时指定。</p>
+<p>假设内容结构如下，<code>content</code> 根目录下的文件其内容类型（type）为 <code>page</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── about.md
+</span></span><span class="line"><span class="cl">└── contact.md</span></span></code></pre></div><p>要让这些页面使用统一的模板，建立同名的子目录即可：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">└── page/
+</span></span><span class="line"><span class="cl">    └── single.html</span></span></code></pre></div><p>联系页面通常带有表单，需要单独的模板，于是在 front matter 中指定 <code>layout</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;Contact&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">layout</span> <span class="p">=</span> <span class="s1">&#39;contact&#39;</span></span></span></code></pre></div><p>再为它创建模板。目录中 <code>contact.html</code> 渲染联系页面，<code>single.html</code> 渲染其余同为 <code>page</code> 类型的页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">└── page/
+</span></span><span class="line"><span class="cl">    ├── contact.html
+</span></span><span class="line"><span class="cl">    └── single.html</span></span></code></pre></div><p><code>page</code> 这个类型名含义过于宽泛，改用更明确的类型并同时指定 <code>type</code> 与 <code>layout</code> 会更清晰：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;About&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="s1">&#39;miscellaneous&#39;</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;Contact&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="s1">&#39;miscellaneous&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">layout</span> <span class="p">=</span> <span class="s1">&#39;contact&#39;</span></span></span></code></pre></div><p>然后把布局放进与类型同名的目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">└── miscellaneous/
+</span></span><span class="line"><span class="cl">    ├── contact.html
+</span></span><span class="line"><span class="cl">    └── single.html</span></span></code></pre></div><p>对于放在 <code>layouts</code> 中、与某条页面路径部分或完全匹配的模板，向上越接近该页面的匹配被认为越好。例如 <code>layouts/docs/api/_markup/render-link.html</code> 用于渲染页面路径 <code>/docs/api</code> 及其下级页面的链接，<code>layouts/docs/baseof.html</code> 用作页面路径 <code>/docs</code> 及其下级页面的基础模板。因此放在 <code>layouts/docs/</code> 中的模板对 <code>/docs</code> 及其下级页面生效。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/templates/lookup-order/" target="_blank" rel="noopener">https://gohugo.io/templates/lookup-order/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/templates/introduction/">← 上一篇：简介</a>
+    <a class="pager-next" href="/templates/new-templatesystem-overview/">下一篇：新版模板系统概览 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#查找规则">查找规则</a></li>
+    <li><a href="#新版模板系统的变化">新版模板系统的变化</a>
+      <ul>
+        <li><a href="#模板标识符的权重">模板标识符的权重</a></li>
+        <li><a href="#目录与模板名的变化">目录与模板名的变化</a></li>
+      </ul>
+    </li>
+    <li><a href="#让页面使用指定模板">让页面使用指定模板</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>代码块 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="创建代码块渲染钩子，覆盖围栏代码块的默认高亮输出，并按语言定制渲染方式。">
+  <link rel="canonical" href="https://example.org/render-hooks/code-blocks/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="代码块 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="创建代码块渲染钩子，覆盖围栏代码块的默认高亮输出，并按语言定制渲染方式。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/render-hooks/code-blocks/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"创建代码块渲染钩子，覆盖围栏代码块的默认高亮输出，并按语言定制渲染方式。","headline":"代码块","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"代码块","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/render-hooks/code-blocks/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/render-hooks/">渲染钩子</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/render-hooks/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/render-hooks/links/">链接</a>
+        </li>
+        <li>
+          <a href="/render-hooks/images/">图片</a>
+        </li>
+        <li>
+          <a href="/render-hooks/headings/">标题</a>
+        </li>
+        <li>
+          <a href="/render-hooks/code-blocks/" class="is-active" aria-current="page">代码块</a>
+        </li>
+        <li>
+          <a href="/render-hooks/blockquotes/">引用块</a>
+        </li>
+        <li>
+          <a href="/render-hooks/tables/">表格</a>
+        </li>
+        <li>
+          <a href="/render-hooks/passthrough/">原样透传</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/render-hooks/">渲染钩子</a></p>
+    <h1>代码块</h1>
+    <p class="doc-description">创建代码块渲染钩子，覆盖围栏代码块的默认高亮输出，并按语言定制渲染方式。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="markdown-中的代码块">Markdown 中的代码块</h2>
+<p>下面这段 Markdown 含有一个围栏代码块：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-md" data-lang="md"><span class="line"><span class="cl">``<span class="sb">`sh {class=&#34;my-class&#34; id=&#34;my-codeblock&#34; lineNos=inline tabWidth=2}
+</span></span></span><span class="line"><span class="cl"><span class="sb">declare a=1
+</span></span></span><span class="line"><span class="cl"><span class="sb">echo &#34;$a&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sb">exit
+</span></span></span><span class="line"><span class="cl"><span class="sb">`</span>``</span></span></code></pre></div><p>一个围栏代码块由以下部分组成：</p>
+<ul>
+<li>起始<a href="https://spec.commonmark.org/current/#code-fence" target="_blank" rel="noopener">代码围栏</a></li>
+<li>可选的信息字符串</li>
+<li>代码样例</li>
+<li>结束代码围栏</li>
+</ul>
+<p>在上面的例子中，信息字符串包含：</p>
+<ul>
+<li>代码样例的语言（第一个词）</li>
+<li>可选的属性列表，用空格或逗号分隔，写在花括号内</li>
+</ul>
+<p>信息字符串中的属性可以是通用属性，也可以是高亮选项。</p>
+<p>上例中的<strong>通用属性</strong>是 <code>class</code> 与 <code>id</code>。如果代码块渲染钩子没有做特殊处理，Hugo 会把每个通用属性加到包裹代码块输出的 HTML 元素上。按照自身的内容安全模型，Hugo 会移除 <code>onclick</code>、<code>onmouseover</code> 这类 HTML 事件属性。通用属性通常是全局 HTML 属性，也可以包含自定义属性。</p>
+<p>上例中的<strong>高亮选项</strong>是 <code>lineNos</code> 与 <code>tabWidth</code>。Hugo 使用内建语法高亮器渲染代码样例，可以通过指定一个或多个<a href="/content-management/syntax-highlighting/">高亮选项</a>来控制渲染结果的外观。</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p><code>style</code> 虽然是全局 HTML 属性，但出现在信息字符串中时会被当作高亮选项。</p></div>
+</aside><h2 id="上下文">上下文</h2>
+<p>代码块<strong>渲染钩子</strong>模板接收以下上下文：</p>
+<dl>
+<dt><code>Attributes</code></dt>
+<dd>（<code>map</code>）信息字符串中的通用属性。</dd>
+<dt><code>Inner</code></dt>
+<dd>（<code>string</code>）起始与结束代码围栏之间的内容，不含信息字符串。</dd>
+<dt><code>Options</code></dt>
+<dd>（<code>map</code>）信息字符串中的高亮选项。</dd>
+<dt><code>Ordinal</code></dt>
+<dd>（<code>int</code>）代码块在页面中的序号，从 0 开始。</dd>
+<dt><code>Page</code></dt>
+<dd>（<code>page</code>）当前页面的引用。</dd>
+<dt><code>PageInner</code></dt>
+<dd>（<code>page</code>）通过 <code>RenderShortcodes</code> 方法嵌套的页面的引用。详见下文 <a href="#pageinner-details">PageInner details</a>。</dd>
+<dt><code>Position</code></dt>
+<dd>（<code>text.Position</code>）代码块在页面内容中的位置。</dd>
+<dt><code>Type</code></dt>
+<dd>（<code>string</code>）信息字符串的第一个词，通常是代码语言。</dd>
+</dl>
+<h2 id="示例">示例</h2>
+<p>默认情况下，Hugo 使用内建语法高亮器渲染围栏代码块，并包裹渲染结果。要写出行为一致的渲染钩子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transform</span><span class="na">.HighlightCodeBlock</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="na">.Wrapped</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>当语言未指定或高亮器不支持该语言时回退为纯文本：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="o">(</span><span class="nx">transform</span><span class="na">.CanHighlight</span><span class="w"> </span><span class="na">.Type</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{-</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;type&#34;</span><span class="w"> </span><span class="s">&#34;text&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transform</span><span class="na">.HighlightCodeBlock</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="nx">$result</span><span class="na">.Wrapped</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>尽管可以用一个模板加条件逻辑来按语言区分行为，也可以为不同语言创建单独的模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">  └── _markup/
+</span></span><span class="line"><span class="cl">      ├── render-codeblock-mermaid.html
+</span></span><span class="line"><span class="cl">      ├── render-codeblock-python.html
+</span></span><span class="line"><span class="cl">      └── render-codeblock.html</span></span></code></pre></div><p>例如，创建一个渲染 <a href="https://mermaid.js.org/" target="_blank" rel="noopener">Mermaid</a> 图表的代码块渲染钩子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">pre</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;mermaid&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.Inner</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">htmlEscape</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">safeHTML</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Page.Store.Set</span><span class="w"> </span><span class="s">&#34;hasMermaid&#34;</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>然后在<strong>基础</strong>模板的<strong>末尾</strong>、<code>body</code> 结束标签之前加入这段代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="na">.Store.Get</span><span class="w"> </span><span class="s">&#34;hasMermaid&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;module&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">import</span> <span class="nx">mermaid</span> <span class="nx">from</span> <span class="s1">&#39;https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">mermaid</span><span class="p">.</span><span class="nx">initialize</span><span class="p">({</span> <span class="nx">startOnLoad</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="内建钩子">内建钩子</h2>
+<p>Hugo 自带一个内建代码块渲染钩子，用于渲染 GoAT 图表（ASCII 图），详见<a href="/content-management/diagrams/">图表</a>。</p>
+<h2 id="pageinner-details">PageInner details</h2>
+<p><code>PageInner</code> 的主要用途是相对于被包含的页面来解析链接与页面资源。例如可以创建一个「包含」短代码，用多个内容文件拼装一个页面，同时为脚注与目录保留全局上下文：先用位置参数取出要包含的页面逻辑路径，再调用该页面的 <code>RenderShortcodes</code> 方法，取不到页面时用 <code>errorf</code> 报错。</p>
+<p>然后在 Markdown 中用 Markdown 记法调用这个短代码，被包含页面的路径写在位置参数里。渲染 <code>/posts/post-2</code> 时触发的任何渲染钩子，调用 <code>Page</code> 会得到 <code>/posts/post-1</code>，调用 <code>PageInner</code> 则会得到 <code>/posts/post-2</code>。</p>
+<p><code>PageInner</code> 在不适用时会回退为 <code>Page</code> 的值，并且始终有返回值。它只对调用 <code>RenderShortcodes</code> 方法的短代码有意义，并且必须以 Markdown 记法调用该短代码。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/render-hooks/code-blocks/" target="_blank" rel="noopener">https://gohugo.io/render-hooks/code-blocks/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/render-hooks/headings/">← 上一篇：标题</a>
+    <a class="pager-next" href="/render-hooks/blockquotes/">下一篇：引用块 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#markdown-中的代码块">Markdown 中的代码块</a></li>
+    <li><a href="#上下文">上下文</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#内建钩子">内建钩子</a></li>
+    <li><a href="#pageinner-details">PageInner details</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

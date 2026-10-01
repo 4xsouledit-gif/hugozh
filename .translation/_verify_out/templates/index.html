@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>模板 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用模板把内容、资源与数据渲染为发布页面，并概述本章主题与阅读顺序。">
+  <link rel="canonical" href="https://example.org/templates/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="模板 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用模板把内容、资源与数据渲染为发布页面，并概述本章主题与阅读顺序。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.org/templates/">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://example.org/templates/index.xml" title="Hugo 官方文档 · 中文翻译">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用模板把内容、资源与数据渲染为发布页面，并概述本章主题与阅读顺序。","headline":"模板","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"模板","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/templates/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/templates/">模板</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/templates/404/">404 页面</a>
+        </li>
+        <li>
+          <a href="/templates/robots/">robots.txt</a>
+        </li>
+        <li>
+          <a href="/templates/sitemap/">站点地图</a>
+        </li>
+        <li>
+          <a href="/templates/rss/">RSS 订阅</a>
+        </li>
+        <li>
+          <a href="/templates/menu/">菜单模板</a>
+        </li>
+        <li>
+          <a href="/templates/pagination/">分页</a>
+        </li>
+        <li>
+          <a href="/templates/embedded/">内建模板</a>
+        </li>
+        <li>
+          <a href="/templates/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/templates/lookup-order/">模板查找顺序</a>
+        </li>
+        <li>
+          <a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>
+        </li>
+        <li>
+          <a href="/templates/partial-decorators/">局部模板装饰器</a>
+        </li>
+        <li>
+          <a href="/templates/shortcode/">短代码模板</a>
+        </li>
+        <li>
+          <a href="/templates/types/">内容类型</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      
+<article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow">文档章节</p>
+    <h1>模板</h1>
+    <p class="doc-description">用模板把内容、资源与数据渲染为发布页面，并概述本章主题与阅读顺序。</p>
+  </header>
+  <div class="doc-body"><h2 id="本章导读">本章导读</h2>
+<p>模板（template）决定内容、资源与数据最终以什么样子发布。Hugo 使用 Go 标准库的 <code>text/template</code> 与 <code>html/template</code> 包，渲染 HTML 时默认用后者，输出天然对代码注入做了防护；你也可以为 CSV、JSON、RSS、纯文本等输出格式编写模板。</p>
+<p>模板由<strong>上下文</strong>（context）、动作、变量、函数与方法组成。其中上下文最关键：传入模板的数据就是上下文，在模板里用点（<code>.</code>）表示。页面模板收到的是 <code>Page</code> 对象，通过它的方法取得标题、日期与自定义参数。新手最常见的模板错误大多与上下文有关，建议先弄清这个概念。</p>
+<h2 id="阅读顺序建议">阅读顺序建议</h2>
+<ol>
+<li><a href="/templates/introduction/">简介</a>：上下文、动作、变量、函数与方法的基本用法，是后面各页的共同基础。</li>
+<li><a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>：<code>layouts</code> 目录在 v0.146.0 之后的组织方式与迁移要点。</li>
+<li><a href="/templates/lookup-order/">模板查找顺序</a>：Hugo 如何在页面种类、布局、输出格式与语言之间取舍。</li>
+<li><a href="/templates/partial-decorators/">局部模板装饰器</a>：用 <code>partial</code> 组合可复用的包裹式组件。</li>
+<li><a href="/templates/shortcode/">短代码模板</a>：把模板能力带到内容写作中。</li>
+</ol>
+<p>刚开始接触 Hugo 的话，建议先完成<a href="/getting-started/quick-start/">快速开始</a>，对项目目录结构与构建流程有个整体印象，再回到本章。内容写作中常见的短代码调用语法，参见<a href="/shortcodes/">短代码</a>。</p>
+</div>
+  
+  <section class="home-section">
+    <h2>本章内容</h2>
+    <ul class="page-list">
+      
+      <li>
+        <a href="/templates/404/">404 页面</a>
+        <span class="page-list-desc">创建 404 模板，为未找到的地址渲染错误页面。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/robots/">robots.txt</a>
+        <span class="page-list-desc">用模板生成自定义 robots.txt，控制搜索引擎的抓取范围。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/sitemap/">站点地图</a>
+        <span class="page-list-desc">使用内建模板生成 sitemap.xml，并按页面或全站调整配置。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/rss/">RSS 订阅</a>
+        <span class="page-list-desc">控制订阅源的生成范围与条数，或编写自定义 RSS 模板。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/menu/">菜单模板</a>
+        <span class="page-list-desc">在模板中遍历菜单项，渲染平铺或嵌套的导航结构。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/pagination/">分页</a>
+        <span class="page-list-desc">把列表页拆分为多个分页，并生成页码导航。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/embedded/">内建模板</a>
+        <span class="page-list-desc">Hugo 自带的内建模板清单，以及覆盖它们的通用做法。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/introduction/">简介</a>
+        <span class="page-list-desc">介绍 Hugo 的模板语法：上下文、动作、变量、函数与方法。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/lookup-order/">模板查找顺序</a>
+        <span class="page-list-desc">Hugo 为给定页面挑选模板的查找规则，以及新版目录约定。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>
+        <span class="page-list-desc">Hugo v0.146.0 重写模板系统后的目录变化、查找顺序与迁移对照。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/partial-decorators/">局部模板装饰器</a>
+        <span class="page-list-desc">用局部模板装饰器编写可复用的包裹式组件，并用 templates.Inner 注入内容。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/shortcode/">短代码模板</a>
+        <span class="page-list-desc">创建自定义短代码模板：位置与命名、参数读取、返回值处理与嵌套。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/templates/types/">内容类型</a>
+        <span class="page-list-desc">内容类型的来源与作用：如何决定模板查找、如何复用模板。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+    </ul>
+  </section>
+  
+</article>
+
+    </main>
+    
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>配置 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="Hugo 配置的组织方式、配置文件与配置目录、按环境覆盖、合并策略与环境变量。">
+  <link rel="canonical" href="https://example.org/configuration/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="配置 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="Hugo 配置的组织方式、配置文件与配置目录、按环境覆盖、合并策略与环境变量。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.org/configuration/">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://example.org/configuration/index.xml" title="Hugo 官方文档 · 中文翻译">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"Hugo 配置的组织方式、配置文件与配置目录、按环境覆盖、合并策略与环境变量。","headline":"配置","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"配置","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/configuration/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/configuration/">配置</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/configuration/introduction/">配置简介</a>
+        </li>
+        <li>
+          <a href="/configuration/all/">全部设置</a>
+        </li>
+        <li>
+          <a href="/configuration/build/">构建配置</a>
+        </li>
+        <li>
+          <a href="/configuration/caches/">缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/cascade/">级联配置</a>
+        </li>
+        <li>
+          <a href="/configuration/content-types/">内容类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/deployment/">部署目标配置</a>
+        </li>
+        <li>
+          <a href="/configuration/front-matter/">前置元数据配置</a>
+        </li>
+        <li>
+          <a href="/configuration/http-cache/">HTTP 缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/imaging/">图像处理配置</a>
+        </li>
+        <li>
+          <a href="/configuration/languages/">语言配置</a>
+        </li>
+        <li>
+          <a href="/configuration/markup/">Markup 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/media-types/">媒体类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/menus/">菜单配置</a>
+        </li>
+        <li>
+          <a href="/configuration/minify/">压缩配置</a>
+        </li>
+        <li>
+          <a href="/configuration/module/">模块配置</a>
+        </li>
+        <li>
+          <a href="/configuration/output-formats/">输出格式配置</a>
+        </li>
+        <li>
+          <a href="/configuration/outputs/">输出配置</a>
+        </li>
+        <li>
+          <a href="/configuration/page/">页面配置</a>
+        </li>
+        <li>
+          <a href="/configuration/params/">参数配置</a>
+        </li>
+        <li>
+          <a href="/configuration/pagination/">分页配置</a>
+        </li>
+        <li>
+          <a href="/configuration/permalinks/">永久链接配置</a>
+        </li>
+        <li>
+          <a href="/configuration/privacy/">隐私配置</a>
+        </li>
+        <li>
+          <a href="/configuration/related-content/">相关内容配置</a>
+        </li>
+        <li>
+          <a href="/configuration/roles/">角色配置</a>
+        </li>
+        <li>
+          <a href="/configuration/security/">安全配置</a>
+        </li>
+        <li>
+          <a href="/configuration/segments/">片段配置</a>
+        </li>
+        <li>
+          <a href="/configuration/server/">服务器配置</a>
+        </li>
+        <li>
+          <a href="/configuration/services/">服务配置</a>
+        </li>
+        <li>
+          <a href="/configuration/sitemap/">站点地图配置</a>
+        </li>
+        <li>
+          <a href="/configuration/taxonomies/">分类法配置</a>
+        </li>
+        <li>
+          <a href="/configuration/ugly-urls/">丑陋 URL 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/versions/">版本配置</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      
+<article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow">文档章节</p>
+    <h1>配置</h1>
+    <p class="doc-description">Hugo 配置的组织方式、配置文件与配置目录、按环境覆盖、合并策略与环境变量。</p>
+  </header>
+  <div class="doc-body"><h2 id="通用设置与配置分类">通用设置与配置分类</h2>
+<p>项目配置中的每个顶层键，要么是通用设置（general setting），要么是配置分类（configuration category）。</p>
+<p>通用设置是单个值，例如 <code>baseURL</code> 或 <code>title</code>；配置分类把相关的嵌套设置归为一组，例如 <code>markup</code>、<code>menus</code> 或 <code>params</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;My New Hugo Site&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">subtitle</span> <span class="p">=</span> <span class="s1">&#39;The Best Widgets on Earth&#39;</span></span></span></code></pre></div><p>上例中，<code>baseURL</code> 与 <code>title</code> 是通用设置，<code>params</code> 是配置分类。</p>
+<h2 id="合理的默认值">合理的默认值</h2>
+<p>Hugo 的配置项很多，但默认值通常已经够用。新项目只需要这几个设置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;en-us&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;My New Hugo Site&#39;</span></span></span></code></pre></div><p>只定义与默认值不同的设置。配置文件越小，越容易阅读、理解与排查问题。</p>
+<blockquote><p>最好的配置文件就是短配置文件。</p>
+</blockquote><h2 id="配置文件">配置文件</h2>
+<p>在项目根目录创建项目配置文件，命名为 <code>hugo.toml</code>、<code>hugo.yaml</code> 或 <code>hugo.json</code>，优先级也按此顺序。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">my-project/
+</span></span><span class="line"><span class="cl">└── hugo.toml</span></span></code></pre></div><p>一个简单的例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;en-us&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;ABC Widgets, Inc.&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">subtitle</span> <span class="p">=</span> <span class="s1">&#39;The Best Widgets on Earth&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">contact</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">email</span> <span class="p">=</span> <span class="s1">&#39;info@example.org&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">phone</span> <span class="p">=</span> <span class="s1">&#39;+1 202-555-1212&#39;</span></span></span></code></pre></div><p>构建时想改用别的配置文件，可以使用 <code>--config</code> 参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo build --config other.toml</span></span></code></pre></div><p>也可以合并两个或多个配置文件，优先级从左到右：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo build --config a.toml,b.yaml,c.json</span></span></code></pre></div><p>Hugo 按列出的顺序加载文件，后一个文件会递归覆盖前一个文件中同名的键；也就是说，键冲突时以最后列出的文件为准。</p>
+<h2 id="配置目录">配置目录</h2>
+<p>除单个配置文件外，还可以按环境（environment）、配置分类与语言把配置拆分到 <code>config</code> 目录。Hugo 先加载 <code>_default</code> 目录，再加载当前环境对应的目录，因此键冲突时环境专属的值生效。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">my-project/
+</span></span><span class="line"><span class="cl">└── config/
+</span></span><span class="line"><span class="cl">    ├── _default/
+</span></span><span class="line"><span class="cl">    │   ├── hugo.toml
+</span></span><span class="line"><span class="cl">    │   ├── menus.en.toml
+</span></span><span class="line"><span class="cl">    │   ├── menus.de.toml
+</span></span><span class="line"><span class="cl">    │   └── params.toml
+</span></span><span class="line"><span class="cl">    └── production/
+</span></span><span class="line"><span class="cl">        └── params.toml</span></span></code></pre></div><p>配置分类指 <code>markup</code>、<code>menus</code>、<code>params</code>、<code>module</code>、<code>services</code>、<code>taxonomies</code> 这类分组，完整列表见官方文档的 All settings 页面。</p>
+<h3 id="省略或包含分类名">省略或包含分类名</h3>
+<p>自 v0.162.0 起，按配置分类拆分时，组件文件中可以省略、也可以保留分类名。例如下面两种写法等价：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="c"># config/_default/hugo.toml</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">foo</span> <span class="p">=</span> <span class="s1">&#39;bar&#39;</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="c"># config/_default/params.toml</span>
+</span></span><span class="line"><span class="cl"><span class="nx">foo</span> <span class="p">=</span> <span class="s1">&#39;bar&#39;</span></span></span></code></pre></div><p>对 <code>menus</code> 这类「值为映射到切片」的键同样适用，<code>[[main]]</code> 与 <code>[[menus.main]]</code> 等价。而对 <code>cascade</code>、<code>permalinks</code> 这类纯切片类型的键，则必须写出分类名。</p>
+<blockquote><p>只有当分类名是文件中的唯一键，且与文件的基本名一致时，Hugo 才会把这一层「解包」。</p>
+</blockquote><h3 id="递归解析">递归解析</h3>
+<p>Hugo 会递归解析 <code>config</code> 目录，因此可以把配置文件放进子目录，例如 <code>config/_default/navigation/menus.en.toml</code>。</p>
+<h3 id="示例">示例</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">my-project/
+</span></span><span class="line"><span class="cl">└── config/
+</span></span><span class="line"><span class="cl">    ├── _default/
+</span></span><span class="line"><span class="cl">    │   └── hugo.toml
+</span></span><span class="line"><span class="cl">    ├── production/
+</span></span><span class="line"><span class="cl">    │   └── hugo.toml
+</span></span><span class="line"><span class="cl">    └── staging/
+</span></span><span class="line"><span class="cl">        └── hugo.toml</span></span></code></pre></div><p>以 Google Analytics 为例，它要求在项目配置中填写 Google 标记 ID：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">services</span><span class="p">.</span><span class="nx">googleAnalytics</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ID</span> <span class="p">=</span> <span class="s1">&#39;G-XXXXXXXXX&#39;</span></span></span></code></pre></div><p>现在有两个需求：运行 <code>hugo server</code> 时不加载分析代码；生产环境与预发环境使用不同的标记 ID。可以这样配置：</p>
+<ol>
+<li><code>config/_default/hugo.toml</code>：不写 <code>services.googleAnalytics</code> 区段。运行 <code>hugo server</code> 时 <code>environment</code> 默认为 <code>development</code>，在没有 <code>config/development</code> 目录的情况下 Hugo 使用 <code>config/_default</code>。</li>
+<li><code>config/production/hugo.toml</code>：只写 <code>[services.googleAnalytics]</code> 与 <code>ID = 'G-PPPPPPPPP'</code>。运行 <code>hugo build</code> 时 <code>environment</code> 默认为 <code>production</code>。</li>
+<li><code>config/staging/hugo.toml</code>：只写 <code>[services.googleAnalytics]</code> 与 <code>ID = 'G-SSSSSSSSS'</code>，用 <code>hugo build --environment staging</code> 构建预发站点。</li>
+</ol>
+<p>环境目录中的文件只需写出与环境相关的设置，Hugo 会用它们覆盖默认配置中的同名键。</p>
+<h2 id="合并配置设置">合并配置设置</h2>
+<p>Hugo 会合并来自主题与模块的配置，并优先使用项目自身的设置。这与用 <code>--config</code> 合并多个文件、或把配置拆分到配置目录不同：后两者对同名键总是直接覆盖。</p>
+<p>以两个主题的项目为例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">project/
+</span></span><span class="line"><span class="cl">├── themes/
+</span></span><span class="line"><span class="cl">│   ├── theme-a/
+</span></span><span class="line"><span class="cl">│   │   └── hugo.toml
+</span></span><span class="line"><span class="cl">│   └── theme-b/
+</span></span><span class="line"><span class="cl">│       └── hugo.toml
+</span></span><span class="line"><span class="cl">└── hugo.toml</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;en-us&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;My New Hugo Site&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">theme</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;theme-a&#39;</span><span class="p">,</span><span class="s1">&#39;theme-b&#39;</span><span class="p">]</span></span></span></code></pre></div><p>Hugo 按以下顺序合并设置：项目配置、<code>theme-a</code> 配置、<code>theme-b</code> 配置。</p>
+<h3 id="合并策略">合并策略</h3>
+<p>每个配置分类中的 <code>_merge</code> 设置决定合并_哪些_设置以及_如何_合并。<code>_merge</code> 可以写在分类的任意嵌套层级，而不限于顶层；合并嵌套表时，Hugo 使用该表自身的 <code>_merge</code>，没有设置则继承最近的祖先。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">typographer</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">_merge</span> <span class="p">=</span> <span class="s1">&#39;deep&#39;</span></span></span></code></pre></div><p><code>_merge</code> 的取值可以是：</p>
+<ul>
+<li><code>none</code>：不合并。</li>
+<li><code>shallow</code>：只为新键添加值。</li>
+<li><code>deep</code>：为新键添加值，并合并已有键的值。</li>
+</ul>
+<h3 id="根级合并策略">根级合并策略</h3>
+<p><code>_merge</code> 也可以写在项目配置的根级（任何配置分类之外），从而改变整个项目的行为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">_merge</span> <span class="p">=</span> <span class="s1">&#39;none&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">locale</span> <span class="p">=</span> <span class="s1">&#39;en-us&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;My New Hugo Site&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">theme</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;theme-a&#39;</span><span class="p">,</span><span class="s1">&#39;theme-b&#39;</span><span class="p">]</span></span></span></code></pre></div><p>根级 <code>_merge</code> 为 <code>none</code> 时，主题与模块的配置完全不合并，无论各配置分类上写了什么；根级 <code>_merge</code> 为 <code>shallow</code> 或 <code>deep</code> 时，则改变那些未自行指定 <code>_merge</code> 的分类的默认合并策略。</p>
+<blockquote><p>Hugo 可以把模块与主题中的映射（map）类型配置值合并进项目配置，但无法合并切片（slice）类型的值。这既包括 <code>menus</code> 这类切片类型的配置分类，也包括 <code>outputs</code> 中按页面种类划分的格式列表这类「值为切片」的映射键。</p>
+</blockquote><h3 id="安全影响">安全影响</h3>
+<p>多数配置分类默认采用 <code>none</code> 合并策略，正是为了保护项目免受第三方主题与模块的影响。</p>
+<blockquote><p>把 <code>_merge</code> 设为 <code>shallow</code> 或 <code>deep</code> 会移除这层保护，无论它作用于 <code>markup</code>、<code>security</code> 这类安全敏感的键，还是写在配置根级改变所有键的默认策略。只有在你信任项目中的每一个主题与模块时，才对这些键使用宽松的 <code>_merge</code>。</p>
+</blockquote><h2 id="环境变量">环境变量</h2>
+<p>也可以用操作系统环境变量来配置设置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HUGO_BASEURL</span><span class="o">=</span>https://example.org/
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HUGO_ENABLEGITINFO</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">hugo</span></span></code></pre></div><p>上例会设置 <code>baseURL</code> 与 <code>enableGitInfo</code>，然后构建站点。</p>
+<blockquote><p>环境变量的优先级高于配置文件中的值。也就是说，同一个配置项既用环境变量设置、又写在配置文件里时，Hugo 采用环境变量的值。</p>
+</blockquote><p>环境变量名必须以 <code>HUGO_</code> 开头；设置自定义站点参数时，前缀为 <code>HUGO_PARAMS_</code>。</p>
+<p>对于 snake_case 形式的变量名，标准的 <code>HUGO_</code> 前缀不能直接用。Hugo 会根据 <code>HUGO</code> 之后的第一个字符推断分隔符，因此也可以写成 <code>HUGOxPARAMSxAPI_KEY=abcdefgh</code> 这样的形式。</p>
+<p>除常规设置外，环境变量还可以覆盖某些内部设置的默认值：</p>
+<ul>
+<li><code>DART_SASS_BINARY</code>：Dart Sass 可执行文件的绝对路径。默认情况下 Hugo 依次在 <code>PATH</code> 环境变量的各个路径中查找。</li>
+<li><code>HUGO_ENVIRONMENT</code>：构建环境。运行 <code>hugo build</code> 时默认是 <code>production</code>，运行 <code>hugo server</code> 时默认是 <code>development</code>。</li>
+<li><code>HUGO_FILE_LOG_FORMAT</code>：报错或从短代码、Markdown 渲染钩子调用 <code>Position</code> 方法时，文件路径、行号与列号的格式字符串；可用标记为 <code>:file</code>、<code>:line</code>、<code>:col</code>，默认为 <code>:file::line::col</code>。</li>
+<li><code>HUGO_MEMORYLIMIT</code>：渲染站点时 Hugo 可用的最大系统内存，单位为 GB，默认是系统总内存的 25%。这是「尽力而为」的设置，可以用 <code>hugo build --logLevel info</code> 观察 <code>dynacache</code> 标签了解实际行为。</li>
+<li><code>HUGO_NUMWORKERMULTIPLIER</code>：并行处理使用的工作进程数，默认等于逻辑 CPU 数量。</li>
+</ul>
+<h2 id="查看当前配置">查看当前配置</h2>
+<p>查看完整的项目配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo config</span></span></code></pre></div><p>查看某一项配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo config <span class="p">|</span> grep <span class="o">[</span>key<span class="o">]</span></span></span></code></pre></div><p>查看已配置的文件挂载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo config mounts</span></span></code></pre></div></div>
+  
+  <section class="home-section">
+    <h2>本章内容</h2>
+    <ul class="page-list">
+      
+      <li>
+        <a href="/configuration/introduction/">配置简介</a>
+        <span class="page-list-desc">介绍配置文件、配置目录、环境变量与合并策略。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/all/">全部设置</a>
+        <span class="page-list-desc">按键名索引 Hugo 全部顶层配置项，含类型、默认值与分区说明。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/build/">构建配置</a>
+        <span class="page-list-desc">配置构建统计、缓存失效与目标目录清理等全局构建选项。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/caches/">缓存配置</a>
+        <span class="page-list-desc">配置文件缓存的用途、键、路径标记与垃圾回收。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/cascade/">级联配置</a>
+        <span class="page-list-desc">用 cascade 把页面参数、目标与切片级联到多组页面。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/content-types/">内容类型配置</a>
+        <span class="page-list-desc">通过 contentTypes 控制哪些媒体类型作为可发布资源。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/deployment/">部署目标配置</a>
+        <span class="page-list-desc">配置 hugo deploy 的目标、匹配器与上传顺序。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/front-matter/">前置元数据配置</a>
+        <span class="page-list-desc">配置日期回退顺序、字段别名与可用记号。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/http-cache/">HTTP 缓存配置</a>
+        <span class="page-list-desc">配置远程资源的 HTTP 缓存与轮询策略。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/imaging/">图像处理配置</a>
+        <span class="page-list-desc">配置图像处理的对齐锚点、重采样与各格式编码参数。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/languages/">语言配置</a>
+        <span class="page-list-desc">配置多语言项目的基础设置、各语言设置与多主机部署。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/markup/">Markup 配置</a>
+        <span class="page-list-desc">配置 Markdown 渲染器、代码高亮与目录生成参数。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/media-types/">媒体类型配置</a>
+        <span class="page-list-desc">定义媒体类型及其后缀，供输出格式引用。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/menus/">菜单配置</a>
+        <span class="page-list-desc">在项目配置中集中定义各菜单的菜单项。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/minify/">压缩配置</a>
+        <span class="page-list-desc">通过 minify 配置精简站点输出的各类资源。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/module/">模块配置</a>
+        <span class="page-list-desc">配置 Hugo 模块的导入、挂载与版本要求。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/output-formats/">输出格式配置</a>
+        <span class="page-list-desc">定义和调整输出格式，控制页面的渲染产物。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/outputs/">输出配置</a>
+        <span class="page-list-desc">按页面类型配置站点要渲染的输出格式。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/page/">页面配置</a>
+        <span class="page-list-desc">配置 Page 对象上「下一篇」「上一篇」的排序方向。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/params/">参数配置</a>
+        <span class="page-list-desc">用 params 区段定义自定义站点参数，并在模板中读取。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/pagination/">分页配置</a>
+        <span class="page-list-desc">配置每页条目数、翻页 URL 片段与别名生成行为。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/permalinks/">永久链接配置</a>
+        <span class="page-list-desc">用 pattern 与目标匹配器自定义页面 URL 的生成规则。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/privacy/">隐私配置</a>
+        <span class="page-list-desc">配置内嵌模板以帮助满足各地区的隐私法规。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/related-content/">相关内容配置</a>
+        <span class="page-list-desc">通过索引与阈值控制相关内容的匹配方式。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/roles/">角色配置</a>
+        <span class="page-list-desc">定义角色及其权重，控制多角色站点的构建顺序。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/security/">安全配置</a>
+        <span class="page-list-desc">用允许列表限制外部命令、远程通信与 Node.js 权限。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/segments/">片段配置</a>
+        <span class="page-list-desc">通过 segments 配置按片段渲染站点，加快构建速度。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/server/">服务器配置</a>
+        <span class="page-list-desc">配置 Hugo 开发服务器的请求头与重定向规则。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/services/">服务配置</a>
+        <span class="page-list-desc">通过 services 配置 Hugo 内嵌模板所需的凭据与行为。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/sitemap/">站点地图配置</a>
+        <span class="page-list-desc">通过 sitemap 配置站点地图的字段、文件名与开关。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/taxonomies/">分类法配置</a>
+        <span class="page-list-desc">通过 taxonomies 配置定义分类法及其单复数映射关系。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/ugly-urls/">丑陋 URL 配置</a>
+        <span class="page-list-desc">让页面输出为带文件扩展名的丑陋 URL。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/configuration/versions/">版本配置</a>
+        <span class="page-list-desc">定义内容版本、默认版本与版本权重排序。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+    </ul>
+  </section>
+  
+</article>
+
+    </main>
+    
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

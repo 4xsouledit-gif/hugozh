@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>Hugo 静态站点技能包 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="把建站经验打包给 AI 编码代理：一份可复用的 Hugo 技能包，含 22 个真实踩坑、SEO、多主题、日期与短代码的参考手册。">
+  <link rel="canonical" href="https://example.org/skill/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="Hugo 静态站点技能包 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="把建站经验打包给 AI 编码代理：一份可复用的 Hugo 技能包，含 22 个真实踩坑、SEO、多主题、日期与短代码的参考手册。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.org/skill/">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://example.org/skill/index.xml" title="Hugo 官方文档 · 中文翻译">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","dateModified":"2026-10-02T00:07:11+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"把建站经验打包给 AI 编码代理：一份可复用的 Hugo 技能包，含 22 个真实踩坑、SEO、多主题、日期与短代码的参考手册。","headline":"Hugo 静态站点技能包","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"Hugo 静态站点技能包","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/skill/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      
+<article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow">文档章节</p>
+    <h1>Hugo 静态站点技能包</h1>
+    <p class="doc-description">把建站经验打包给 AI 编码代理：一份可复用的 Hugo 技能包，含 22 个真实踩坑、SEO、多主题、日期与短代码的参考手册。</p>
+  </header>
+  <div class="doc-body"><p>这个站点是靠一个 <strong>AI 编码代理</strong>建起来的——16 个章节、220 多页译文、两个主题、SEO 与版本控制。过程中踩的坑、被文档静默坑过的地方、以及最后固化成规则的做法，全部打包成了这个技能包：<strong><code>hugo-static-site</code></strong>。</p>
+<p>它不是教程，而是<strong>给代理用的作业手册</strong>：当有人要求「给这个 Hugo 站加一个短代码」「把页面时间做成中文」「为什么构建失败了」，代理加载它之后应当直接知道该查什么、该避什么。</p>
+<h2 id="它解决的真实问题">它解决的真实问题</h2>
+<p>技能包里的每一条都来自真实故障，而不是转述文档。举三个：</p>
+<table>
+	<thead>
+			<tr>
+					<th>现象</th>
+					<th>真因</th>
+					<th>为什么难查</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>一个<strong>没有任何花括号</strong>的页面报「短代码未闭合」，重写整页也无效</td>
+					<td>正文里出现了字面串 H﻿AHAHUGOSHORTCODE（Hugo 短代码占位符前缀）</td>
+					<td>错误被归因到该页面，但字符串看起来只是普通文字；上游文档用零宽字符 <code>H&amp;#xfeff;AHAHUGOSHORTCODE</code> 绕开它</td>
+			</tr>
+			<tr>
+					<td><code>theme</code> 明明写在配置里，却报「找不到任何 kind 的模板」，页面数从 226 掉到 21</td>
+					<td>TOML 作用域：<code>[table]</code> 之后的裸键会归入该表，<code>theme</code> 变成了 <code>frontmatter.theme</code></td>
+					<td>配置语法完全合法，Hugo 不报错</td>
+			</tr>
+			<tr>
+					<td>中文站的日期显示成 <code>October 1, 2026</code></td>
+					<td>Hugo 的 <code>:date_*</code> 本地化 token 数据不覆盖 <code>zh</code>，静默回退英文</td>
+					<td>同一模板下德语正常，配置看起来毫无问题</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="里面有什么">里面有什么</h2>
+<table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>内容</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>SKILL.md</code></td>
+					<td>铁律与工作流：什么会让<strong>整站</strong>构建失败、无 shell 时怎么降级、快速迭代循环</td>
+			</tr>
+			<tr>
+					<td><code>references/gotchas.md</code></td>
+					<td><strong>G1–G22</strong> 逐条「症状 → 真因 → 修法」，并标注 documented / observed / not documented</td>
+			</tr>
+			<tr>
+					<td><code>references/seo.md</code></td>
+					<td>逐标签清单、结构化数据的 <code>jsonify</code> 陷阱、robots/sitemap、性能</td>
+			</tr>
+			<tr>
+					<td><code>references/shortcodes.md</code></td>
+					<td>短代码撰写：两种记法与渲染顺序、方法清单、嵌套、与 render hook 的分工</td>
+			</tr>
+			<tr>
+					<td><code>references/dates.md</code></td>
+					<td>三个日期字段与回退链、时区、本地化格式与相对时间</td>
+			</tr>
+			<tr>
+					<td><code>references/i18n.md</code></td>
+					<td><strong>可选</strong>：多语言结构、切换器、字符串表与占位符</td>
+			</tr>
+			<tr>
+					<td><code>references/versioning.md</code></td>
+					<td>Git 该跟踪什么、<code>enableGitInfo</code>、提交驱动的「最后更新」</td>
+			</tr>
+			<tr>
+					<td><code>references/site-structure.md</code></td>
+					<td>主题分层、前置元数据契约、导航与多语言约定</td>
+			</tr>
+			<tr>
+					<td><code>references/versions.md</code></td>
+					<td>0.140 → 0.167 的逐版本改名与默认值变化</td>
+			</tr>
+			<tr>
+					<td><code>references/commands.md</code></td>
+					<td>命令笔记：只列工作流用到的标志，完整参考交给 <code>hugo gen doc</code></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="怎么获取">怎么获取</h2>
+<p>技能包在仓库的 <code>.dsh/skills/hugo-static-site/</code>（MIT 许可）。三种用法：</p>
+<p><strong>一、放进项目里</strong>（推荐，随仓库走）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&lt;你的项目&gt;/.dsh/skills/hugo-static-site/</span></span></code></pre></div><p><strong>二、放进用户目录，全机器可用</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">~/.dsh/skills/hugo-static-site/</span></span></code></pre></div><p><strong>三、给 DSH 指定目录</strong>（在 <code>~/.dsh/profiles/&lt;profile&gt;/cordis.patch.yml</code> 中）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">skill-filesystem</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;@deepseek-ai/dsh-skill-filesystem&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">customSkillDirs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">&lt;技能包所在目录&gt;</span></span></span></code></pre></div><p>技能目录在会话启动时扫描；新装后重开一个会话即可看到 <code>hugo-static-site</code>。</p>
+<h2 id="不用-dsh-也能读">不用 DSH 也能读</h2>
+<p>它不是代码，是 Markdown：把 <code>references/</code> 当文档看完全成立——那些坑和清单与 Hugo 版本无关地成立，<code>SKILL.md</code> 里也写明了每条断言是「文档明文」还是「实测观察」。</p>
+<h2 id="它刻意不做的事">它刻意不做的事</h2>
+<ul>
+<li><strong>不写脚本</strong>：能由 Hugo 自己回答的（<code>--printPathWarnings</code>、<code>hugo config</code>、<code>hugo list</code>、<code>hugo gen doc</code>）就不另造工具，避免与二进制跑偏；</li>
+<li><strong>不转抄可生成的内容</strong>：CLI 手册、设置清单、高亮样式分别交给 <code>hugo gen doc</code>、<code>hugo config</code>、<code>hugo gen chromastyles</code>；</li>
+<li><strong>不把推断当文档</strong>：无法指到来源的结论会标注为「实测」或「未记载」。</li>
+</ul>
+<h2 id="许可与贡献">许可与贡献</h2>
+<p>技能包采用 <strong>MIT</strong> 许可，可自由取用、修改、再分发（本仓库的译文部分另有其许可，见<a href="/about/license/">许可说明</a>）。</p>
+<p>发现新的坑、或想补充某一类清单，欢迎提 Issue / PR——请尽量附上<strong>可复现的最小例子</strong>与 <code>hugo version</code>，这比结论本身更有价值。</p>
+</div>
+  
+</article>
+
+    </main>
+    
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

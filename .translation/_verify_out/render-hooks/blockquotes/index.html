@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>引用块 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="创建引用块渲染钩子，覆盖 Markdown 引用块的渲染，并处理 NOTE 等警示块类型。">
+  <link rel="canonical" href="https://example.org/render-hooks/blockquotes/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="引用块 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="创建引用块渲染钩子，覆盖 Markdown 引用块的渲染，并处理 NOTE 等警示块类型。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/render-hooks/blockquotes/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"创建引用块渲染钩子，覆盖 Markdown 引用块的渲染，并处理 NOTE 等警示块类型。","headline":"引用块","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"引用块","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/render-hooks/blockquotes/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/render-hooks/">渲染钩子</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/render-hooks/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/render-hooks/links/">链接</a>
+        </li>
+        <li>
+          <a href="/render-hooks/images/">图片</a>
+        </li>
+        <li>
+          <a href="/render-hooks/headings/">标题</a>
+        </li>
+        <li>
+          <a href="/render-hooks/code-blocks/">代码块</a>
+        </li>
+        <li>
+          <a href="/render-hooks/blockquotes/" class="is-active" aria-current="page">引用块</a>
+        </li>
+        <li>
+          <a href="/render-hooks/tables/">表格</a>
+        </li>
+        <li>
+          <a href="/render-hooks/passthrough/">原样透传</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/render-hooks/">渲染钩子</a></p>
+    <h1>引用块</h1>
+    <p class="doc-description">创建引用块渲染钩子，覆盖 Markdown 引用块的渲染，并处理 NOTE 等警示块类型。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="上下文">上下文</h2>
+<p>引用块<strong>渲染钩子</strong>模板接收以下上下文：</p>
+<dl>
+<dt><code>AlertType</code></dt>
+<dd>（<code>string</code>）当 <code>Type</code> 为 <code>alert</code> 时适用，取警示块类型的小写形式。参见下文<a href="#%e8%ad%a6%e7%a4%ba%e5%9d%97">警示块</a>。</dd>
+<dt><code>AlertTitle</code></dt>
+<dd>（<code>template.HTML</code>）当 <code>Type</code> 为 <code>alert</code> 时适用，取警示块标题。参见下文<a href="#%e8%ad%a6%e7%a4%ba%e5%9d%97">警示块</a>。</dd>
+<dt><code>AlertSign</code></dt>
+<dd>（<code>string</code>）当 <code>Type</code> 为 <code>alert</code> 时适用，取警示块标记。通常用于表示警示块是否可在界面上折叠，取值为 <code>+</code>、<code>-</code> 或空字符串。参见下文<a href="#%e8%ad%a6%e7%a4%ba%e5%9d%97">警示块</a>。</dd>
+<dt><code>Attributes</code></dt>
+<dd>（<code>map</code>）<a href="/content-management/markdown-attributes/">Markdown 属性</a>，需要按下面的方式配置站点后才可用：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">parser</span><span class="p">.</span><span class="nx">attribute</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">block</span> <span class="p">=</span> <span class="kc">true</span></span></span></code></pre></div></dd>
+<dt><code>Ordinal</code></dt>
+<dd>（<code>int</code>）引用块在页面中的序号，从 0 开始。</dd>
+<dt><code>Page</code></dt>
+<dd>（<code>page</code>）当前页面的引用。</dd>
+<dt><code>PageInner</code></dt>
+<dd>（<code>page</code>）通过 <code>RenderShortcodes</code> 方法嵌套的页面的引用。详见下文 <a href="#pageinner-details">PageInner details</a>。</dd>
+<dt><code>Position</code></dt>
+<dd>（<code>string</code>）引用块在页面内容中的位置。</dd>
+<dt><code>Text</code></dt>
+<dd>（<code>template.HTML</code>）引用块的文本；当 <code>Type</code> 为 <code>alert</code> 时不含第一行。参见下文<a href="#%e8%ad%a6%e7%a4%ba%e5%9d%97">警示块</a>。</dd>
+<dt><code>Type</code></dt>
+<dd>（<code>string</code>）引用块类型。带警示块标记时返回 <code>alert</code>，否则返回 <code>regular</code>。参见下文<a href="#%e8%ad%a6%e7%a4%ba%e5%9d%97">警示块</a>。</dd>
+</dl>
+<h2 id="示例">示例</h2>
+<p>默认配置下，Hugo 按 <a href="https://spec.commonmark.org/current/" target="_blank" rel="noopener">CommonMark</a> 规范渲染 Markdown 引用块。要写出行为一致的渲染钩子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.Text</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span></span></span></code></pre></div><p>要把引用块渲染为 HTML 的 <code>figure</code> 元素，并附上可选的出处与题注：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">blockquote</span> <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Attributes.cite</span><span class="w"> </span><span class="cp">}}</span><span class="na">cite</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="na">.Text</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Attributes.caption</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">figcaption</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;blockquote-caption&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">safeHTML</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">figcaption</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">figure</span><span class="p">&gt;</span></span></span></code></pre></div><p>对应的 Markdown 写法是：在引用块下方另起一行，用花括号给出 <code>cite</code> 与 <code>caption</code> 两个属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-md" data-lang="md"><span class="line"><span class="cl"><span class="k">&gt; </span><span class="ge">Some text
+</span></span></span><span class="line"><span class="cl">{cite=&#34;https://gohugo.io&#34; caption=&#34;Some caption&#34;}</span></span></code></pre></div><h2 id="警示块">警示块</h2>
+<p>警示块（alert）又称 callout 或 admonition，是用于强调关键信息的引用块。</p>
+<h3 id="基本语法">基本语法</h3>
+<p>使用基本 Markdown 语法时，每个警示块的第一行是警示块标记：一个感叹号加警示块类型，整体包在方括号中。类型可以是 <code>NOTE</code>、<code>TIP</code>、<code>IMPORTANT</code>、<code>WARNING</code> 与 <code>CAUTION</code>，例如在引用块首行写 <code>&gt; [!NOTE]</code>，随后的行写正文内容。基本语法与 <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts" target="_blank" rel="noopener">GitHub</a>、<a href="https://help.obsidian.md/Editing&#43;and&#43;formatting/Callouts" target="_blank" rel="noopener">Obsidian</a> 和 <a href="https://support.typora.io/Markdown-Reference/#callouts--github-style-alerts" target="_blank" rel="noopener">Typora</a> 兼容。</p>
+<h3 id="扩展语法">扩展语法</h3>
+<p>使用扩展 Markdown 语法时，可以额外给出警示块标记和/或警示块标题。警示块标记是 <code>+</code> 或 <code>-</code>，通常用于表示警示块是否可在界面上折叠。例如首行写 <code>&gt; [!WARNING]+ Radiation hazard</code>，再写正文行。</p>
+<p>扩展语法与 <a href="https://help.obsidian.md/Editing&#43;and&#43;formatting/Callouts" target="_blank" rel="noopener">Obsidian</a> 兼容。</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>扩展语法与 GitHub、Typora 不兼容。如果加了警示块标记或警示块标题，这两个应用会把该 Markdown 当作普通引用块渲染。</p></div>
+</aside><h3 id="示例-1">示例</h3>
+<p>下面这个引用块渲染钩子在存在警示块标记时渲染多语言警示块，否则按 CommonMark 规范渲染普通引用块：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$emojis</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;caution&#34;</span><span class="w"> </span><span class="s">&#34;:exclamation:&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;important&#34;</span><span class="w"> </span><span class="s">&#34;:information_source:&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;note&#34;</span><span class="w"> </span><span class="s">&#34;:information_source:&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;tip&#34;</span><span class="w"> </span><span class="s">&#34;:bulb:&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;warning&#34;</span><span class="w"> </span><span class="s">&#34;:information_source:&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">eq</span><span class="w"> </span><span class="na">.Type</span><span class="w"> </span><span class="s">&#34;alert&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">blockquote</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;alert alert-</span><span class="cp">{{</span><span class="w"> </span><span class="na">.AlertType</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;alert-heading&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="nx">transform</span><span class="na">.Emojify</span><span class="w"> </span><span class="o">(</span><span class="k">index</span><span class="w"> </span><span class="nx">$emojis</span><span class="w"> </span><span class="na">.AlertType</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.AlertTitle</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="cp">{{</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="o">(</span><span class="nx">i18n</span><span class="w"> </span><span class="na">.AlertType</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="nx">title</span><span class="w"> </span><span class="na">.AlertType</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="na">.Text</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="na">.Text</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>要覆盖标签文本，在 i18n 文件中加入如下条目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">caution</span> <span class="p">=</span> <span class="s1">&#39;Caution&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">important</span> <span class="p">=</span> <span class="s1">&#39;Important&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">note</span> <span class="p">=</span> <span class="s1">&#39;Note&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">tip</span> <span class="p">=</span> <span class="s1">&#39;Tip&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">warning</span> <span class="p">=</span> <span class="s1">&#39;Warning&#39;</span></span></span></code></pre></div><p>虽然可以像上面那样用一个模板加条件逻辑处理，也可以为每种引用块 <code>Type</code> 创建单独的模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">  └── _markup/
+</span></span><span class="line"><span class="cl">      ├── render-blockquote-alert.html
+</span></span><span class="line"><span class="cl">      └── render-blockquote-regular.html</span></span></code></pre></div><h2 id="pageinner-details">PageInner details</h2>
+<p><code>PageInner</code> 的主要用途是相对于被包含的页面来解析链接与页面资源。例如可以创建一个「包含」短代码，用多个内容文件拼装一个页面，同时为脚注与目录保留全局上下文：先用位置参数取出要包含的页面逻辑路径，再调用该页面的 <code>RenderShortcodes</code> 方法，取不到页面时用 <code>errorf</code> 报错。</p>
+<p>然后在 Markdown 中用 Markdown 记法调用这个短代码，被包含页面的路径写在位置参数里。渲染 <code>/posts/post-2</code> 时触发的任何渲染钩子，调用 <code>Page</code> 会得到 <code>/posts/post-1</code>，调用 <code>PageInner</code> 则会得到 <code>/posts/post-2</code>。</p>
+<p><code>PageInner</code> 在不适用时会回退为 <code>Page</code> 的值，并且始终有返回值。它只对调用 <code>RenderShortcodes</code> 方法的短代码有意义，并且必须以 Markdown 记法调用该短代码。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/render-hooks/blockquotes/" target="_blank" rel="noopener">https://gohugo.io/render-hooks/blockquotes/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/render-hooks/code-blocks/">← 上一篇：代码块</a>
+    <a class="pager-next" href="/render-hooks/tables/">下一篇：表格 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#上下文">上下文</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#警示块">警示块</a>
+      <ul>
+        <li><a href="#基本语法">基本语法</a></li>
+        <li><a href="#扩展语法">扩展语法</a></li>
+        <li><a href="#示例-1">示例</a></li>
+      </ul>
+    </li>
+    <li><a href="#pageinner-details">PageInner details</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

@@ -3,7 +3,7 @@ title = "Go 模板函数与语句"
 linkTitle = "go template"
 description = "用这些函数与语句编写条件判断、循环及其它模板逻辑。"
 date = 2026-10-02
-weight = 10
+weight = 110
 source = "https://gohugo.io/functions/go-template/"
 +++
 

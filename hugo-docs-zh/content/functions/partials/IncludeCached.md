@@ -5,6 +5,11 @@ description = "执行给定模板并缓存结果，可选择性地传入一个�
 date = 2026-10-02
 weight = 30
 source = "https://gohugo.io/functions/partials/includecached/"
+
+[params.functions_and_methods]
+signatures = ["partials.IncludeCached LAYOUT CONTEXT [VARIANT...]"]
+returnType = "any"
+aliases = ["partialCached"]
 +++
 
 没有 [`return`][] 语句时，`partialCached` 函数返回 `template.HTML` 类型的字符串。有 `return` 语句时，`partialCached` 函数可以返回任意数据类型。

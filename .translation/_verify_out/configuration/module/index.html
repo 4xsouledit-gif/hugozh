@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>模块配置 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="配置 Hugo 模块的导入、挂载与版本要求。">
+  <link rel="canonical" href="https://example.org/configuration/module/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="模块配置 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="配置 Hugo 模块的导入、挂载与版本要求。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/configuration/module/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"配置 Hugo 模块的导入、挂载与版本要求。","headline":"模块配置","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"模块配置","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/configuration/module/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/configuration/">配置</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/configuration/introduction/">配置简介</a>
+        </li>
+        <li>
+          <a href="/configuration/all/">全部设置</a>
+        </li>
+        <li>
+          <a href="/configuration/build/">构建配置</a>
+        </li>
+        <li>
+          <a href="/configuration/caches/">缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/cascade/">级联配置</a>
+        </li>
+        <li>
+          <a href="/configuration/content-types/">内容类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/deployment/">部署目标配置</a>
+        </li>
+        <li>
+          <a href="/configuration/front-matter/">前置元数据配置</a>
+        </li>
+        <li>
+          <a href="/configuration/http-cache/">HTTP 缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/imaging/">图像处理配置</a>
+        </li>
+        <li>
+          <a href="/configuration/languages/">语言配置</a>
+        </li>
+        <li>
+          <a href="/configuration/markup/">Markup 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/media-types/">媒体类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/menus/">菜单配置</a>
+        </li>
+        <li>
+          <a href="/configuration/minify/">压缩配置</a>
+        </li>
+        <li>
+          <a href="/configuration/module/" class="is-active" aria-current="page">模块配置</a>
+        </li>
+        <li>
+          <a href="/configuration/output-formats/">输出格式配置</a>
+        </li>
+        <li>
+          <a href="/configuration/outputs/">输出配置</a>
+        </li>
+        <li>
+          <a href="/configuration/page/">页面配置</a>
+        </li>
+        <li>
+          <a href="/configuration/params/">参数配置</a>
+        </li>
+        <li>
+          <a href="/configuration/pagination/">分页配置</a>
+        </li>
+        <li>
+          <a href="/configuration/permalinks/">永久链接配置</a>
+        </li>
+        <li>
+          <a href="/configuration/privacy/">隐私配置</a>
+        </li>
+        <li>
+          <a href="/configuration/related-content/">相关内容配置</a>
+        </li>
+        <li>
+          <a href="/configuration/roles/">角色配置</a>
+        </li>
+        <li>
+          <a href="/configuration/security/">安全配置</a>
+        </li>
+        <li>
+          <a href="/configuration/segments/">片段配置</a>
+        </li>
+        <li>
+          <a href="/configuration/server/">服务器配置</a>
+        </li>
+        <li>
+          <a href="/configuration/services/">服务配置</a>
+        </li>
+        <li>
+          <a href="/configuration/sitemap/">站点地图配置</a>
+        </li>
+        <li>
+          <a href="/configuration/taxonomies/">分类法配置</a>
+        </li>
+        <li>
+          <a href="/configuration/ugly-urls/">丑陋 URL 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/versions/">版本配置</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/configuration/">配置</a></p>
+    <h1>模块配置</h1>
+    <p class="doc-description">配置 Hugo 模块的导入、挂载与版本要求。</p>
+  </header>
+  
+  <div class="doc-body"><p>Hugo 模块是项目、主题与组件的组合单元，通过 <code>[module]</code> 配置。默认配置如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">module</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">noProxy</span> <span class="p">=</span> <span class="s1">&#39;none&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">noVendor</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">private</span> <span class="p">=</span> <span class="s1">&#39;*.*&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">proxy</span> <span class="p">=</span> <span class="s1">&#39;direct&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">vendorClosest</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">workspace</span> <span class="p">=</span> <span class="s1">&#39;off&#39;</span></span></span></code></pre></div><h2 id="顶层设置">顶层设置</h2>
+<table>
+	<thead>
+			<tr>
+					<th>键名</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>auth</code></td>
+					<td><code>string</code></td>
+					<td><code>''</code></td>
+					<td>自 v0.144.0 起可用。配置执行模块操作时 Go 命令的 <code>GOAUTH</code>，是以分号分隔的认证命令列表，用于 go-import 与 HTTPS 模块镜像交互，对私有仓库很有用。详见 <code>go help goauth</code>。</td>
+			</tr>
+			<tr>
+					<td><code>noProxy</code></td>
+					<td><code>string</code></td>
+					<td><code>'none'</code></td>
+					<td>以逗号分隔的 Glob 模式列表，匹配的路径不使用所配置的代理服务器。</td>
+			</tr>
+			<tr>
+					<td><code>noVendor</code></td>
+					<td><code>string</code></td>
+					<td><code>''</code></td>
+					<td>一个 Glob 模式，匹配在 vendor 时应当跳过的模块路径。</td>
+			</tr>
+			<tr>
+					<td><code>private</code></td>
+					<td><code>string</code></td>
+					<td><code>'*.*'</code></td>
+					<td>以逗号分隔的 Glob 模式列表，匹配应被视为私有的路径。</td>
+			</tr>
+			<tr>
+					<td><code>proxy</code></td>
+					<td><code>string</code></td>
+					<td><code>'direct'</code></td>
+					<td>下载远程模块所用的代理服务器。默认 <code>direct</code>，表示直接使用 <code>git clone</code> 之类的操作。</td>
+			</tr>
+			<tr>
+					<td><code>replacements</code></td>
+					<td><code>string</code></td>
+					<td>—</td>
+					<td>主要用于本地模块开发，是以逗号分隔的「模块路径 → 目录」映射。路径可以是绝对路径，也可以是相对于 <code>themesDir</code> 的路径。</td>
+			</tr>
+			<tr>
+					<td><code>vendorClosest</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否选择离使用方最近的已 vendor 模块；默认行为是选择第一个。注意同一模块路径只能有一个依赖，一旦启用便无法重新定义。</td>
+			</tr>
+			<tr>
+					<td><code>workspace</code></td>
+					<td><code>string</code></td>
+					<td><code>'off'</code></td>
+					<td>要使用的 Go 工作区文件，可为绝对路径或相对于当前工作目录的路径。启用后进入 Go 工作区模式，需要 Go 1.18 或更高版本。</td>
+			</tr>
+	</tbody>
+</table>
+<p><code>replacements</code> 的写法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">module</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">replacements</span> <span class="p">=</span> <span class="s1">&#39;github.com/bep/my-theme -&gt; ../..,github.com/bep/shortcodes -&gt; /some/path&#39;</span></span></span></code></pre></div><p>上述任何一项都可以改用环境变量设置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HUGO_MODULE_PROXY</span><span class="o">=</span><span class="s2">&#34;https://proxy.example.org&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HUGO_MODULE_REPLACEMENTS</span><span class="o">=</span><span class="s2">&#34;github.com/bep/my-theme -&gt; ../..&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HUGO_MODULE_WORKSPACE</span><span class="o">=</span><span class="s2">&#34;/my/hugo.work&#34;</span></span></span></code></pre></div><h2 id="hugo-版本要求">Hugo 版本要求</h2>
+<p>可以在 <code>module</code> 段中声明模块所需的 Hugo 版本，用户的 Hugo 版本不兼容时会收到警告。默认配置为 <code>extended</code>、<code>max</code>、<code>min</code> 三者均为空值，全部可以省略：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">module</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">module</span><span class="p">.</span><span class="nx">hugoVersion</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">extended</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">max</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">min</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span></span></span></code></pre></div><table>
+	<thead>
+			<tr>
+					<th>键名</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>extended</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>自 v0.153.0 起弃用。是否要求 Hugo extended 版本，安装 extended 或 extended/deploy 版本均可满足。扩展版本检查在 v0.153.2 及之后的版本中已禁用。</td>
+			</tr>
+			<tr>
+					<td><code>max</code></td>
+					<td><code>string</code></td>
+					<td><code>''</code></td>
+					<td>支持的最高 Hugo 版本，例如 <code>0.153.0</code>。</td>
+			</tr>
+			<tr>
+					<td><code>min</code></td>
+					<td><code>string</code></td>
+					<td><code>''</code></td>
+					<td>支持的最低 Hugo 版本，例如 <code>0.102.0</code>。</td>
+			</tr>
+	</tbody>
+</table>
+<p>历史上 WebP 编码与 LibSass 确实需要 extended 二进制。自 v0.153.0 起，WebP 编码在所有版本中都受支持，LibSass 也已弃用并推荐改用 Dart Sass，因此内部对扩展版本的强制检查已移除。</p>
+<h2 id="导入">导入</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">module</span><span class="p">.</span><span class="nx">imports</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">disable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ignoreConfig</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ignoreImports</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">path</span> <span class="p">=</span> <span class="s1">&#39;github.com/gohugoio/hugoTestModules1_linux/modh1_2_1v&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">module</span><span class="p">.</span><span class="nx">imports</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">path</span> <span class="p">=</span> <span class="s1">&#39;my-shortcodes&#39;</span></span></span></code></pre></div><table>
+	<thead>
+			<tr>
+					<th>键名</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>path</code></td>
+					<td><code>string</code></td>
+					<td>—</td>
+					<td>模块路径：合法的 Go 模块路径（如 <code>github.com/gohugoio/myShortcodes</code>），或存放在 <code>themesDir</code> 中的目录名。</td>
+			</tr>
+			<tr>
+					<td><code>disable</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否禁用该模块，但在 <code>go.*</code> 文件中保留版本信息。</td>
+			</tr>
+			<tr>
+					<td><code>ignoreConfig</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否忽略模块的配置文件（例如 <code>hugo.toml</code>）。这同时会阻止加载任何传递性模块依赖。</td>
+			</tr>
+			<tr>
+					<td><code>ignoreImports</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否忽略该模块的导入。</td>
+			</tr>
+			<tr>
+					<td><code>noMounts</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否禁用该导入的目录挂载。</td>
+			</tr>
+			<tr>
+					<td><code>noVendor</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否禁用该导入的 vendoring。此设置仅限主项目使用。</td>
+			</tr>
+			<tr>
+					<td><code>usePackageJSON</code></td>
+					<td><code>string</code></td>
+					<td><code>auto</code></td>
+					<td>自 v0.159.0 起可用。是否在 <code>hugo mod npm pack</code> 中使用该导入的 npm 依赖，取值为 <code>auto</code>、<code>always</code> 或 <code>never</code>。设为 <code>auto</code> 时，只要模块根目录存在 Hugo 配置文件（如 <code>hugo.toml</code>）或 <code>package.hugo.json</code>，Hugo 就会启用它。</td>
+			</tr>
+			<tr>
+					<td><code>version</code></td>
+					<td><code>string</code></td>
+					<td>—</td>
+					<td>自 v0.150.0 起可用。若设为版本查询表达式，该导入将成为直接依赖，而非由 Go 模块管理的依赖。</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="挂载">挂载</h2>
+<p>挂载把文件系统的某个路径映射到 Hugo 统一文件系统中的组件路径。</p>
+<blockquote><p><strong>重要提示</strong>：如果你定义了把一个或多个文件系统路径映射到组件路径的挂载，就不要再使用这些旧式配置项：<code>archetypeDir</code>、<code>assetDir</code>、<code>contentDir</code>、<code>dataDir</code>、<code>i18nDir</code>、<code>layoutDir</code> 或 <code>staticDir</code>。</p>
+</blockquote><h3 id="默认挂载">默认挂载</h3>
+<p>在项目配置中为某个组件定义挂载，会移除该组件的默认挂载；在模块配置中为某个组件定义挂载，则会移除该模块的全部默认挂载。如果仍需要默认挂载，必须显式地把它们与新挂载一起写出。</p>
+<p>默认挂载的 <code>source</code> 与 <code>target</code> 依次为：<code>content</code>、<code>data</code>、<code>layouts</code>、<code>i18n</code>、<code>archetypes</code>、<code>assets</code>、<code>static</code>，即每个组件目录映射到同名组件路径。</p>
+<table>
+	<thead>
+			<tr>
+					<th>键名</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>source</code></td>
+					<td><code>string</code></td>
+					<td>—</td>
+					<td>挂载的源目录。对主项目可以是项目相对路径或绝对路径；对其他模块必须是项目相对路径。</td>
+			</tr>
+			<tr>
+					<td><code>target</code></td>
+					<td><code>string</code></td>
+					<td>—</td>
+					<td>挂载在 Hugo 统一文件系统中的位置，必须以组件目录开头：<code>archetypes</code>、<code>assets</code>、<code>content</code>、<code>data</code>、<code>i18n</code>、<code>layouts</code> 或 <code>static</code>，例如 <code>content/blog</code>。</td>
+			</tr>
+			<tr>
+					<td><code>disableWatch</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否在监听模式下禁用对该挂载的监听。</td>
+			</tr>
+			<tr>
+					<td><code>files</code></td>
+					<td><code>[]string</code></td>
+					<td>—</td>
+					<td>自 v0.153.0 起可用。定义要包含或排除的文件的 Glob 切片。</td>
+			</tr>
+			<tr>
+					<td><code>excludeFiles</code></td>
+					<td>—</td>
+					<td>—</td>
+					<td>自 v0.153.0 起弃用，请改用 <code>files</code>。</td>
+			</tr>
+			<tr>
+					<td><code>includeFiles</code></td>
+					<td>—</td>
+					<td>—</td>
+					<td>自 v0.153.0 起弃用，请改用 <code>files</code>。</td>
+			</tr>
+			<tr>
+					<td><code>sites</code></td>
+					<td><code>map</code></td>
+					<td>—</td>
+					<td>自 v0.153.0 起可用。为挂载定义站点矩阵与站点补集。对 <code>content</code> 与 <code>layouts</code> 挂载以及多主机模式下的 <code>static</code> 挂载有意义；对 <code>static</code> 和 <code>layouts</code> 只支持 <code>matrix</code> 关键字。</td>
+			</tr>
+			<tr>
+					<td><code>lang</code></td>
+					<td>—</td>
+					<td>—</td>
+					<td>自 v0.153.0 起弃用，请改用 <code>sites</code>。</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="示例">示例</h3>
+<p>把 Markdown 之外的静态资源挂载到 <code>assets</code>，并排除文档目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">module</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">module</span><span class="p">.</span><span class="nx">mounts</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">source</span> <span class="p">=</span> <span class="s1">&#39;content&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">target</span> <span class="p">=</span> <span class="s1">&#39;content&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">files</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;! docs/*&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">module</span><span class="p">.</span><span class="nx">mounts</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">source</span> <span class="p">=</span> <span class="s1">&#39;node_modules&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">target</span> <span class="p">=</span> <span class="s1">&#39;assets&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">module</span><span class="p">.</span><span class="nx">mounts</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">source</span> <span class="p">=</span> <span class="s1">&#39;assets&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">target</span> <span class="p">=</span> <span class="s1">&#39;assets&#39;</span></span></span></code></pre></div><p>注意第三段挂载：因为一旦为 <code>assets</code> 定义了挂载，默认挂载就会被移除，所以要显式地把项目自身的 <code>assets</code> 目录重新挂回去，否则项目里的资源将无法被处理。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/configuration/module/" target="_blank" rel="noopener">https://gohugo.io/configuration/module/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/configuration/minify/">← 上一篇：压缩配置</a>
+    <a class="pager-next" href="/configuration/output-formats/">下一篇：输出格式配置 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#顶层设置">顶层设置</a></li>
+    <li><a href="#hugo-版本要求">Hugo 版本要求</a></li>
+    <li><a href="#导入">导入</a></li>
+    <li><a href="#挂载">挂载</a>
+      <ul>
+        <li><a href="#默认挂载">默认挂载</a></li>
+        <li><a href="#示例">示例</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

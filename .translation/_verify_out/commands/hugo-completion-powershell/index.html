@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>hugo completion powershell · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="生成 PowerShell 的 hugo 补全脚本，并说明如何加载。">
+  <link rel="canonical" href="https://example.org/commands/hugo-completion-powershell/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="hugo completion powershell · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="生成 PowerShell 的 hugo 补全脚本，并说明如何加载。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/commands/hugo-completion-powershell/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"生成 PowerShell 的 hugo 补全脚本，并说明如何加载。","headline":"hugo completion powershell","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"hugo completion powershell","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/commands/hugo-completion-powershell/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/commands/">命令</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/commands/hugo/">hugo</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-build/">hugo build</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-server/">hugo server</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-server-trust/">hugo server trust</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new/">hugo new</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new-content/">hugo new content</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new-project/">hugo new project</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new-theme/">hugo new theme</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-config/">hugo config</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-config-mounts/">hugo config mounts</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-env/">hugo env</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-version/">hugo version</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list/">hugo list</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-all/">hugo list all</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-drafts/">hugo list drafts</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-expired/">hugo list expired</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-future/">hugo list future</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-published/">hugo list published</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert/">hugo convert</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert-tojson/">hugo convert toJSON</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert-totoml/">hugo convert toTOML</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert-toyaml/">hugo convert toYAML</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-deploy/">hugo deploy</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen/">hugo gen</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen-chromastyles/">hugo gen chromastyles</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen-doc/">hugo gen doc</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen-man/">hugo gen man</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-import/">hugo import</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-import-jekyll/">hugo import jekyll</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod/">hugo mod</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-clean/">hugo mod clean</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-get/">hugo mod get</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-graph/">hugo mod graph</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-init/">hugo mod init</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-npm/">hugo mod npm</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-npm-pack/">hugo mod npm pack</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-tidy/">hugo mod tidy</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-vendor/">hugo mod vendor</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-verify/">hugo mod verify</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion/">hugo completion</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-bash/">hugo completion bash</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-fish/">hugo completion fish</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-powershell/" class="is-active" aria-current="page">hugo completion powershell</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-zsh/">hugo completion zsh</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/commands/">命令</a></p>
+    <h1>hugo completion powershell</h1>
+    <p class="doc-description">生成 PowerShell 的 hugo 补全脚本，并说明如何加载。</p>
+  </header>
+  
+  <div class="doc-body"><p><code>hugo completion powershell</code> 生成 PowerShell 的自动补全脚本。脚本内容是一段 PowerShell 代码，因此在当前会话中加载时需要先用 <code>Out-String</code> 把它转成字符串，再用 <code>Invoke-Expression</code> 执行；希望长期生效，则把这段输出写进 PowerShell 的配置文件。</p>
+<h2 id="用法">用法</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">hugo completion powershell [flags]</span></span></code></pre></div><p>命令把补全脚本写到标准输出，可以交给管道执行，也可以重定向成 <code>.ps1</code> 文件。</p>
+<h2 id="选项">选项</h2>
+<table>
+	<thead>
+			<tr>
+					<th>选项</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>-h</code>, <code>--help</code></td>
+					<td>显示 <code>powershell</code> 子命令的帮助信息</td>
+			</tr>
+			<tr>
+					<td><code>--no-descriptions</code></td>
+					<td>关闭补全项的描述文字</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="继承自父命令的全局选项">继承自父命令的全局选项</h2>
+<table>
+	<thead>
+			<tr>
+					<th>选项</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>--clock string</code></td>
+					<td>设定 Hugo 使用的时钟，例如 <code>--clock 2021-11-06T22:30:00.00+09:00</code></td>
+			</tr>
+			<tr>
+					<td><code>--config string</code></td>
+					<td>指定配置文件，默认为 <code>hugo.yaml</code>、<code>hugo.json</code> 或 <code>hugo.toml</code></td>
+			</tr>
+			<tr>
+					<td><code>--configDir string</code></td>
+					<td>配置目录，默认为 <code>config</code></td>
+			</tr>
+			<tr>
+					<td><code>-d</code>, <code>--destination string</code></td>
+					<td>写入文件的文件系统路径</td>
+			</tr>
+			<tr>
+					<td><code>-e</code>, <code>--environment string</code></td>
+					<td>构建环境</td>
+			</tr>
+			<tr>
+					<td><code>--ignoreVendorPaths string</code></td>
+					<td>对匹配给定 Glob 模式的模块路径忽略其中的 <code>_vendor</code></td>
+			</tr>
+			<tr>
+					<td><code>--logLevel string</code></td>
+					<td>日志级别：<code>debug</code>、<code>info</code>、<code>warn</code> 或 <code>error</code></td>
+			</tr>
+			<tr>
+					<td><code>--noBuildLock</code></td>
+					<td>不创建 <code>.hugo_build.lock</code> 文件</td>
+			</tr>
+			<tr>
+					<td><code>--quiet</code></td>
+					<td>以静默模式构建</td>
+			</tr>
+			<tr>
+					<td><code>-M</code>, <code>--renderToMemory</code></td>
+					<td>渲染到内存，主要用于运行服务器时</td>
+			</tr>
+			<tr>
+					<td><code>-s</code>, <code>--source string</code></td>
+					<td>读取文件时相对的起始文件系统路径</td>
+			</tr>
+			<tr>
+					<td><code>--themesDir string</code></td>
+					<td>主题目录的文件系统路径</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="示例">示例</h2>
+<p>在当前 PowerShell 会话中加载补全，用完即弃：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo completion powershell <span class="p">|</span> Out-String <span class="p">|</span> Invoke-Expression</span></span></code></pre></div><p>先把脚本写入相对路径下的文件，再在当前会话中点源加载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo completion powershell &gt; completions/hugo.ps1
+</span></span><span class="line"><span class="cl">. completions/hugo.ps1</span></span></code></pre></div><p>生成不带描述文字的补全并在当前会话中加载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo completion powershell --no-descriptions <span class="p">|</span> Out-String <span class="p">|</span> Invoke-Expression</span></span></code></pre></div><h2 id="说明">说明</h2>
+<ul>
+<li>管道中的 <code>Out-String</code> 把脚本内容转成字符串，<code>Invoke-Expression</code> 在当前会话中执行它，两者缺一不可；点源加载 <code>.ps1</code> 文件则相当于在同一会话中逐行执行脚本。</li>
+<li>想让每个新会话都生效，只需执行一次：把上面那条命令的输出追加到 PowerShell 的配置文件中，该文件由 <code>$PROFILE</code> 变量指向。修改配置文件后需要重新打开一个 shell。</li>
+<li>也可以把补全脚本生成到固定位置，再在配置文件里用点源方式加载它，这样更新 Hugo 之后只要重新生成脚本即可，不必改动配置文件。</li>
+<li><code>--no-descriptions</code> 会去掉补全项后面的说明文字。</li>
+<li>其他 shell 的补全脚本见 <a href="/commands/hugo-completion/">hugo completion</a>。</li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/commands/hugo_completion_powershell/" target="_blank" rel="noopener">https://gohugo.io/commands/hugo_completion_powershell/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/commands/hugo-completion-fish/">← 上一篇：hugo completion fish</a>
+    <a class="pager-next" href="/commands/hugo-completion-zsh/">下一篇：hugo completion zsh →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#用法">用法</a></li>
+    <li><a href="#选项">选项</a></li>
+    <li><a href="#继承自父命令的全局选项">继承自父命令的全局选项</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#说明">说明</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

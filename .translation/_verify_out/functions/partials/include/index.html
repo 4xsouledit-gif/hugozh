@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>partials.Include · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="执行给定模板，可选择性地传入上下文。若局部模板包含 return 语句，则返回该语句的值，否则返回渲染输出。">
+  <link rel="canonical" href="https://example.org/functions/partials/include/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="partials.Include · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="执行给定模板，可选择性地传入上下文。若局部模板包含 return 语句，则返回该语句的值，否则返回渲染输出。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/partials/include/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"执行给定模板，可选择性地传入上下文。若局部模板包含 return 语句，则返回该语句的值，否则返回渲染输出。","headline":"partials.Include","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"partials.Include","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/partials/include/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/partials/">partials</a></p>
+    <h1>partials.Include</h1>
+    <p class="doc-description">执行给定模板，可选择性地传入上下文。若局部模板包含 return 语句，则返回该语句的值，否则返回渲染输出。</p>
+  </header>
+  
+  <div class="doc-body"><p>没有 <a href="/functions/go-template/return/"><code>return</code></a> 语句时，<code>partial</code> 函数返回 <code>template.HTML</code> 类型的字符串。有 <code>return</code> 语句时，<code>partial</code> 函数可以返回任意数据类型。</p>
+<p>下例中有三个<em>局部模板</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">└── _partials/
+</span></span><span class="line"><span class="cl">    ├── average.html
+</span></span><span class="line"><span class="cl">    ├── breadcrumbs.html
+</span></span><span class="line"><span class="cl">    └── footer.html</span></span></code></pre></div><p>“average” <em>局部模板</em>返回一个或多个数字的平均值。我们通过上下文传入这些数字：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$numbers</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="nx">6</span><span class="w"> </span><span class="nx">7</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$average</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;average.html&#34;</span><span class="w"> </span><span class="nx">$numbers</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>“breadcrumbs” <em>局部模板</em>渲染<a href="/content-management/sections/#%e7%a5%96%e5%85%88%e4%b8%8e%e5%90%8e%e4%bb%a3">面包屑导航</a>，需要接收当前页面作为上下文：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;breadcrumbs.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>“footer” <em>局部模板</em>渲染站点页脚。在这个刻意构造的例子中，页脚无需访问当前页面，因此可以省略上下文：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;footer.html&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>上下文可以传任何内容：页面、页面集合、标量值、切片或 map。下例传入当前页面与三个标量值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;page&#34;</span><span class="w"> </span><span class="na">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;name&#34;</span><span class="w"> </span><span class="s">&#34;John Doe&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;major&#34;</span><span class="w"> </span><span class="s">&#34;Finance&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;gpa&#34;</span><span class="w"> </span><span class="nx">4</span><span class="na">.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;render-student-info.html&#34;</span><span class="w"> </span><span class="nx">$ctx</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>然后在<em>局部模板</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.name</span><span class="w"> </span><span class="cp">}}</span> is majoring in <span class="cp">{{</span><span class="w"> </span><span class="na">.major</span><span class="w"> </span><span class="cp">}}</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Their grade point average is <span class="cp">{{</span><span class="w"> </span><span class="na">.gpa</span><span class="w"> </span><span class="cp">}}</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>See <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.page.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span>details.<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></span></span></code></pre></div><p>要从<em>局部模板</em>返回值，请使用 <code>return</code> 语句：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">math</span><span class="na">.ModBool</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">return</span><span class="w"> </span><span class="s">&#34;even&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">return</span><span class="w"> </span><span class="s">&#34;odd&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="相对路径">相对路径</h2>
+<p><strong>（0.167.0 新增）</strong></p>
+<p>在<em>局部模板</em>中，以 <code>./</code> 或 <code>../</code> 开头的路径相对于调用方<em>局部模板</em>所在目录解析。例如，给定以下结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/
+</span></span><span class="line"><span class="cl">└── _partials/
+</span></span><span class="line"><span class="cl">    ├── cards/
+</span></span><span class="line"><span class="cl">    │   ├── card.html
+</span></span><span class="line"><span class="cl">    │   └── image.html
+</span></span><span class="line"><span class="cl">    └── footer.html</span></span></code></pre></div><p>“card” <em>局部模板</em>可以这样调用它的同级模板与“footer” <em>局部模板</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;./image.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;../footer.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>仅支持在<em>局部模板</em>内部使用相对路径。从其它任何模板调用 <code>partial &quot;./foo.html&quot;</code>，或路径解析后落在 <code>_partials</code> 目录之外，都会报错。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/partials/include/" target="_blank" rel="noopener">https://gohugo.io/functions/partials/include/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    
+    <a class="pager-next" href="/functions/partials/includecached/">下一篇：IncludeCached →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#相对路径">相对路径</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

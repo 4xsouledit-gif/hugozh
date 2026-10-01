@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>图像处理 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="介绍图像资源处理方法、成像配置以及响应式图片的生成方式。">
+  <link rel="canonical" href="https://example.org/content-management/image-processing/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="图像处理 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="介绍图像资源处理方法、成像配置以及响应式图片的生成方式。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/content-management/image-processing/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"介绍图像资源处理方法、成像配置以及响应式图片的生成方式。","headline":"图像处理","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"图像处理","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/content-management/image-processing/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/content-management/">内容管理</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/content-management/content-formats/">内容格式</a>
+        </li>
+        <li>
+          <a href="/content-management/front-matter/">前置元数据</a>
+        </li>
+        <li>
+          <a href="/content-management/page-bundles/">页面包</a>
+        </li>
+        <li>
+          <a href="/content-management/page-resources/">页面资源</a>
+        </li>
+        <li>
+          <a href="/content-management/organization/">内容组织</a>
+        </li>
+        <li>
+          <a href="/content-management/sections/">内容区块</a>
+        </li>
+        <li>
+          <a href="/content-management/archetypes/">原型</a>
+        </li>
+        <li>
+          <a href="/content-management/summaries/">摘要</a>
+        </li>
+        <li>
+          <a href="/content-management/related-content/">相关内容</a>
+        </li>
+        <li>
+          <a href="/content-management/menus/">菜单</a>
+        </li>
+        <li>
+          <a href="/content-management/taxonomies/">分类法</a>
+        </li>
+        <li>
+          <a href="/content-management/multilingual/">多语言</a>
+        </li>
+        <li>
+          <a href="/content-management/urls/">URL 管理</a>
+        </li>
+        <li>
+          <a href="/content-management/markdown-attributes/">Markdown 属性</a>
+        </li>
+        <li>
+          <a href="/content-management/syntax-highlighting/">语法高亮</a>
+        </li>
+        <li>
+          <a href="/content-management/image-processing/" class="is-active" aria-current="page">图像处理</a>
+        </li>
+        <li>
+          <a href="/content-management/diagrams/">图表</a>
+        </li>
+        <li>
+          <a href="/content-management/mathematics/">数学公式</a>
+        </li>
+        <li>
+          <a href="/content-management/comments/">评论</a>
+        </li>
+        <li>
+          <a href="/content-management/build-options/">构建选项</a>
+        </li>
+        <li>
+          <a href="/content-management/content-adapters/">内容适配器</a>
+        </li>
+        <li>
+          <a href="/content-management/data-sources/">数据源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/content-management/">内容管理</a></p>
+    <h1>图像处理</h1>
+    <p class="doc-description">介绍图像资源处理方法、成像配置以及响应式图片的生成方式。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="图像处理概览">图像处理概览</h2>
+<p>Hugo 可以在构建过程中转换与分析图像。任何图片格式都能作为资源管理，但只有可处理的图像（processable image）才能用下文的方法转换；处理结果会写入缓存，以保证后续构建依旧很快。判断一张图片能否处理，用 <code>reflect.IsImageResourceProcessable</code> 函数。</p>
+<h2 id="捕获三种图像资源">捕获三种图像资源</h2>
+<p>要处理图像，先把它捕获为页面资源（page resource）、全局资源（global resource）或远程资源（remote resource）。</p>
+<p>页面资源是与叶子包 <code>index.md</code> 放在同一目录的图片，用页面对象的 <code>.Resources</code> 取得：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$image</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Resources.Get</span><span class="w"> </span><span class="s">&#34;sunset.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>全局资源放在项目的 <code>assets</code> 目录中，用 <code>resources.Get</code> 取得：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$image</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;images/sunset.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>远程资源用 <code>resources.GetRemote</code> 按 URL 取得：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$image</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.GetRemote</span><span class="w"> </span><span class="s">&#34;https://example.org/images/sunset.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>相关概念见<a href="/content-management/page-resources/">页面资源</a>。</p>
+<h2 id="渲染图像">渲染图像</h2>
+<p>捕获资源后，用 <code>.Permalink</code>、<code>.RelPermalink</code>、<code>.Width</code>、<code>.Height</code> 等方法把图片写进模板。资源不存在时，可以直接抛错，也可以用 <code>with</code> 跳过渲染：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Resources.GetMatch</span><span class="w"> </span><span class="s">&#34;sunset.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Width</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Height</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>远程资源还可能取回失败，可用 <code>try</code> 区分错误与结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#34;https://example.org/images/sunset.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">try</span><span class="w"> </span><span class="o">(</span><span class="nx">resources</span><span class="na">.GetRemote</span><span class="w"> </span><span class="nx">$url</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Err</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="nx">errorf</span><span class="w"> </span><span class="s">&#34;%s&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Value</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Width</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Height</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="nx">errorf</span><span class="w"> </span><span class="s">&#34;无法获取远程资源 %q&#34;</span><span class="w"> </span><span class="nx">$url</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="处理方法">处理方法</h2>
+<p>处理方法作用于图像资源，Hugo 按需生成处理结果、写入缓存并返回一个新的资源对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Resources.Get</span><span class="w"> </span><span class="s">&#34;sunset.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Resize</span><span class="w"> </span><span class="s">&#34;400x&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Width</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Height</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>可用的方法如下：</p>
+<table>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>.Resize</code></td>
+					<td>按给定规格缩放，只给宽度或高度时保持宽高比</td>
+			</tr>
+			<tr>
+					<td><code>.Fit</code></td>
+					<td>缩放至完全放入给定尺寸，保持宽高比</td>
+			</tr>
+			<tr>
+					<td><code>.Fill</code></td>
+					<td>先按比例缩放再裁剪，填满给定尺寸</td>
+			</tr>
+			<tr>
+					<td><code>.Crop</code></td>
+					<td>按给定尺寸与锚点裁剪</td>
+			</tr>
+			<tr>
+					<td><code>.Filter</code></td>
+					<td>应用滤镜，如模糊、亮度、对比度等</td>
+			</tr>
+			<tr>
+					<td><code>.Process</code></td>
+					<td>用一条处理规格字符串完成缩放、裁剪、旋转与格式转换</td>
+			</tr>
+			<tr>
+					<td><code>.Colors</code></td>
+					<td>提取图像的主色调，按占比从高到低排列</td>
+			</tr>
+			<tr>
+					<td><code>.Meta</code></td>
+					<td>读取图像的 Exif、IPTC 与 XMP 元数据</td>
+			</tr>
+	</tbody>
+</table>
+<p><code>.Meta</code> 自 Hugo 0.155.3 起提供，可用 <code>reflect.IsImageResourceWithMeta</code> 先做判断，返回对象上可取日期、纬度、经度、方向（<code>.Date</code>、<code>.Lat</code>、<code>.Long</code>、<code>.Orientation</code>）等值；它取代了旧版的 <code>.Exif</code> 方法（自 0.155.0 起弃用）。规格字符串的常见写法有 <code>&quot;600x&quot;</code>（宽度固定、高度按比例）、<code>&quot;x400&quot;</code>（高度固定）与 <code>&quot;600x400&quot;</code>（目标尺寸）；<code>.Fill</code> 与 <code>.Crop</code> 还会用到锚点（anchor），它决定裁剪时保留图片的哪个部位。</p>
+<p>注意：图像转换不会保留元数据，要读取元数据必须对原始图像资源调用 <code>.Meta</code>。</p>
+<h2 id="性能缓存回收与资源占用">性能：缓存、回收与资源占用</h2>
+<p>Hugo 按需处理图像并把结果缓存到项目配置中文件缓存（file cache）指定的目录。若站点部署在 Netlify，可在配置中加入以下内容，让缓存在两次构建之间保留：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">caches</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">caches</span><span class="p">.</span><span class="nx">images</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">dir</span> <span class="p">=</span> <span class="s1">&#39;:cacheDir/images&#39;</span></span></span></code></pre></div><p>改动处理方法，或重命名、删除图片后，缓存里会留下不再使用的文件，可运行垃圾回收（garbage collection）清理并回收磁盘空间：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo build --gc</span></span></code></pre></div><p>处理图像所需的时间与内存随图像尺寸增长，一张 <code>4032x2268</code> 的图片远比 <code>1920x1080</code> 的图片昂贵。若源图远大于实际发布尺寸，建议在构建之前先把它们缩小。</p>
+<h2 id="配置成像行为">配置成像行为</h2>
+<p>站点级的默认行为写在项目配置的 <code>[imaging]</code> 区段中，该区段适用于所有图像格式，可参考<a href="/configuration/">配置 Hugo</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">imaging</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">anchor</span> <span class="p">=</span> <span class="s1">&#39;smart&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">bgColor</span> <span class="p">=</span> <span class="s1">&#39;#ffffff&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">resampleFilter</span> <span class="p">=</span> <span class="s1">&#39;box&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">imaging</span><span class="p">.</span><span class="nx">avif</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">compression</span> <span class="p">=</span> <span class="s1">&#39;lossy&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">encoderSpeed</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">hint</span> <span class="p">=</span> <span class="s1">&#39;photo&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">quality</span> <span class="p">=</span> <span class="mi">60</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">imaging</span><span class="p">.</span><span class="nx">jpeg</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">quality</span> <span class="p">=</span> <span class="mi">75</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">imaging</span><span class="p">.</span><span class="nx">webp</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">compression</span> <span class="p">=</span> <span class="s1">&#39;lossy&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">hint</span> <span class="p">=</span> <span class="s1">&#39;photo&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">method</span> <span class="p">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">quality</span> <span class="p">=</span> <span class="mi">75</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">useSharpYuv</span> <span class="p">=</span> <span class="kc">false</span></span></span></code></pre></div><p>顶层设置的含义：</p>
+<ul>
+<li><code>anchor</code>：裁剪或填充时使用的焦点，可取 <code>TopLeft</code>、<code>Top</code>、<code>TopRight</code>、<code>Left</code>、<code>Center</code>、<code>Right</code>、<code>BottomLeft</code>、<code>Bottom</code>、<code>BottomRight</code> 或 <code>Smart</code>，默认 <code>smart</code>，大小写不敏感；<code>smart</code> 借助 <code>muesli/smartcrop</code> 找出图像中最值得保留的区域。</li>
+<li><code>bgColor</code>：把透明图像转换为不支持透明的格式（例如 PNG 转 JPEG）时填充的背景色，同时也是非正交旋转时空白区域的填充色，取值须为 RGB 十六进制颜色，默认 <code>#ffffff</code>。</li>
+<li><code>resampleFilter</code>：缩放、适配或填充时计算新像素所用的算法，常用 <code>box</code>（默认）、<code>lanczos</code>、<code>catmullRom</code>、<code>mitchellNetravali</code>、<code>linear</code>、<code>nearestNeighbor</code>；追求画质可以逐一试换，代价是构建变慢。</li>
+</ul>
+<p>顶层的 <code>quality</code>、<code>compression</code>、<code>hint</code> 三个键自 Hugo 0.163.0 起弃用，请改用各格式子区段中的同名键。AVIF 与 WebP 支持 <code>lossy</code>、<code>lossless</code> 两种 <code>compression</code>；<code>quality</code> 取 1 到 100 的整数，AVIF 默认 60、JPEG 与 WebP 默认 75，且不同格式的取值不可直接比较。WebP 的 <code>method</code> 取 0 到 6（默认 2），数值越大压缩效率与画质越好；<code>useSharpYuv</code> 默认 <code>false</code>，开启后优先保证锐度。</p>
+<p>元数据的提取与过滤由 <code>[imaging.meta]</code> 控制：<code>fields</code> 用通配切片（glob slice）匹配需要保留的字段，默认排除 <code>ColorSpace</code>、<code>Exif</code>、<code>GPS</code>、<code>Resolution</code>、<code>WhiteBalance</code> 等技术字段，写成 <code>['**']</code> 可全部保留；<code>sources</code> 指定元数据来源，可取 <code>exif</code>、<code>iptc</code>、<code>xmp</code>，默认只取前两者。</p>
+<h2 id="生成响应式图片">生成响应式图片</h2>
+<p>把同一张图片按多个宽度分别处理，再写进 <code>srcset</code>，浏览器就会按视口大小自行选择合适的版本。先在各宽度上处理一次并保存结果，避免在模板里重复处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.Resources.GetMatch</span><span class="w"> </span><span class="s">&#34;cover.jpg&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$small</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Resize</span><span class="w"> </span><span class="s">&#34;480x&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$medium</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Resize</span><span class="w"> </span><span class="s">&#34;960x&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$large</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Resize</span><span class="w"> </span><span class="s">&#34;1440x&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span>
+</span></span><span class="line"><span class="cl">    <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$large</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">srcset</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$small</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s"> 480w,
+</span></span></span><span class="line"><span class="cl"><span class="s">            </span><span class="cp">{{</span><span class="w"> </span><span class="nx">$medium</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s"> 960w,
+</span></span></span><span class="line"><span class="cl"><span class="s">            </span><span class="cp">{{</span><span class="w"> </span><span class="nx">$large</span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s"> 1440w&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">sizes</span><span class="o">=</span><span class="s">&#34;(max-width: 600px) 480px, 960px&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">width</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$large</span><span class="na">.Width</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">height</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">$large</span><span class="na">.Height</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">alt</span><span class="o">=</span><span class="s">&#34;封面&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>首次构建会真正生成这些图片，之后的构建直接复用资源缓存，因此处理成本只付出一次。Markdown 正文中插入的图片，可以交给<a href="/render-hooks/">渲染钩子</a>统一套用同样的处理逻辑。</p>
+<h2 id="相关主题">相关主题</h2>
+<ul>
+<li><a href="/content-management/page-resources/">页面资源</a></li>
+<li><a href="/render-hooks/">渲染钩子</a></li>
+<li><a href="/content-management/">内容管理</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/content-management/image-processing/" target="_blank" rel="noopener">https://gohugo.io/content-management/image-processing/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/content-management/syntax-highlighting/">← 上一篇：语法高亮</a>
+    <a class="pager-next" href="/content-management/diagrams/">下一篇：图表 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#图像处理概览">图像处理概览</a></li>
+    <li><a href="#捕获三种图像资源">捕获三种图像资源</a></li>
+    <li><a href="#渲染图像">渲染图像</a></li>
+    <li><a href="#处理方法">处理方法</a></li>
+    <li><a href="#性能缓存回收与资源占用">性能：缓存、回收与资源占用</a></li>
+    <li><a href="#配置成像行为">配置成像行为</a></li>
+    <li><a href="#生成响应式图片">生成响应式图片</a></li>
+    <li><a href="#相关主题">相关主题</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

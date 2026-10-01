@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>内容组织 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="内容目录如何映射为站点的逻辑树、URL 与 section。">
+  <link rel="canonical" href="https://example.org/content-management/organization/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="内容组织 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="内容目录如何映射为站点的逻辑树、URL 与 section。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/content-management/organization/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"内容目录如何映射为站点的逻辑树、URL 与 section。","headline":"内容组织","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"内容组织","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/content-management/organization/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/content-management/">内容管理</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/content-management/content-formats/">内容格式</a>
+        </li>
+        <li>
+          <a href="/content-management/front-matter/">前置元数据</a>
+        </li>
+        <li>
+          <a href="/content-management/page-bundles/">页面包</a>
+        </li>
+        <li>
+          <a href="/content-management/page-resources/">页面资源</a>
+        </li>
+        <li>
+          <a href="/content-management/organization/" class="is-active" aria-current="page">内容组织</a>
+        </li>
+        <li>
+          <a href="/content-management/sections/">内容区块</a>
+        </li>
+        <li>
+          <a href="/content-management/archetypes/">原型</a>
+        </li>
+        <li>
+          <a href="/content-management/summaries/">摘要</a>
+        </li>
+        <li>
+          <a href="/content-management/related-content/">相关内容</a>
+        </li>
+        <li>
+          <a href="/content-management/menus/">菜单</a>
+        </li>
+        <li>
+          <a href="/content-management/taxonomies/">分类法</a>
+        </li>
+        <li>
+          <a href="/content-management/multilingual/">多语言</a>
+        </li>
+        <li>
+          <a href="/content-management/urls/">URL 管理</a>
+        </li>
+        <li>
+          <a href="/content-management/markdown-attributes/">Markdown 属性</a>
+        </li>
+        <li>
+          <a href="/content-management/syntax-highlighting/">语法高亮</a>
+        </li>
+        <li>
+          <a href="/content-management/image-processing/">图像处理</a>
+        </li>
+        <li>
+          <a href="/content-management/diagrams/">图表</a>
+        </li>
+        <li>
+          <a href="/content-management/mathematics/">数学公式</a>
+        </li>
+        <li>
+          <a href="/content-management/comments/">评论</a>
+        </li>
+        <li>
+          <a href="/content-management/build-options/">构建选项</a>
+        </li>
+        <li>
+          <a href="/content-management/content-adapters/">内容适配器</a>
+        </li>
+        <li>
+          <a href="/content-management/data-sources/">数据源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/content-management/">内容管理</a></p>
+    <h1>内容组织</h1>
+    <p class="doc-description">内容目录如何映射为站点的逻辑树、URL 与 section。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="内容目录即站点结构">内容目录即站点结构</h2>
+<p>Hugo 假定用于组织源内容的结构，同样用于组织渲染后的站点。内容在 <code>content/</code> 目录中的位置构成一棵逻辑树：一级子目录即顶层 section，目录名既是 section 名，也是 URL 的一段。内容属于哪个 section 由它在目录树中的位置决定，不能在前置元数据中指定或覆盖。</p>
+<p>Hugo 支持任意层级的内容嵌套，但 <code>content/&lt;目录名&gt;</code> 这样的顶层目录具有特殊含义，它被视为内容类型，用于决定布局等行为。不额外配置时，下面的结构会自动得到对应的 URL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── about/
+</span></span><span class="line"><span class="cl">│   └── index.md          → https://example.org/about/
+</span></span><span class="line"><span class="cl">├── posts/
+</span></span><span class="line"><span class="cl">│   ├── firstpost.md      → https://example.org/posts/firstpost/
+</span></span><span class="line"><span class="cl">│   ├── happy/
+</span></span><span class="line"><span class="cl">│   │   └── ness.md       → https://example.org/posts/happy/ness/
+</span></span><span class="line"><span class="cl">│   └── secondpost.md     → https://example.org/posts/secondpost/
+</span></span><span class="line"><span class="cl">└── quote/
+</span></span><span class="line"><span class="cl">    ├── first.md          → https://example.org/quote/first/
+</span></span><span class="line"><span class="cl">    └── second.md         → https://example.org/quote/second/</span></span></code></pre></div><p>这些地址假定站点使用 Hugo 默认的漂亮 URL 形式，并且项目配置中设置了 <code>baseURL = &quot;https://example.org/&quot;</code>。</p>
+<h2 id="页面包">页面包</h2>
+<p>Hugo 支持把页面相对的图片与其他资源打包成页面包（page bundle）。页面包有两种形态：目录中是 <code>_index.md</code> 时构成分支包（branch bundle），代表一个列表页；目录中是 <code>index.md</code> 时构成叶子包（leaf bundle），代表一个不可再分的页面。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── blog/
+</span></span><span class="line"><span class="cl">│   ├── hugo-is-cool/
+</span></span><span class="line"><span class="cl">│   │   ├── images/
+</span></span><span class="line"><span class="cl">│   │   │   ├── funnier-cat.jpg
+</span></span><span class="line"><span class="cl">│   │   │   └── funny-cat.jpg
+</span></span><span class="line"><span class="cl">│   │   ├── cats-info.md
+</span></span><span class="line"><span class="cl">│   │   └── index.md
+</span></span><span class="line"><span class="cl">│   ├── posts/
+</span></span><span class="line"><span class="cl">│   │   ├── post1.md
+</span></span><span class="line"><span class="cl">│   │   └── post2.md
+</span></span><span class="line"><span class="cl">│   ├── 1-landscape.jpg
+</span></span><span class="line"><span class="cl">│   ├── 2-sunset.jpg
+</span></span><span class="line"><span class="cl">│   ├── _index.md
+</span></span><span class="line"><span class="cl">│   ├── content-1.md
+</span></span><span class="line"><span class="cl">│   └── content-2.md
+</span></span><span class="line"><span class="cl">├── 1-logo.png
+</span></span><span class="line"><span class="cl">└── _index.md</span></span></code></pre></div><p>上例中共有三个页面包。首页包不能包含其他内容页面，但允许存放图片等其他文件。要理解全貌，还需要同时了解<a href="/content-management/page-resources/">页面资源</a>与<a href="/content-management/image-processing/">图像处理</a>。</p>
+<h2 id="_indexmd-与-indexmd-的分工"><code>_index.md</code> 与 <code>index.md</code> 的分工</h2>
+<p><code>_index.md</code> 在 Hugo 中有特殊作用，它让你可以为 home、section、taxonomy 和 term 页面添加前置元数据与正文。站点首页以及每个内容 section、分类法和术语都可以各有一个 <code>_index.md</code>；其中的内容与元数据可以用 <code>Site</code> 或 <code>Page</code> 对象的 <code>GetPage</code> 方法访问。</p>
+<p>以典型的 section 列表页为例，文件与 URL 的对应关系如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/posts/_index.md   → url: /posts/   section: posts
+</span></span><span class="line"><span class="cl">                          → https://example.org/posts/index.html</span></span></code></pre></div><p>section 中的单个内容文件由单页模板渲染。例如 <code>content/posts/my-first-hugo-post.md</code> 的 URL 是 <code>/posts/my-first-hugo-post/</code>，其中 section 为 <code>posts</code>、slug 为 <code>my-first-hugo-post</code>，构建后输出到 <code>https://example.org/posts/my-first-hugo-post/index.html</code>。</p>
+<p>两种文件的差别在于包的形态：<code>_index.md</code> 生成列表页，它所在的目录可以继续包含子 section 与其他内容页面；<code>index.md</code> 生成单个页面，同目录下的其他文件成为该页面的页面资源，不会被单独渲染为页面。</p>
+<h2 id="路径的组成">路径的组成</h2>
+<p>理解下列概念，有助于掌握内容组织方式与默认构建行为之间的关系：</p>
+<dl>
+<dt>section</dt>
+<dd>默认内容类型由内容所处的 section 决定，section 则由内容在项目 <code>content</code> 目录中的位置决定，不能在前置元数据中指定或覆盖。</dd>
+<dt>slug</dt>
+<dd>slug 是 URL 路径的最后一段，由页面逻辑路径的最后一段确定，也可以用前置元数据中的 <code>slug</code> 覆盖，详见 <a href="/content-management/urls/">URL 管理</a>。</dd>
+<dt>path</dt>
+<dd>内容的 path 基于内容所在位置的路径，并且不包含 slug。</dd>
+<dt>url</dt>
+<dd>url 是完整的 URL 路径，由文件路径决定，也可以用前置元数据中的 <code>url</code> 覆盖，详见 <a href="/content-management/urls/">URL 管理</a>。</dd>
+</dl>
+<h2 id="组织内容时的几点建议">组织内容时的几点建议</h2>
+<ul>
+<li>让内容目录反映渲染后站点的结构，这是最省心的组织方式。</li>
+<li>section 可以嵌套任意深度；要让整棵 section 树都可导航，最下层的 section 至少要包含一个内容文件（即 <code>_index.md</code>）。</li>
+<li>用 <code>_index.md</code> 表达「这里是一个 section 的列表页」，用 <code>index.md</code> 表达「这里是一个页面」，这一选择会直接改变目录中其他文件的处理方式。</li>
+<li>与页面同目录的图片、数据等文件应作为页面资源管理，用相对路径引用，便于迁移与复用。</li>
+</ul>
+<h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="/content-management/sections/">内容区块</a></li>
+<li><a href="/content-management/page-bundles/">页面包</a></li>
+<li><a href="/content-management/page-resources/">页面资源</a></li>
+<li><a href="/templates/types/">内容类型</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/content-management/organization/" target="_blank" rel="noopener">https://gohugo.io/content-management/organization/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/content-management/page-resources/">← 上一篇：页面资源</a>
+    <a class="pager-next" href="/content-management/sections/">下一篇：内容区块 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#内容目录即站点结构">内容目录即站点结构</a></li>
+    <li><a href="#页面包">页面包</a></li>
+    <li><a href="#_indexmd-与-indexmd-的分工"><code>_index.md</code> 与 <code>index.md</code> 的分工</a></li>
+    <li><a href="#路径的组成">路径的组成</a></li>
+    <li><a href="#组织内容时的几点建议">组织内容时的几点建议</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

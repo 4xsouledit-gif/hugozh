@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>图表函数 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/functions/diagrams/</link>
+		<description>Recent content in 图表函数 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 02 Oct 2026 00:00:00 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/functions/diagrams/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>diagrams.Goat</title>
+				<link>https://example.org/functions/diagrams/goat/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/diagrams/goat/</guid>
+				<description>&lt;p&gt;在&lt;a href=&#34;https://example.org/render-hooks/code-blocks/&#34;&gt;代码块渲染钩子&lt;/a&gt;中使用时很有用：&lt;code&gt;diagrams.Goat&lt;/code&gt; 函数返回由给定 &lt;a href=&#34;https://github.com/bep/goat&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GoAT&lt;/a&gt; 标记创建的 SVGDiagram 对象。&lt;/p&gt;&#xA;&lt;h2 id=&#34;方法&#34;&gt;方法&lt;/h2&gt;&#xA;&lt;p&gt;可在 &lt;code&gt;SVGDiagram&lt;/code&gt; 对象上调用下列方法。&lt;/p&gt;&#xA;&lt;dl&gt;&#xA;&lt;dt&gt;&lt;code&gt;Inner&lt;/code&gt;&lt;/dt&gt;&#xA;&lt;dd&gt;(&lt;code&gt;template.HTML&lt;/code&gt;) 返回不带外层 &lt;code&gt;svg&lt;/code&gt; 元素的 SVG 子元素，便于你自己创建外层包装。&lt;/dd&gt;&#xA;&lt;dt&gt;&lt;code&gt;Wrapped&lt;/code&gt;&lt;/dt&gt;&#xA;&lt;dd&gt;(&lt;code&gt;template.HTML&lt;/code&gt;) 返回包在 &lt;code&gt;svg&lt;/code&gt; 元素中的 SVG 子元素。&lt;/dd&gt;&#xA;&lt;dt&gt;&lt;code&gt;Width&lt;/code&gt;&lt;/dt&gt;&#xA;&lt;dd&gt;(&lt;code&gt;int&lt;/code&gt;) 返回渲染后图表的宽度，单位像素。&lt;/dd&gt;&#xA;&lt;dt&gt;&lt;code&gt;Height&lt;/code&gt;&lt;/dt&gt;&#xA;&lt;dd&gt;(&lt;code&gt;int&lt;/code&gt;) 返回渲染后图表的高度，单位像素。&lt;/dd&gt;&#xA;&lt;/dl&gt;&#xA;&lt;h2 id=&#34;goat-图表&#34;&gt;GoAT 图表&lt;/h2&gt;&#xA;&lt;p&gt;Hugo 通过&lt;a href=&#34;https://github.com/gohugoio/hugo/blob/master/tpl/tplimpl/embedded/templates/_markup/render-codeblock-goat.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;内建代码块渲染钩子&lt;/a&gt;原生支持 GoAT 图表。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

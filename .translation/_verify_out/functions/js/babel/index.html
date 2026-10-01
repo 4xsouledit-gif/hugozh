@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>js.Babel · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="返回用 Babel 转译给定 JavaScript 资源后生成的资源。">
+  <link rel="canonical" href="https://example.org/functions/js/babel/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="js.Babel · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="返回用 Babel 转译给定 JavaScript 资源后生成的资源。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/js/babel/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"返回用 Babel 转译给定 JavaScript 资源后生成的资源。","headline":"js.Babel","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"js.Babel","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/js/babel/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/js/">js</a></p>
+    <h1>js.Babel</h1>
+    <p class="doc-description">返回用 Babel 转译给定 JavaScript 资源后生成的资源。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">js.Babel [OPTIONS] RESOURCE</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>resource.Resource</code></dd>
+  <dt>别名</dt>
+  <dd><code>babel</code></dd>
+</dl>
+  <div class="doc-body"><p><code>js.Babel</code> 函数使用 <a href="https://babeljs.io/" target="_blank" rel="noopener">Babel</a> 转换 JavaScript。</p>
+<h2 id="准备">准备</h2>
+<dl>
+<dt>第 1 步</dt>
+<dd>安装 <a href="https://nodejs.org/en/download" target="_blank" rel="noopener">Node.js</a>。</dd>
+<dt>第 2 步</dt>
+<dd>在项目根目录安装所需的 Node 包。例如，安装 Babel 的核心编译器、它的命令行界面，以及根据目标环境转译现代 JavaScript 的预设：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm install --save-dev @babel/core @babel/cli @babel/preset-env</span></span></code></pre></div></dd>
+<dt>第 3 步</dt>
+<dd>在项目根目录创建 Babel 配置文件。例如，使用环境预设，目标为 Google Chrome 79 或更高版本：
+<figure class="code-block" data-file="babel.config.mjs">
+  <figcaption class="code-block-file">babel.config.mjs</figcaption>
+  <div class="highlight" file="babel.config.mjs" copy="true"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">presets</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;@babel/preset-env&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">targets</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">chrome</span><span class="o">:</span> <span class="s2">&#34;79&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div>
+</figure></dd>
+<dt>第 4 步</dt>
+<dd>把 JS 文件放进 <code>assets/js</code> 目录。</dd>
+<dt>第 5 步</dt>
+<dd>在项目配置中把 <code>babel</code> 可执行文件加入 Hugo 的 <code>security.exec.allow</code> 列表：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">.</span><span class="nx">exec</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">allow</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;^(dart-)?sass$&#39;</span><span class="p">,</span> <span class="s1">&#39;^go$&#39;</span><span class="p">,</span> <span class="s1">&#39;^git$&#39;</span><span class="p">,</span> <span class="s1">&#39;^node$&#39;</span><span class="p">,</span> <span class="s1">&#39;^postcss$&#39;</span><span class="p">,</span> <span class="s1">&#39;^babel$&#39;</span><span class="p">]</span></span></span></code></pre></div></dd>
+<dt>第 6 步</dt>
+<dd>创建一个 <em>partial</em> 模板来处理这段 JavaScript：
+<figure class="code-block" data-file="layouts/_partials/js.html">
+  <figcaption class="code-block-file">layouts/_partials/js.html</figcaption>
+  <div class="highlight" file="layouts/_partials/js.html" copy="true"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.js&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;minified&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">cond</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="k">true</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;noComments&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">cond</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="k">true</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;sourceMap&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">cond</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="s">&#34;inline&#34;</span><span class="w"> </span><span class="s">&#34;none&#34;</span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">js</span><span class="na">.Babel</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">hugo</span><span class="na">.IsDevelopment</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">fingerprint</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Data.Integrity</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure></dd>
+<dt>第 7 步</dt>
+<dd>从 <em>base</em> 模板调用这个 <em>partial</em> 模板：
+<figure class="code-block" data-file="layouts/baseof.html">
+  <figcaption class="code-block-file">layouts/baseof.html</figcaption>
+  <div class="highlight" file="layouts/baseof.html" copy="true"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;js.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span></span></span></code></pre></div>
+</figure></dd>
+</dl>
+<h2 id="选项">选项</h2>
+<p><code>js.Babel</code> 函数接受一个选项映射。</p>
+<dl>
+<dt><code>compact</code></dt>
+<dd>(<code>bool</code>) 是否移除可选的换行与空白。当 <code>minified</code> 为 <code>true</code> 时会启用。默认是 <code>false</code>。</dd>
+<dt><code>config</code></dt>
+<dd>(<code>string</code>) Babel 配置文件的路径。默认情况下，Hugo 会依次在项目根目录以及各模块中查找 <code>babel.config.js</code>、<code>babel.config.mjs</code>、<code>babel.config.cjs</code>。只有当你需要指向一个自定义名称或位于自定义子目录中的配置文件时才使用这个选项。</dd>
+<dt><code>minified</code></dt>
+<dd>(<code>bool</code>) 是否压缩转译后的代码。会启用 <code>compact</code> 选项。默认是 <code>false</code>。</dd>
+<dt><code>noBabelrc</code></dt>
+<dd>(<code>bool</code>) 是否忽略 <code>.babelrc</code> 与 <code>.babelignore</code> 文件。默认是 <code>false</code>。</dd>
+<dt><code>noComments</code></dt>
+<dd>(<code>bool</code>) 是否移除注释。默认是 <code>false</code>。</dd>
+<dt><code>sourceMap</code></dt>
+<dd>(<code>string</code>) 是否生成 source map，取 <code>external</code>、<code>inline</code>、<code>none</code> 之一。默认是 <code>none</code>。</dd>
+<dt><code>verbose</code></dt>
+<dd>(<code>bool</code>) 是否启用详细日志。默认是 <code>false</code>。</dd>
+</dl>
+<!--
+In the above, technically "none" is not one of the enumerated sourceMap
+values but it has the same effect and is easier to document than an empty string.
+-->
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/js/babel/" target="_blank" rel="noopener">https://gohugo.io/functions/js/babel/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    
+    <a class="pager-next" href="/functions/js/batch/">下一篇：Batch →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#准备">准备</a></li>
+    <li><a href="#选项">选项</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

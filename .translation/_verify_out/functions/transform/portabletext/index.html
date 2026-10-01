@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>transform.PortableText · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="返回转换为 Markdown 后的给定 Portable Text。">
+  <link rel="canonical" href="https://example.org/functions/transform/portabletext/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="transform.PortableText · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="返回转换为 Markdown 后的给定 Portable Text。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/transform/portabletext/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"返回转换为 Markdown 后的给定 Portable Text。","headline":"transform.PortableText","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"transform.PortableText","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/transform/portabletext/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/transform/">transform</a></p>
+    <h1>transform.PortableText</h1>
+    <p class="doc-description">返回转换为 Markdown 后的给定 Portable Text。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">transform.PortableText MAP</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>string</code></dd>
+</dl>
+  <div class="doc-body"><p>（0.145.0 新增）</p>
+<h2 id="用法">用法</h2>
+<p><a href="https://www.portabletext.org/" target="_blank" rel="noopener">Portable Text</a> 是一种 JSON 结构，用于表示 <a href="https://www.sanity.io/" target="_blank" rel="noopener">Sanity</a> CMS 中的富文本内容。在 Hugo 中，该函数通常用在<a href="/content-management/content-adapters/">内容适配器</a>里，由 Sanity 数据创建页面。</p>
+<p>支持的类型：</p>
+<ul>
+<li><code>block</code> 与 <code>span</code></li>
+<li><code>image</code>。注意目前对图像的处理比较基础：我们用 <code>asset.url</code> 作为链接，用 <code>asset.altText</code> 作为图像替代文本，用 <code>asset.title</code> 作为标题。如果需要更精细的控制，可以在<a href="/render-hooks/images/">图像渲染钩子</a>中处理图像。</li>
+<li><code>code</code>（参见 <a href="https://www.sanity.io/plugins/code-input" target="_blank" rel="noopener">code-input</a> 插件）。代码会渲染为围栏代码块，其中提供的文件名会作为 Markdown 属性传入。</li>
+</ul>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>由于 Portable Text 在传给 Hugo 之前就已转换为 Markdown，链接、标题、图像与代码块的渲染都可以用<a href="/render-hooks/">渲染钩子</a>控制。</p></div>
+</aside><h2 id="示例">示例</h2>
+<p>下面的示例用内容适配器从 Sanity 数据创建页面。</p>
+<h3 id="内容适配器">内容适配器</h3>
+<figure class="code-block" data-file="content/_content.gotmpl">
+  <figcaption class="code-block-file">content/_content.gotmpl</figcaption>
+  <div class="highlight" file="content/_content.gotmpl" copy="true"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$projectID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#34;mysanityprojectid&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$useCached</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$api</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#34;api&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">$useCached</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cm">{{/* See https://www.sanity.io/docs/api-cdn */}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;apicdn&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$url</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">printf</span><span class="w"> </span><span class="s">&#34;https://%s.%s.sanity.io/v2021-06-07/data/query/production&#34;</span><span class="w"> </span><span class="nx">$projectID</span><span class="w"> </span><span class="nx">$api</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$q</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">`*[_type == &#39;post&#39;]{
+</span></span></span><span class="line"><span class="cl"><span class="s">  title, publishedAt, summary, slug, body[]{
+</span></span></span><span class="line"><span class="cl"><span class="s">    ...,
+</span></span></span><span class="line"><span class="cl"><span class="s">    _type == &#34;image&#34; =&gt; {
+</span></span></span><span class="line"><span class="cl"><span class="s">      ...,
+</span></span></span><span class="line"><span class="cl"><span class="s">      asset-&gt;{
+</span></span></span><span class="line"><span class="cl"><span class="s">        _id,
+</span></span></span><span class="line"><span class="cl"><span class="s">        path,
+</span></span></span><span class="line"><span class="cl"><span class="s">        url,
+</span></span></span><span class="line"><span class="cl"><span class="s">        altText,
+</span></span></span><span class="line"><span class="cl"><span class="s">        title,
+</span></span></span><span class="line"><span class="cl"><span class="s">        description,
+</span></span></span><span class="line"><span class="cl"><span class="s">        metadata {
+</span></span></span><span class="line"><span class="cl"><span class="s">          dimensions {
+</span></span></span><span class="line"><span class="cl"><span class="s">            aspectRatio,
+</span></span></span><span class="line"><span class="cl"><span class="s">            width,
+</span></span></span><span class="line"><span class="cl"><span class="s">            height
+</span></span></span><span class="line"><span class="cl"><span class="s">          }
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">    }
+</span></span></span><span class="line"><span class="cl"><span class="s">  },
+</span></span></span><span class="line"><span class="cl"><span class="s">  }`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$body</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;query&#34;</span><span class="w"> </span><span class="nx">$q</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">jsonify</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;method&#34;</span><span class="w"> </span><span class="s">&#34;post&#34;</span><span class="w"> </span><span class="s">&#34;body&#34;</span><span class="w"> </span><span class="nx">$body</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">resources</span><span class="na">.GetRemote</span><span class="w"> </span><span class="nx">$url</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">$r</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">transform</span><span class="na">.Unmarshal</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">$m</span><span class="na">.result</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="na">.slug</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">{{</span><span class="w"> </span><span class="k">continue</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$markdown</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transform</span><span class="na">.PortableText</span><span class="w"> </span><span class="na">.body</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$content</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;mediaType&#34;</span><span class="w"> </span><span class="s">&#34;text/markdown&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;value&#34;</span><span class="w"> </span><span class="nx">$markdown</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$params</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;portabletext&#34;</span><span class="w"> </span><span class="o">(</span><span class="na">.body</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">jsonify</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;indent&#34;</span><span class="w"> </span><span class="s">&#34; &#34;</span><span class="o">))</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;content&#34;</span><span class="w"> </span><span class="nx">$content</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;kind&#34;</span><span class="w"> </span><span class="s">&#34;page&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;path&#34;</span><span class="w"> </span><span class="na">.slug.current</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;title&#34;</span><span class="w"> </span><span class="na">.title</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;date&#34;</span><span class="w"> </span><span class="o">(</span><span class="na">.publishedAt</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;summary&#34;</span><span class="w"> </span><span class="na">.summary</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s">&#34;params&#34;</span><span class="w"> </span><span class="nx">$params</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">$.AddPage</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><h3 id="sanity-设置">Sanity 设置</h3>
+<p>下面概述了适合上述示例的 Sanity studio 设置。</p>
+<figure class="code-block" data-file="sanity.config.ts">
+  <figcaption class="code-block-file">sanity.config.ts</figcaption>
+  <div class="highlight" file="sanity.config.ts" copy="true"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">defineConfig</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;sanity&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">structureTool</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;sanity/structure&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">visionTool</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;@sanity/vision&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">schemaTypes</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;./schemaTypes&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">media</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;sanity-plugin-media&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">codeInput</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;@sanity/code-input&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="nx">defineConfig</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;my-sanity-project&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">projectId</span><span class="o">:</span> <span class="s1">&#39;mysanityprojectid&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">dataset</span><span class="o">:</span> <span class="s1">&#39;production&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span><span class="nx">structureTool</span><span class="p">(),</span> <span class="nx">visionTool</span><span class="p">(),</span> <span class="nx">media</span><span class="p">(),</span><span class="nx">codeInput</span><span class="p">()],</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">schema</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">types</span>: <span class="kt">schemaTypes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span></span></span></code></pre></div>
+</figure><p>类型与 schema 定义：</p>
+<figure class="code-block" data-file="schemaTypes/postType.ts">
+  <figcaption class="code-block-file">schemaTypes/postType.ts</figcaption>
+  <div class="highlight" file="schemaTypes/postType.ts" copy="true"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">defineField</span><span class="p">,</span> <span class="nx">defineType</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;sanity&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">postType</span> <span class="o">=</span> <span class="nx">defineType</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;post&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Post&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;document&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">fields</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">defineField</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">validation</span><span class="o">:</span> <span class="p">(</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">rule</span><span class="p">.</span><span class="nx">required</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">defineField</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">validation</span><span class="o">:</span> <span class="p">(</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">rule</span><span class="p">.</span><span class="nx">required</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">defineField</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;slug&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;slug&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">options</span><span class="o">:</span> <span class="p">{</span><span class="nx">source</span><span class="o">:</span> <span class="s1">&#39;title&#39;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">validation</span><span class="o">:</span> <span class="p">(</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">rule</span><span class="p">.</span><span class="nx">required</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">defineField</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">initialValue</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">toISOString</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">validation</span><span class="o">:</span> <span class="p">(</span><span class="nx">rule</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">rule</span><span class="p">.</span><span class="nx">required</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">defineField</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;body&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="k">of</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;block&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;image&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">language</span><span class="o">:</span> <span class="s1">&#39;css&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">languageAlternatives</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">              <span class="p">{</span><span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;HTML&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;html&#39;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">              <span class="p">{</span><span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;CSS&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;css&#39;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">withFilename</span>: <span class="kt">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span></span></span></code></pre></div>
+</figure><p>注意上面还需要额外安装一些插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">npm i sanity-plugin-media @sanity/code-input</span></span></code></pre></div><figure class="code-block" data-file="schemaTypes/index.ts">
+  <figcaption class="code-block-file">schemaTypes/index.ts</figcaption>
+  <div class="highlight" file="schemaTypes/index.ts" copy="true"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">postType</span><span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;./postType&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">schemaTypes</span> <span class="o">=</span> <span class="p">[</span><span class="nx">postType</span><span class="p">]</span></span></span></code></pre></div>
+</figure><h3 id="服务器设置">服务器设置</h3>
+<p>遗憾的是，Sanity 的 API 不支持 <a href="https://tools.ietf.org/html/rfc7234" target="_blank" rel="noopener">RFC 7234</a>，而且即使数据没有变化，它的输出也会变。因此推荐的设置是使用它们带缓存的 <code>apicdn</code> 端点（见上文），再在 Hugo 配置里安排合理的轮询与文件缓存策略，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">HTTPCache</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="nx">HTTPCache</span><span class="p">.</span><span class="nx">polls</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">low</span> <span class="p">=</span> <span class="s1">&#39;30s&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">high</span> <span class="p">=</span> <span class="s1">&#39;3m&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">HTTPCache</span><span class="p">.</span><span class="nx">polls</span><span class="p">.</span><span class="nx">for</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">includes</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;https://*.*.sanity.io/**&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">caches</span><span class="p">.</span><span class="nx">getresource</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">dir</span>    <span class="p">=</span> <span class="s1">&#39;:cacheDir/:project&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">maxAge</span> <span class="p">=</span> <span class="s2">&#34;5m&#34;</span></span></span></code></pre></div><p>上面的轮询配置在运行服务器或监听模式时生效，并在你向 Sanity 推送新内容时触发重新构建。</p>
+<p>更精细的控制参见 <a href="/functions/resources/getremote/#%e7%bc%93%e5%ad%98">resources.GetRemote 中的缓存</a>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/transform/portabletext/" target="_blank" rel="noopener">https://gohugo.io/functions/transform/portabletext/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/functions/transform/plainify/">← 上一篇：Plainify</a>
+    <a class="pager-next" href="/functions/transform/remarshal/">下一篇：Remarshal →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#用法">用法</a></li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#内容适配器">内容适配器</a></li>
+        <li><a href="#sanity-设置">Sanity 设置</a></li>
+        <li><a href="#服务器设置">服务器设置</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

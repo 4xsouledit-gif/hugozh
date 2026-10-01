@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="Hugo 官方文档 16 个一级章节的简体中文翻译，附英文原文链接，便于对照阅读。">
+  <link rel="canonical" href="https://example.org/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="Hugo 官方文档 16 个一级章节的简体中文翻译，附英文原文链接，便于对照阅读。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.org/">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://example.org/index.xml" title="Hugo 官方文档 · 中文翻译">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"Hugo 官方文档 16 个一级章节的简体中文翻译，附英文原文链接，便于对照阅读。","headline":"Hugo 官方文档 · 中文翻译","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"Hugo 官方文档 · 中文翻译","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc doc-home">
+  <section class="hero">
+    <p class="hero-eyebrow">把 Hugo 带到中文世界</p>
+    <h1>Hugo 中文文档 · 布道站</h1>
+    <p class="hero-lead">Hugo 官方文档 16 个一级章节的简体中文翻译，附英文原文链接，便于对照阅读。</p>
+    <p class="hero-actions">
+      <a class="btn btn-primary" href="/skill/">获取 Hugo 技能包 →</a>
+      <a class="btn" href="/getting-started/quick-start/">从快速开始读起</a>
+      
+    </p>
+    <ul class="hero-stats">
+      <li><strong>466</strong><span>篇译文</span></li>
+      <li><strong>18</strong><span>个章节</span></li>
+      <li><strong>22</strong><span>个真实踩坑</span></li>
+      <li><strong>MIT</strong><span>技能包许可</span></li>
+    </ul>
+  </section>
+
+  <div class="doc-body"><p>本站是 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 官方文档的简体中文翻译，覆盖 <strong>16 个一级章节</strong>：从入门、安装、配置，到内容管理、模板、渲染钩子、短代码、资源管道、模块、托管部署、命令与故障排查。每一页都对应官方英文站点的一页，页面底部保留原文链接，方便随时对照核实。</p>
+<blockquote><p>译文由本工作区整理，仅供学习参考。Hugo 迭代较快，如与官方英文原文有出入，请以官方文档为准。</p>
+</blockquote><h2 id="本站包含哪些内容">本站包含哪些内容</h2>
+<table>
+	<thead>
+			<tr>
+					<th>章节</th>
+					<th>内容</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="/getting-started/">入门</a></td>
+					<td>快速开始、基本用法、目录结构</td>
+			</tr>
+			<tr>
+					<td><a href="/installation/">安装</a></td>
+					<td>发行版差异、各平台安装方式、源码构建</td>
+			</tr>
+			<tr>
+					<td><a href="/configuration/">配置</a></td>
+					<td>配置文件与配置目录、级联、Markup、图像、安全等 33 个配置分区</td>
+			</tr>
+			<tr>
+					<td><a href="/content-management/">内容管理</a></td>
+					<td>内容格式、前置元数据、页面包、分类法、菜单、短代码等</td>
+			</tr>
+			<tr>
+					<td><a href="/templates/">模板</a></td>
+					<td>模板查找顺序、新版模板系统、分页、RSS、站点地图、内建模板</td>
+			</tr>
+			<tr>
+					<td><a href="/render-hooks/">渲染钩子</a></td>
+					<td>链接、图片、标题、代码块、引用块、表格、原样透传</td>
+			</tr>
+			<tr>
+					<td><a href="/shortcodes/">短代码</a></td>
+					<td>短代码机制与全部内置短代码</td>
+			</tr>
+			<tr>
+					<td><a href="/hugo-pipes/">Hugo Pipes</a></td>
+					<td>资源管道：Sass、PostCSS、JS 构建、打包、压缩、指纹</td>
+			</tr>
+			<tr>
+					<td><a href="/hugo-modules/">Hugo 模块</a></td>
+					<td>模块、主题组件、Node.js 依赖</td>
+			</tr>
+			<tr>
+					<td><a href="/host-and-deploy/">托管与部署</a></td>
+					<td><code>hugo deploy</code>、rclone、rsync 与 11 个托管平台</td>
+			</tr>
+			<tr>
+					<td><a href="/commands/">命令</a></td>
+					<td>全部 44 个 CLI 命令与选项</td>
+			</tr>
+			<tr>
+					<td><a href="/troubleshooting/">故障排查</a></td>
+					<td>常见问题、审计、弃用、日志、性能</td>
+			</tr>
+			<tr>
+					<td><a href="/quick-reference/">速查</a></td>
+					<td>Glob 模式、Emoji 等速查内容</td>
+			</tr>
+			<tr>
+					<td><a href="/tools/">工具</a></td>
+					<td>编辑器、可视化 CMS、站内搜索、迁移工具</td>
+			</tr>
+			<tr>
+					<td><a href="/about/">关于</a></td>
+					<td>简介、特性、许可、安全模型</td>
+			</tr>
+			<tr>
+					<td><a href="/contribute/">参与贡献</a></td>
+					<td>参与开发、文档与主题的方式</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote><p><strong>范围说明</strong>：上游的 <code>functions/</code>（约 200 页函数参考）、<code>methods/</code>（约 100 页方法参考）与 <code>quick-reference/glossary/</code>（约 160 条术语表）暂未翻译；<code>news/</code>（博客）与文档片段目录不在翻译范围内。除这些之外，各章节已按上游页面 1:1 覆盖。</p>
+</blockquote><h2 id="阅读建议">阅读建议</h2>
+<ol>
+<li>完全没接触过 Hugo，从「<a href="/getting-started/quick-start/">快速开始</a>」开始，十几分钟就能跑出一个站点。</li>
+<li>已经在用 Hugo，可以直接跳到「<a href="/configuration/">配置</a>」和「<a href="/content-management/">内容管理</a>」。</li>
+<li>遇到命令行参数不清楚时，查「<a href="/commands/">命令</a>」；写模板时查「<a href="/templates/">模板</a>」与「<a href="/render-hooks/">渲染钩子</a>」。</li>
+<li>「<a href="/getting-started/directory-structure/">目录结构</a>」解释了 <code>content/</code>、<code>layouts/</code>、<code>assets/</code> 等目录各自的职责，是排查「文件放错位置」类问题的第一站。</li>
+<li>构建报错或页面不符合预期时，先看「<a href="/troubleshooting/">故障排查</a>」。</li>
+</ol>
+<h2 id="翻译与术语约定">翻译与术语约定</h2>
+<p>专有名词首次出现时以「中文（english）」形式标注，其后沿用同一译法，以保证全站一致。主要约定如下：</p>
+<table>
+	<thead>
+			<tr>
+					<th>英文</th>
+					<th>本站译法</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>front matter</td>
+					<td>前置元数据（front matter）</td>
+					<td>文件顶部用 <code>+++</code>/<code>---</code> 包裹的元数据块，正文中亦直接写作 front matter</td>
+			</tr>
+			<tr>
+					<td>page bundle</td>
+					<td>页面包</td>
+					<td>把页面与其资源放在同一目录的组织方式</td>
+			</tr>
+			<tr>
+					<td>branch bundle</td>
+					<td>分支包</td>
+					<td>以 <code>_index.md</code> 为入口的页面包</td>
+			</tr>
+			<tr>
+					<td>leaf bundle</td>
+					<td>叶子包</td>
+					<td>以 <code>index.md</code> 为入口的页面包</td>
+			</tr>
+			<tr>
+					<td>shortcode</td>
+					<td>短代码（shortcode）</td>
+					<td>在内容中调用模板的函数式标记</td>
+			</tr>
+			<tr>
+					<td>archetype</td>
+					<td>原型（archetype）</td>
+					<td><code>hugo new content</code> 生成新文件时套用的模板</td>
+			</tr>
+			<tr>
+					<td>partial</td>
+					<td>局部模板（partial）</td>
+					<td>可被其他模板复用的模板片段</td>
+			</tr>
+			<tr>
+					<td>render hook</td>
+					<td>渲染钩子（render hook）</td>
+					<td>覆盖 Markdown 元素默认渲染方式的模板</td>
+			</tr>
+			<tr>
+					<td>taxonomy</td>
+					<td>分类法（taxonomy）</td>
+					<td>标签、分类等结构化归类机制</td>
+			</tr>
+			<tr>
+					<td>section</td>
+					<td>section（内容区块）</td>
+					<td><code>content/</code> 下的顶层目录，保留英文以免与「章节」混淆</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="如何构建本站">如何构建本站</h2>
+<p>本站是一个自包含的 Hugo 项目：<strong>无需安装外部主题、无需联网</strong>，所有版式都在项目的 <code>layouts/</code> 与 <code>assets/</code> 目录中。</p>
+<p>要求 Hugo 0.158 或更高版本（标准版即可，不需要 extended 版）。配置里使用的是 0.158 起生效的 <code>locale</code> 键；若你停留在更早的版本，请把 <code>hugo.toml</code> 中的 <code>locale</code> 改回 <code>languageCode</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 在项目根目录（即本文件所在的 hugo-docs-zh 目录）执行</span>
+</span></span><span class="line"><span class="cl">hugo server          <span class="c1"># 本地预览，默认地址 http://localhost:1313/</span>
+</span></span><span class="line"><span class="cl">hugo server -D       <span class="c1"># 连同草稿一起预览</span>
+</span></span><span class="line"><span class="cl">hugo                 <span class="c1"># 生成静态站点到 public/ 目录</span>
+</span></span><span class="line"><span class="cl">hugo --minify        <span class="c1"># 生成时压缩输出</span></span></span></code></pre></div><blockquote><p>部署到子路径（例如 <code>https://example.com/docs/</code>）时，请先修改 <code>hugo.toml</code> 中的 <code>baseURL</code>，否则站内绝对链接会指向错误位置。</p>
+</blockquote><h2 id="版权与免责">版权与免责</h2>
+<ul>
+<li>原文版权归 Hugo 项目及其文档贡献者所有，原文仓库为 <a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a>。</li>
+<li>本站译文仅用于学习与交流，不构成对官方文档的替代。</li>
+<li>如果你是文档作者并希望调整或移除某处译文，请以官方文档为准并联系本站维护者处理。</li>
+</ul>
+</div>
+
+  
+  <section class="home-section">
+    <h2><a href="/skill/">技能包</a></h2>
+    <p class="home-section-desc">把建站经验打包给 AI 编码代理：一份可复用的 Hugo 技能包，含 22 个真实踩坑、SEO、多主题、日期与短代码的参考手册。</p>
+    
+    
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/functions/">函数</a></h2>
+    <p class="home-section-desc">在模板与原型中使用的全部函数与方法。</p>
+    
+    
+    
+    <p class="home-section-meta">30 篇 · <a href="/functions/cast/">cast</a> · <a href="/functions/collections/">collections</a> · <a href="/functions/compare/">compare</a> · <a href="/functions/crypto/">crypto</a> · <a href="/functions/css/">css</a> · <a href="/functions/debug/">debug</a> · <a href="/functions/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/getting-started/">入门</a></h2>
+    <p class="home-section-desc">从零开始搭建并运行一个 Hugo 站点：快速开始、安装、基本用法、目录结构与配置。</p>
+    
+    
+    
+    <p class="home-section-meta">3 篇 · <a href="/getting-started/quick-start/">快速开始</a> · <a href="/getting-started/basic-usage/">基本用法</a> · <a href="/getting-started/directory-structure/">目录结构</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/content-management/">内容管理</a></h2>
+    <p class="home-section-desc">内容管理章节总览：内容格式、前置元数据、内容组织与页面资源。</p>
+    
+    
+    
+    <p class="home-section-meta">22 篇 · <a href="/content-management/content-formats/">内容格式</a> · <a href="/content-management/front-matter/">前置元数据</a> · <a href="/content-management/page-bundles/">页面包</a> · <a href="/content-management/page-resources/">页面资源</a> · <a href="/content-management/organization/">内容组织</a> · <a href="/content-management/sections/">内容区块</a> · <a href="/content-management/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/commands/">命令</a></h2>
+    <p class="home-section-desc">Hugo 命令行界面的整体结构与各命令索引。</p>
+    
+    
+    
+    <p class="home-section-meta">44 篇 · <a href="/commands/hugo/">hugo</a> · <a href="/commands/hugo-build/">hugo build</a> · <a href="/commands/hugo-server/">hugo server</a> · <a href="/commands/hugo-server-trust/">hugo server trust</a> · <a href="/commands/hugo-new/">hugo new</a> · <a href="/commands/hugo-new-content/">hugo new content</a> · <a href="/commands/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/host-and-deploy/">托管与部署</a></h2>
+    <p class="home-section-desc">把 Hugo 站点发布到托管平台或对象存储的部署指南。</p>
+    
+    
+    
+    <p class="home-section-meta">14 篇 · <a href="/host-and-deploy/deploy-with-hugo-deploy/">用 hugo deploy 部署</a> · <a href="/host-and-deploy/deploy-with-rclone/">用 rclone 部署</a> · <a href="/host-and-deploy/deploy-with-rsync/">用 rsync 部署</a> · <a href="/host-and-deploy/host-on-aws-amplify/">部署到 AWS Amplify</a> · <a href="/host-and-deploy/host-on-azure-static-web-apps/">部署到 Azure Static Web Apps</a> · <a href="/host-and-deploy/host-on-cloudflare/">部署到 Cloudflare Pages</a> · <a href="/host-and-deploy/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/hugo-pipes/">Hugo Pipes</a></h2>
+    <p class="home-section-desc">Hugo 的资源管道，用于转换与优化资源。</p>
+    
+    
+    
+    <p class="home-section-meta">9 篇 · <a href="/hugo-pipes/introduction/">简介</a> · <a href="/hugo-pipes/transpile-sass-to-css/">把 Sass 编译为 CSS</a> · <a href="/hugo-pipes/postcss/">PostCSS</a> · <a href="/hugo-pipes/js/">JavaScript 构建</a> · <a href="/hugo-pipes/bundling/">资源打包</a> · <a href="/hugo-pipes/minification/">资源压缩</a> · <a href="/hugo-pipes/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/hugo-modules/">Hugo 模块</a></h2>
+    <p class="home-section-desc">用模块管理站点的内容、呈现与行为，本章总览模块机制与相关页面。</p>
+    
+    
+    
+    <p class="home-section-meta">4 篇 · <a href="/hugo-modules/introduction/">简介</a> · <a href="/hugo-modules/use-modules/">使用模块</a> · <a href="/hugo-modules/theme-components/">主题组件</a> · <a href="/hugo-modules/nodejs-dependencies/">Node.js 依赖</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/templates/">模板</a></h2>
+    <p class="home-section-desc">用模板把内容、资源与数据渲染为发布页面，并概述本章主题与阅读顺序。</p>
+    
+    
+    
+    <p class="home-section-meta">13 篇 · <a href="/templates/404/">404 页面</a> · <a href="/templates/robots/">robots.txt</a> · <a href="/templates/sitemap/">站点地图</a> · <a href="/templates/rss/">RSS 订阅</a> · <a href="/templates/menu/">菜单模板</a> · <a href="/templates/pagination/">分页</a> · <a href="/templates/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/render-hooks/">渲染钩子</a></h2>
+    <p class="home-section-desc">用模板覆盖 Markdown 元素到 HTML 的转换，逐类控制链接、图片、标题与代码块输出。</p>
+    
+    
+    
+    <p class="home-section-meta">8 篇 · <a href="/render-hooks/introduction/">简介</a> · <a href="/render-hooks/links/">链接</a> · <a href="/render-hooks/images/">图片</a> · <a href="/render-hooks/headings/">标题</a> · <a href="/render-hooks/code-blocks/">代码块</a> · <a href="/render-hooks/blockquotes/">引用块</a> · <a href="/render-hooks/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/shortcodes/">短代码</a></h2>
+    <p class="home-section-desc">介绍 Hugo 内置与自定义短代码的机制、定界符、参数规则与模板位置。</p>
+    
+    
+    
+    <p class="home-section-meta">11 篇 · <a href="/shortcodes/figure/">figure</a> · <a href="/shortcodes/highlight/">highlight</a> · <a href="/shortcodes/ref/">ref</a> · <a href="/shortcodes/relref/">relref</a> · <a href="/shortcodes/param/">param</a> · <a href="/shortcodes/details/">details</a> · <a href="/shortcodes/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/configuration/">配置</a></h2>
+    <p class="home-section-desc">Hugo 配置的组织方式、配置文件与配置目录、按环境覆盖、合并策略与环境变量。</p>
+    
+    
+    
+    <p class="home-section-meta">33 篇 · <a href="/configuration/introduction/">配置简介</a> · <a href="/configuration/all/">全部设置</a> · <a href="/configuration/build/">构建配置</a> · <a href="/configuration/caches/">缓存配置</a> · <a href="/configuration/cascade/">级联配置</a> · <a href="/configuration/content-types/">内容类型配置</a> · <a href="/configuration/">查看全部 →</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/installation/">安装</a></h2>
+    <p class="home-section-desc">Hugo 的发行版差异、各平台安装方式、从源码构建、验证安装与升级方法。</p>
+    
+    
+    
+    <p class="home-section-meta">4 篇 · <a href="/installation/linux/">在 Linux 上安装</a> · <a href="/installation/macos/">在 macOS 上安装</a> · <a href="/installation/windows/">在 Windows 上安装</a> · <a href="/installation/bsd/">在 BSD 上安装</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/troubleshooting/">故障排查</a></h2>
+    <p class="home-section-desc">构建与渲染异常时的排查方法、诊断工具与常见问题解答。</p>
+    
+    
+    
+    <p class="home-section-meta">6 篇 · <a href="/troubleshooting/faq/">常见问题</a> · <a href="/troubleshooting/audit/">审计</a> · <a href="/troubleshooting/deprecation/">弃用说明</a> · <a href="/troubleshooting/inspection/">检查与调试</a> · <a href="/troubleshooting/logging/">日志</a> · <a href="/troubleshooting/performance/">性能</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/about/">关于</a></h2>
+    <p class="home-section-desc">介绍 Hugo 的定位与特性、隐私保护、许可说明与安全模型。</p>
+    
+    
+    
+    <p class="home-section-meta">4 篇 · <a href="/about/introduction/">简介</a> · <a href="/about/features/">特性</a> · <a href="/about/license/">许可</a> · <a href="/about/security/">安全模型</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/quick-reference/">速查</a></h2>
+    <p class="home-section-desc">Hugo 常用语法、配置与术语的速查索引。</p>
+    
+    
+    
+    <p class="home-section-meta">2 篇 · <a href="/quick-reference/glob-patterns/">Glob 模式</a> · <a href="/quick-reference/emojis/">Emoji</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/tools/">工具</a></h2>
+    <p class="home-section-desc">帮助你创建和管理站点的第三方工具。</p>
+    
+    
+    
+    <p class="home-section-meta">5 篇 · <a href="/tools/editors/">编辑器</a> · <a href="/tools/front-ends/">前端框架与构建工具</a> · <a href="/tools/migrations/">从其他系统迁移</a> · <a href="/tools/search/">站内搜索</a> · <a href="/tools/other/">其他工具</a></p>
+    
+  </section>
+  
+  <section class="home-section">
+    <h2><a href="/contribute/">参与贡献</a></h2>
+    <p class="home-section-desc">参与 Hugo 项目的开发、文档与主题贡献。</p>
+    
+    
+    
+    <p class="home-section-meta">3 篇 · <a href="/contribute/development/">参与开发</a> · <a href="/contribute/documentation/">参与文档</a> · <a href="/contribute/themes/">参与主题</a></p>
+    
+  </section>
+  
+</article>
+
+    </main>
+    
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>安全配置 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用允许列表限制外部命令、远程通信与 Node.js 权限。">
+  <link rel="canonical" href="https://example.org/configuration/security/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="安全配置 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用允许列表限制外部命令、远程通信与 Node.js 权限。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/configuration/security/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"用允许列表限制外部命令、远程通信与 Node.js 权限。","headline":"安全配置","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"安全配置","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/configuration/security/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/configuration/">配置</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/configuration/introduction/">配置简介</a>
+        </li>
+        <li>
+          <a href="/configuration/all/">全部设置</a>
+        </li>
+        <li>
+          <a href="/configuration/build/">构建配置</a>
+        </li>
+        <li>
+          <a href="/configuration/caches/">缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/cascade/">级联配置</a>
+        </li>
+        <li>
+          <a href="/configuration/content-types/">内容类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/deployment/">部署目标配置</a>
+        </li>
+        <li>
+          <a href="/configuration/front-matter/">前置元数据配置</a>
+        </li>
+        <li>
+          <a href="/configuration/http-cache/">HTTP 缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/imaging/">图像处理配置</a>
+        </li>
+        <li>
+          <a href="/configuration/languages/">语言配置</a>
+        </li>
+        <li>
+          <a href="/configuration/markup/">Markup 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/media-types/">媒体类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/menus/">菜单配置</a>
+        </li>
+        <li>
+          <a href="/configuration/minify/">压缩配置</a>
+        </li>
+        <li>
+          <a href="/configuration/module/">模块配置</a>
+        </li>
+        <li>
+          <a href="/configuration/output-formats/">输出格式配置</a>
+        </li>
+        <li>
+          <a href="/configuration/outputs/">输出配置</a>
+        </li>
+        <li>
+          <a href="/configuration/page/">页面配置</a>
+        </li>
+        <li>
+          <a href="/configuration/params/">参数配置</a>
+        </li>
+        <li>
+          <a href="/configuration/pagination/">分页配置</a>
+        </li>
+        <li>
+          <a href="/configuration/permalinks/">永久链接配置</a>
+        </li>
+        <li>
+          <a href="/configuration/privacy/">隐私配置</a>
+        </li>
+        <li>
+          <a href="/configuration/related-content/">相关内容配置</a>
+        </li>
+        <li>
+          <a href="/configuration/roles/">角色配置</a>
+        </li>
+        <li>
+          <a href="/configuration/security/" class="is-active" aria-current="page">安全配置</a>
+        </li>
+        <li>
+          <a href="/configuration/segments/">片段配置</a>
+        </li>
+        <li>
+          <a href="/configuration/server/">服务器配置</a>
+        </li>
+        <li>
+          <a href="/configuration/services/">服务配置</a>
+        </li>
+        <li>
+          <a href="/configuration/sitemap/">站点地图配置</a>
+        </li>
+        <li>
+          <a href="/configuration/taxonomies/">分类法配置</a>
+        </li>
+        <li>
+          <a href="/configuration/ugly-urls/">丑陋 URL 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/versions/">版本配置</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/configuration/">配置</a></p>
+    <h1>安全配置</h1>
+    <p class="doc-description">用允许列表限制外部命令、远程通信与 Node.js 权限。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="默认配置">默认配置</h2>
+<p>Hugo 内置的安全策略通过允许列表（allowlist）来配置，用于限制对 <code>os/exec</code>、远程通信等操作的访问。默认情况下访问是受限的：如果某次构建试图使用允许列表中未包含的功能，构建就会失败，并给出详细的错误信息。</p>
+<p>Hugo 的默认安全配置如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allowContent</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;! ^text/html$&#39;</span><span class="p">,</span> <span class="s1">&#39;! ^text/org$&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enableInlineShortcodes</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">.</span><span class="nx">exec</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allow</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;^(dart-)?sass$&#39;</span><span class="p">,</span> <span class="s1">&#39;^go$&#39;</span><span class="p">,</span> <span class="s1">&#39;^git$&#39;</span><span class="p">,</span> <span class="s1">&#39;^node$&#39;</span><span class="p">,</span> <span class="s1">&#39;^postcss$&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">osEnv</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;(?i)^((HTTPS?|NO)_PROXY|PATH(EXT)?|APPDATA|TE?MP|TERM|GO\w+|(XDG_CONFIG_)?HOME|USERPROFILE|SSH_AUTH_SOCK|DISPLAY|LANG|SYSTEMDRIVE|PROGRAMDATA)$&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">.</span><span class="nx">funcs</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">getenv</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;^HUGO_&#39;</span><span class="p">,</span> <span class="s1">&#39;^CI$&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">.</span><span class="nx">http</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">mediaTypes</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">methods</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;(?i)GET|POST&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">proxyFromEnvironment</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">urls</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;(?i)^https?://[a-z0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;! (?i)^https?://\d+\.&#39;</span><span class="p">,</span> <span class="s1">&#39;! (?i)localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;! (?i)^https?://[^/?#]*@&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">permissions</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allowAddons</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;tailwindcss&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allowChildProcess</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;tailwindcss&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allowRead</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allowWorker</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;tailwindcss&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allowWrite</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">disable</span> <span class="p">=</span> <span class="kc">false</span></span></span></code></pre></div><h2 id="设置项">设置项</h2>
+<table>
+	<thead>
+			<tr>
+					<th>键名</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>allowContent</code></td>
+					<td><code>[]string</code></td>
+					<td><code>['! ^text/html$', '! ^text/org$']</code></td>
+					<td>（自 v0.162.0 起）匹配 <code>content</code> 目录中允许的<a href="/content-management/content-formats/">内容格式</a>之媒体类型的正则表达式切片。默认拒绝两种格式：Emacs Org Mode（<code>text/org</code>）与 HTML（<code>text/html</code>），因为 Hugo 会原样渲染其内容，可能允许任意 JavaScript 执行。</td>
+			</tr>
+			<tr>
+					<td><code>enableInlineShortcodes</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否启用<a href="/shortcodes/">内联短代码</a>。</td>
+			</tr>
+			<tr>
+					<td><code>exec.allow</code></td>
+					<td><code>[]string</code></td>
+					<td>见默认配置</td>
+					<td>匹配允许 Hugo 运行的外部可执行文件名的正则表达式切片。</td>
+			</tr>
+			<tr>
+					<td><code>exec.osEnv</code></td>
+					<td><code>[]string</code></td>
+					<td>见默认配置</td>
+					<td>匹配允许 Hugo 访问的操作系统环境变量名的正则表达式切片。</td>
+			</tr>
+			<tr>
+					<td><code>funcs.getenv</code></td>
+					<td><code>[]string</code></td>
+					<td><code>['^HUGO_', '^CI$']</code></td>
+					<td>匹配允许 <code>os.Getenv</code> 函数访问的操作系统环境变量名的正则表达式切片。</td>
+			</tr>
+			<tr>
+					<td><code>http.methods</code></td>
+					<td><code>[]string</code></td>
+					<td>允许 <code>GET</code> 与 <code>POST</code>（不区分大小写）</td>
+					<td>匹配 <code>resources.GetRemote</code> 函数允许使用的 HTTP 方法的正则表达式切片。</td>
+			</tr>
+			<tr>
+					<td><code>http.mediaTypes</code></td>
+					<td><code>[]string</code></td>
+					<td>空</td>
+					<td>仅适用于 <code>resources.GetRemote</code> 函数：匹配 Hugo 信任的 HTTP 响应 <code>Content-Type</code> 的正则表达式切片，命中时跳过用于媒体类型检测的文件内容分析。</td>
+			</tr>
+			<tr>
+					<td><code>http.proxyFromEnvironment</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>（自 v0.166.0 起）<code>resources.GetRemote</code> 函数是否遵循 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code> 与 <code>NO_PROXY</code> 环境变量。使用代理时 Hugo 连接的是代理而不是目标地址，因此 <code>http.urls</code> 所述的解析地址校验不再适用。</td>
+			</tr>
+			<tr>
+					<td><code>http.urls</code></td>
+					<td><code>[]string</code></td>
+					<td>见默认配置</td>
+					<td>匹配 <code>resources.GetRemote</code> 函数允许访问的 URL 的正则表达式切片。默认允许列表拒绝主机名为 IP 地址或 <code>localhost</code> 的 URL，并在连接时校验解析出的地址，拒绝回环、私有、链路本地等非公网地址（例如解析到云元数据端点的主机名）。一旦覆盖 <code>http.urls</code>，这项校验即关闭，因为新列表可能有意允许访问本地网络中的主机，例如开发服务器。</td>
+			</tr>
+			<tr>
+					<td><code>node.permissions.disable</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>（自 v0.161.0 起）是否禁用 Node.js 的权限模型。为 <code>false</code> 时，Hugo 会带 <code>--permission</code> 标志运行 Node.js 工具，把它们的文件系统与资源访问限制在下面显式允许的范围内。</td>
+			</tr>
+			<tr>
+					<td><code>node.permissions.allowAddons</code></td>
+					<td><code>[]string</code></td>
+					<td><code>['tailwindcss']</code></td>
+					<td>（自 v0.161.0 起）允许加载原生插件的 Node.js 工具名切片，对应 <code>--allow-addons</code>。</td>
+			</tr>
+			<tr>
+					<td><code>node.permissions.allowChildProcess</code></td>
+					<td><code>[]string</code></td>
+					<td><code>['tailwindcss']</code></td>
+					<td>（自 v0.161.0 起）允许派生（spawn）子进程的 Node.js 工具名切片，对应 <code>--allow-child-process</code>。</td>
+			</tr>
+			<tr>
+					<td><code>node.permissions.allowRead</code></td>
+					<td><code>[]string</code></td>
+					<td><code>['.']</code></td>
+					<td>（自 v0.161.0 起）允许 Node.js 工具读取的文件系统路径切片，对应 <code>--allow-fs-read</code>。路径相对于工作目录，<code>&quot;.&quot;</code> 表示工作目录本身，<code>&quot;*&quot;</code> 表示允许所有路径。同一组路径也限制 <code>js.Build</code>、<code>js.Batch</code>、<code>css.Build</code> 与 <code>css.Sass</code> 能从 <code>assets</code> 目录之外（例如 <code>node_modules</code>）导入什么，且该限制与 <code>node.permissions.disable</code> 无关。Node.js 会跟随指向允许路径之外的符号链接，因此允许路径中若存在目标落在集合之外的链接，Hugo 会让构建失败；把链接目标加入列表即可放行。该检查每次构建只运行一次；若同时给某个允许路径授予写权限，Node.js 工具可能在构建期创建绕过检查的链接。</td>
+			</tr>
+			<tr>
+					<td><code>node.permissions.allowWorker</code></td>
+					<td><code>[]string</code></td>
+					<td><code>['tailwindcss']</code></td>
+					<td>（自 v0.161.0 起）允许派生工作线程的 Node.js 工具名切片，对应 <code>--allow-worker</code>。</td>
+			</tr>
+			<tr>
+					<td><code>node.permissions.allowWrite</code></td>
+					<td><code>[]string</code></td>
+					<td>空</td>
+					<td>（自 v0.161.0 起）允许 Node.js 工具写入的文件系统路径切片，对应 <code>--allow-fs-write</code>。路径相对于工作目录，<code>&quot;.&quot;</code> 表示工作目录本身，使用 <code>&quot;*&quot;</code> 表示允许所有路径。</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="否定规则">否定规则</h2>
+<blockquote><p>否定规则自 v0.161.0 起可用。</p>
+</blockquote><p>允许列表中的任何模式都可以通过在开头加上感叹号（<code>!</code>）和一个空格来取反，从而变成一条拒绝规则。拒绝规则优先于允许规则。如果一份允许列表完全由拒绝规则组成，它就隐式允许所有未被拒绝的内容；而空允许列表会拒绝一切。</p>
+<p>例如，要允许所有 URL，只拒绝指向 <code>evil.example.org</code> 的那些：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">.</span><span class="nx">http</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">urls</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;.*&#39;</span><span class="p">,</span> <span class="s1">&#39;! ^https?://evil\.example\.org&#39;</span><span class="p">]</span></span></span></code></pre></div><p>把某份允许列表设为字符串 <code>none</code>，会彻底禁用与之关联的功能。</p>
+<h2 id="环境变量">环境变量</h2>
+<p>除了配置文件，你也可以用环境变量覆盖项目配置。例如，要禁止 <code>resources.GetRemote</code> 访问任何 URL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">HUGO_SECURITY_HTTP_URLS</span><span class="o">=</span>none</span></span></code></pre></div><h2 id="示例">示例</h2>
+<p>下面的配置缩小了远程访问范围：只允许抓取 <code>example.org</code>，其余 URL 一律拒绝，同时明确限制 <code>http.urls</code> 带来的地址校验豁免范围。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">allowContent</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;! ^text/html$&#39;</span><span class="p">,</span> <span class="s1">&#39;! ^text/org$&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">security</span><span class="p">.</span><span class="nx">http</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">methods</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;(?i)GET&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">mediaTypes</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;^application/json$&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">urls</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;^https://example\.org/&#39;</span><span class="p">]</span></span></span></code></pre></div><h2 id="延伸阅读">延伸阅读</h2>
+<ul>
+<li><a href="/configuration/">配置</a></li>
+<li><a href="/content-management/content-formats/">内容格式</a></li>
+<li><a href="/shortcodes/">短代码</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/configuration/security/" target="_blank" rel="noopener">https://gohugo.io/configuration/security/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/configuration/roles/">← 上一篇：角色配置</a>
+    <a class="pager-next" href="/configuration/segments/">下一篇：片段配置 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#默认配置">默认配置</a></li>
+    <li><a href="#设置项">设置项</a></li>
+    <li><a href="#否定规则">否定规则</a></li>
+    <li><a href="#环境变量">环境变量</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

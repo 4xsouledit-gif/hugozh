@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>故障排查 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="构建与渲染异常时的排查方法、诊断工具与常见问题解答。">
+  <link rel="canonical" href="https://example.org/troubleshooting/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="故障排查 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="构建与渲染异常时的排查方法、诊断工具与常见问题解答。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.org/troubleshooting/">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://example.org/troubleshooting/index.xml" title="Hugo 官方文档 · 中文翻译">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"构建与渲染异常时的排查方法、诊断工具与常见问题解答。","headline":"故障排查","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"故障排查","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/troubleshooting/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/troubleshooting/">故障排查</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/troubleshooting/faq/">常见问题</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/audit/">审计</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/deprecation/">弃用说明</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/inspection/">检查与调试</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/logging/">日志</a>
+        </li>
+        <li>
+          <a href="/troubleshooting/performance/">性能</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      
+<article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow">文档章节</p>
+    <h1>故障排查</h1>
+    <p class="doc-description">构建与渲染异常时的排查方法、诊断工具与常见问题解答。</p>
+  </header>
+  <div class="doc-body"><h2 id="本章内容">本章内容</h2>
+<p>站点构建失败、页面缺失或输出与预期不符时，排查的基本顺序是：先确认输入，再确认模板，最后确认输出目录中的实际结果。输入指内容文件与配置，模板指 <code>layouts/</code> 下的模板，输出指发布目录中真正生成的 HTML。沿着这条链路逐段核对，多数问题都能定位到具体的一环。</p>
+<p>本章各页分别处理一个方面：</p>
+<table>
+	<thead>
+			<tr>
+					<th>页面</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><a href="/troubleshooting/faq/">常见问题</a></td>
+					<td>新用户最常遇到的问题及其原因</td>
+			</tr>
+			<tr>
+					<td><a href="/troubleshooting/audit/">审计</a></td>
+					<td>部署前对输出结果做一次系统检查</td>
+			</tr>
+			<tr>
+					<td><a href="/troubleshooting/deprecation/">弃用说明</a></td>
+					<td>Hugo 弃用功能的节奏与升级时的提示</td>
+			</tr>
+			<tr>
+					<td><a href="/troubleshooting/inspection/">检查与调试</a></td>
+					<td>用模板函数与命令行标志检查数据与模板</td>
+			</tr>
+			<tr>
+					<td><a href="/troubleshooting/logging/">日志</a></td>
+					<td>日志级别、输出重定向与 LiveReload 日志</td>
+			</tr>
+			<tr>
+					<td><a href="/troubleshooting/performance/">性能</a></td>
+					<td>分析构建耗时并选择加速手段</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="排查的基本思路">排查的基本思路</h2>
+<p>先复现，再缩小范围。把问题固定在一个可以反复执行的最小场景上，然后一次只改动一个变量，观察输出如何变化。常见做法包括：</p>
+<ol>
+<li>用最小项目复现问题，排除主题、模块与第三方服务的干扰。</li>
+<li>关闭与问题无关的构建选项，减少参与渲染的内容。</li>
+<li>逐段注释模板，确认问题由哪个模板、哪个区段引起。</li>
+<li>在页面中输出中间值，核对 Hugo 实际拿到的数据是否与预期一致，做法见<a href="/troubleshooting/inspection/">检查与调试</a>。</li>
+</ol>
+<h2 id="常用入口">常用入口</h2>
+<p>以下命令适合作为排查的起点，完整选项见<a href="/commands/">命令</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 显示默认配置与自定义配置，确认配置是否生效</span>
+</span></span><span class="line"><span class="cl">hugo config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 显示版本与环境信息，向他人求助时附上这份输出</span>
+</span></span><span class="line"><span class="cl">hugo env
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 提高日志级别，查看构建过程中的细节</span>
+</span></span><span class="line"><span class="cl">hugo build --logLevel debug
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查重复的目标路径等警告</span>
+</span></span><span class="line"><span class="cl">hugo build --printPathWarnings</span></span></code></pre></div><p>配置项的读取顺序与默认值规则见<a href="/configuration/">配置</a>；目录结构对构建结果的影响见<a href="/getting-started/directory-structure/">目录结构</a>。构建成功但页面内容不对时，先从内容文件与模板入手；构建直接失败时，日志与错误消息是首要线索。</p>
+<h2 id="获取帮助">获取帮助</h2>
+<p>Hugo 论坛是活跃的用户与开发者社区，可以在那里提问、分享经验并找到示例。提问前请先阅读论坛的求助指南，并准备好 <code>hugo env</code> 的输出与一个最小复现示例，这样更容易得到有用的回答。论坛地址见 <a href="https://discourse.gohugo.io" target="_blank" rel="noopener">discourse.gohugo.io</a>。</p>
+</div>
+  
+  <section class="home-section">
+    <h2>本章内容</h2>
+    <ul class="page-list">
+      
+      <li>
+        <a href="/troubleshooting/faq/">常见问题</a>
+        <span class="page-list-desc">新用户最常遇到的问题及其原因与解决办法。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/troubleshooting/audit/">审计</a>
+        <span class="page-list-desc">发布前检查站点输出，发现构建阶段不会报错的问题。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/troubleshooting/deprecation/">弃用说明</a>
+        <span class="page-list-desc">Hugo 弃用功能、方法与配置项的流程，以及升级时如何查看提示。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/troubleshooting/inspection/">检查与调试</a>
+        <span class="page-list-desc">用模板函数与命令行标志检查数据、模板和构建过程。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/troubleshooting/logging/">日志</a>
+        <span class="page-list-desc">打开日志以观察构建过程中的事件，并说明输出级别与重定向。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/troubleshooting/performance/">性能</a>
+        <span class="page-list-desc">评估构建耗时，并通过减少系统开销与模板重复执行来提速。</span>
+        <span class="page-list-date"><time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+    </ul>
+  </section>
+  
+</article>
+
+    </main>
+    
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

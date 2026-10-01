@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>页面包 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="分支包与叶子包的目录结构与区别，以及 headless bundle 和多语言命名。">
+  <link rel="canonical" href="https://example.org/content-management/page-bundles/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="页面包 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="分支包与叶子包的目录结构与区别，以及 headless bundle 和多语言命名。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/content-management/page-bundles/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"分支包与叶子包的目录结构与区别，以及 headless bundle 和多语言命名。","headline":"页面包","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"页面包","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/content-management/page-bundles/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/content-management/">内容管理</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/content-management/content-formats/">内容格式</a>
+        </li>
+        <li>
+          <a href="/content-management/front-matter/">前置元数据</a>
+        </li>
+        <li>
+          <a href="/content-management/page-bundles/" class="is-active" aria-current="page">页面包</a>
+        </li>
+        <li>
+          <a href="/content-management/page-resources/">页面资源</a>
+        </li>
+        <li>
+          <a href="/content-management/organization/">内容组织</a>
+        </li>
+        <li>
+          <a href="/content-management/sections/">内容区块</a>
+        </li>
+        <li>
+          <a href="/content-management/archetypes/">原型</a>
+        </li>
+        <li>
+          <a href="/content-management/summaries/">摘要</a>
+        </li>
+        <li>
+          <a href="/content-management/related-content/">相关内容</a>
+        </li>
+        <li>
+          <a href="/content-management/menus/">菜单</a>
+        </li>
+        <li>
+          <a href="/content-management/taxonomies/">分类法</a>
+        </li>
+        <li>
+          <a href="/content-management/multilingual/">多语言</a>
+        </li>
+        <li>
+          <a href="/content-management/urls/">URL 管理</a>
+        </li>
+        <li>
+          <a href="/content-management/markdown-attributes/">Markdown 属性</a>
+        </li>
+        <li>
+          <a href="/content-management/syntax-highlighting/">语法高亮</a>
+        </li>
+        <li>
+          <a href="/content-management/image-processing/">图像处理</a>
+        </li>
+        <li>
+          <a href="/content-management/diagrams/">图表</a>
+        </li>
+        <li>
+          <a href="/content-management/mathematics/">数学公式</a>
+        </li>
+        <li>
+          <a href="/content-management/comments/">评论</a>
+        </li>
+        <li>
+          <a href="/content-management/build-options/">构建选项</a>
+        </li>
+        <li>
+          <a href="/content-management/content-adapters/">内容适配器</a>
+        </li>
+        <li>
+          <a href="/content-management/data-sources/">数据源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/content-management/">内容管理</a></p>
+    <h1>页面包</h1>
+    <p class="doc-description">分支包与叶子包的目录结构与区别，以及 headless bundle 和多语言命名。</p>
+  </header>
+  
+  <div class="doc-body"><p>页面包（page bundle）是一个目录，把内容与相关资源封装在一起。例如下面这个站点有一个 <code>about</code> 页面和一个 <code>privacy</code> 页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── about/
+</span></span><span class="line"><span class="cl">│   ├── index.md
+</span></span><span class="line"><span class="cl">│   └── welcome.jpg
+</span></span><span class="line"><span class="cl">└── privacy.md</span></span></code></pre></div><p><code>about</code> 页面就是一个页面包：它把资源与内容打包在一起，从而在逻辑上建立关联。页面包内的资源称为<a href="/content-management/page-resources/">页面资源</a>，可以用 <code>Page</code> 对象的 <code>.Resources</code> 方法访问。</p>
+<h2 id="叶子包与分支包">叶子包与分支包</h2>
+<p>页面包分为叶子包（leaf bundle）与分支包（branch bundle）两类。</p>
+<dl>
+<dt>叶子包</dt>
+<dd>一个包含 <code>index.md</code> 文件以及零个或多个资源的目录。类似大树的一片叶子，叶子包位于分支的末端，没有后代。</dd>
+<dt>分支包</dt>
+<dd>一个包含 <code>_index.md</code> 文件以及零个或多个资源的目录。类似大树的枝干，分支包可以有后代，包括叶子包与其他分支包。顶层目录无论是否含 <code>_index.md</code> 文件都是分支包，首页也属于分支包。</dd>
+</dl>
+<blockquote><p><strong>注意</strong>：索引文件的扩展名取决于内容格式。Markdown 内容用 <code>index.md</code>，HTML 内容用 <code>index.html</code>，AsciiDoc 内容用 <code>index.adoc</code>，其余格式依此类推。</p>
+</blockquote><h2 id="两类页面包对比">两类页面包对比</h2>
+<table>
+	<thead>
+			<tr>
+					<th>对比项</th>
+					<th>叶子包</th>
+					<th>分支包</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>索引文件</td>
+					<td><code>index.md</code></td>
+					<td><code>_index.md</code></td>
+			</tr>
+			<tr>
+					<td>示例</td>
+					<td><code>content/about/index.md</code></td>
+					<td><code>content/posts/_index.md</code></td>
+			</tr>
+			<tr>
+					<td>页面种类</td>
+					<td><code>page</code></td>
+					<td><code>home</code>、<code>section</code>、<code>taxonomy</code> 或 <code>term</code></td>
+			</tr>
+			<tr>
+					<td>模板类型</td>
+					<td>单页模板</td>
+					<td>首页、section（内容区块）、分类法或术语模板</td>
+			</tr>
+			<tr>
+					<td>后代页面</td>
+					<td>无</td>
+					<td>零个或多个</td>
+			</tr>
+			<tr>
+					<td>资源位置</td>
+					<td>与索引文件相邻，或位于嵌套子目录中</td>
+					<td>与叶子包相同，但不包括后代包中的文件</td>
+			</tr>
+			<tr>
+					<td>资源类型</td>
+					<td><code>page</code>、<code>image</code>、<code>video</code> 等</td>
+					<td>除 <code>page</code> 之外的所有类型</td>
+			</tr>
+	</tbody>
+</table>
+<p>资源类型为 <code>page</code> 的文件包括用 Markdown、HTML、AsciiDoc、Pandoc、reStructuredText 和 Emacs Org Mode 书写的内容。在叶子包中，除索引文件以外，这些文件只能作为页面资源访问；在分支包中，这些文件只能作为内容页面访问。</p>
+<h2 id="叶子包">叶子包</h2>
+<p>叶子包是一个包含 <code>index.md</code> 文件以及零个或多个资源的目录，位于分支的末端，没有后代。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── about
+</span></span><span class="line"><span class="cl">│   └── index.md
+</span></span><span class="line"><span class="cl">├── posts
+</span></span><span class="line"><span class="cl">│   ├── my-post
+</span></span><span class="line"><span class="cl">│   │   ├── content-1.md
+</span></span><span class="line"><span class="cl">│   │   ├── content-2.md
+</span></span><span class="line"><span class="cl">│   │   ├── image-1.jpg
+</span></span><span class="line"><span class="cl">│   │   ├── image-2.png
+</span></span><span class="line"><span class="cl">│   │   └── index.md
+</span></span><span class="line"><span class="cl">│   └── my-other-post
+</span></span><span class="line"><span class="cl">│       └── index.md
+</span></span><span class="line"><span class="cl">└── another-section
+</span></span><span class="line"><span class="cl">    ├── foo.md
+</span></span><span class="line"><span class="cl">    └── not-a-leaf-bundle
+</span></span><span class="line"><span class="cl">        ├── bar.md
+</span></span><span class="line"><span class="cl">        └── another-leaf-bundle
+</span></span><span class="line"><span class="cl">            └── index.md</span></span></code></pre></div><p>上例中有四个叶子包：</p>
+<ul>
+<li><code>about</code>：不含任何页面资源。</li>
+<li><code>my-post</code>：含一个索引文件、两个资源类型为 <code>page</code> 的资源，以及两个资源类型为 <code>image</code> 的资源。<code>content-1</code>、<code>content-2</code> 是资源类型为 <code>page</code> 的资源，通过 <code>.Resources</code> 访问，Hugo 不会把它们渲染成独立页面；<code>image-1</code>、<code>image-2</code> 是资源类型为 <code>image</code> 的资源，同样通过 <code>.Resources</code> 访问。</li>
+<li><code>my-other-post</code>：不含任何页面资源。</li>
+<li><code>another-leaf-bundle</code>：不含任何页面资源。</li>
+</ul>
+<blockquote><p><strong>注意</strong>：叶子包可以创建在 <code>content</code> 目录下的任意深度，但一个叶子包内不能再包含另一个包。叶子包没有后代。</p>
+</blockquote><h2 id="分支包">分支包</h2>
+<p>分支包是一个包含 <code>_index.md</code> 文件以及零个或多个资源的目录，可以有包括叶子包和其他分支包在内的后代。顶层目录无论是否含 <code>_index.md</code> 文件都是分支包，首页也包括在内。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/
+</span></span><span class="line"><span class="cl">├── branch-bundle-1/
+</span></span><span class="line"><span class="cl">│   ├── _index.md
+</span></span><span class="line"><span class="cl">│   ├── content-1.md
+</span></span><span class="line"><span class="cl">│   ├── content-2.md
+</span></span><span class="line"><span class="cl">│   ├── image-1.jpg
+</span></span><span class="line"><span class="cl">│   └── image-2.png
+</span></span><span class="line"><span class="cl">├── branch-bundle-2/
+</span></span><span class="line"><span class="cl">│   ├── a-leaf-bundle/
+</span></span><span class="line"><span class="cl">│   │   └── index.md
+</span></span><span class="line"><span class="cl">│   └── _index.md
+</span></span><span class="line"><span class="cl">└── _index.md</span></span></code></pre></div><p>上例中有三个分支包：</p>
+<ul>
+<li>首页：含一个索引文件、两个后代分支包，没有资源。</li>
+<li><code>branch-bundle-1</code>：含一个索引文件、两个资源类型为 <code>page</code> 的资源，以及两个资源类型为 <code>image</code> 的资源。</li>
+<li><code>branch-bundle-2</code>：含一个索引文件和一个叶子包。</li>
+</ul>
+<blockquote><p><strong>注意</strong>：分支包可以创建在 <code>content</code> 目录下的任意深度，并且可以有后代。</p>
+</blockquote><h2 id="headless-bundle">headless bundle</h2>
+<p>在前置元数据（front matter）中使用<a href="/content-management/build-options/">构建选项</a>，可以创建不发布的叶子包或分支包，其内容与资源可以供其他页面引用。把 <code>headless</code> 设为 <code>true</code> 时，Hugo 会同时把 <code>render</code> 与 <code>list</code> 构建选项设为 <code>never</code>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="err">+++</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s2">&#34;共享资源&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">headless</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="err">+++</span></span></span></code></pre></div><p><code>headless</code> 适合“整个包都不发布”的简单情形；需要更细地控制页面是否输出、是否进入列表、资源是否复制时，直接使用 <code>build</code> 构建选项（<code>list</code>、<code>render</code>、<code>publishResources</code>），也可以配合 <code>cascade</code> 统一下发。</p>
+<h2 id="与-section-的关系">与 section 的关系</h2>
+<p>叶子包与被它替代的单文件页面发布的地址相同，区别在于能否携带同目录下的资源：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/posts/second-post.md          →  /posts/second-post/
+</span></span><span class="line"><span class="cl">content/posts/second-post/index.md    →  /posts/second-post/</span></span></code></pre></div><p>同一个目录里不能同时存在 <code>_index.md</code> 与 <code>index.md</code>。叶子包就是一个普通页面，不会创建新的 section；分支包则可以嵌套分支包，从而形成多级 section，详见<a href="/content-management/sections/">内容区块</a>。更多目录层面的约定见<a href="/getting-started/directory-structure/">目录结构</a>。</p>
+<h2 id="多语言下的文件命名">多语言下的文件命名</h2>
+<p>多语言站点中，语言可以通过文件名后缀或目录区分。使用文件名后缀时，把语言代码插在扩展名之前：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/posts/first-post/
+</span></span><span class="line"><span class="cl">├── index.zh.md        # 简体中文版本
+</span></span><span class="line"><span class="cl">├── index.en.md        # 英文版本
+</span></span><span class="line"><span class="cl">├── cover.zh.jpg       # 中文版页面的资源
+</span></span><span class="line"><span class="cl">└── cover.en.jpg       # 英文版页面的资源</span></span></code></pre></div><p>索引文件同理，写作 <code>_index.zh.md</code>、<code>_index.en.md</code>。语言代码要与配置中声明的语言一致，例如 <code>zh</code>、<code>zh-cn</code>、<code>en</code>；同一包内不同语言的资源属于对应语言的页面，命名时注意区分。共享资源在多语言构建中的处理方式见<a href="/content-management/page-resources/">页面资源</a>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/content-management/page-bundles/" target="_blank" rel="noopener">https://gohugo.io/content-management/page-bundles/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/content-management/front-matter/">← 上一篇：前置元数据</a>
+    <a class="pager-next" href="/content-management/page-resources/">下一篇：页面资源 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#叶子包与分支包">叶子包与分支包</a></li>
+    <li><a href="#两类页面包对比">两类页面包对比</a></li>
+    <li><a href="#叶子包">叶子包</a></li>
+    <li><a href="#分支包">分支包</a></li>
+    <li><a href="#headless-bundle">headless bundle</a></li>
+    <li><a href="#与-section-的关系">与 section 的关系</a></li>
+    <li><a href="#多语言下的文件命名">多语言下的文件命名</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

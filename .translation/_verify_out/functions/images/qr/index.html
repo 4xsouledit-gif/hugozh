@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>images.QR · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="按指定选项把给定文本编码为二维码，返回一个包含该二维码的图像资源。">
+  <link rel="canonical" href="https://example.org/functions/images/qr/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="images.QR · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="按指定选项把给定文本编码为二维码，返回一个包含该二维码的图像资源。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/images/qr/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"按指定选项把给定文本编码为二维码，返回一个包含该二维码的图像资源。","headline":"images.QR","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"images.QR","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/images/qr/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/images/">images</a></p>
+    <h1>images.QR</h1>
+    <p class="doc-description">按指定选项把给定文本编码为二维码，返回一个包含该二维码的图像资源。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">images.QR TEXT [OPTIONS]</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>images.ImageResource</code></dd>
+</dl>
+  <div class="doc-body"><p><strong>（0.141.0 新增）</strong></p>
+<p><code>images.QR</code> 函数按指定选项把给定文本编码为<a href="https://en.wikipedia.org/wiki/QR_code" target="_blank" rel="noopener">二维码</a>，返回一个图像资源。生成图像的尺寸取决于三个因素：</p>
+<ul>
+<li>数据长度：文本越长，为容纳更大的信息密度就需要越大的图像。</li>
+<li>纠错级别：纠错级别越高，二维码抗损毁能力越强，但通常需要略大的图像尺寸来保持可读性。</li>
+<li>每模块像素数：分配给每个模块（二维码的最小单元）的图像像素数会直接影响整体图像尺寸。每模块像素数越多，图像越大、分辨率越高。</li>
+</ul>
+<p>虽然默认选项值对多数场景已经够用，仍应在屏幕显示和打印两种情况下都测试渲染出的二维码。</p>
+<h2 id="选项">选项</h2>
+<p><code>images.QR</code> 函数接受一个选项映射（map）。</p>
+<dl>
+<dt><code>level</code></dt>
+<dd>（<code>string</code>）编码文本时使用的纠错级别，取 <code>low</code>、<code>medium</code>、<code>quartile</code> 或 <code>high</code> 之一。默认为 <code>medium</code>。
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">纠错级别</th>
+					<th style="text-align: left">冗余度</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">low</td>
+					<td style="text-align: left">20%</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">medium</td>
+					<td style="text-align: left">38%</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">quartile</td>
+					<td style="text-align: left">55%</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">high</td>
+					<td style="text-align: left">65%</td>
+			</tr>
+	</tbody>
+</table>
+</dd>
+<dt><code>scale</code></dt>
+<dd>（<code>int</code>）每个二维码模块对应的图像像素数。必须大于或等于 <code>2</code>。默认为 <code>4</code>。</dd>
+<dt><code>targetDir</code></dt>
+<dd>（<code>string</code>）Hugo 存放所生成图像的 <a href="/configuration/all/#publishdir"><code>publishDir</code></a> 子目录。路径分隔使用 Unix 风格斜杠（<code>/</code>）。若为空或未提供，图像直接放在 <code>publishDir</code> 根目录下。子目录不存在时 Hugo 会自动创建。</dd>
+</dl>
+<h2 id="示例">示例</h2>
+<p>用 <code>level</code> 和 <code>scale</code> 的默认值创建二维码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$text</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#34;https://gohugo.io&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">images</span><span class="na">.QR</span><span class="w"> </span><span class="nx">$text</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Width</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Height</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>英文原文在此处用自带的 <code>qr</code> 短代码渲染了一个指向 <code>https://gohugo.io</code> 的二维码示例；本站未收录该示例。</p>
+<p>按需指定 <code>level</code>、<code>scale</code> 和 <code>targetDir</code> 以得到期望结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$text</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#34;https://gohugo.io&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;level&#34;</span><span class="w"> </span><span class="s">&#34;high&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;scale&#34;</span><span class="w"> </span><span class="nx">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s">&#34;targetDir&#34;</span><span class="w"> </span><span class="s">&#34;images/qr&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">images</span><span class="na">.QR</span><span class="w"> </span><span class="nx">$text</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Width</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">height</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Height</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>英文原文在此处渲染了一个 <code>level</code> 为 <code>high</code>、<code>scale</code> 为 <code>3</code>、输出到 <code>images/qr</code> 的二维码示例；本站未收录该示例。</p>
+<p>插入一个指向当前页面 <code>Permalink</code> 的二维码：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">images</span><span class="na">.QR</span><span class="w"> </span><span class="na">.Permalink</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">img</span>
+</span></span><span class="line"><span class="cl">    <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">width</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Width</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">height</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Height</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">alt</span><span class="o">=</span><span class="s">&#34;QR code linking to </span><span class="cp">{{</span><span class="w"> </span><span class="na">$.Permalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">class</span><span class="o">=</span><span class="s">&#34;qr-code&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">loading</span><span class="o">=</span><span class="s">&#34;lazy&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><p>然后用 CSS 在非打印场景下隐藏该二维码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-css" data-lang="css"><span class="line"><span class="cl"><span class="c">/* Hide QR code by default */</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nc">qr-code</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">display</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">/* Show QR code when printing */</span>
+</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="k">media</span> <span class="nt">print</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">.</span><span class="nc">qr-code</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div><h2 id="尺寸scale">尺寸（scale）</h2>
+<p>二维码越小，设备能够可靠扫描它的最远距离也越短。</p>
+<p>上面的示例中我们把 <code>scale</code> 设为 <code>2</code>，得到每个模块由 2x2 像素组成的二维码。这在屏幕显示时或许够用，但以 600 dpi 打印时很可能出问题。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">\[ \frac{2\:px}{module} \times \frac{1\:inch}{600\:px} \times \frac{25.4\:mm}{1\:inch} = \frac{0.085\:mm}{module} \]</span></span></code></pre></div><p>该模块尺寸只有通常建议的最小值 0.170 mm 的一半。<br>
+若二维码需要打印，请使用默认的 <code>scale</code> 值，即每模块 4 像素。</p>
+<p>不要用 Hugo 的图像处理方法来缩放二维码。当二维码模块占据非整数个像素时，缩放会因抗锯齿而产生模糊。</p>
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>始终要在屏幕显示和打印两种情况下测试渲染出的二维码。</p></div>
+</aside><h2 id="短代码">短代码</h2>
+<p>调用 <code>qr</code> 短代码可以把二维码插入正文。</p>
+<p>用自闭合写法把文本作为参数传入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-md" data-lang="md"><span class="line"><span class="cl">{{&lt; qr text=&#34;https://gohugo.io&#34; /&gt;}}</span></span></code></pre></div><p>也可以把文本写在开闭标记之间：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-md" data-lang="md"><span class="line"><span class="cl">{{&lt; qr &gt;}}
+</span></span><span class="line"><span class="cl">https://gohugo.io
+</span></span><span class="line"><span class="cl">{{&lt; /qr &gt;}}</span></span></code></pre></div><p><code>qr</code> 短代码接受包括 <code>level</code> 和 <code>scale</code> 在内的多个参数，详见<a href="/shortcodes/qr/">相关文档</a>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/images/qr/" target="_blank" rel="noopener">https://gohugo.io/functions/images/qr/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/functions/images/process/">← 上一篇：Process</a>
+    <a class="pager-next" href="/functions/images/saturation/">下一篇：Saturation →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#选项">选项</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#尺寸scale">尺寸（scale）</a></li>
+    <li><a href="#短代码">短代码</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

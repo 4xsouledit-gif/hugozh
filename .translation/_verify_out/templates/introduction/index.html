@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>简介 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="介绍 Hugo 的模板语法：上下文、动作、变量、函数与方法。">
+  <link rel="canonical" href="https://example.org/templates/introduction/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="简介 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="介绍 Hugo 的模板语法：上下文、动作、变量、函数与方法。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/templates/introduction/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"介绍 Hugo 的模板语法：上下文、动作、变量、函数与方法。","headline":"简介","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"简介","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/templates/introduction/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/templates/">模板</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/templates/404/">404 页面</a>
+        </li>
+        <li>
+          <a href="/templates/robots/">robots.txt</a>
+        </li>
+        <li>
+          <a href="/templates/sitemap/">站点地图</a>
+        </li>
+        <li>
+          <a href="/templates/rss/">RSS 订阅</a>
+        </li>
+        <li>
+          <a href="/templates/menu/">菜单模板</a>
+        </li>
+        <li>
+          <a href="/templates/pagination/">分页</a>
+        </li>
+        <li>
+          <a href="/templates/embedded/">内建模板</a>
+        </li>
+        <li>
+          <a href="/templates/introduction/" class="is-active" aria-current="page">简介</a>
+        </li>
+        <li>
+          <a href="/templates/lookup-order/">模板查找顺序</a>
+        </li>
+        <li>
+          <a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>
+        </li>
+        <li>
+          <a href="/templates/partial-decorators/">局部模板装饰器</a>
+        </li>
+        <li>
+          <a href="/templates/shortcode/">短代码模板</a>
+        </li>
+        <li>
+          <a href="/templates/types/">内容类型</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/templates/">模板</a></p>
+    <h1>简介</h1>
+    <p class="doc-description">介绍 Hugo 的模板语法：上下文、动作、变量、函数与方法。</p>
+  </header>
+  
+  <div class="doc-body"><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>Hugo 在 v0.146.0 中彻底重写了模板系统。相关文档正在陆续更新，你可以先阅读<a href="/templates/new-templatesystem-overview/">新版模板系统概览</a>。</p></div>
+</aside><h2 id="模板是什么">模板是什么</h2>
+<p>模板用变量、函数与方法把内容、资源与数据转换为发布出去的页面。Hugo 使用 Go 的 <code>text/template</code> 与 <code>html/template</code> 包：前者生成文本输出，后者生成对代码注入安全的 HTML 输出。渲染 HTML 文件时，Hugo 默认使用 <code>html/template</code>。下面这个模板初始化两个变量，并在段落中显示它们的乘积：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">6</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">7</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The product of <span class="cp">{{</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="cp">}}</span> and <span class="cp">{{</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="cp">}}</span> is <span class="cp">{{</span><span class="w"> </span><span class="nx">mul</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="cp">}}</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></span></span></code></pre></div><p>HTML 模板最常见，但你可以为任意输出格式创建模板，包括 CSV、JSON、RSS 与纯文本。</p>
+<h2 id="上下文">上下文</h2>
+<p>创建模板之前最需要理解的概念是<strong>上下文</strong>（context），也就是传入每个模板的数据。数据可能是一个简单值，但更常见的是对象及其方法。例如页面模板收到的是 <code>Page</code> 对象，它提供返回取值或执行动作的方法。</p>
+<p>模板中的点（<code>.</code>）表示当前上下文。下例中的点就是 <code>Page</code> 对象，调用它的 <code>Title</code> 方法返回 front matter 中定义的标题：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Title</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></span></span></code></pre></div>
+</figure><p>上下文在模板内部会发生变化，<code>range</code> 与 <code>with</code> 块会把上下文重新绑定到其他值或对象上：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Title</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;foo&#34;</span><span class="w"> </span><span class="s">&#34;bar&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="s">&#34;baz&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><p>在 <code>range</code> 中，第一次迭代的上下文是 &ldquo;foo&rdquo;，第二次是 &ldquo;bar&rdquo;；<code>with</code> 块内的上下文是 &ldquo;baz&rdquo;。Hugo 把它渲染为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>My Page Title<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>foo<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>bar<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>baz<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></span></span></code></pre></div><p>在 <code>range</code> 或 <code>with</code> 块内，给点加上美元符号（<code>$</code>）即可访问传入模板的那个上下文：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="s">&#34;foo&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">$.Title</span><span class="w"> </span><span class="cp">}}</span> - <span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>请务必彻底理解上下文的概念。新手最常犯的模板错误都与上下文有关。</p></div>
+</aside><h2 id="动作">动作</h2>
+<p>成对的花括号表示模板动作的开始与结束，也就是模板内的数据求值或控制结构。动作中可以包含字面量（布尔值、字符串、整数、浮点数）、当前上下文、变量、函数、方法与 <code>nil</code> 关键字：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$convertToLower</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">$convertToLower</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">strings</span><span class="na">.ToLower</span><span class="w"> </span><span class="na">.Title</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div>
+</figure><p>上例中，<code>$convertToLower</code> 是变量，<code>true</code> 是布尔字面量，<code>if</code> 是控制结构的开始，<code>strings.ToLower</code> 是把字符转为小写的函数，<code>Title</code> 是 <code>Page</code> 对象上的方法，<code>end</code> 是控制结构的结束。</p>
+<h3 id="空白处理">空白处理</h3>
+<p>上例的输出带有空行与缩进。生产环境通常会把输出压缩，所以这些空白无关紧要；若要消除相邻空白，可以在动作定界符中加上连字符：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="nx">$convertToLower</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">-}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">$convertToLower</span><span class="w"> </span><span class="cp">-}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="nx">strings</span><span class="na">.ToLower</span><span class="w"> </span><span class="na">.Title</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{-</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">-}}</span></span></span></code></pre></div>
+</figure><p>空白包括空格、水平制表符、回车与换行。</p>
+<h3 id="引号字符">引号字符</h3>
+<p>双引号用于解释型字符串字面量，其中的反斜杠会被当作特殊指令；反引号用于原始字符串字面量，其中的反斜杠与所有字符都按字面处理；单引号用于字符字面量，表示单个字符的 Unicode 数值。实际写模板时几乎用不到字符字面量，需要的基本都是字符串。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="s">&#34;Hello world\u0021&#34;</span><span class="w"> </span><span class="cp">}}</span> → Hello world!
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="s">`Hello world\u0021`</span><span class="w"> </span><span class="cp">}}</span> → Hello world\u0021
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="sc">&#39;!&#39;</span><span class="w"> </span><span class="cp">}}</span> → 33</span></span></code></pre></div><h3 id="管道">管道</h3>
+<p>在动作中可以把一个值管道传给函数或方法，被管道传入的值会成为该函数或方法的最后一个参数。因此下面两种写法等价：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">strings</span><span class="na">.ToLower</span><span class="w"> </span><span class="s">&#34;Hugo&#34;</span><span class="w"> </span><span class="cp">}}</span> → hugo
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="s">&#34;Hugo&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">strings</span><span class="na">.ToLower</span><span class="w"> </span><span class="cp">}}</span> → hugo</span></span></code></pre></div><p>也可以把一个函数或方法的结果继续传给下一个。下面两组写法各自等价：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">strings</span><span class="na">.TrimSuffix</span><span class="w"> </span><span class="s">&#34;o&#34;</span><span class="w"> </span><span class="o">(</span><span class="nx">strings</span><span class="na">.ToLower</span><span class="w"> </span><span class="s">&#34;Hugo&#34;</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span> → hug
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="s">&#34;Hugo&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">strings</span><span class="na">.ToLower</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">strings</span><span class="na">.TrimSuffix</span><span class="w"> </span><span class="s">&#34;o&#34;</span><span class="w"> </span><span class="cp">}}</span> → hug</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">mul</span><span class="w"> </span><span class="nx">6</span><span class="w"> </span><span class="o">(</span><span class="nx">add</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="nx">5</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span> → 42
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">5</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">add</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">mul</span><span class="w"> </span><span class="nx">6</span><span class="w"> </span><span class="cp">}}</span> → 42</span></span></code></pre></div><aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>记住：被管道传入的值会成为目标函数或方法的最后一个参数。</p></div>
+</aside><h3 id="换行与-nil">换行与 nil</h3>
+<p>一个动作可以拆成多行书写，原始字符串字面量也可以跨行，两者都与写在一行的写法等价：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">$arg1</span><span class="w"> </span><span class="nx">$arg2</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">or</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nx">$arg1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nx">$arg2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">}}</span></span></span></code></pre></div><p><code>nil</code> 关键字只能用于比较，不能作为任何函数或方法的参数，也不能赋给变量。下面这些用法是合法的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">gt</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>42 is greater than nil<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$pages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">where</span><span class="w"> </span><span class="na">.Site.RegularPages</span><span class="w"> </span><span class="s">&#34;Params.color&#34;</span><span class="w"> </span><span class="s">&#34;ne&#34;</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>而下面这些用法会抛出错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">add</span><span class="w"> </span><span class="nx">3</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">nil</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="变量">变量</h2>
+<p>变量是用户定义、以美元符号（<code>$</code>）开头的标识符，可以在动作中初始化或赋值，其值可以是标量、切片、映射或对象。用 <code>:=</code> 初始化变量，用 <code>=</code> 给已初始化的变量赋新值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$total</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">3</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="nx">7</span><span class="w"> </span><span class="nx">11</span><span class="w"> </span><span class="nx">21</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">add</span><span class="w"> </span><span class="nx">$total</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$total</span><span class="w"> </span><span class="cp">}}</span> → 42</span></span></code></pre></div><p>在 <code>if</code>、<code>range</code>、<code>with</code> 块内初始化的变量作用域限于该块，在这些块之外初始化的变量作用域是整个模板。变量是切片或映射时，用 <code>index</code> 函数取值，注意切片下标从 0 开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$slice</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;foo&#34;</span><span class="w"> </span><span class="s">&#34;bar&#34;</span><span class="w"> </span><span class="s">&#34;baz&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="nx">$slice</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="cp">}}</span> → baz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$map</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;a&#34;</span><span class="w"> </span><span class="s">&#34;foo&#34;</span><span class="w"> </span><span class="s">&#34;b&#34;</span><span class="w"> </span><span class="s">&#34;bar&#34;</span><span class="w"> </span><span class="s">&#34;c&#34;</span><span class="w"> </span><span class="s">&#34;baz&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="nx">$map</span><span class="w"> </span><span class="s">&#34;c&#34;</span><span class="w"> </span><span class="cp">}}</span> → baz
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$map</span><span class="na">.c</span><span class="w"> </span><span class="cp">}}</span> → baz</span></span></code></pre></div><p>变量是映射或对象时，用点依次连接标识符即可取值或访问方法。对象与方法的名称首字母大写；为避免混淆，建议变量名与映射键名以小写字母或下划线开头。</p>
+<h2 id="函数与方法">函数与方法</h2>
+<p>函数在动作中调用，接收一个或多个参数并返回一个值，不与对象关联。Go 的模板包只提供少量通用函数，Hugo 则按命名空间提供了大量自定义函数，例如 <code>strings</code> 命名空间下的 <code>strings.ToLower</code>、<code>strings.ToUpper</code>、<code>strings.Replace</code> 等。常用函数有别名，例如 <code>strings.ToLower</code> 的别名是 <code>lower</code>，两者等价。调用函数时，函数名与各参数之间用空格分隔：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">strings</span><span class="na">.ToLower</span><span class="w"> </span><span class="s">&#34;Hugo&#34;</span><span class="w"> </span><span class="cp">}}</span> → hugo
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">lower</span><span class="w"> </span><span class="s">&#34;Hugo&#34;</span><span class="w"> </span><span class="cp">}}</span> → hugo
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$total</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">add</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="nx">2</span><span class="w"> </span><span class="nx">3</span><span class="w"> </span><span class="nx">4</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>方法在动作中调用并与某个对象关联，接收零个或多个参数，返回一个值或执行一个动作。最常用的对象是 <code>Page</code> 与 <code>Site</code>：<code>Page</code> 的 <code>Date</code>、<code>Params</code>、<code>Title</code> 分别返回页面日期、front matter 中的自定义参数映射与页面标题；<code>Site</code> 的 <code>Data</code>、<code>Params</code>、<code>Title</code> 分别返回由 <code>data</code> 目录文件构成的数据结构、项目配置中的自定义参数映射与站点标题。用点把方法连接到对象上，开头的点表示当前上下文：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.Title</span><span class="w"> </span><span class="cp">}}</span> → My Site Title
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Page.Title</span><span class="w"> </span><span class="cp">}}</span> → My Page Title</span></span></code></pre></div>
+</figure><p>多数模板的上下文就是 <code>Page</code> 对象，所以上面的 <code>.Page.Title</code> 可以简写为 <code>.Title</code>。有些方法带参数，参数与方法之间同样用空格分隔：</p>
+<figure class="code-block" data-file="layouts/page.html">
+  <figcaption class="code-block-file">layouts/page.html</figcaption>
+  <div class="highlight" file="layouts/page.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$page</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Page.GetPage</span><span class="w"> </span><span class="s">&#34;/books/les-miserables&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$page</span><span class="na">.Title</span><span class="w"> </span><span class="cp">}}</span> → Les Misérables</span></span></code></pre></div>
+</figure><h2 id="注释">注释</h2>
+<p>模板注释与动作写法相似，由成对的花括号构成，注释中的代码不会被解析、执行或显示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cm">{{/* This is an inline comment. */}}</span>
+</span></span><span class="line"><span class="cl"><span class="cm">{{- /* This is an inline comment with adjacent whitespace removed. */ -}}</span></span></span></code></pre></div><p>注释不能嵌套。注意不要用 HTML 注释定界符来注释模板代码：Hugo 虽然会在渲染页面时去掉 HTML 注释，但会先求值其中的模板代码，这可能产生意外结果甚至导致构建失败。要输出真正的 HTML 注释，把字符串交给 <code>safeHTML</code> 函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="s">&#34;&lt;!-- I am an HTML comment. --&gt;&#34;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">safeHTML</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="引入其他模板">引入其他模板</h2>
+<p>用 <code>partial</code> 或 <code>partialCached</code> 引入局部模板，用 <code>template</code> 引入 Hugo 内置模板。局部模板创建在 <code>layouts/_partials</code> 目录中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;google_analytics.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;pagination.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partial</span><span class="w"> </span><span class="s">&#34;breadcrumbs.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">partialCached</span><span class="w"> </span><span class="s">&#34;css.html&#34;</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>注意这些调用都把当前上下文（点）作为参数传给了被引入的模板。</p>
+<h2 id="示例">示例</h2>
+<h3 id="条件块">条件块</h3>
+<p>用 <code>if</code>、<code>else if</code>、<code>else</code> 与 <code>end</code> 构成条件分支：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$var</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">eq</span><span class="w"> </span><span class="nx">$var</span><span class="w"> </span><span class="nx">6</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="s">&#34;var is 6&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">eq</span><span class="w"> </span><span class="nx">$var</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="s">&#34;var is 42&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="s">&#34;var is something else&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="逻辑运算">逻辑运算</h3>
+<p><code>and</code> 在所有参数都为真时返回真，<code>or</code> 在任一参数为真时返回真：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="cp">}}</span> → false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="cp">}}</span> → true</span></span></code></pre></div><h3 id="循环">循环</h3>
+<p>用 <code>range</code> 遍历集合，集合为空时可以用 <code>else</code> 分支处理；也可以直接对一个数字循环指定次数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="s">&#34;foo&#34;</span><span class="w"> </span><span class="s">&#34;bar&#34;</span><span class="w"> </span><span class="s">&#34;baz&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">$s</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The collection is empty<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">slice</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">3</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">$s</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">append</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$s</span><span class="w"> </span><span class="cp">}}</span> → [0 1 2]</span></span></code></pre></div><h3 id="重新绑定上下文">重新绑定上下文</h3>
+<p><code>with</code> 在值为真时把上下文重新绑定到该值，否则执行 <code>else</code> 分支；<code>else with</code> 可以连续测试多个条件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">0</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">42</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">$v1</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">$v2</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span> → 42
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">print</span><span class="w"> </span><span class="s">&#34;v1 and v2 are falsy&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h3 id="访问站点参数与页面参数">访问站点参数与页面参数</h3>
+<p>站点参数通过 <code>Site</code> 对象的 <code>Params</code> 方法取得。以下面这段项目配置为例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="s1">&#39;ABC Widgets&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">baseURL</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">params</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">subtitle</span> <span class="p">=</span> <span class="s1">&#39;The Best Widgets on Earth&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">copyright-year</span> <span class="p">=</span> <span class="s1">&#39;2023&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">author</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">email</span> <span class="p">=</span> <span class="s1">&#39;jsmith@example.org&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span> <span class="p">=</span> <span class="s1">&#39;John Smith&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">layouts</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">rfc_1123</span> <span class="p">=</span> <span class="s1">&#39;Mon, 02 Jan 2006 15:04:05 MST&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">rfc_3339</span> <span class="p">=</span> <span class="s1">&#39;2006-01-02T15:04:05-07:00&#39;</span></span></span></code></pre></div><p>逐级连接标识符即可访问这些自定义站点参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.Params.subtitle</span><span class="w"> </span><span class="cp">}}</span> → The Best Widgets on Earth
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.Params.author.name</span><span class="w"> </span><span class="cp">}}</span> → John Smith
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$layout</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="na">.Site.Params.layouts.rfc_1123</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Site.Lastmod.Format</span><span class="w"> </span><span class="nx">$layout</span><span class="w"> </span><span class="cp">}}</span> → Tue, 17 Oct 2023 13:21:02 PDT</span></span></code></pre></div><p>页面参数通过 <code>Page</code> 对象的 <code>Params</code> 方法取得。<code>title</code>、<code>date</code> 等是标准的 front matter 字段，其余为用户自定义字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Params.display_related</span><span class="w"> </span><span class="cp">}}</span> → true
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.Params.author.email</span><span class="w"> </span><span class="cp">}}</span> → jsmith@example.org</span></span></code></pre></div><p>键名必须是合法标识符（例如不能含连字符）才能这样连接取值；否则要用 <code>index</code> 函数，例如 <code>{{ index .Params &quot;key-with-hyphens&quot; }}</code>。</p>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/templates/introduction/" target="_blank" rel="noopener">https://gohugo.io/templates/introduction/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/templates/embedded/">← 上一篇：内建模板</a>
+    <a class="pager-next" href="/templates/lookup-order/">下一篇：模板查找顺序 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#模板是什么">模板是什么</a></li>
+    <li><a href="#上下文">上下文</a></li>
+    <li><a href="#动作">动作</a>
+      <ul>
+        <li><a href="#空白处理">空白处理</a></li>
+        <li><a href="#引号字符">引号字符</a></li>
+        <li><a href="#管道">管道</a></li>
+        <li><a href="#换行与-nil">换行与 nil</a></li>
+      </ul>
+    </li>
+    <li><a href="#变量">变量</a></li>
+    <li><a href="#函数与方法">函数与方法</a></li>
+    <li><a href="#注释">注释</a></li>
+    <li><a href="#引入其他模板">引入其他模板</a></li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#条件块">条件块</a></li>
+        <li><a href="#逻辑运算">逻辑运算</a></li>
+        <li><a href="#循环">循环</a></li>
+        <li><a href="#重新绑定上下文">重新绑定上下文</a></li>
+        <li><a href="#访问站点参数与页面参数">访问站点参数与页面参数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

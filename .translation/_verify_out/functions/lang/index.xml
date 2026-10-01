@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>语言函数 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/functions/lang/</link>
+		<description>Recent content in 语言函数 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 02 Oct 2026 00:11:37 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/functions/lang/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>lang.FormatAccounting</title>
+				<link>https://example.org/functions/lang/formataccounting/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/lang/formataccounting/</guid>
+				<description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;512&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.5032&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lang&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.FormatAccounting&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;NOK&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt; → NOK512.50&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;日期、货币、数字与百分比的本地化由 &lt;a href=&#34;https://github.com/bep/golocales&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;bep/golocales&lt;/code&gt;&lt;/a&gt; 包完成。Hugo 使用 &lt;a href=&#34;https://example.org/configuration/all/#locale&#34;&gt;&lt;code&gt;locale&lt;/code&gt;&lt;/a&gt; 配置项确定地区，未设置时回退到语言键本身。解析出的值必须是该包支持的地区。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;</description>
+			</item>
+			<item>
+				<title>lang.FormatCurrency</title>
+				<link>https://example.org/functions/lang/formatcurrency/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/lang/formatcurrency/</guid>
+				<description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;512&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.5032&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lang&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.FormatCurrency&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;USD&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt; → $512.50&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;日期、货币、数字与百分比的本地化由 &lt;a href=&#34;https://github.com/bep/golocales&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;bep/golocales&lt;/code&gt;&lt;/a&gt; 包完成。Hugo 使用 &lt;a href=&#34;https://example.org/configuration/all/#locale&#34;&gt;&lt;code&gt;locale&lt;/code&gt;&lt;/a&gt; 配置项确定地区，未设置时回退到语言键本身。解析出的值必须是该包支持的地区。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;</description>
+			</item>
+			<item>
+				<title>lang.FormatNumber</title>
+				<link>https://example.org/functions/lang/formatnumber/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/lang/formatnumber/</guid>
+				<description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;512&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.5032&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lang&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.FormatNumber&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt; → 512.50&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;日期、货币、数字与百分比的本地化由 &lt;a href=&#34;https://github.com/bep/golocales&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;bep/golocales&lt;/code&gt;&lt;/a&gt; 包完成。Hugo 使用 &lt;a href=&#34;https://example.org/configuration/all/#locale&#34;&gt;&lt;code&gt;locale&lt;/code&gt;&lt;/a&gt; 配置项确定地区，未设置时回退到语言键本身。解析出的值必须是该包支持的地区。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;</description>
+			</item>
+			<item>
+				<title>lang.FormatNumberCustom</title>
+				<link>https://example.org/functions/lang/formatnumbercustom/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/lang/formatnumbercustom/</guid>
+				<description>&lt;p&gt;该函数按给定精度格式化数字。第一个选项参数是一个以空格分隔的字符串，其中的字符分别表示负号、小数点与分组分隔符，默认值为 &lt;code&gt;- . ,&lt;/code&gt;。第二个选项参数用于指定替代的定界字符。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>lang.FormatPercent</title>
+				<link>https://example.org/functions/lang/formatpercent/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/lang/formatpercent/</guid>
+				<description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;512&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.5032&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lang&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.FormatPercent&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt; → 512.50%&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;日期、货币、数字与百分比的本地化由 &lt;a href=&#34;https://github.com/bep/golocales&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;bep/golocales&lt;/code&gt;&lt;/a&gt; 包完成。Hugo 使用 &lt;a href=&#34;https://example.org/configuration/all/#locale&#34;&gt;&lt;code&gt;locale&lt;/code&gt;&lt;/a&gt; 配置项确定地区，未设置时回退到语言键本身。解析出的值必须是该包支持的地区。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;</description>
+			</item>
+			<item>
+				<title>lang.Merge</title>
+				<link>https://example.org/functions/lang/merge/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/lang/merge/</guid>
+				<description>&lt;p&gt;例如：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$pages&lt;/span&gt; :&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; .Site.RegularPages &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; lang.Merge &lt;span class=&#34;nv&#34;&gt;$frSite&lt;/span&gt;.RegularPages &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; lang.Merge &lt;span class=&#34;nv&#34;&gt;$enSite&lt;/span&gt;.RegularPages &lt;span class=&#34;o&#34;&gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;会按从左到右的顺序，先用法语站点的内容、最后用英语站点的内容，为当前站点「填补空缺」。&lt;/p&gt;&#xA;&lt;p&gt;更实用的例子是用其它语言补齐缺失的译文：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$pages&lt;/span&gt; :&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; .Site.RegularPages &lt;span class=&#34;o&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;{{&lt;/span&gt; range .Site.Home.Translations &lt;span class=&#34;o&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$pages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$pages&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; lang.Merge .Site.RegularPages &lt;span class=&#34;o&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;{{&lt;/span&gt; end &lt;span class=&#34;o&#34;&gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+			</item>
+			<item>
+				<title>lang.Translate</title>
+				<link>https://example.org/functions/lang/translate/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/lang/translate/</guid>
+				<description>&lt;p&gt;&lt;code&gt;lang.Translate&lt;/code&gt; 函数返回与给定键关联的值：先搜索当前语言的&lt;a href=&#34;#%e7%bf%bb%e8%af%91%e8%a1%a8&#34;&gt;翻译表&lt;/a&gt;，再搜索 &lt;a href=&#34;https://example.org/configuration/all/#defaultcontentlanguage&#34;&gt;&lt;code&gt;defaultContentLanguage&lt;/code&gt;&lt;/a&gt; 对应的翻译表。&lt;/p&gt;&#xA;&lt;p&gt;若未找到，该函数返回空字符串。&lt;/p&gt;&#xA;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;要列出缺失的译文与回退使用的译文，请在项目配置中把 &lt;a href=&#34;https://example.org/configuration/all/#printi18nwarnings&#34;&gt;&lt;code&gt;printI18nWarnings&lt;/code&gt;&lt;/a&gt; 设为 &lt;code&gt;true&lt;/code&gt;，或在构建项目时使用 &lt;code&gt;--printI18nWarnings&lt;/code&gt; 命令行参数。&lt;/p&gt;&#xA;&lt;p&gt;要为缺失的译文与回退使用的译文渲染占位符，请在项目配置中把 &lt;a href=&#34;https://example.org/configuration/all/#enablemissingtranslationplaceholders&#34;&gt;&lt;code&gt;enableMissingTranslationPlaceholders&lt;/code&gt;&lt;/a&gt; 设为 &lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;</description>
+			</item>
+	</channel>
+</rss>

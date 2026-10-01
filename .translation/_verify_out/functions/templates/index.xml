@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>模板函数 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/functions/templates/</link>
+		<description>Recent content in 模板函数 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 02 Oct 2026 00:11:37 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/functions/templates/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>templates.Current</title>
+				<link>https://example.org/functions/templates/current/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/templates/current/</guid>
+				<description>&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;该函数是实验性的，可能发生变化。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;&lt;p&gt;&lt;strong&gt;（0.146.0 新增）&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;templates.Current&lt;/code&gt; 函数提供内省（introspection）能力，可以用来查看当前正在执行的模板的细节。调试复杂的模板层次、理解渲染过程中的执行流向时，这个能力很有用。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>templates.Defer</title>
+				<link>https://example.org/functions/templates/defer/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/templates/defer/</guid>
+				<description>&lt;h2 id=&#34;用法&#34;&gt;用法&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;templates.Defer&lt;/code&gt; 函数把模板的执行推迟到所有站点与输出格式都渲染完成之后。&lt;/p&gt;&#xA;&lt;aside class=&#34;callout callout-note&#34;&gt;&#xA;  &lt;p class=&#34;callout-title&#34;&gt;说明&lt;/p&gt;&#xA;  &lt;div class=&#34;callout-body&#34;&gt;&lt;p&gt;不要在通过 &lt;code&gt;partialCached&lt;/code&gt; 函数调用的 &lt;em&gt;partial&lt;/em&gt; 模板中调用该函数。这条限制具有传递性：如果 &lt;code&gt;partialCached&lt;/code&gt; 调用的 &lt;em&gt;partial&lt;/em&gt; 模板又调用了 &lt;code&gt;templates.Defer&lt;/code&gt;，Hugo 会返回错误。在短代码（shortcode）或渲染钩子（render hook）模板中使用该函数也可能导致不可预期的结果。&lt;/p&gt;&lt;/div&gt;&#xA;&lt;/aside&gt;</description>
+			</item>
+			<item>
+				<title>templates.Exists</title>
+				<link>https://example.org/functions/templates/exists/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/templates/exists/</guid>
+				<description>&lt;p&gt;模板文件是指项目自身或其任一主题组件 &lt;code&gt;layouts&lt;/code&gt; 目录中的任何文件。&lt;/p&gt;&#xA;&lt;p&gt;把 &lt;code&gt;templates.Exists&lt;/code&gt; 函数用于动态模板路径：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go-html-template&#34; data-lang=&#34;go-html-template&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$partialPath&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;headers/%s.html&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Type&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;templates&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.Exists&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;_partials/%s&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$partialPath&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;partial&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$partialPath&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;partial&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;headers/default.html&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;na&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在上例中，如果给定内容类型没有对应的 &amp;ldquo;headers&amp;rdquo; &lt;em&gt;partial&lt;/em&gt; 模板，Hugo 会回退到默认模板。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>templates.Inner</title>
+				<link>https://example.org/functions/templates/inner/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/templates/inner/</guid>
+				<description>&lt;p&gt;&lt;strong&gt;（0.154.0 新增）&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;templates.Inner&lt;/code&gt; 函数定义块式 &lt;em&gt;partial&lt;/em&gt; 模板调用中嵌套代码的注入点。这是创建&lt;a href=&#34;https://example.org/templates/partial-decorators/&#34;&gt;局部模板装饰器&lt;/a&gt;所用的核心机制。&lt;/p&gt;&#xA;&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;templates.Inner&lt;/code&gt; 函数在 &lt;em&gt;partial&lt;/em&gt; 模板中充当占位符。当 &lt;em&gt;partial&lt;/em&gt; 模板被当作装饰器调用时，它先捕获调用模板中的一段代码，而不是立即渲染。&lt;code&gt;templates.Inner&lt;/code&gt; 函数告诉 Hugo 把捕获到的内容注入到哪个确切位置。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

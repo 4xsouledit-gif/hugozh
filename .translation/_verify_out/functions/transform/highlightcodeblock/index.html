@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>transform.HighlightCodeBlock · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="返回代码块渲染钩子上下文中收到的、已高亮的代码。">
+  <link rel="canonical" href="https://example.org/functions/transform/highlightcodeblock/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="transform.HighlightCodeBlock · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="返回代码块渲染钩子上下文中收到的、已高亮的代码。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/functions/transform/highlightcodeblock/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-02T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-02T00:11:37&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"返回代码块渲染钩子上下文中收到的、已高亮的代码。","headline":"transform.HighlightCodeBlock","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"transform.HighlightCodeBlock","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/transform/highlightcodeblock/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/functions/transform/">transform</a></p>
+    <h1>transform.HighlightCodeBlock</h1>
+    <p class="doc-description">返回代码块渲染钩子上下文中收到的、已高亮的代码。</p>
+  </header>
+  <dl class="fn-meta">
+  <dt>签名</dt>
+  <dd><code class="fn-signature">transform.HighlightCodeBlock CONTEXT [OPTIONS]</code></dd>
+  <dt>返回类型</dt>
+  <dd><code>highlight.HighlightResult</code></dd>
+</dl>
+  <div class="doc-body"><p><code>transform.HighlightCodeBlock</code> 函数使用 <a href="https://github.com/alecthomas/chroma" target="_blank" rel="noopener"><code>alecthomas/chroma</code></a> 包，为代码块渲染钩子（render hook）上下文中收到的代码生成带语法高亮的 HTML。该函数只在代码块渲染钩子内有意义。</p>
+<h2 id="参数">参数</h2>
+<dl>
+<dt>CONTEXT</dt>
+<dd>传入代码块渲染钩子的<a href="/render-hooks/code-blocks/#%e4%b8%8a%e4%b8%8b%e6%96%87">上下文</a>。</dd>
+<dt>OPTIONS</dt>
+<dd>（<code>map</code>）键值对映射。参见下文<a href="#%e9%80%89%e9%a1%b9">选项</a>。键名大小写不敏感。</dd>
+</dl>
+<h2 id="返回值">返回值</h2>
+<p><code>transform.HighlightCodeBlock</code> 返回一个 <code>HighlightResult</code> 对象，它有两个方法。</p>
+<dl>
+<dt><code>Wrapped</code></dt>
+<dd>（<code>template.HTML</code>）返回用 <code>&lt;div&gt;</code>、<code>&lt;pre&gt;</code>、<code>&lt;code&gt;</code> 元素包裹的高亮代码。它与 <code>transform.Highlight</code> 函数返回的值完全相同。</dd>
+<dt><code>Inner</code></dt>
+<dd>（<code>template.HTML</code>）返回不带任何包裹元素的高亮代码，便于你自行包裹。</dd>
+</dl>
+<h2 id="示例">示例</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transform</span><span class="na">.HighlightCodeBlock</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="na">.Wrapped</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>要覆盖默认选项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">merge</span><span class="w"> </span><span class="na">.Options</span><span class="w"> </span><span class="o">(</span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;lineNos&#34;</span><span class="w"> </span><span class="k">true</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transform</span><span class="na">.HighlightCodeBlock</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="na">.Wrapped</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>当高亮器不支持该语言时退回纯文本：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="o">(</span><span class="nx">transform</span><span class="na">.CanHighlight</span><span class="w"> </span><span class="na">.Type</span><span class="o">)</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">dict</span><span class="w"> </span><span class="s">&#34;type&#34;</span><span class="w"> </span><span class="s">&#34;text&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transform</span><span class="na">.HighlightCodeBlock</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="nx">$opts</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="nx">$result</span><span class="na">.Wrapped</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="选项">选项</h2>
+<p><code>transform.HighlightCodeBlock</code> 函数接受一个选项映射。</p>
+<dl>
+<dt><code>anchorLineNos</code></dt>
+<dd>（<code>bool</code>）是否把每个行号渲染为 HTML 锚点元素，即把外层 <code>span</code> 元素的 <code>id</code> 属性设为行号。<code>lineNos</code> 为 <code>false</code> 时无意义。默认 <code>false</code>。</dd>
+<dt><code>codeFences</code></dt>
+<dd>（<code>bool</code>）是否高亮围栏代码块。默认 <code>true</code>。</dd>
+<dt><code>guessSyntax</code></dt>
+<dd>（<code>bool</code>）当 <code>LANG</code> 参数留空，或设为一个没有对应词法分析器（lexer）的语言时，是否自动识别语言。无法自动识别语言时回退为纯文本词法分析器。默认 <code>false</code>。
+<aside class="callout callout-note">
+  <p class="callout-title">说明</p>
+  <div class="callout-body"><p>语法高亮器内置约 300 种语言的词法分析器，但其中只有 5 种实现了自动语言识别。</p></div>
+</aside></dd>
+<dt><code>hl_Lines</code></dt>
+<dd>（<code>string</code>）要高亮代码中需要强调的行，以空格分隔。要强调第 2、3、4、7 行，把该值设为 <code>2-4 7</code>。该选项与 <code>lineNoStart</code> 选项相互独立。</dd>
+<dt><code>hl_inline</code></dt>
+<dd>（<code>bool</code>）是否渲染不带外层容器的高亮代码。默认 <code>false</code>。</dd>
+<dt><code>lineAnchors</code></dt>
+<dd>（<code>string</code>）把行号渲染为 HTML 锚点元素时，将该值加在外层 <code>span</code> 元素的 <code>id</code> 属性之前。当一个页面包含两个或更多代码块时，这样可以得到唯一的 <code>id</code> 属性。<code>lineNos</code> 或 <code>anchorLineNos</code> 为 <code>false</code> 时无意义。</dd>
+<dt><code>lineNoStart</code></dt>
+<dd>（<code>int</code>）第一行开头显示的行号。<code>lineNos</code> 为 <code>false</code> 时无意义。默认 <code>1</code>。</dd>
+<dt><code>lineNos</code></dt>
+<dd>（<code>any</code>）控制行号的显示方式。默认 <code>false</code>。
+<ul>
+<li><code>true</code>：启用行号，具体形式由 <code>lineNumbersInTable</code> 决定。</li>
+<li><code>false</code>：关闭行号。</li>
+<li><code>inline</code>：启用行内行号（把 <code>lineNumbersInTable</code> 设为 <code>false</code>）。</li>
+<li><code>table</code>：启用表格形式的行号（把 <code>lineNumbersInTable</code> 设为 <code>true</code>）。</li>
+</ul>
+</dd>
+<dt><code>lineNumbersInTable</code></dt>
+<dd>（<code>bool</code>）是否把高亮代码渲染为含两个单元格的 HTML 表格：左单元格放行号，右单元格放代码。<code>lineNos</code> 为 <code>false</code> 时无意义。默认 <code>true</code>。</dd>
+<dt><code>noClasses</code></dt>
+<dd>（<code>bool</code>）是否使用内联 CSS 样式，而不使用外部 CSS 文件。默认 <code>true</code>。要使用外部 CSS 文件，请把该值设为 <code>false</code>，并用 <a href="/commands/hugo-gen-chromastyles/"><code>hugo gen chromastyles</code></a> 命令生成 CSS 文件：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo gen chromastyles --style<span class="o">=</span>github &gt; assets/css/highlight.css</span></span></code></pre></div><p>（0.164.0 新增）</p>
+<p>有些配色方案分别提供浅色与深色两套调色板。用 <code>--mode</code> 参数为指定模式生成样式表，用 <code>--modeSelector</code> 参数把每个选择器收拢到顶层模式类之下（例如 <code>.dark .chroma</code>）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">hugo gen chromastyles --style<span class="o">=</span>monokai --mode<span class="o">=</span>light &gt; assets/css/highlight.css
+</span></span><span class="line"><span class="cl">hugo gen chromastyles --style<span class="o">=</span>monokai --mode<span class="o">=</span>dark --modeSelector &gt; assets/css/highlight-dark.css</span></span></code></pre></div><p>在根元素上添加或移除 <code>dark</code> 类即可切换深色模式。省略 <code>--mode</code> 时，Hugo 按配色方案自身的默认模式生成样式表。</p>
+<p>也可以在模板中使用 <a href="/functions/css/chromastyles/"><code>css.ChromaStyles</code></a> 函数生成样式表。</p>
+</dd>
+<dt><code>style</code></dt>
+<dd>（<code>string</code>）应用到高亮代码上的 CSS 样式。该值大小写不敏感。默认 <code>monokai</code>。参见<a href="/quick-reference/syntax-highlighting-styles/">语法高亮配色方案</a>。</dd>
+<dt><code>tabWidth</code></dt>
+<dd>（<code>int</code>）把高亮代码中的每个制表符替换为这么多个空格。<code>noClasses</code> 为 <code>false</code> 时无意义。默认 <code>4</code>。</dd>
+<dt><code>wrapperClass</code></dt>
+<dd>（0.140.2 新增）</dd>
+<dd>（<code>string</code>）高亮代码最外层元素使用的类或类名列表。默认 <code>highlight</code>。</dd>
+<dt><code>code</code></dt>
+<dd>（0.162.0 新增）</dd>
+<dd>（<code>string</code>）覆盖从代码块上下文收到的代码。</dd>
+<dt><code>type</code></dt>
+<dd>（0.162.0 新增）</dd>
+<dd>（<code>string</code>）覆盖从代码块上下文收到的语言。</dd>
+</dl>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/functions/transform/highlightcodeblock/" target="_blank" rel="noopener">https://gohugo.io/functions/transform/highlightcodeblock/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-02T00:00:00&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat(content): functions 已译 323 页（math/strings/images/collections/go-template/hugo/transform/resources/urls/reflect/path/templates/cast/compare/debug/fmt/global/inflect）&#43; 签名回填；手册修正 source 小写规则（Hencter）">提交 0cd7381</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/functions/transform/highlight/">← 上一篇：Highlight</a>
+    <a class="pager-next" href="/functions/transform/htmlescape/">下一篇：HTMLEscape →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#参数">参数</a></li>
+    <li><a href="#返回值">返回值</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#选项">选项</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

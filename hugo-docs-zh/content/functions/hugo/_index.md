@@ -3,7 +3,7 @@ title = "Hugo 函数"
 linkTitle = "hugo"
 description = "用这些函数获取 Hugo 应用程序与当前运行环境的信息。"
 date = 2026-10-02
-weight = 10
+weight = 130
 source = "https://gohugo.io/functions/hugo/"
 +++
 

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>输出格式配置 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="定义和调整输出格式，控制页面的渲染产物。">
+  <link rel="canonical" href="https://example.org/configuration/output-formats/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="输出格式配置 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="定义和调整输出格式，控制页面的渲染产物。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/configuration/output-formats/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"定义和调整输出格式，控制页面的渲染产物。","headline":"输出格式配置","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"输出格式配置","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/configuration/output-formats/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/configuration/">配置</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/configuration/introduction/">配置简介</a>
+        </li>
+        <li>
+          <a href="/configuration/all/">全部设置</a>
+        </li>
+        <li>
+          <a href="/configuration/build/">构建配置</a>
+        </li>
+        <li>
+          <a href="/configuration/caches/">缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/cascade/">级联配置</a>
+        </li>
+        <li>
+          <a href="/configuration/content-types/">内容类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/deployment/">部署目标配置</a>
+        </li>
+        <li>
+          <a href="/configuration/front-matter/">前置元数据配置</a>
+        </li>
+        <li>
+          <a href="/configuration/http-cache/">HTTP 缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/imaging/">图像处理配置</a>
+        </li>
+        <li>
+          <a href="/configuration/languages/">语言配置</a>
+        </li>
+        <li>
+          <a href="/configuration/markup/">Markup 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/media-types/">媒体类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/menus/">菜单配置</a>
+        </li>
+        <li>
+          <a href="/configuration/minify/">压缩配置</a>
+        </li>
+        <li>
+          <a href="/configuration/module/">模块配置</a>
+        </li>
+        <li>
+          <a href="/configuration/output-formats/" class="is-active" aria-current="page">输出格式配置</a>
+        </li>
+        <li>
+          <a href="/configuration/outputs/">输出配置</a>
+        </li>
+        <li>
+          <a href="/configuration/page/">页面配置</a>
+        </li>
+        <li>
+          <a href="/configuration/params/">参数配置</a>
+        </li>
+        <li>
+          <a href="/configuration/pagination/">分页配置</a>
+        </li>
+        <li>
+          <a href="/configuration/permalinks/">永久链接配置</a>
+        </li>
+        <li>
+          <a href="/configuration/privacy/">隐私配置</a>
+        </li>
+        <li>
+          <a href="/configuration/related-content/">相关内容配置</a>
+        </li>
+        <li>
+          <a href="/configuration/roles/">角色配置</a>
+        </li>
+        <li>
+          <a href="/configuration/security/">安全配置</a>
+        </li>
+        <li>
+          <a href="/configuration/segments/">片段配置</a>
+        </li>
+        <li>
+          <a href="/configuration/server/">服务器配置</a>
+        </li>
+        <li>
+          <a href="/configuration/services/">服务配置</a>
+        </li>
+        <li>
+          <a href="/configuration/sitemap/">站点地图配置</a>
+        </li>
+        <li>
+          <a href="/configuration/taxonomies/">分类法配置</a>
+        </li>
+        <li>
+          <a href="/configuration/ugly-urls/">丑陋 URL 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/versions/">版本配置</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/configuration/">配置</a></p>
+    <h1>输出格式配置</h1>
+    <p class="doc-description">定义和调整输出格式，控制页面的渲染产物。</p>
+  </header>
+  
+  <div class="doc-body"><p>同一个页面可以输出任意多种格式。你可以定义任意数量的输出格式，只要每种格式最终解析到唯一的文件系统路径即可。默认配置的表格形式如下：</p>
+<table>
+	<thead>
+			<tr>
+					<th>键名</th>
+					<th>mediaType</th>
+					<th>weight</th>
+					<th>baseName</th>
+					<th>isHTML</th>
+					<th>isPlainText</th>
+					<th>noUgly</th>
+					<th>notAlternative</th>
+					<th>path</th>
+					<th>permalinkable</th>
+					<th>protocol</th>
+					<th>rel</th>
+					<th>root</th>
+					<th>ugly</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>html</code></td>
+					<td><code>text/html</code></td>
+					<td>10</td>
+					<td><code>index</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>true</code></td>
+					<td><code>''</code></td>
+					<td><code>canonical</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>rss</code></td>
+					<td><code>application/rss+xml</code></td>
+					<td>0</td>
+					<td><code>index</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>alternate</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>json</code></td>
+					<td><code>application/json</code></td>
+					<td>0</td>
+					<td><code>index</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>alternate</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>amp</code></td>
+					<td><code>text/html</code></td>
+					<td>0</td>
+					<td><code>index</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>amp</code></td>
+					<td><code>true</code></td>
+					<td><code>''</code></td>
+					<td><code>amphtml</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>calendar</code></td>
+					<td><code>text/calendar</code></td>
+					<td>0</td>
+					<td><code>index</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>webcal://</code></td>
+					<td><code>alternate</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>css</code></td>
+					<td><code>text/css</code></td>
+					<td>0</td>
+					<td><code>styles</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>stylesheet</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>csv</code></td>
+					<td><code>text/csv</code></td>
+					<td>0</td>
+					<td><code>index</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>alternate</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>markdown</code></td>
+					<td><code>text/markdown</code></td>
+					<td>0</td>
+					<td><code>index</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>alternate</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>robots</code></td>
+					<td><code>text/plain</code></td>
+					<td>0</td>
+					<td><code>robots</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>alternate</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+			</tr>
+			<tr>
+					<td><code>sitemap</code></td>
+					<td><code>application/xml</code></td>
+					<td>0</td>
+					<td><code>sitemap</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>sitemap</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+			</tr>
+			<tr>
+					<td><code>sitemapindex</code></td>
+					<td><code>application/xml</code></td>
+					<td>0</td>
+					<td><code>sitemap</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>sitemap</code></td>
+					<td><code>true</code></td>
+					<td><code>true</code></td>
+			</tr>
+			<tr>
+					<td><code>webappmanifest</code></td>
+					<td><code>application/manifest+json</code></td>
+					<td>0</td>
+					<td><code>manifest</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>false</code></td>
+					<td><code>true</code></td>
+					<td><code>''</code></td>
+					<td><code>false</code></td>
+					<td><code>''</code></td>
+					<td><code>manifest</code></td>
+					<td><code>false</code></td>
+					<td><code>false</code></td>
+			</tr>
+	</tbody>
+</table>
+<p><code>weight</code>、<code>rel</code>、<code>baseName</code>、<code>path</code> 取值为空的项，其含义与上文字段说明中的默认行为一致。下面是与上表对应的部分默认配置片段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">outputFormats</span><span class="p">.</span><span class="nx">html</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">baseName</span> <span class="p">=</span> <span class="s1">&#39;index&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">isHTML</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">isPlainText</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">mediaType</span> <span class="p">=</span> <span class="s1">&#39;text/html&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">notAlternative</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">path</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">permalinkable</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">protocol</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">rel</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">root</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ugly</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">outputFormats</span><span class="p">.</span><span class="nx">rss</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">baseName</span> <span class="p">=</span> <span class="s1">&#39;index&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">isHTML</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">isPlainText</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">mediaType</span> <span class="p">=</span> <span class="s1">&#39;application/rss+xml&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">notAlternative</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">path</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">permalinkable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">protocol</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">rel</span> <span class="p">=</span> <span class="s1">&#39;alternate&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">root</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ugly</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">0</span></span></span></code></pre></div><h2 id="字段说明">字段说明</h2>
+<table>
+	<thead>
+			<tr>
+					<th>键名</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>baseName</code></td>
+					<td><code>string</code></td>
+					<td><code>index</code></td>
+					<td>发布文件的基础名。</td>
+			</tr>
+			<tr>
+					<td><code>isHTML</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否把该输出格式归类为 HTML。它决定 LiveReload 脚本何时注入，并与 <code>permalinkable</code> 一起决定是否生成别名重定向。</td>
+			</tr>
+			<tr>
+					<td><code>isPlainText</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否用 Go 的 <code>text/template</code> 包而非 <code>html/template</code> 包解析该格式的模板。</td>
+			</tr>
+			<tr>
+					<td><code>mediaType</code></td>
+					<td><code>string</code></td>
+					<td>—</td>
+					<td>发布文件的媒体类型，必须与已配置的媒体类型之一匹配。</td>
+			</tr>
+			<tr>
+					<td><code>notAlternative</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否把该输出格式排除在 <code>Page</code> 对象的 <code>AlternativeOutputFormats</code> 方法返回值之外。</td>
+			</tr>
+			<tr>
+					<td><code>noUgly</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>当项目配置启用了 <code>uglyURLs</code> 时，是否对该输出格式禁用丑 URL。</td>
+			</tr>
+			<tr>
+					<td><code>path</code></td>
+					<td><code>string</code></td>
+					<td>—</td>
+					<td>该输出格式发布路径的第一段，相对于 <code>publishDir</code> 根目录。省略时 Hugo 使用文件原本的内容路径发布。</td>
+			</tr>
+			<tr>
+					<td><code>permalinkable</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>调用 <code>Page</code> 对象的 <code>Permalink</code> 与 <code>RelPermalink</code> 方法时，是否返回当前渲染格式而非主输出格式。与 <code>isHTML</code> 同为 <code>true</code> 时才会创建别名重定向。<code>html</code> 和 <code>amp</code> 默认启用。</td>
+			</tr>
+			<tr>
+					<td><code>protocol</code></td>
+					<td><code>string</code></td>
+					<td><code>baseURL</code> 的协议</td>
+					<td>该输出格式 URL 的协议（scheme），例如 <code>https://</code> 或 <code>webcal://</code>。默认取项目配置中 <code>baseURL</code> 的 scheme，通常是 <code>https://</code>。</td>
+			</tr>
+			<tr>
+					<td><code>rel</code></td>
+					<td><code>string</code></td>
+					<td><code>canonical</code> / <code>alternate</code></td>
+					<td>输出格式与当前页面的关系，Hugo 用它确定当前页面的规范输出格式。预定义 <code>html</code> 格式默认为 <code>canonical</code>，其他预定义格式默认为 <code>alternate</code>。</td>
+			</tr>
+			<tr>
+					<td><code>root</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>是否把文件发布到发布目录的根目录。</td>
+			</tr>
+			<tr>
+					<td><code>ugly</code></td>
+					<td><code>bool</code></td>
+					<td><code>false</code></td>
+					<td>当项目配置中 <code>uglyURLs</code> 为 <code>false</code> 时，是否对该输出格式启用丑 URL。</td>
+			</tr>
+			<tr>
+					<td><code>weight</code></td>
+					<td><code>int</code></td>
+					<td><code>0</code></td>
+					<td>非零时作为输出格式排序的首要依据，其次才按格式名排序。数值小者靠前，大者靠后。Hugo 按排序结果依次渲染各输出格式。<code>html</code> 输出格式的默认权重为 <code>10</code>，其他为 <code>0</code>。</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="修改输出格式">修改输出格式</h2>
+<p>任何默认输出格式都可以修改。例如要让 <code>json</code> 先于 <code>html</code> 渲染：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">outputFormats</span><span class="p">.</span><span class="nx">json</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">outputFormats</span><span class="p">.</span><span class="nx">html</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">2</span></span></span></code></pre></div><p>可见修改默认输出格式时，只需要写出与默认值不同的属性。</p>
+<h2 id="新建输出格式">新建输出格式</h2>
+<p>以 Atom feed 为例，分四步：</p>
+<p>第一步，输出格式必须指定媒体类型。Atom 使用 <code>application/atom+xml</code>，它不属于默认媒体类型，需要先创建：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">mediaTypes</span><span class="p">.</span><span class="s1">&#39;application/atom+xml&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">suffixes</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;atom&#39;</span><span class="p">]</span></span></span></code></pre></div><p>第二步，创建输出格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">outputFormats</span><span class="p">.</span><span class="nx">atom</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">mediaType</span> <span class="p">=</span> <span class="s1">&#39;application/atom+xml&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">noUgly</span> <span class="p">=</span> <span class="kc">true</span></span></span></code></pre></div><p>其余属性沿用默认值。</p>
+<p>第三步，指定要为哪些页面种类渲染该格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">outputs</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">home</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;rss&#39;</span><span class="p">,</span> <span class="s1">&#39;atom&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">section</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;rss&#39;</span><span class="p">,</span> <span class="s1">&#39;atom&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">taxonomy</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;rss&#39;</span><span class="p">,</span> <span class="s1">&#39;atom&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">term</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;rss&#39;</span><span class="p">,</span> <span class="s1">&#39;atom&#39;</span><span class="p">]</span></span></span></code></pre></div><p>第四步，创建模板。Atom feed 属于列表，需要创建列表模板，路径为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">layouts/list.atom.atom</span></span></code></pre></div><h2 id="列出输出格式">列出输出格式</h2>
+<p>每个 <code>Page</code> 对象提供两个方法：<code>OutputFormats</code>（包含当前格式在内的全部格式）与 <code>AlternativeOutputFormats</code>。用后者可以在 <code>head</code> 元素中生成 <code>rel</code> 链接列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="na">.AlternativeOutputFormats</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Rel</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.MediaType.Type</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Permalink</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">safeURL</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="链接到输出格式">链接到输出格式</h2>
+<p><code>Page</code> 对象的 <code>Permalink</code> 与 <code>RelPermalink</code> 方法返回的 URL 取决于当前输出格式。对于 <code>permalinkable</code> 为 <code>true</code> 的格式（如 <code>html</code> 和 <code>amp</code>），方法返回该格式自身的 URL；对其他格式，则返回页面主输出格式的 URL。</p>
+<p>例如在 <code>page.json.json</code> 中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span> → /that-page/
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.OutputFormats.Get</span><span class="w"> </span><span class="s">&#34;json&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span> → /that-page/index.json
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>若要让这些方法返回<strong>当前</strong>模板输出格式的 URL，必须把该格式的 <code>permalinkable</code> 设为 <code>true</code>。在同一个 <code>page.json.json</code> 模板中为 <code>json</code> 启用后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span> → /that-page/index.json
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.OutputFormats.Get</span><span class="w"> </span><span class="s">&#34;html&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span> → /that-page/
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><h2 id="模板查找顺序">模板查找顺序</h2>
+<p>每种输出格式都需要一个符合模板查找顺序的模板。文件名的具体形式为 <code>[页面种类].[输出格式].[后缀]</code>，例如对 section 页面：</p>
+<table>
+	<thead>
+			<tr>
+					<th>输出格式</th>
+					<th>模板路径</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>html</code></td>
+					<td><code>layouts/section.html.html</code></td>
+			</tr>
+			<tr>
+					<td><code>json</code></td>
+					<td><code>layouts/section.json.json</code></td>
+			</tr>
+			<tr>
+					<td><code>rss</code></td>
+					<td><code>layouts/section.rss.xml</code></td>
+			</tr>
+	</tbody>
+</table>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/configuration/output-formats/" target="_blank" rel="noopener">https://gohugo.io/configuration/output-formats/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/configuration/module/">← 上一篇：模块配置</a>
+    <a class="pager-next" href="/configuration/outputs/">下一篇：输出配置 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#字段说明">字段说明</a></li>
+    <li><a href="#修改输出格式">修改输出格式</a></li>
+    <li><a href="#新建输出格式">新建输出格式</a></li>
+    <li><a href="#列出输出格式">列出输出格式</a></li>
+    <li><a href="#链接到输出格式">链接到输出格式</a></li>
+    <li><a href="#模板查找顺序">模板查找顺序</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

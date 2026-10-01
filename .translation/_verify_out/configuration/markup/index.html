@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>Markup 配置 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="配置 Markdown 渲染器、代码高亮与目录生成参数。">
+  <link rel="canonical" href="https://example.org/configuration/markup/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="Markup 配置 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="配置 Markdown 渲染器、代码高亮与目录生成参数。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/configuration/markup/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"配置 Markdown 渲染器、代码高亮与目录生成参数。","headline":"Markup 配置","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"Markup 配置","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/configuration/markup/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/configuration/">配置</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/configuration/introduction/">配置简介</a>
+        </li>
+        <li>
+          <a href="/configuration/all/">全部设置</a>
+        </li>
+        <li>
+          <a href="/configuration/build/">构建配置</a>
+        </li>
+        <li>
+          <a href="/configuration/caches/">缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/cascade/">级联配置</a>
+        </li>
+        <li>
+          <a href="/configuration/content-types/">内容类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/deployment/">部署目标配置</a>
+        </li>
+        <li>
+          <a href="/configuration/front-matter/">前置元数据配置</a>
+        </li>
+        <li>
+          <a href="/configuration/http-cache/">HTTP 缓存配置</a>
+        </li>
+        <li>
+          <a href="/configuration/imaging/">图像处理配置</a>
+        </li>
+        <li>
+          <a href="/configuration/languages/">语言配置</a>
+        </li>
+        <li>
+          <a href="/configuration/markup/" class="is-active" aria-current="page">Markup 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/media-types/">媒体类型配置</a>
+        </li>
+        <li>
+          <a href="/configuration/menus/">菜单配置</a>
+        </li>
+        <li>
+          <a href="/configuration/minify/">压缩配置</a>
+        </li>
+        <li>
+          <a href="/configuration/module/">模块配置</a>
+        </li>
+        <li>
+          <a href="/configuration/output-formats/">输出格式配置</a>
+        </li>
+        <li>
+          <a href="/configuration/outputs/">输出配置</a>
+        </li>
+        <li>
+          <a href="/configuration/page/">页面配置</a>
+        </li>
+        <li>
+          <a href="/configuration/params/">参数配置</a>
+        </li>
+        <li>
+          <a href="/configuration/pagination/">分页配置</a>
+        </li>
+        <li>
+          <a href="/configuration/permalinks/">永久链接配置</a>
+        </li>
+        <li>
+          <a href="/configuration/privacy/">隐私配置</a>
+        </li>
+        <li>
+          <a href="/configuration/related-content/">相关内容配置</a>
+        </li>
+        <li>
+          <a href="/configuration/roles/">角色配置</a>
+        </li>
+        <li>
+          <a href="/configuration/security/">安全配置</a>
+        </li>
+        <li>
+          <a href="/configuration/segments/">片段配置</a>
+        </li>
+        <li>
+          <a href="/configuration/server/">服务器配置</a>
+        </li>
+        <li>
+          <a href="/configuration/services/">服务配置</a>
+        </li>
+        <li>
+          <a href="/configuration/sitemap/">站点地图配置</a>
+        </li>
+        <li>
+          <a href="/configuration/taxonomies/">分类法配置</a>
+        </li>
+        <li>
+          <a href="/configuration/ugly-urls/">丑陋 URL 配置</a>
+        </li>
+        <li>
+          <a href="/configuration/versions/">版本配置</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/configuration/">配置</a></p>
+    <h1>Markup 配置</h1>
+    <p class="doc-description">配置 Markdown 渲染器、代码高亮与目录生成参数。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="默认处理器">默认处理器</h2>
+<p>在默认配置下，Hugo 使用 <a href="https://github.com/yuin/goldmark/" target="_blank" rel="noopener">Goldmark</a> 把 Markdown 渲染为 HTML：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">defaultMarkdownHandler</span> <span class="p">=</span> <span class="s1">&#39;goldmark&#39;</span></span></span></code></pre></div><p>以 <code>.md</code>、<code>.mdown</code> 或 <code>.markdown</code> 结尾的文件都会按 Markdown 处理，除非你在前置元数据中用 <code>markup</code> 字段显式指定了其他格式。</p>
+<p>要改用其他渲染器处理 Markdown 文件，可在项目配置中把 <code>defaultMarkdownHandler</code> 设为 <code>asciidocext</code>、<code>org</code>、<code>pandoc</code> 或 <code>rst</code> 之一：</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left"><code>defaultMarkdownHandler</code></th>
+					<th style="text-align: left">渲染器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>asciidocext</code></td>
+					<td style="text-align: left"><a href="https://asciidoc.org/" target="_blank" rel="noopener">AsciiDoc</a></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>goldmark</code></td>
+					<td style="text-align: left"><a href="https://github.com/yuin/goldmark/" target="_blank" rel="noopener">Goldmark</a></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>org</code></td>
+					<td style="text-align: left"><a href="https://orgmode.org/" target="_blank" rel="noopener">Emacs Org Mode</a></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>pandoc</code></td>
+					<td style="text-align: left"><a href="https://pandoc.org/" target="_blank" rel="noopener">Pandoc</a></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>rst</code></td>
+					<td style="text-align: left"><a href="https://docutils.sourceforge.io/rst.html" target="_blank" rel="noopener">reStructuredText</a></td>
+			</tr>
+	</tbody>
+</table>
+<p>要使用 AsciiDoc、Pandoc 或 reStructuredText，必须安装相应的渲染器，并更新安全策略。</p>
+<blockquote><p>除非确实需要某种替代 Markdown 处理器独有的能力，否则强烈建议使用默认设置。Goldmark 速度快、维护良好，符合 <a href="https://spec.commonmark.org/current/" target="_blank" rel="noopener">CommonMark</a> 规范，并兼容 <a href="https://github.github.com/gfm/" target="_blank" rel="noopener">GitHub Flavored Markdown</a>（GFM）。</p>
+</blockquote><h2 id="goldmark">Goldmark</h2>
+<p>以下是 Goldmark Markdown 渲染器的默认配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">duplicateResourceFiles</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">definitionList</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">footnote</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">linkify</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">linkifyProtocol</span> <span class="p">=</span> <span class="s1">&#39;https&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">strikethrough</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">table</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">taskList</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">typographer</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">cjk</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">eastAsianLineBreaks</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">eastAsianLineBreaksStyle</span> <span class="p">=</span> <span class="s1">&#39;simple&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">escapedSpace</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">.</span><span class="nx">delete</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">.</span><span class="nx">insert</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">.</span><span class="nx">mark</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">.</span><span class="nx">subscript</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">.</span><span class="nx">superscript</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">footnote</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">backlinkHTML</span> <span class="p">=</span> <span class="s1">&#39;&amp;#x21a9;&amp;#xfe0e;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enableAutoIDPrefix</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">passthrough</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">passthrough</span><span class="p">.</span><span class="nx">delimiters</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">block</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">inline</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">typographer</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">disable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">apostrophe</span> <span class="p">=</span> <span class="s1">&#39;&amp;rsquo;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ellipsis</span> <span class="p">=</span> <span class="s1">&#39;&amp;hellip;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">emDash</span> <span class="p">=</span> <span class="s1">&#39;&amp;mdash;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enDash</span> <span class="p">=</span> <span class="s1">&#39;&amp;ndash;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">leftAngleQuote</span> <span class="p">=</span> <span class="s1">&#39;&amp;laquo;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">leftDoubleQuote</span> <span class="p">=</span> <span class="s1">&#39;&amp;ldquo;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">leftSingleQuote</span> <span class="p">=</span> <span class="s1">&#39;&amp;lsquo;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">rightAngleQuote</span> <span class="p">=</span> <span class="s1">&#39;&amp;raquo;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">rightDoubleQuote</span> <span class="p">=</span> <span class="s1">&#39;&amp;rdquo;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">rightSingleQuote</span> <span class="p">=</span> <span class="s1">&#39;&amp;rsquo;&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">parser</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">autoDefinitionTermID</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">autoHeadingID</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">autoIDType</span> <span class="p">=</span> <span class="s1">&#39;github&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">wrapStandAloneImageWithinParagraph</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">parser</span><span class="p">.</span><span class="nx">attribute</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">block</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">title</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">renderer</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">hardWraps</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">unsafe</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">xhtml</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">renderHooks</span><span class="p">.</span><span class="nx">image</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enableDefault</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">useEmbedded</span> <span class="p">=</span> <span class="s1">&#39;auto&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">renderHooks</span><span class="p">.</span><span class="nx">link</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enableDefault</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">useEmbedded</span> <span class="p">=</span> <span class="s1">&#39;auto&#39;</span></span></span></code></pre></div><h3 id="扩展">扩展</h3>
+<p>下表中的扩展，除 Extras 与 Passthrough 外，默认均启用：</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">扩展</th>
+					<th style="text-align: left">文档</th>
+					<th style="text-align: center">默认启用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>cjk</code></td>
+					<td style="text-align: left">Goldmark Extensions: CJK</td>
+					<td style="text-align: center">是</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>definitionList</code></td>
+					<td style="text-align: left">PHP Markdown Extra: Definition lists</td>
+					<td style="text-align: center">是</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>extras</code></td>
+					<td style="text-align: left">Hugo Goldmark Extensions: Extras</td>
+					<td style="text-align: center">否</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>footnote</code></td>
+					<td style="text-align: left">PHP Markdown Extra: Footnotes</td>
+					<td style="text-align: center">是</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>linkify</code></td>
+					<td style="text-align: left">GitHub Flavored Markdown: Autolinks</td>
+					<td style="text-align: center">是</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>passthrough</code></td>
+					<td style="text-align: left">Hugo Goldmark Extensions: Passthrough</td>
+					<td style="text-align: center">否</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>strikethrough</code></td>
+					<td style="text-align: left">GitHub Flavored Markdown: Strikethrough</td>
+					<td style="text-align: center">是</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>table</code></td>
+					<td style="text-align: left">GitHub Flavored Markdown: Tables</td>
+					<td style="text-align: center">是</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>taskList</code></td>
+					<td style="text-align: left">GitHub Flavored Markdown: Task list items</td>
+					<td style="text-align: center">是</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>typographer</code></td>
+					<td style="text-align: left">Goldmark Extensions: Typographer</td>
+					<td style="text-align: center">是</td>
+			</tr>
+	</tbody>
+</table>
+<h4 id="extras">Extras</h4>
+<p>启用 Extras 扩展后，可以在 Markdown 中使用删除文本、插入文本、标记文本、下标与上标元素：</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">元素</th>
+					<th style="text-align: left">Markdown</th>
+					<th style="text-align: left">渲染结果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">删除文本</td>
+					<td style="text-align: left"><code>~~foo~~</code></td>
+					<td style="text-align: left"><code>&lt;del&gt;foo&lt;/del&gt;</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">插入文本</td>
+					<td style="text-align: left"><code>++bar++</code></td>
+					<td style="text-align: left"><code>&lt;ins&gt;bar&lt;/ins&gt;</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">标记文本</td>
+					<td style="text-align: left"><code>==baz==</code></td>
+					<td style="text-align: left"><code>&lt;mark&gt;baz&lt;/mark&gt;</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">下标</td>
+					<td style="text-align: left"><code>H~2~O</code></td>
+					<td style="text-align: left"><code>H&lt;sub&gt;2&lt;/sub&gt;O</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left">上标</td>
+					<td style="text-align: left"><code>1^st^</code></td>
+					<td style="text-align: left"><code>1&lt;sup&gt;st&lt;/sup&gt;</code></td>
+			</tr>
+	</tbody>
+</table>
+<p>为避免冲突<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>，如果启用 Extras 扩展的「下标」特性，就必须禁用 Strikethrough 扩展：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">strikethrough</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">.</span><span class="nx">subscript</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">true</span></span></span></code></pre></div><p>如果禁用 Strikethrough 扩展后仍需要显示删除文本，可启用 Extras 扩展的「删除文本」特性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">strikethrough</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">extensions</span><span class="p">.</span><span class="nx">extras</span><span class="p">.</span><span class="nx">delete</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">enable</span> <span class="p">=</span> <span class="kc">true</span></span></span></code></pre></div><p>使用这份配置后，用双波浪线包裹文本即可表示删除。</p>
+<h4 id="脚注">脚注</h4>
+<p>脚注（Footnote）扩展默认启用，用于在 Markdown 中加入脚注：</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">键名</th>
+					<th style="text-align: left">类型</th>
+					<th style="text-align: left">默认值</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>enable</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">（自 v0.151.0 起）是否启用脚注扩展。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>backlinkHTML</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>&amp;#x21a9;&amp;#xfe0e;</code></td>
+					<td style="text-align: left">（自 v0.151.0 起）显示在脚注末尾、链接回正文对应引用的 HTML，默认是一个回车箭头符号。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>enableAutoIDPrefix</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">（自 v0.151.0 起）是否给脚注 ID 加上唯一前缀，以避免多个文档一起渲染时发生冲突。该前缀对每个逻辑路径唯一，因此在语言等内容维度之间并不唯一。</td>
+			</tr>
+	</tbody>
+</table>
+<h4 id="passthrough">Passthrough</h4>
+<p>启用 Passthrough 扩展后，可以使用 LaTeX 标记在 Markdown 中书写数学公式与表达式。详见<a href="/content-management/mathematics/">数学公式</a>。</p>
+<h4 id="typographer">Typographer</h4>
+<p>Typographer 扩展会把下列字符组合替换为对应的 HTML 实体：</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">Markdown</th>
+					<th style="text-align: left">替换为</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>...</code></td>
+					<td style="text-align: left"><code>&amp;hellip;</code></td>
+					<td style="text-align: left">水平省略号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>'</code></td>
+					<td style="text-align: left"><code>&amp;rsquo;</code></td>
+					<td style="text-align: left">撇号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>--</code></td>
+					<td style="text-align: left"><code>&amp;ndash;</code></td>
+					<td style="text-align: left">短破折号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>---</code></td>
+					<td style="text-align: left"><code>&amp;mdash;</code></td>
+					<td style="text-align: left">长破折号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>«</code></td>
+					<td style="text-align: left"><code>&amp;laquo;</code></td>
+					<td style="text-align: left">左书名号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>“</code></td>
+					<td style="text-align: left"><code>&amp;ldquo;</code></td>
+					<td style="text-align: left">左双引号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>‘</code></td>
+					<td style="text-align: left"><code>&amp;lsquo;</code></td>
+					<td style="text-align: left">左单引号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>»</code></td>
+					<td style="text-align: left"><code>&amp;raquo;</code></td>
+					<td style="text-align: left">右书名号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>”</code></td>
+					<td style="text-align: left"><code>&amp;rdquo;</code></td>
+					<td style="text-align: left">右双引号</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>’</code></td>
+					<td style="text-align: left"><code>&amp;rsquo;</code></td>
+					<td style="text-align: left">右单引号</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="设置">设置</h3>
+<p>上面的多数 Goldmark 设置一看即懂，以下几项需要说明。</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">键名</th>
+					<th style="text-align: left">类型</th>
+					<th style="text-align: left">默认值</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>duplicateResourceFiles</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">在多语言单主机项目中，是否为每种语言复制共享的页面资源。详见<a href="/content-management/page-resources/">多语言页面资源</a>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>parser.wrapStandAloneImageWithinParagraph</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">渲染时是否把没有相邻内容的图像元素包进 <code>p</code> 元素，这是 Markdown 的默认行为。使用图像渲染钩子把独立图像渲染为 <code>figure</code> 元素时，应设为 <code>false</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>parser.autoDefinitionTermID</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">（自 v0.144.0 起）是否自动为描述列表的术语（即 <code>dt</code> 元素）添加 <code>id</code> 属性。为 <code>true</code> 时，每个 <code>dt</code> 元素的 <code>id</code> 属性可通过 <code>Page</code> 对象上的 <code>Fragments.Identifiers</code> 方法访问。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>parser.autoHeadingID</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">是否自动为标题（即 <code>h1</code> 至 <code>h6</code> 元素）添加 <code>id</code> 属性。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>parser.autoIDType</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>github</code></td>
+					<td style="text-align: left">自动生成 <code>id</code> 属性的策略，可选 <code>github</code>、<code>github-ascii</code> 或 <code>blackfriday</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>parser.attribute.block</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否为块级元素启用 <a href="/content-management/markdown-attributes/">Markdown 属性</a>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>parser.attribute.title</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">是否为标题启用 <a href="/content-management/markdown-attributes/">Markdown 属性</a>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>renderer.hardWraps</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否把段落内的换行符替换为 <code>br</code> 元素。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>renderer.unsafe</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否渲染混在 Markdown 中的原始 HTML。除非内容由你掌控，否则这不安全。</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote><p>在多语言单主机项目中，把 <code>duplicateResourceFiles</code> 设为 <code>false</code> 会启用 Hugo 的<a href="/render-hooks/links/#%e5%86%85%e5%bb%ba%e9%92%a9%e5%ad%90">内嵌链接渲染钩子</a>与<a href="/render-hooks/images/#%e5%86%85%e5%bb%ba%e9%92%a9%e5%ad%90">内嵌图像渲染钩子</a>。这是多语言单主机项目的默认配置。</p>
+</blockquote><p><code>parser.autoIDType</code> 的取值含义：</p>
+<ul>
+<li><code>github</code>：生成与 GitHub 兼容的 <code>id</code> 属性</li>
+<li><code>github-ascii</code>：在重音归一化之后丢弃所有非 ASCII 字符</li>
+<li><code>blackfriday</code>：生成与 Blackfriday Markdown 渲染器兼容的 <code>id</code> 属性</li>
+</ul>
+<p>该策略同时也是 <code>urls.Anchorize</code> 函数使用的策略。</p>
+<p>图像与链接渲染钩子的启用方式：</p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">键名</th>
+					<th style="text-align: left">类型</th>
+					<th style="text-align: left">默认值</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>renderHooks.image.enableDefault</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">（自 v0.148.0 起弃用）请改用 <code>renderHooks.image.useEmbedded</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>renderHooks.image.useEmbedded</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>auto</code></td>
+					<td style="text-align: left">（自 v0.148.0 起）何时使用内置<a href="/render-hooks/images/#%e5%86%85%e5%bb%ba%e9%92%a9%e5%ad%90">图像渲染钩子</a>，可选 <code>auto</code>、<code>never</code>、<code>always</code> 或 <code>fallback</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>renderHooks.link.enableDefault</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">（自 v0.148.0 起弃用）请改用 <code>renderHooks.link.useEmbedded</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>renderHooks.link.useEmbedded</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>auto</code></td>
+					<td style="text-align: left">何时使用内置<a href="/render-hooks/links/#%e5%86%85%e5%bb%ba%e9%92%a9%e5%ad%90">链接渲染钩子</a>，可选 <code>auto</code>、<code>never</code>、<code>always</code> 或 <code>fallback</code>。</td>
+			</tr>
+	</tbody>
+</table>
+<p><code>useEmbedded</code> 的取值含义：</p>
+<ul>
+<li><code>auto</code>：仅对禁用共享页面资源复制的多语言单主机项目使用内置渲染钩子。如果项目、模块或主题定义了自定义渲染钩子，则改用它们。</li>
+<li><code>never</code>：从不使用内置渲染钩子。如果项目、模块或主题定义了自定义渲染钩子，则改用它们。</li>
+<li><code>always</code>：始终使用内置渲染钩子，即使项目、模块或主题提供了自定义渲染钩子。</li>
+<li><code>fallback</code>：仅当项目、模块或主题未提供自定义渲染钩子时使用内置渲染钩子。</li>
+</ul>
+<h2 id="asciidoc">AsciiDoc</h2>
+<p>以下是 AsciiDoc 渲染器的默认配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">asciiDocExt</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">attributes</span> <span class="p">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">backend</span> <span class="p">=</span> <span class="s1">&#39;html5&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">extensions</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">failureLevel</span> <span class="p">=</span> <span class="s1">&#39;fatal&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">noHeaderOrFooter</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">preserveTOC</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">safeMode</span> <span class="p">=</span> <span class="s1">&#39;unsafe&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">sectionNumbers</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">trace</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">verbose</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">workingFolderCurrent</span> <span class="p">=</span> <span class="kc">false</span></span></span></code></pre></div><h3 id="设置-1">设置</h3>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">键名</th>
+					<th style="text-align: left">类型</th>
+					<th style="text-align: left">默认值</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>attributes</code></td>
+					<td style="text-align: left"><code>map</code></td>
+					<td style="text-align: left">空</td>
+					<td style="text-align: left">键值对映射，每项为一个文档属性。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>backend</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>html5</code></td>
+					<td style="text-align: left">后端输出文件格式。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>extensions</code></td>
+					<td style="text-align: left"><code>[]string</code></td>
+					<td style="text-align: left">空</td>
+					<td style="text-align: left">启用的扩展数组，例如 <code>asciidoctor-html5s</code>、<code>asciidoctor-bibtex</code> 或 <code>asciidoctor-diagram</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>failureLevel</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>fatal</code></td>
+					<td style="text-align: left">触发非零退出码（失败）的最低日志级别。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>noHeaderOrFooter</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">是否输出可嵌入的文档，即排除页眉、页脚以及正文之外的一切内容。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>preserveTOC</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否保留 Asciidoctor 渲染的目录。默认情况下，为了让目录与现有主题兼容，Hugo 会移除 Asciidoctor 渲染的目录；要渲染目录，请在模板中使用 <code>Page</code> 对象的 <code>TableOfContents</code> 方法。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>safeMode</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>unsafe</code></td>
+					<td style="text-align: left">安全模式级别，可选 <code>unsafe</code>、<code>safe</code>、<code>server</code> 或 <code>secure</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>sectionNumbers</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否为每个小节编号。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>trace</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">出错时是否包含回溯信息。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>verbose</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否把处理信息与配置文件检查结果详细打印到 stderr。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>workingFolderCurrent</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否把工作目录设为正在处理的 AsciiDoc 文件所在目录，从而让 include 使用相对路径。要配合 asciidoctor-diagram 扩展渲染图表，需设为 <code>true</code>。</td>
+			</tr>
+	</tbody>
+</table>
+<blockquote><p>为降低安全风险，扩展数组中的条目不得包含正斜杠（<code>/</code>）、反斜杠（<code>\</code>）或句点。受此限制，扩展必须位于 Ruby 的 <code>$LOAD_PATH</code> 中。</p>
+</blockquote><h3 id="配置示例">配置示例</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">asciidocExt</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">backend</span> <span class="p">=</span> <span class="s1">&#39;html5s&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">extensions</span> <span class="p">=</span> <span class="p">[</span><span class="s1">&#39;asciidoctor-html5s&#39;</span><span class="p">,</span><span class="s1">&#39;asciidoctor-diagram&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">workingFolderCurrent</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">asciidocExt</span><span class="p">.</span><span class="nx">attributes</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">my-base-url</span> <span class="p">=</span> <span class="s1">&#39;https://example.org/&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">my-attribute-name</span> <span class="p">=</span> <span class="s1">&#39;my value&#39;</span></span></span></code></pre></div><h3 id="语法高亮">语法高亮</h3>
+<p>按以下步骤启用语法高亮。</p>
+<p><strong>第 1 步：设置 <code>source-highlighter</code> 属性</strong></p>
+<p>在项目配置中设置该属性。例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">asciidocExt</span><span class="p">.</span><span class="nx">attributes</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">source-highlighter</span> <span class="p">=</span> <span class="s1">&#39;rouge&#39;</span></span></span></code></pre></div><p><strong>第 2 步：生成高亮样式表</strong></p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rougify style monokai.sublime &gt; assets/css/highlight.css</span></span></code></pre></div><p><strong>第 3 步：在 <em>base</em> 模板中添加指向该 CSS 文件的链接</strong></p>
+<figure class="code-block" data-file="layouts/baseof.html">
+  <figcaption class="code-block-file">layouts/baseof.html</figcaption>
+  <div class="highlight" file="layouts/baseof.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;css/highlight.css&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Data.Integrity</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span></span></span></code></pre></div>
+</figure><p><strong>第 4 步：在标记中添加要高亮的代码</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[#hello,go]
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">package main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">import &#34;fmt&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">func main() {
+</span></span><span class="line"><span class="cl">    fmt.Println(&#34;Hello, World!&#34;)
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">----</span></span></code></pre></div><h3 id="故障排查">故障排查</h3>
+<p>运行 <code>hugo build --logLevel debug</code>，查看 Hugo 调用 <code>asciidoctor</code> 可执行文件的方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">INFO 2019/12/22 09:08:48 Rendering book-as-pdf.adoc with C:\Ruby26-x64\bin\asciidoctor.bat using asciidoc args [--no-header-footer -r asciidoctor-html5s -b html5s -r asciidoctor-diagram --base-dir D:\prototypes\hugo_asciidoc_ddd\docs -a outdir=D:\prototypes\hugo_asciidoc_ddd\build -] ...</span></span></code></pre></div><h2 id="restructuredtext">reStructuredText</h2>
+<p>以下是 reStructuredText 渲染器的默认配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">rst</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">syntaxHighlight</span> <span class="p">=</span> <span class="s1">&#39;long&#39;</span></span></span></code></pre></div><h3 id="设置-2">设置</h3>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: left">键名</th>
+					<th style="text-align: left">类型</th>
+					<th style="text-align: left">默认值</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>syntaxHighlight</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>long</code></td>
+					<td style="text-align: left">Pygments 解析代码时使用的 token 名称集合，可选 <code>long</code>、<code>short</code> 或 <code>none</code>。</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="语法高亮-1">语法高亮</h3>
+<p>按以下步骤启用语法高亮。</p>
+<p><strong>第 1 步：把 <code>syntaxHighlight</code> 设为 <code>short</code></strong></p>
+<p>在项目配置中设置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">rst</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">syntaxHighlight</span> <span class="p">=</span> <span class="s1">&#39;short&#39;</span></span></span></code></pre></div><p><strong>第 2 步：生成高亮样式表</strong></p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pygmentize -S monokai -f html &gt; assets/css/highlight.css</span></span></code></pre></div><p><strong>第 3 步：在 <em>base</em> 模板中添加指向该 CSS 文件的链接</strong></p>
+<figure class="code-block" data-file="layouts/baseof.html">
+  <figcaption class="code-block-file">layouts/baseof.html</figcaption>
+  <div class="highlight" file="layouts/baseof.html"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;css/highlight.css&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Data.Integrity</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span></span></span></code></pre></div>
+</figure><p><strong>第 4 步：在标记中添加要高亮的代码</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">.. code-block:: go
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  package main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  import &#34;fmt&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  func main() {
+</span></span><span class="line"><span class="cl">      fmt.Println(&#34;Hello, World!&#34;)
+</span></span><span class="line"><span class="cl">  }</span></span></code></pre></div><h2 id="高亮">高亮</h2>
+<p>以下设置适用于 Markdown 中的围栏代码块、内置 <code>highlight</code> 短代码、<code>transform.Highlight</code> 函数以及 <code>transform.HighlightCodeBlock</code> 函数。默认配置如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">highlight</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">anchorLineNos</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">codeFences</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">guessSyntax</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">hl_Lines</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">hl_inline</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">lineAnchors</span> <span class="p">=</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">lineNoStart</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nx">lineNos</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">lineNumbersInTable</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">noClasses</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="nx">style</span> <span class="p">=</span> <span class="s1">&#39;monokai&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">tabWidth</span> <span class="p">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="nx">wrapperClass</span> <span class="p">=</span> <span class="s1">&#39;highlight&#39;</span></span></span></code></pre></div><table>
+	<thead>
+			<tr>
+					<th style="text-align: left">键名</th>
+					<th style="text-align: left">类型</th>
+					<th style="text-align: left">默认值</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>anchorLineNos</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否把每个行号渲染为 HTML 锚点元素，即把外层 <code>span</code> 元素的 <code>id</code> 属性设为行号。<code>lineNos</code> 为 <code>false</code> 时该项无效。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>codeFences</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">是否高亮围栏代码块。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>guessSyntax</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">当 <code>LANG</code> 参数为空或指向没有对应词法分析器的语言时，是否自动检测语言。无法自动检测时回退到纯文本词法分析器。语法高亮器包含约 300 种语言的词法分析器，但其中只有 5 种实现了自动语言检测。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>hl_Lines</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left">空</td>
+					<td style="text-align: left">以空格分隔的行号列表，用于在代码中强调这些行。要强调第 2、3、4、7 行，把该值设为 <code>2-4 7</code>。该选项与 <code>lineNoStart</code> 相互独立。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>hl_inline</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否在不加外层容器的情况下渲染高亮代码。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>lineAnchors</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left">空</td>
+					<td style="text-align: left">把行号渲染为 HTML 锚点元素时，将该值前置到外层 <code>span</code> 元素的 <code>id</code> 属性上。当页面包含两个及以上代码块时，这能保证 <code>id</code> 属性唯一。<code>lineNos</code> 或 <code>anchorLineNos</code> 为 <code>false</code> 时该项无效。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>lineNoStart</code></td>
+					<td style="text-align: left"><code>int</code></td>
+					<td style="text-align: left"><code>1</code></td>
+					<td style="text-align: left">第一行显示的编号。<code>lineNos</code> 为 <code>false</code> 时该项无效。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>lineNos</code></td>
+					<td style="text-align: left"><code>any</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">控制行号的显示方式。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>lineNumbersInTable</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">是否把高亮代码渲染为含两个单元格的 HTML 表格：左格放行号，右格放代码。<code>lineNos</code> 为 <code>false</code> 时该项无效。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>noClasses</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>true</code></td>
+					<td style="text-align: left">是否使用内联 CSS 样式而不使用外部 CSS 文件。要使用外部 CSS 文件，把该值设为 <code>false</code>，并用 <code>hugo gen chromastyles</code> 命令生成样式表。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>style</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>monokai</code></td>
+					<td style="text-align: left">应用于高亮代码的 CSS 样式，大小写不敏感。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>tabWidth</code></td>
+					<td style="text-align: left"><code>int</code></td>
+					<td style="text-align: left"><code>4</code></td>
+					<td style="text-align: left">用该数量的空格替换高亮代码中的每个制表符。<code>noClasses</code> 为 <code>false</code> 时该项无效。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>wrapperClass</code></td>
+					<td style="text-align: left"><code>string</code></td>
+					<td style="text-align: left"><code>highlight</code></td>
+					<td style="text-align: left">（自 v0.140.2 起）高亮代码最外层元素使用的类名。</td>
+			</tr>
+	</tbody>
+</table>
+<p><code>lineNos</code> 的取值含义：</p>
+<ul>
+<li><code>true</code>：启用行号，具体形式由 <code>lineNumbersInTable</code> 决定</li>
+<li><code>false</code>：禁用行号</li>
+<li><code>inline</code>：启用内联行号（把 <code>lineNumbersInTable</code> 设为 <code>false</code>）</li>
+<li><code>table</code>：启用基于表格的行号（把 <code>lineNumbersInTable</code> 设为 <code>true</code>）</li>
+</ul>
+<p>使用外部样式表时，先生成 CSS 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo gen chromastyles --style<span class="o">=</span>github &gt; assets/css/highlight.css</span></span></code></pre></div><p>自 v0.164.0 起，部分样式提供独立的浅色与深色配色。用 <code>--mode</code> 标志为指定模式生成样式表，用 <code>--modeSelector</code> 标志把每个选择器限定在顶层模式类之下（例如 <code>.dark .chroma</code>）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo gen chromastyles --style<span class="o">=</span>monokai --mode<span class="o">=</span>light &gt; assets/css/highlight.css
+</span></span><span class="line"><span class="cl">hugo gen chromastyles --style<span class="o">=</span>monokai --mode<span class="o">=</span>dark --modeSelector &gt; assets/css/highlight-dark.css</span></span></code></pre></div><p>在根元素上添加或移除 <code>dark</code> 类即可切换深色模式。省略 <code>--mode</code> 时，Hugo 使用该样式的默认模式生成样式表。也可以在模板中用 <code>css.ChromaStyles</code> 函数生成样式表。</p>
+<h2 id="目录">目录</h2>
+<p>以下是目录（table of contents）的默认配置，适用于 Goldmark 与 Asciidoctor：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">markup</span><span class="p">.</span><span class="nx">tableOfContents</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">endLevel</span> <span class="p">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ordered</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="nx">startLevel</span> <span class="p">=</span> <span class="mi">2</span></span></span></code></pre></div><table>
+	<thead>
+			<tr>
+					<th style="text-align: left">键名</th>
+					<th style="text-align: left">类型</th>
+					<th style="text-align: left">默认值</th>
+					<th style="text-align: left">说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><code>startLevel</code></td>
+					<td style="text-align: left"><code>int</code></td>
+					<td style="text-align: left"><code>2</code></td>
+					<td style="text-align: left">层级低于该值的标题会被排除在目录之外。例如要把 <code>h1</code> 元素排除，把该值设为 <code>2</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>endLevel</code></td>
+					<td style="text-align: left"><code>int</code></td>
+					<td style="text-align: left"><code>3</code></td>
+					<td style="text-align: left">层级高于该值的标题会被排除在目录之外。例如要把 <code>h4</code>、<code>h5</code>、<code>h6</code> 元素排除，把该值设为 <code>3</code>。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><code>ordered</code></td>
+					<td style="text-align: left"><code>bool</code></td>
+					<td style="text-align: left"><code>false</code></td>
+					<td style="text-align: left">是否生成有序列表而非无序列表。</td>
+			</tr>
+	</tbody>
+</table>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>详见 <a href="https://github.com/gohugoio/hugo-goldmark-extensions/commit/4d4fcd022fe45a9b51483df001c9e5f4e632d5a9" target="_blank" rel="noopener">相关提交说明</a>。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/configuration/markup/" target="_blank" rel="noopener">https://gohugo.io/configuration/markup/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/configuration/languages/">← 上一篇：语言配置</a>
+    <a class="pager-next" href="/configuration/media-types/">下一篇：媒体类型配置 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#默认处理器">默认处理器</a></li>
+    <li><a href="#goldmark">Goldmark</a>
+      <ul>
+        <li><a href="#扩展">扩展</a></li>
+        <li><a href="#设置">设置</a></li>
+      </ul>
+    </li>
+    <li><a href="#asciidoc">AsciiDoc</a>
+      <ul>
+        <li><a href="#设置-1">设置</a></li>
+        <li><a href="#配置示例">配置示例</a></li>
+        <li><a href="#语法高亮">语法高亮</a></li>
+        <li><a href="#故障排查">故障排查</a></li>
+      </ul>
+    </li>
+    <li><a href="#restructuredtext">reStructuredText</a>
+      <ul>
+        <li><a href="#设置-2">设置</a></li>
+        <li><a href="#语法高亮-1">语法高亮</a></li>
+      </ul>
+    </li>
+    <li><a href="#高亮">高亮</a></li>
+    <li><a href="#目录">目录</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>托管与部署 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/host-and-deploy/</link>
+		<description>Recent content in 托管与部署 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 01 Oct 2026 15:27:52 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/host-and-deploy/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>用 hugo deploy 部署</title>
+				<link>https://example.org/host-and-deploy/deploy-with-hugo-deploy/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/deploy-with-hugo-deploy/</guid>
+				<description>&lt;p&gt;&lt;code&gt;hugo deploy&lt;/code&gt; 命令可以把你的站点部署到 Amazon S3、Azure Blob Storage 或 Google Cloud Storage。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;说明：&lt;/strong&gt; 该功能需要 deploy 或 extended/deploy 版本的 Hugo，详见&lt;a href=&#34;https://example.org/installation/&#34;&gt;安装 Hugo&lt;/a&gt;。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;前提条件&#34;&gt;前提条件&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;已经完成&lt;a href=&#34;https://example.org/getting-started/quick-start/&#34;&gt;快速开始&lt;/a&gt;，或者已经有一个准备部署上线的 Hugo 站点。&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;拥有要部署到的服务商账号：AWS、Azure 或 Google Cloud。&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;已经完成身份认证：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;AWS&lt;/strong&gt;：安装 CLI 后执行 &lt;code&gt;aws configure&lt;/code&gt;。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Azure&lt;/strong&gt;：安装 CLI 后执行 &lt;code&gt;az login&lt;/code&gt;。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Google Cloud&lt;/strong&gt;：安装 SDK 后执行 &lt;code&gt;gcloud auth login&lt;/code&gt;。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;三种服务都支持多种认证方式，包括通过环境变量提供凭据。&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;已经创建用于部署的存储桶（bucket）。如果希望站点对外公开，还要把存储桶配置为可公开读取的静态网站。&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+			</item>
+			<item>
+				<title>用 rclone 部署</title>
+				<link>https://example.org/host-and-deploy/deploy-with-rclone/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/deploy-with-rclone/</guid>
+				<description>&lt;h2 id=&#34;前提条件&#34;&gt;前提条件&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;一台运行 Web 服务器的网页主机，共享主机环境或 VPS 都可以。&lt;/li&gt;&#xA;&lt;li&gt;能通过 rclone 支持的某种协议访问该主机，例如 SFTP。&lt;/li&gt;&#xA;&lt;li&gt;一个用 Hugo 构建好、可以正常运行的静态站点。&lt;/li&gt;&#xA;&lt;li&gt;运行部署的操作系统在 rclone 支持范围内。&lt;/li&gt;&#xA;&lt;li&gt;已经安装 rclone。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示：&lt;/strong&gt; 熟悉 rclone 之后，如果愿意，可以去掉下面命令中的 &lt;code&gt;--interactive&lt;/code&gt;；&lt;code&gt;--gc&lt;/code&gt; 与 &lt;code&gt;--minify&lt;/code&gt; 也都是可选参数。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>用 rsync 部署</title>
+				<link>https://example.org/host-and-deploy/deploy-with-rsync/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/deploy-with-rsync/</guid>
+				<description>&lt;h2 id=&#34;前提条件&#34;&gt;前提条件&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;一台运行 Web 服务器的网页主机，共享主机环境或 VPS 都可以。&lt;/li&gt;&#xA;&lt;li&gt;可以通过 SSH 访问该主机。&lt;/li&gt;&#xA;&lt;li&gt;一个用 Hugo 构建好、可以正常运行的静态站点。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;先说结论：部署整个网站只需要一条形如下面的命令：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>部署到 AWS Amplify</title>
+				<link>https://example.org/host-and-deploy/host-on-aws-amplify/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-aws-amplify/</guid>
+				<description>&lt;p&gt;下面这些步骤用于实现从 GitHub 仓库持续部署。其他 Git 服务商（例如 GitLab、Bitbucket）的总体流程相同。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 不要把发布目录（&lt;code&gt;public&lt;/code&gt;）的内容提交到仓库，Hugo 会在构建项目时重新创建它。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>部署到 Azure Static Web Apps</title>
+				<link>https://example.org/host-and-deploy/host-on-azure-static-web-apps/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-azure-static-web-apps/</guid>
+				<description>&lt;p&gt;下面这些步骤用于实现从 GitHub 仓库持续部署。其他 Git 服务商（例如 GitLab、Bitbucket）的总体流程相同。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 不要把发布目录（&lt;code&gt;public&lt;/code&gt;）的内容提交到仓库，Hugo 会在构建项目时重新创建它。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>部署到 Cloudflare Pages</title>
+				<link>https://example.org/host-and-deploy/host-on-cloudflare/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-cloudflare/</guid>
+				<description>&lt;p&gt;下面这些步骤用于实现从 GitHub 仓库持续部署。其他 Git 服务商（例如 GitLab、Bitbucket）的总体流程相同。控制台入口位于 Cloudflare 的 &lt;strong&gt;Workers &amp;amp; Pages&lt;/strong&gt; 之下。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 不要把发布目录（&lt;code&gt;public&lt;/code&gt;）的内容提交到仓库，Hugo 会在构建项目时重新创建它。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>部署到 Codeberg Pages</title>
+				<link>https://example.org/host-and-deploy/host-on-codeberg-pages/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-codeberg-pages/</guid>
+				<description>&lt;p&gt;下面这些步骤用于实现从 Codeberg 仓库到 Codeberg Pages 的持续部署。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 不要把发布目录（&lt;code&gt;public&lt;/code&gt;）的内容提交到仓库，Hugo 会在构建项目时重新创建它。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;前提条件&#34;&gt;前提条件&lt;/h2&gt;&#xA;&lt;p&gt;继续之前，请先完成以下任务：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>部署到 Firebase</title>
+				<link>https://example.org/host-and-deploy/host-on-firebase/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-firebase/</guid>
+				<description>&lt;p&gt;下面的步骤用 GitHub 仓库实现持续部署。换成 GitLab、Bitbucket 等其他 Git 服务商时，整体思路基本相同。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;&#xA;不要把构建输出目录 &lt;code&gt;public&lt;/code&gt; 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>部署到 GitHub Pages</title>
+				<link>https://example.org/host-and-deploy/host-on-github-pages/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-github-pages/</guid>
+				<description>&lt;p&gt;下面的步骤用 GitHub 仓库实现到 GitHub Pages 的持续部署。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;&#xA;不要把构建输出目录 &lt;code&gt;public&lt;/code&gt; 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;站点类型&#34;&gt;站点类型&lt;/h2&gt;&#xA;&lt;p&gt;GitHub Pages 站点分三种：项目站点、用户站点和组织站点。项目站点与 GitHub 上的某个具体项目绑定；用户站点和组织站点与 GitHub.com 上的某个账号绑定。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>部署到 GitLab Pages</title>
+				<link>https://example.org/host-and-deploy/host-on-gitlab-pages/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-gitlab-pages/</guid>
+				<description>&lt;p&gt;下面的步骤用 GitLab 仓库实现到 GitLab Pages 的持续部署。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;&#xA;不要把构建输出目录 &lt;code&gt;public&lt;/code&gt; 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&lt;h2 id=&#34;前置条件&#34;&gt;前置条件&lt;/h2&gt;&#xA;&lt;p&gt;继续之前请先完成以下事项：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>部署到 Netlify</title>
+				<link>https://example.org/host-and-deploy/host-on-netlify/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-netlify/</guid>
+				<description>&lt;p&gt;下面的步骤以 GitHub 仓库为例说明 Netlify 的持续部署。换成 GitLab、Bitbucket 等其他 Git 服务商时，整体思路基本相同。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;&#xA;不要把构建输出目录 &lt;code&gt;public&lt;/code&gt; 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>部署到 Render</title>
+				<link>https://example.org/host-and-deploy/host-on-render/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-render/</guid>
+				<description>&lt;p&gt;下面的步骤以 GitHub 仓库为例说明 Render 的持续部署。换成 GitLab、Bitbucket 等其他 Git 服务商时，整体思路基本相同。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;&#xA;不要把构建输出目录 &lt;code&gt;public&lt;/code&gt; 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>部署到 SourceHut Pages</title>
+				<link>https://example.org/host-and-deploy/host-on-sourcehut-pages/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-sourcehut-pages/</guid>
+				<description>&lt;p&gt;下面的步骤说明如何把站点发布到 SourceHut Pages，可以手工部署，也可以交给 SourceHut 构建系统自动完成。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;&#xA;不要把构建输出目录 &lt;code&gt;public&lt;/code&gt; 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>部署到 Vercel</title>
+				<link>https://example.org/host-and-deploy/host-on-vercel/</link>
+				<pubDate>Thu, 01 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/host-and-deploy/host-on-vercel/</guid>
+				<description>&lt;p&gt;下面的步骤以 GitHub 仓库为例说明 Vercel 的持续部署。换成 GitLab、Bitbucket 等其他 Git 服务商时，整体思路基本相同。&lt;/p&gt;&#xA;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;&#xA;不要把构建输出目录 &lt;code&gt;public&lt;/code&gt; 的内容提交到仓库。Hugo 每次构建都会重新生成该目录。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+	</channel>
+</rss>

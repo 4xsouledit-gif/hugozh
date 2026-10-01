@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>hugo server · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="hugo server：启动内置服务器并实时预览。">
+  <link rel="canonical" href="https://example.org/commands/hugo-server/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="hugo server · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="hugo server：启动内置服务器并实时预览。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/commands/hugo-server/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"hugo server：启动内置服务器并实时预览。","headline":"hugo server","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"hugo server","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/commands/hugo-server/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/commands/">命令</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/commands/hugo/">hugo</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-build/">hugo build</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-server/" class="is-active" aria-current="page">hugo server</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-server-trust/">hugo server trust</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new/">hugo new</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new-content/">hugo new content</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new-project/">hugo new project</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-new-theme/">hugo new theme</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-config/">hugo config</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-config-mounts/">hugo config mounts</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-env/">hugo env</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-version/">hugo version</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list/">hugo list</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-all/">hugo list all</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-drafts/">hugo list drafts</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-expired/">hugo list expired</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-future/">hugo list future</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-list-published/">hugo list published</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert/">hugo convert</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert-tojson/">hugo convert toJSON</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert-totoml/">hugo convert toTOML</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-convert-toyaml/">hugo convert toYAML</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-deploy/">hugo deploy</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen/">hugo gen</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen-chromastyles/">hugo gen chromastyles</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen-doc/">hugo gen doc</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-gen-man/">hugo gen man</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-import/">hugo import</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-import-jekyll/">hugo import jekyll</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod/">hugo mod</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-clean/">hugo mod clean</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-get/">hugo mod get</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-graph/">hugo mod graph</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-init/">hugo mod init</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-npm/">hugo mod npm</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-npm-pack/">hugo mod npm pack</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-tidy/">hugo mod tidy</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-vendor/">hugo mod vendor</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-mod-verify/">hugo mod verify</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion/">hugo completion</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-bash/">hugo completion bash</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-fish/">hugo completion fish</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-powershell/">hugo completion powershell</a>
+        </li>
+        <li>
+          <a href="/commands/hugo-completion-zsh/">hugo completion zsh</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/commands/">命令</a></p>
+    <h1>hugo server</h1>
+    <p class="doc-description">hugo server：启动内置服务器并实时预览。</p>
+  </header>
+  
+  <div class="doc-body"><p><code>hugo server</code> 是父命令 <a href="/commands/hugo/">hugo</a> 的子命令，用来启动内置的 Web 服务器。Hugo 自带的服务器会一边构建、一边把项目提供出去；它的性能很好，但毕竟是一个选项有限的服务器，主要用于本地预览，而不是生产环境托管。</p>
+<h2 id="用法">用法</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">hugo server [command] [flags]</span></span></code></pre></div><p>默认情况下，<code>hugo server</code> 会把文件写入磁盘并从磁盘提供；如果加上 <code>--renderToMemory</code>，渲染结果只留在内存中。后者在某些情况下更快，但会占用更多内存。</p>
+<p>服务器默认会监听文件变化，在文件被修改后自动重新构建，并让已经打开的浏览器页面实时刷新、接收最新内容。由于多数 Hugo 项目能在不到一秒内完成构建，保存文件后几乎立刻就能看到结果。</p>
+<h2 id="选项">选项</h2>
+<p>下表列出全部选项。</p>
+<table>
+	<thead>
+			<tr>
+					<th>选项</th>
+					<th>类型</th>
+					<th>默认值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>--appendPort</code></td>
+					<td>bool</td>
+					<td><code>true</code></td>
+					<td>把端口追加到 baseURL</td>
+			</tr>
+			<tr>
+					<td><code>-b, --baseURL</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>站点根目录的主机名与路径，例如 <code>https://spf13.com/</code></td>
+			</tr>
+			<tr>
+					<td><code>--bind</code></td>
+					<td>string</td>
+					<td><code>&quot;127.0.0.1&quot;</code></td>
+					<td>服务器绑定的接口</td>
+			</tr>
+			<tr>
+					<td><code>-D, --buildDrafts</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>构建时包含标记为草稿的内容</td>
+			</tr>
+			<tr>
+					<td><code>-E, --buildExpired</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>构建时包含已过期的内容</td>
+			</tr>
+			<tr>
+					<td><code>-F, --buildFuture</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>构建时包含发布日期在未来的内容</td>
+			</tr>
+			<tr>
+					<td><code>--cacheDir</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>缓存目录的文件系统路径</td>
+			</tr>
+			<tr>
+					<td><code>--cleanDestinationDir</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>删除目标目录中的陈旧文件</td>
+			</tr>
+			<tr>
+					<td><code>-c, --contentDir</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>内容目录的文件系统路径</td>
+			</tr>
+			<tr>
+					<td><code>--disableBrowserError</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>不在浏览器中显示构建错误</td>
+			</tr>
+			<tr>
+					<td><code>--disableFastRender</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>改动时进行完整重新渲染</td>
+			</tr>
+			<tr>
+					<td><code>--disableKinds</code></td>
+					<td>strings</td>
+					<td>—</td>
+					<td>禁用某些种类的页面，例如首页、RSS</td>
+			</tr>
+			<tr>
+					<td><code>--disableLiveReload</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>只监听变化，重建时不做浏览器实时刷新</td>
+			</tr>
+			<tr>
+					<td><code>--enableGitInfo</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>为页面加入 Git 版本、日期、作者与 CODEOWNERS 信息</td>
+			</tr>
+			<tr>
+					<td><code>--forceSyncStatic</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>静态文件发生变化时复制全部文件</td>
+			</tr>
+			<tr>
+					<td><code>--gc</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>构建后执行一些清理任务（删除未使用的缓存文件）</td>
+			</tr>
+			<tr>
+					<td><code>-h, --help</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>显示 server 的帮助信息</td>
+			</tr>
+			<tr>
+					<td><code>--ignoreCache</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>忽略已配置的文件缓存</td>
+			</tr>
+			<tr>
+					<td><code>-l, --layoutDir</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>布局目录的文件系统路径</td>
+			</tr>
+			<tr>
+					<td><code>--liveReloadPort</code></td>
+					<td>int</td>
+					<td><code>-1</code></td>
+					<td>实时刷新使用的端口（例如在 HTTPS 代理场景下为 443）</td>
+			</tr>
+			<tr>
+					<td><code>--minify</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>压缩受支持的输出格式（HTML、XML 等）</td>
+			</tr>
+			<tr>
+					<td><code>-N, --navigateToChanged</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>浏览器实时刷新时跳转到发生变化的内容文件</td>
+			</tr>
+			<tr>
+					<td><code>--noChmod</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>不同步文件的权限模式</td>
+			</tr>
+			<tr>
+					<td><code>--noHTTPCache</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>禁用浏览器对内置服务器所提供页面的缓存</td>
+			</tr>
+			<tr>
+					<td><code>--noTimes</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>不同步文件的修改时间</td>
+			</tr>
+			<tr>
+					<td><code>-O, --openBrowser</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>服务器启动后在浏览器中打开项目</td>
+			</tr>
+			<tr>
+					<td><code>--panicOnWarning</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>遇到第一条 WARNING 日志时 panic</td>
+			</tr>
+			<tr>
+					<td><code>--poll</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>把该值设为轮询间隔（例如 <code>--poll 700ms</code>），改用轮询方式监听文件系统变化</td>
+			</tr>
+			<tr>
+					<td><code>-p, --port</code></td>
+					<td>int</td>
+					<td><code>1313</code></td>
+					<td>服务器监听的端口</td>
+			</tr>
+			<tr>
+					<td><code>--pprof</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>启用 pprof 服务器（端口 8080）</td>
+			</tr>
+			<tr>
+					<td><code>--printI18nWarnings</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>打印缺失的翻译</td>
+			</tr>
+			<tr>
+					<td><code>--printMemoryUsage</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>定时在屏幕上打印内存占用</td>
+			</tr>
+			<tr>
+					<td><code>--printPathWarnings</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>打印重复目标路径等警告</td>
+			</tr>
+			<tr>
+					<td><code>--printUnusedTemplates</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>打印未使用模板的警告</td>
+			</tr>
+			<tr>
+					<td><code>--renderSegments</code></td>
+					<td>strings</td>
+					<td>—</td>
+					<td>要渲染的命名分段（在 segments 配置中定义）</td>
+			</tr>
+			<tr>
+					<td><code>--renderStaticToDisk</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>静态文件从磁盘提供，动态文件从内存提供</td>
+			</tr>
+			<tr>
+					<td><code>--templateMetrics</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>显示模板执行的统计信息</td>
+			</tr>
+			<tr>
+					<td><code>--templateMetricsHints</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>与 <code>--templateMetrics</code> 一起使用时计算一些改进建议</td>
+			</tr>
+			<tr>
+					<td><code>-t, --theme</code></td>
+					<td>strings</td>
+					<td>—</td>
+					<td>要使用的主题，主题位于 <code>/themes/THEMENAME/</code> 下</td>
+			</tr>
+			<tr>
+					<td><code>--tlsAuto</code></td>
+					<td>bool</td>
+					<td>—</td>
+					<td>生成并使用本地受信任的证书</td>
+			</tr>
+			<tr>
+					<td><code>--tlsCertFile</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>TLS 证书文件的路径</td>
+			</tr>
+			<tr>
+					<td><code>--tlsKeyFile</code></td>
+					<td>string</td>
+					<td>—</td>
+					<td>TLS 密钥文件的路径</td>
+			</tr>
+			<tr>
+					<td><code>--trace</code></td>
+					<td>file</td>
+					<td>—</td>
+					<td>把 trace 写入文件（一般用途不大）</td>
+			</tr>
+			<tr>
+					<td><code>-w, --watch</code></td>
+					<td>bool</td>
+					<td><code>true</code></td>
+					<td>监听文件系统变化并按需重建</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="继承自父命令的选项">继承自父命令的选项</h3>
+<p><code>hugo server</code> 还会继承 <code>hugo</code> 的选项，常用者有 <code>--config</code>、<code>--configDir</code>、<code>--logLevel</code>、<code>--quiet</code>、<code>-s</code> / <code>--source</code>、<code>--themesDir</code>、<code>--clock</code>、<code>-e</code> / <code>--environment</code>、<code>-M</code> / <code>--renderToMemory</code>、<code>-d</code> / <code>--destination</code>、<code>--noBuildLock</code> 与 <code>--ignoreVendorPaths</code>。</p>
+<h2 id="示例">示例</h2>
+<p>启动服务器，在默认端口上预览：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server</span></span></code></pre></div><p>同时预览草稿内容，并让浏览器自动跳转到被改动的页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server --buildDrafts --navigateToChanged</span></span></code></pre></div><p>更换端口，并把渲染结果放在内存中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server --port <span class="m">1414</span> --renderToMemory</span></span></code></pre></div><h2 id="说明">说明</h2>
+<ul>
+<li>服务器默认绑定 <code>127.0.0.1</code> 的 1313 端口；需要让同一网络中的其他设备访问时，可以配合 <code>--bind</code> 与 <code>--baseURL</code> 使用。</li>
+<li>模板改动频繁时，<code>--disableFastRender</code> 会让每次改动都完整重建，结果更可靠。</li>
+<li>需要在 HTTPS 下预览时，可以用 <code>--tlsAuto</code> 生成证书；要让系统信任这张本地证书，请使用 <a href="/commands/hugo-server-trust/">hugo server trust</a>。</li>
+<li>站点构建完成后要发布到生产环境，请改用 <a href="/commands/hugo/">hugo</a> 或 <a href="/commands/hugo-build/">hugo build</a>。</li>
+</ul>
+<h2 id="参见">参见</h2>
+<ul>
+<li><a href="/commands/hugo/">hugo</a>：构建项目</li>
+<li><a href="/commands/hugo-server-trust/">hugo server trust</a>：把本地 CA 安装到系统信任存储中</li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/commands/hugo_server/" target="_blank" rel="noopener">https://gohugo.io/commands/hugo_server/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/commands/hugo-build/">← 上一篇：hugo build</a>
+    <a class="pager-next" href="/commands/hugo-server-trust/">下一篇：hugo server trust →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#用法">用法</a></li>
+    <li><a href="#选项">选项</a>
+      <ul>
+        <li><a href="#继承自父命令的选项">继承自父命令的选项</a></li>
+      </ul>
+    </li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#说明">说明</a></li>
+    <li><a href="#参见">参见</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:12&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>OpenAPI 函数 on Hugo 官方文档 · 中文翻译</title>
+		<link>https://example.org/functions/openapi3/</link>
+		<description>Recent content in OpenAPI 函数 on Hugo 官方文档 · 中文翻译</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 02 Oct 2026 00:00:00 +0800</lastBuildDate>
+		
+			<atom:link href="https://example.org/functions/openapi3/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>openapi3.Unmarshal</title>
+				<link>https://example.org/functions/openapi3/unmarshal/</link>
+				<pubDate>Fri, 02 Oct 2026 00:00:00 +0800</pubDate>
+				<guid>https://example.org/functions/openapi3/unmarshal/</guid>
+				<description>&lt;h2 id=&#34;用法&#34;&gt;用法&lt;/h2&gt;&#xA;&lt;p&gt;传给 &lt;code&gt;openapi3.Unmarshal&lt;/code&gt; 函数的资源必须是 &lt;a href=&#34;https://swagger.io/specification/#openapi-document&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OpenAPI 文档&lt;/a&gt;，通常是 JSON 或 YAML 格式。这个资源可以是全局资源，也可以是远程资源。&lt;/p&gt;&#xA;&lt;p&gt;该函数会自动解析并纳入所有外部引用（本地与远程都包括），返回一份完整的 &lt;a href=&#34;https://swagger.io/specification/#openapi-description&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OpenAPI 描述&lt;/a&gt;，完整描述某个 API 的对外接口及其语义。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

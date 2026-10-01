@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>资源指纹 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="为资源内容生成哈希文件名与 SRI 完整性值。">
+  <link rel="canonical" href="https://example.org/hugo-pipes/fingerprint/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="资源指纹 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="为资源内容生成哈希文件名与 SRI 完整性值。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://example.org/hugo-pipes/fingerprint/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-10-01T00:00:00&#43;08:00">
+  <meta property="article:modified_time" content="2026-10-01T15:27:52&#43;08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","dateModified":"2026-10-01T15:27:52+08:00","datePublished":"2026-10-01T00:00:00+08:00","description":"为资源内容生成哈希文件名与 SRI 完整性值。","headline":"资源指纹","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"资源指纹","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/hugo-pipes/fingerprint/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section is-active" href="/hugo-pipes/">Hugo Pipes</a>
+      <ul class="sidebar-list">
+        <li>
+          <a href="/hugo-pipes/introduction/">简介</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/transpile-sass-to-css/">把 Sass 编译为 CSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/postcss/">PostCSS</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/js/">JavaScript 构建</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/bundling/">资源打包</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/minification/">资源压缩</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/fingerprint/" class="is-active" aria-current="page">资源指纹</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-string/">从字符串创建资源</a>
+        </li>
+        <li>
+          <a href="/hugo-pipes/resource-from-template/">从模板创建资源</a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      <article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow"><a href="/hugo-pipes/">Hugo Pipes</a></p>
+    <h1>资源指纹</h1>
+    <p class="doc-description">为资源内容生成哈希文件名与 SRI 完整性值。</p>
+  </header>
+  
+  <div class="doc-body"><h2 id="方法签名与用途">方法签名与用途</h2>
+<p><code>resources.Fingerprint</code> 对资源内容做密码学哈希，返回带哈希值的资源对象，用于缓存失效与子资源完整性校验：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">resources.Fingerprint [ALGORITHM] RESOURCE</span></span></code></pre></div><p>它也有别名 <code>fingerprint</code>。哈希算法可以是 <code>md5</code>、<code>sha256</code>（默认）、<code>sha384</code> 或 <code>sha512</code>。虽然最常见的用途是 CSS 与 JavaScript，但任何类型的资源都可以做指纹。</p>
+<h2 id="链式调用示例">链式调用示例</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go-html-template" data-lang="go-html-template"><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="nx">resources</span><span class="na">.Get</span><span class="w"> </span><span class="s">&#34;js/main.js&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="na">.</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">fingerprint</span><span class="w"> </span><span class="s">&#34;sha256&#34;</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.RelPermalink</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;</span><span class="cp">{{</span><span class="w"> </span><span class="na">.Data.Integrity</span><span class="w"> </span><span class="cp">}}</span><span class="s">&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">{{</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="cp">}}</span></span></span></code></pre></div><p>嵌套两层 <code>with</code> 的做法很常见：外层确认资源存在，内层把资源交给指纹环节，同时把 <code>.</code> 绑定到指纹后的资源对象，因此后面可以直接取 <code>RelPermalink</code> 与 <code>Data.Integrity</code>。</p>
+<p>Hugo 渲染出的结果大致如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/js/main.62e...df1.js&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;sha256-Yuh...rfE=&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span></span></span></code></pre></div><h2 id="哈希带来的两项变化">哈希带来的两项变化</h2>
+<p>对资源内容做哈希之后：</p>
+<ol>
+<li><code>Permalink</code> 与 <code>RelPermalink</code> 返回的路径中包含哈希值，文件名因此发生变化。</li>
+<li>资源的 <code>.Data.Integrity</code> 返回一个子资源完整性（SRI）值，由哈希算法名、一个连字符以及 base64 编码后的哈希和组成。</li>
+</ol>
+<h2 id="sri-与指纹的关系">SRI 与指纹的关系</h2>
+<p>文件名中的哈希与 <code>integrity</code> 属性中的哈希来自同一次计算，但用途不同：文件名哈希让浏览器把改版后的资源当作新文件重新下载，<code>integrity</code> 则让浏览器在加载脚本或样式时校验内容是否被篡改。示例里同时给出的 <code>crossorigin</code> 属性是使用 SRI 时常见的配套写法。</p>
+<p>正因为两者同源，管道顺序必须“先压缩、后指纹”。如果先指纹再压缩，<code>integrity</code> 记录的会是压缩前内容的哈希，而实际发布出去的是压缩后的文件，浏览器校验失败就会拒绝加载。</p>
+<h2 id="缓存与-gc">缓存与 &ndash;gc</h2>
+<p>资源内容一变，哈希随之变化，文件名也就变了：旧文件名的资源不会自动从发布目录里消失。清理发布目录中的陈旧文件需要用清理目标目录的参数，而 <code>hugo build --gc</code> 负责在构建后清理未使用的缓存文件，两者职责不同，详见<a href="/commands/">命令</a>。</p>
+<h2 id="常见坑">常见坑</h2>
+<ul>
+<li>算法默认是 <code>sha256</code>；只有在确有兼容需求时才改用其他算法，并且要与 <code>integrity</code> 中出现的算法名保持一致。</li>
+<li>不要在模板里手写哈希值或拼文件名，<code>RelPermalink</code> 已经包含哈希。</li>
+<li><code>.Data.Integrity</code> 由 <code>resources.Fingerprint</code> 填充，没有做过指纹的资源没有这项数据。</li>
+<li>想要“内容不变文件名就不变、内容一变文件名立刻变”的效果，指纹应放在管道的最后一环。</li>
+</ul>
+<h2 id="相关页面">相关页面</h2>
+<ul>
+<li><a href="/hugo-pipes/">Hugo Pipes 简介</a></li>
+<li><a href="/hugo-pipes/minification/">资源压缩</a></li>
+<li><a href="/hugo-pipes/bundling/">资源打包</a></li>
+<li><a href="/host-and-deploy/">部署</a></li>
+</ul>
+</div>
+  <footer class="doc-footer">
+    <p class="doc-source">英文原文：<a href="https://gohugo.io/hugo-pipes/fingerprint/" target="_blank" rel="noopener">https://gohugo.io/hugo-pipes/fingerprint/</a></p>
+    <p class="doc-meta">发布于 <time datetime="2026-10-01T00:00:00&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（昨天）</span><span class="doc-sep">·</span>最后更新 <time datetime="2026-10-01T15:27:52&#43;08:00" title="2026年10月1日">2026年10月1日</time><span class="doc-rel">（今天）</span><span class="doc-sep">·</span><span class="doc-commit" title="feat: Hugo 中文文档站（16 章 226 页）&#43; 多主题分层 &#43; SEO &#43; hugo-static-site skill（Hencter）">提交 51660c8</span></p>
+  </footer>
+  
+  <nav class="doc-pager" aria-label="相邻页面">
+    <a class="pager-prev" href="/hugo-pipes/minification/">← 上一篇：资源压缩</a>
+    <a class="pager-next" href="/hugo-pipes/resource-from-string/">下一篇：从字符串创建资源 →</a>
+  </nav>
+  
+</article>
+
+    </main>
+    <aside class="toc" aria-label="本页目录">
+  <p class="toc-heading">本页目录</p>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#方法签名与用途">方法签名与用途</a></li>
+    <li><a href="#链式调用示例">链式调用示例</a></li>
+    <li><a href="#哈希带来的两项变化">哈希带来的两项变化</a></li>
+    <li><a href="#sri-与指纹的关系">SRI 与指纹的关系</a></li>
+    <li><a href="#缓存与-gc">缓存与 &ndash;gc</a></li>
+    <li><a href="#常见坑">常见坑</a></li>
+    <li><a href="#相关页面">相关页面</a></li>
+  </ul>
+</nav>
+</aside>
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

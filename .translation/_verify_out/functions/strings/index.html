@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><title>字符串函数 · Hugo 官方文档 · 中文翻译</title>
+  <meta name="description" content="用这些函数处理字符串。">
+  <link rel="canonical" href="https://example.org/functions/strings/">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="Hugo 0.167.0">
+  <meta property="og:site_name" content="Hugo 官方文档 · 中文翻译">
+  <meta property="og:title" content="字符串函数 · Hugo 官方文档 · 中文翻译">
+  <meta property="og:description" content="用这些函数处理字符串。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.org/functions/strings/">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/rss&#43;xml" href="https://example.org/functions/strings/index.xml" title="Hugo 官方文档 · 中文翻译">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","dateModified":"2026-10-02T00:11:37+08:00","datePublished":"2026-10-02T00:00:00+08:00","description":"用这些函数处理字符串。","headline":"字符串函数","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"name":"字符串函数","publisher":{"@type":"Organization","name":"Hugo 官方文档 · 中文翻译","url":"https://example.org/"},"url":"https://example.org/functions/strings/"}</script>
+
+  <link rel="stylesheet" href="/css/main.min.459d88ee68ba03a60d06dad202ace908d8a7b23fc175cdb0440763ba109f2aab.css" integrity="sha256-RZ2I7mi6A6YNBtrSAqzpCNinsj/Bdc2wRAdjuhCfKqs=">
+  <link rel="stylesheet" href="/css/syntax.min.355b5f29d8f7bcd8adc9a202c2d52c90dabe609739467b68ca0b61eb6515115c.css" integrity="sha256-NVtfKdj3vNityaICwtUskNq&#43;YJc5Rntoygth62UVEVw=">
+  <link rel="stylesheet" href="/css/cjk.min.699f1f9b1a6f3e8a9ea487eb751c822e7d1a256eeaf6bef55ee8a78472a09328.css" integrity="sha256-aZ8fmxpvPoqepIfrdRyCLn0aJW7q9r71XuinhHKgkyg=">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Hugo</span>
+      <span class="brand-text">文档中文翻译</span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="/">首页</a>
+      <a href="/getting-started/">入门</a>
+      <a href="/content-management/">内容管理</a>
+      <a href="/commands/">命令</a>
+      <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>
+    </nav>
+  </div>
+</header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="文档目录">
+  <nav>
+    <p class="sidebar-heading">文档目录</p>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/skill/">技能包</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/functions/">函数</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/getting-started/">入门</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/content-management/">内容管理</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/commands/">命令</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/host-and-deploy/">托管与部署</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-pipes/">Hugo Pipes</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/hugo-modules/">Hugo 模块</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/templates/">模板</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/render-hooks/">渲染钩子</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/shortcodes/">短代码</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/configuration/">配置</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/installation/">安装</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/troubleshooting/">故障排查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/about/">关于</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/quick-reference/">速查</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/tools/">工具</a>
+    </div>
+    <div class="sidebar-group">
+      <a class="sidebar-section" href="/contribute/">参与贡献</a>
+    </div>
+  </nav>
+</aside>
+
+    <main id="main" class="content">
+      
+<article class="doc">
+  <header class="doc-header">
+    <p class="doc-eyebrow">文档章节</p>
+    <h1>字符串函数</h1>
+    <p class="doc-description">用这些函数处理字符串。</p>
+  </header>
+  <div class="doc-body"></div>
+  
+  <section class="home-section">
+    <h2>本章内容</h2>
+    <ul class="page-list">
+      
+      <li>
+        <a href="/functions/strings/chomp/">strings.Chomp</a>
+        <span class="page-list-desc">返回给定字符串，并删除末尾的所有换行符与回车符。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/contains/">strings.Contains</a>
+        <span class="page-list-desc">报告给定字符串是否包含指定子串。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/containsany/">strings.ContainsAny</a>
+        <span class="page-list-desc">报告给定字符串是否包含指定字符集合中的任意字符。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/containsnonspace/">strings.ContainsNonSpace</a>
+        <span class="page-list-desc">报告给定字符串是否包含 Unicode 定义的非空白字符。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/count/">strings.Count</a>
+        <span class="page-list-desc">返回给定子串在给定字符串中不重叠出现的次数。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/countrunes/">strings.CountRunes</a>
+        <span class="page-list-desc">返回给定字符串中除空白字符之外的 rune 数量。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/countwords/">strings.CountWords</a>
+        <span class="page-list-desc">返回给定字符串中的单词数量。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/findre/">strings.FindRE</a>
+        <span class="page-list-desc">返回与正则表达式匹配的字符串切片。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/findresubmatch/">strings.FindRESubmatch</a>
+        <span class="page-list-desc">返回正则表达式全部连续匹配构成的切片，其中每个元素也是一个切片，依次保存最左侧匹配的文本及其各子表达式的匹配结果。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/firstlower/">strings.FirstLower</a>
+        <span class="page-list-desc">返回给定字符串，并把第一个字符转为小写。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/firstupper/">strings.FirstUpper</a>
+        <span class="page-list-desc">返回给定字符串，并把第一个字符转为大写。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/hasprefix/">strings.HasPrefix</a>
+        <span class="page-list-desc">报告给定字符串是否以指定前缀开头。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/hassuffix/">strings.HasSuffix</a>
+        <span class="page-list-desc">报告给定字符串是否以指定后缀结尾。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/repeat/">strings.Repeat</a>
+        <span class="page-list-desc">返回把给定字符串重复指定次数后的结果。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/replace/">strings.Replace</a>
+        <span class="page-list-desc">返回给定字符串，并把其中所有 OLD 替换为 NEW。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/replacepairs/">strings.ReplacePairs</a>
+        <span class="page-list-desc">返回给定字符串，并用一组旧新字符串对在一次扫描中完成多处替换。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/replacere/">strings.ReplaceRE</a>
+        <span class="page-list-desc">返回给定字符串，并把所有与正则表达式匹配的部分替换为替换模式。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/runecount/">strings.RuneCount</a>
+        <span class="page-list-desc">返回给定字符串中的 rune 数量。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/slicestring/">strings.SliceString</a>
+        <span class="page-list-desc">返回给定字符串的子串，从起始位置开始，到结束位置之前结束。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/split/">strings.Split</a>
+        <span class="page-list-desc">按分隔符切分给定字符串，返回字符串切片。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/substr/">strings.Substr</a>
+        <span class="page-list-desc">返回给定字符串的子串，从起始位置开始，到给定长度之后结束。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/title/">strings.Title</a>
+        <span class="page-list-desc">返回给定字符串，并转换为标题式大小写。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/tolower/">strings.ToLower</a>
+        <span class="page-list-desc">返回给定字符串，并把所有字符转为小写。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/toupper/">strings.ToUpper</a>
+        <span class="page-list-desc">返回给定字符串，并把所有字符转为大写。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/trim/">strings.Trim</a>
+        <span class="page-list-desc">返回给定字符串，并删除 cutset 中指定的首尾字符。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/trimleft/">strings.TrimLeft</a>
+        <span class="page-list-desc">返回给定字符串，并删除 cutset 中指定的开头字符。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/trimprefix/">strings.TrimPrefix</a>
+        <span class="page-list-desc">返回给定字符串，并从开头删除指定前缀。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/trimright/">strings.TrimRight</a>
+        <span class="page-list-desc">返回给定字符串，并删除 cutset 中指定的结尾字符。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/trimspace/">strings.TrimSpace</a>
+        <span class="page-list-desc">返回给定字符串，并删除 Unicode 定义的首尾空白字符。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/trimsuffix/">strings.TrimSuffix</a>
+        <span class="page-list-desc">返回给定字符串，并从结尾删除指定后缀。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+      <li>
+        <a href="/functions/strings/truncate/">strings.Truncate</a>
+        <span class="page-list-desc">返回给定字符串，截断到最大长度，同时不切断单词、不留下未闭合的 HTML 标签。</span>
+        <span class="page-list-date"><time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></span>
+      </li>
+      
+    </ul>
+  </section>
+  
+</article>
+
+    </main>
+    
+  </div>
+  <footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>本站内容译自 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官方文档</a>，仅供学习参考；如有歧义，一切以官方英文原文为准。</p>
+    <p>原文仓库：<a href="https://github.com/gohugoio/hugoDocs" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo 0.167.0 构建 · 构建于 <time datetime="2026-10-02T00:12:13&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span></p>
+    <p>站点版本 v1.1.0 · 内容最近更新 <time datetime="2026-10-02T00:11:37&#43;08:00" title="2026年10月2日">2026年10月2日</time><span class="doc-rel">（今天）</span> · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+  </div>
+</footer>
+
+  
+<script defer src="/js/scrollspy.min.57d8c7288d890cdd4ab1e1e31f5c89d6b81e709c016801b6f2e2dfbf2b7047d8.js" integrity="sha256-V9jHKI2JDN1KseHjH1yJ1rgecJwBaAG28uLfvytwR9g="></script>
+
+</body>
+</html>
+

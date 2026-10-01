@@ -3,7 +3,7 @@ title = "js.Batch"
 linkTitle = "Batch"
 description = "返回一个批处理器（batcher），用于构建带全局代码分割、钩子与运行器配置灵活的 JavaScript 打包组。"
 date = 2026-10-02
-weight = 30
+weight = 20
 source = "https://gohugo.io/functions/js/batch/"
 
 [params.functions_and_methods]

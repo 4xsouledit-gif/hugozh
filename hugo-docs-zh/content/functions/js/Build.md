@@ -3,7 +3,7 @@ title = "js.Build"
 linkTitle = "Build"
 description = "返回把给定 JavaScript 资源打包、转译、摇树并压缩后生成的资源。"
 date = 2026-10-02
-weight = 40
+weight = 30
 source = "https://gohugo.io/functions/js/build/"
 
 [params.functions_and_methods]
@@ -49,7 +49,7 @@ returnType = "resource.Resource"
 
 `importContext`
 : **（0.165.0 新增）**
-: (`resource.ResourceGetter`) 解析 import 语句时使用的资源获取器（resource getter）。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。
+: (`resource.ResourceGetter`) 解析 import 语句时使用的[资源获取器](g)。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。
 
 `targetPath`
 : (`string`) 不设置时以源文件路径作为目标路径的基准。注意目标 MIME 类型不同时（例如源文件是 TypeScript），目标路径的扩展名可能随之改变。
@@ -160,7 +160,7 @@ returnType = "resource.Resource"
 
 ## 从 assets 目录导入
 
-`js.Build` 完整支持 Hugo 的统一文件系统（unified file system）。在[测试项目][test project]中可以看到一些简单示例；简而言之，下面的写法是可行的：
+`js.Build` 完整支持 Hugo 的[统一文件系统](g)。在[测试项目][test project]中可以看到一些简单示例；简而言之，下面的写法是可行的：
 
 ```js
 import { hello } from 'my/module';

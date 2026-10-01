@@ -3,7 +3,7 @@ title = "css.Quoted"
 linkTitle = "Quoted"
 description = "返回给定字符串，并把其数据类型标记为在 CSS 中使用时必须带引号。"
 date = 2026-10-02
-weight = 50
+weight = 40
 source = "https://gohugo.io/functions/css/quoted/"
 
 [params.functions_and_methods]

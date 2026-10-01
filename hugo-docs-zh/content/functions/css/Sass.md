@@ -3,7 +3,7 @@ title = "css.Sass"
 linkTitle = "Sass"
 description = "返回把给定 Sass 资源转译为 CSS 后生成的资源。"
 date = 2026-10-02
-weight = 60
+weight = 50
 source = "https://gohugo.io/functions/css/sass/"
 
 [params.functions_and_methods]
@@ -41,7 +41,7 @@ Sass 有两种语法形式：[SCSS][] 与[缩进语法][indented]。Hugo 两者�
 
 `importContext`
 : **（0.165.0 新增）**
-: (`resource.ResourceGetter`) 解析 `@use` 与 `@import` 语句时使用的资源获取器（resource getter）。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。适用于 Dart Sass。
+: (`resource.ResourceGetter`) 解析 `@use` 与 `@import` 语句时使用的[资源获取器](g)。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。适用于 Dart Sass。
 
 `includePaths`
 : (`slice`) 路径切片，相对于项目根目录；转译器在解析 `@use` 与 `@import` 语句时会使用这些路径。
@@ -312,7 +312,7 @@ Windows  | Scoop    | [scoop.sh][]       | `scoop install sass`
 
 ### 生产环境
 
-要在 CI/CD 平台上把 Dart Sass 与 Hugo 一起使用，通常必须修改构建工作流，在 Hugo 站点构建开始之前安装 Dart Sass。因为这类平台没有预装 Dart Sass，而 Hugo 需要它来处理 Sass 文件。
+要在 [CI/CD](g) 平台上把 Dart Sass 与 Hugo 一起使用，通常必须修改构建工作流，在 Hugo 站点构建开始之前安装 Dart Sass。因为这类平台没有预装 Dart Sass，而 Hugo 需要它来处理 Sass 文件。
 
 有一个重要的例外可以跳过这一步：你已经把 `resources` 目录提交到了仓库。这只有在下列条件都满足时才可行：
 

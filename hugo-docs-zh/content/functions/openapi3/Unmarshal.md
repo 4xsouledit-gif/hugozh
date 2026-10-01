@@ -3,7 +3,7 @@ title = "openapi3.Unmarshal"
 linkTitle = "Unmarshal"
 description = "返回从给定资源反序列化得到的 OpenAPI 3 描述。"
 date = 2026-10-02
-weight = 20
+weight = 10
 source = "https://gohugo.io/functions/openapi3/unmarshal/"
 
 [params.functions_and_methods]
@@ -13,7 +13,7 @@ returnType = "openapi3.OpenAPIDocument"
 
 ## 用法
 
-传给 `openapi3.Unmarshal` 函数的资源必须是 [OpenAPI 文档][OpenAPI Document]，通常是 JSON 或 YAML 格式。这个资源可以是全局资源，也可以是远程资源。
+传给 `openapi3.Unmarshal` 函数的资源必须是 [OpenAPI 文档][OpenAPI Document]，通常是 JSON 或 YAML 格式。这个资源可以是[全局资源](g)，也可以是[远程资源](g)。
 
 该函数会自动解析并纳入所有外部引用（本地与远程都包括），返回一份完整的 [OpenAPI 描述][OpenAPI Description]，完整描述某个 API 的对外接口及其语义。
 

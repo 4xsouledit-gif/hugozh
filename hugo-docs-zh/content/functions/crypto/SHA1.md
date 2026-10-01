@@ -3,7 +3,7 @@ title = "crypto.SHA1"
 linkTitle = "SHA1"
 description = "返回给定输入的 SHA1 校验和，并编码为十六进制字符串。"
 date = 2026-10-02
-weight = 50
+weight = 40
 source = "https://gohugo.io/functions/crypto/sha1/"
 
 [params.functions_and_methods]

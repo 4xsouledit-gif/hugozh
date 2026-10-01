@@ -27,7 +27,7 @@ aliases = ["postCSS"]
   ```
 
 第 3 步
-: 在项目根目录创建 PostCSS 配置文件。Hugo 会向 PostCSS 进程暴露若干[环境变量](#环境变量)，其中包括当前的 Hugo 环境（environment）名。例如在下面的配置中，运行 `hugo server` 会禁用厂商前缀、启用内联 sourcemap；而为生产环境构建时则相反，会应用厂商前缀并禁用 sourcemap：
+: 在项目根目录创建 PostCSS 配置文件。Hugo 会向 PostCSS 进程暴露若干[环境变量](#环境变量)，其中包括当前的 Hugo [环境](g)名。例如在下面的配置中，运行 `hugo server` 会禁用厂商前缀、启用内联 sourcemap；而为生产环境构建时则相反，会应用厂商前缀并禁用 sourcemap：
 
   ```js {file="postcss.config.mjs" copy=true}
   import autoprefixer from 'autoprefixer';
@@ -85,7 +85,7 @@ aliases = ["postCSS"]
 
 `importContext`
 : **（0.165.0 新增）**
-: (`resource.ResourceGetter`) 解析 `@import` 语句时使用的资源获取器（resource getter）。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。仅在 [`inlineImports`](#inlineimports) 为 `true` 时有效。
+: (`resource.ResourceGetter`) 解析 `@import` 语句时使用的[资源获取器](g)。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。仅在 [`inlineImports`](#inlineimports) 为 `true` 时有效。
 
 `inlineImports`
 : (`bool`) 是否启用导入语句内联。内联是递归进行的，但同一个文件只会被导入一次。Hugo 相对于模块挂载点查找导入，并遵循主题覆盖规则。默认是 `false`。

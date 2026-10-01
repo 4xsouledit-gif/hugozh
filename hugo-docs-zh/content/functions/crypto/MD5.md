@@ -3,7 +3,7 @@ title = "crypto.MD5"
 linkTitle = "MD5"
 description = "返回给定输入的 MD5 校验和，并编码为十六进制字符串。"
 date = 2026-10-02
-weight = 40
+weight = 30
 source = "https://gohugo.io/functions/crypto/md5/"
 
 [params.functions_and_methods]

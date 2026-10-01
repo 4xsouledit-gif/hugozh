@@ -3,7 +3,7 @@ title = "crypto.HMAC"
 linkTitle = "HMAC"
 description = "返回用密钥对消息签名得到的加密哈希。"
 date = 2026-10-02
-weight = 30
+weight = 20
 source = "https://gohugo.io/functions/crypto/hmac/"
 
 [params.functions_and_methods]

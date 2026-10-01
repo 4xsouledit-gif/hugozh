@@ -3,7 +3,7 @@ title = "css.Build"
 linkTitle = "Build"
 description = "返回把给定 CSS 资源打包、转换并压缩后生成的资源。"
 date = 2026-10-02
-weight = 20
+weight = 10
 source = "https://gohugo.io/functions/css/build/"
 
 [params.functions_and_methods]
@@ -106,7 +106,7 @@ assets/
 
 `importContext`
 : **（0.165.0 新增）**
-: (`resource.ResourceGetter`) 解析 `@import` 语句时使用的资源获取器（resource getter）。Hugo 先按 `@import` 语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。
+: (`resource.ResourceGetter`) 解析 `@import` 语句时使用的[资源获取器](g)。Hugo 先按 `@import` 语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。
 
 `loaders`
 : (`map`) 文件扩展名到加载器类型的映射，用于决定打包时如何处理具有给定扩展名的文件。默认情况下，Hugo 对 `.css` 文件使用 `css` 加载器，对其余文件使用 `file` 加载器。常用加载器包括：
@@ -362,7 +362,7 @@ assets/
 
 下面的例子涵盖在项目内或 Node 包内引用资源时最常见的用法。这些写法对 `@import` 语句以及用于图片和字体的 `url()` 函数记法都适用。
 
-凡是通过路径引用的资源，包括图片、字体与样式表，都必须位于统一文件系统（unified file system）的 `assets` 目录中，或位于某个 Node 包内。
+凡是通过路径引用的资源，包括图片、字体与样式表，都必须位于[统一文件系统](g)的 `assets` 目录中，或位于某个 Node 包内。
 
 ### assets 目录中的文件
 

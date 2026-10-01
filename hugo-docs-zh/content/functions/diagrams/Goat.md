@@ -3,7 +3,7 @@ title = "diagrams.Goat"
 linkTitle = "Goat"
 description = "返回由给定 GoAT 标记与选项创建的 SVGDiagram 对象。"
 date = 2026-10-02
-weight = 20
+weight = 10
 source = "https://gohugo.io/functions/diagrams/goat/"
 
 [params.functions_and_methods]

@@ -3,7 +3,7 @@ title = "js.Babel"
 linkTitle = "Babel"
 description = "返回用 Babel 转译给定 JavaScript 资源后生成的资源。"
 date = 2026-10-02
-weight = 20
+weight = 10
 source = "https://gohugo.io/functions/js/babel/"
 
 [params.functions_and_methods]

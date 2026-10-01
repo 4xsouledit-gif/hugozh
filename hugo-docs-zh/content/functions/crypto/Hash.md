@@ -3,7 +3,7 @@ title = "crypto.Hash"
 linkTitle = "Hash"
 description = "用给定哈希算法计算给定输入的校验和，并编码为十六进制字符串。"
 date = 2026-10-02
-weight = 20
+weight = 10
 source = "https://gohugo.io/functions/crypto/hash/"
 
 [params.functions_and_methods]

@@ -3,7 +3,7 @@ title = "encoding.Jsonify"
 linkTitle = "Jsonify"
 description = "返回给定对象编码为 JSON 后的结果。"
 date = 2026-10-02
-weight = 60
+weight = 50
 source = "https://gohugo.io/functions/encoding/jsonify/"
 
 [params.functions_and_methods]

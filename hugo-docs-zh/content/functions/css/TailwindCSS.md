@@ -3,7 +3,7 @@ title = "css.TailwindCSS"
 linkTitle = "TailwindCSS"
 description = "返回用 Tailwind CSS CLI 处理给定资源后生成的资源。"
 date = 2026-10-02
-weight = 70
+weight = 60
 source = "https://gohugo.io/functions/css/tailwindcss/"
 
 [params.functions_and_methods]
@@ -112,7 +112,7 @@ returnType = "resource.Resource"
 
 `importContext`
 : **（0.165.0 新增）**
-: (`resource.ResourceGetter`) 解析 `@import` 语句时使用的资源获取器（resource getter）。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。当 [`disableInlineImports`](#disableinlineimports) 为 `true` 时该选项无效。
+: (`resource.ResourceGetter`) 解析 `@import` 语句时使用的[资源获取器](g)。Hugo 先按语句中书写的路径在这个上下文中查找，找不到再回退到文件系统。当 [`disableInlineImports`](#disableinlineimports) 为 `true` 时该选项无效。
 
 `minify`
 : (`bool`) 是否优化并压缩输出。默认是 `false`。

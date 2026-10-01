@@ -3,7 +3,7 @@ title = "css.Unquoted"
 linkTitle = "Unquoted"
 description = "返回给定字符串，并把其数据类型标记为在 CSS 中使用时不得带引号。"
 date = 2026-10-02
-weight = 80
+weight = 70
 source = "https://gohugo.io/functions/css/unquoted/"
 
 [params.functions_and_methods]

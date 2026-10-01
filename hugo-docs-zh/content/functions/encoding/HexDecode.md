@@ -3,7 +3,7 @@ title = "encoding.HexDecode"
 linkTitle = "HexDecode"
 description = "返回给定内容的十六进制解码结果。"
 date = 2026-10-02
-weight = 40
+weight = 30
 source = "https://gohugo.io/functions/encoding/hexdecode/"
 
 [params.functions_and_methods]

@@ -3,7 +3,7 @@ title = "css.ChromaStyles"
 linkTitle = "ChromaStyles"
 description = "返回语法高亮器使用的 CSS 样式表。"
 date = 2026-10-02
-weight = 30
+weight = 20
 source = "https://gohugo.io/functions/css/chromastyles/"
 
 [params.functions_and_methods]
@@ -18,7 +18,7 @@ returnType = "resource.Resource"
 - [`highlight`][] 短代码
 - [`transform.Highlight`][] 函数
 - [`transform.HighlightCodeBlock`][] 函数
-- Markdown 围栏代码块信息串（info string）中的高亮选项
+- Markdown 围栏代码块[信息串](g)中的高亮选项
 
 Hugo 会缓存结果，因此用相同的选项多次调用该函数不会带来额外开销。
 

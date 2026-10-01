@@ -3,7 +3,7 @@ title = "hash.XxHash"
 linkTitle = "XxHash"
 description = "返回给定字符串的 64 位 xxHash 非加密哈希。"
 date = 2026-10-02
-weight = 30
+weight = 20
 source = "https://gohugo.io/functions/hash/xxhash/"
 
 [params.functions_and_methods]

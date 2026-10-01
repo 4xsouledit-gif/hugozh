@@ -3,6 +3,11 @@
 # 依据：https://gohugo.io/hugo-modules/theme-components/
 
 [params]
+  # 日期格式：Hugo 的本地化 token（:date_long 等）对 zh 会回退成英文，
+  # 故由本叠加层显式给出中文布局（Go 参考时间写法）。
+  # 注意：TOP 层参数必须写在 [params.cjk] 之前，否则会落进 cjk 表里。
+  dateFormat = "2006年1月2日"
+
   [params.cjk]
     # 基础主题的 head.html 依据它决定是否加载 assets/css/cjk.css
     enabled = true

@@ -1,6 +1,6 @@
 ---
 name: hugo-static-site
-description: Build, update, and verify Hugo static sites — content, front matter, sections, menus, taxonomies, i18n, themes and multi-theme layering, SEO head output and structured data, templates, and config keys. Use when a Hugo project or its content is an input or a deliverable, when adding or translating pages in bulk, when styling or theming a site, or when a Hugo build fails. Load this skill before editing content or templates and before running hugo.
+description: Build, update, and verify Hugo static sites — content, front matter, sections, menus, taxonomies, i18n, themes and multi-theme layering, SEO head output and structured data, version control with git-backed dates, templates, and config keys. Use when a Hugo project or its content is an input or a deliverable, when adding or translating pages in bulk, when styling or theming a site, when wiring a repository or page dates, or when a Hugo build fails. Load this skill before editing content or templates and before running hugo.
 ---
 
 # Hugo static sites
@@ -13,9 +13,10 @@ Resource base for this skill is `<skill-directory>`: the trap catalogue at
 `<skill-directory>/references/gotchas.md`, version-keyed changes at
 `<skill-directory>/references/versions.md`, layout/front-matter conventions at
 `<skill-directory>/references/site-structure.md`, the SEO checklist at
-`<skill-directory>/references/seo.md`, and the command notes at
-`<skill-directory>/references/commands.md`. The command notes prescribe only the flags this
-workflow relies on and point at `hugo gen doc` for the reference itself — they are not a
+`<skill-directory>/references/seo.md`, version control and dates at
+`<skill-directory>/references/versioning.md` and `<skill-directory>/references/dates.md`, and the
+command notes at `<skill-directory>/references/commands.md`. The command notes prescribe only the
+flags this workflow relies on and point at `hugo gen doc` for the reference itself — they are not a
 transcription of it.
 
 ## Sources and the citation rule
@@ -162,6 +163,36 @@ hugo list all               # did the page count move the way the edit implies?
 - Never hand-edit `public/`; it is output.
 - Let commands answer questions (`hugo config`, `hugo list all`, `hugo gen doc`) instead of
   guessing, and keep `hugo server` for what no assertion can check.
+
+## Version control and dates
+
+Track source, never output: ignore `public/`, `resources/`, `.hugo_build.lock`. Then let Hugo read
+the repository back, so "last updated" is a fact instead of a field that ages badly:
+
+```toml
+enableGitInfo = true
+
+[frontmatter]
+  lastmod = [':git', 'lastmod', 'date']
+```
+
+Every page then exposes `.GitInfo` (commit hash, author, subject), and templates can show the
+commit the reader is actually looking at. Working rules: `references/versioning.md`.
+
+Dates are the other half — three fields with fallback chains, a time zone, and a localization layer
+that is incomplete. The essentials:
+
+- Guard every date with `.IsZero`: a `time.Time` is a struct, so `{{ with .Date }}` never fails and
+  an undated page happily prints `0001-01-01`.
+- Always print machine-readable dates as `<time datetime="…">` holding ISO-8601, whatever the
+  visible text says.
+- Localized `:date_*` tokens fall back to English for locales the data does not cover (observed:
+  `de-DE` localizes, `zh-CN` does not). Supply an explicit layout — put it in a locale overlay
+  theme's `[params] dateFormat`.
+- A future or expired `date` keeps a page out of the build unless you pass `--buildFuture` /
+  `--buildExpired`; `hugo list future` and `hugo list expired` answer where a page went.
+
+Full checklist: `references/dates.md`.
 
 ## Content and front matter
 

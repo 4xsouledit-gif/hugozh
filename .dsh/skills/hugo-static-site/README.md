@@ -16,9 +16,11 @@ hugo-static-site/
 ├── README.md                       # this file
 └── references/
     ├── commands.md                 # command notes: what the workflow uses (reference: `hugo gen doc`)
-    ├── gotchas.md                  # G1…G20: symptom → cause → fix
+    ├── dates.md                    # date fields, time zones, localized formats, relative time
+    ├── gotchas.md                  # G1…G22: symptom → cause → fix
     ├── seo.md                      # head tags, JSON-LD pitfall, sitemap/robots, performance
     ├── site-structure.md           # theme layers, front matter, navigation, i18n
+    ├── versioning.md               # what to track, gitInfo, commit-backed "last updated"
     └── versions.md                 # version-keyed renames and defaults
 ```
 

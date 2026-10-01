@@ -1,12 +1,17 @@
 {{- /* 输出语义化 <time>：本地化长日期 + 相对时间。
      参数：date（time.Time），label（可选前缀，如「发布于」）。
      调用：{{ partial "time.html" (dict "label" "发布于" "date" .Date) }}
-     依据：https://gohugo.io/functions/time/format/ （:date_long 等本地化布局） */ -}}
+
+     日期格式取自 params.dateFormat，未设置时用 :date_long。
+     注意：Hugo 的本地化 token（:date_*）对部分语言会回退成英文
+     （实测 de-DE 正常、zh-CN 回退），因此中文由叠加主题显式给出
+     dateFormat = "2006年1月2日"。依据：https://gohugo.io/functions/time/format/ */ -}}
 {{- $t := .date -}}
 {{- $label := .label | default "" -}}
+{{- $layout := site.Params.dateFormat | default ":date_long" -}}
 {{- with $t }}{{ if not .IsZero -}}
 {{- $iso := .Format "2006-01-02T15:04:05Z07:00" -}}
-{{- $human := time.Format ":date_long" . -}}
+{{- $human := time.Format $layout . -}}
 {{- $rel := "" -}}
 {{- $d := now.Sub . -}}
 {{- $days := int (div (int $d.Hours) 24) -}}

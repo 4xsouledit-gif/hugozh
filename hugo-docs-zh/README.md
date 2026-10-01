@@ -205,6 +205,37 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
 - **结构化数据的坑**：在 `<script type="application/ld+json">` 里写 `{{ $data | jsonify }}`，Go 会把已序列化的字符串当 JS 字符串字面量再编码一次，输出成 `"{…}"`，结构化数据随即失效。正确做法是把**对象**交给模板（`{{ $data }}`），让 JS 上下文做净化序列化；依据 <https://gohugo.io/functions/safe/js/>。
 - **验证方式**：构建后从 `public/index.html` 取出 JSON-LD 交给真正的 JSON 解析器解析一遍——标签存在不等于数据可用。
 
+## 版本控制与日期
+
+站点源码由 Git 管理（仓库根在工作区，`hugo-docs-zh/` 只是其中一个目录；`.dsh/skills/` 也在同一仓库内）。产出物不入库：
+
+```gitignore
+hugo-docs-zh/public/
+hugo-docs-zh/resources/
+hugo-docs-zh/.hugo_build.lock
+```
+
+`.gitattributes` 里 `* text=auto eol=lf` 统一换行符，避免跨平台整文件 diff。
+
+**让 Hugo 回读仓库**（`hugo.toml`）：
+
+```toml
+enableGitInfo = true
+
+[frontmatter]
+  lastmod = [':git', 'lastmod', 'date']   # 优先取提交时间
+```
+
+于是每个页面都有 `.GitInfo`，正文页元信息会显示「提交 51660c8」（悬停可见提交说明与作者），**每次提交后各页「最后更新」自动前进**，不依赖手写日期。
+
+**日期呈现**（`partials/time.html`）：本地化长日期 + 相对时间，并始终包在语义化的 `<time datetime="ISO8601">` 中——「发布于 2026年10月1日（今天）· 最后更新 2026年10月1日（今天）· 提交 51660c8」。
+
+```html
+<time datetime="2026-10-01T00:00:00+08:00" title="2026年10月1日">2026年10月1日</time>
+```
+
+一个实测结论：Hugo 的本地化 token（`:date_long` 等）**对中文会回退成英文**（同一模板下 `locale = "de-DE"` 输出 `1. Oktober 2026`，`locale = "zh-CN"` 输出 `October 1, 2026`）。因此中文格式由**中文叠加主题**显式给出：`[params] dateFormat = "2006年1月2日"`（放在 `[params.cjk]` **之前**——TOML 中表头之后的键会归入该表）。相关坑见 skill 的 G21/G22。
+
 ## 调整外观
 
 - **颜色、栏宽、字体**：改 `themes/hugo-docs-theme/assets/css/main.css` 顶部的 `:root` 自定义属性（`--accent`、`--bg`、`--sidebar-width`、`--toc-width`、`--content-max` 等），改这一处即可整体换配色。

@@ -7,7 +7,7 @@ Each entry: what you see → what actually happened → what to do. Entries are 
 
 - **documented** — reproduces stated behaviour and names the page or command involved: G1,
   G3–G10, G14, G18–G20.
-- **observed** — reproduced on a working site, not stated in the docs: G11–G13, G15–G17.
+- **observed** — reproduced on a working site, not stated in the docs: G11–G13, G15–G17, G21–G22.
 - **not documented** — real but unstated; G2 says so in its own Status line.
 
 Where an entry disagrees with what your own build shows, trust the build: these are behaviours,
@@ -167,3 +167,48 @@ usually masks the problem because it serves from `/`.
 `resources.Get` reads `assets/`; files inside a leaf bundle are page resources reachable via
 `.Resources`. A file in `static/` is copied verbatim and cannot be processed by the asset
 pipeline.
+
+## G21 — a "top-level" key silently becomes part of the table above it
+
+**Symptom.** `theme = [...]` looks right in `hugo.toml`, yet the build warns
+`found no layout file for "html" for kind "…"` for every kind, `--printUnusedTemplates` reports
+`/baseof.html is unused`, and the page count collapses (226 → 21 in the case that found this).
+
+**Cause.** TOML scoping. After a `[table]` header, every bare key belongs to that table, so a key
+written *below* a table is no longer top-level:
+
+```toml
+[frontmatter]
+  lastmod = [':git', 'lastmod']
+theme = ["a", "b"]        # ← this is frontmatter.theme, not theme
+```
+
+**Fix.** Keep every top-level scalar above the first `[table]` header and add new tables at the
+bottom. When a config value seems ignored, dump the effective config with `hugo config` and find
+where the key actually landed.
+
+## G22 — localized `:date_*` tokens fall back to English for some locales
+
+**Symptom.** `{{ .Date | time.Format ":date_long" }}` renders `October 1, 2026` on a site whose
+`locale` is `zh-CN`. No warning; the only clue is the output.
+
+**Cause.** Hugo resolves the locale from `locale` (falling back to the language key) and hands it to
+`bep/golocales`. The localized token tables do not cover every locale, and unsupported ones fall
+back to English.
+
+**Fix.** Do not rely on the token for CJK output. Use an explicit Go layout, ideally supplied by a
+locale overlay theme:
+
+```toml
+[params]
+  dateFormat = "2006年1月2日"
+```
+
+```go-html-template
+{{ $layout := site.Params.dateFormat | default ":date_long" }}
+{{ time.Format $layout .Date }}
+```
+
+**Observed:** control test on one template — `locale = "de-DE"` produced `1. Oktober 2026` while
+`locale = "zh-CN"` produced `October 1, 2026`, so the configuration was right and the data is
+incomplete.

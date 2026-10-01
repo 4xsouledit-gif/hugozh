@@ -46,7 +46,7 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   version = "v1.1.0"      # 站点版本，显示在页脚；与 Git tag 对应
 
   # SEO：留空即不输出对应标签
-  ogImage = ""            # 站点默认分享图，写站点内绝对路径，如 "/images/og.png"
+  ogImage = "/images/og-image.png"        # 社交分享图（1200×630，由 .translation/gen-brand-assets.py 生成）
   twitterHandle = ""      # 如 "@gohugoio"，用于 twitter:site
 
 [sitemap]

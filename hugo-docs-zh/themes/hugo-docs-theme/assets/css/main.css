@@ -718,6 +718,28 @@ a:hover {
   font-size: 0.85rem;
 }
 
+/* 页脚：官方标识（指示性使用）+ 版权声明 */
+.footer-mark {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.9rem;
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.footer-mark img {
+  height: auto;
+}
+
+.footer-mark span {
+  flex: 1 1 22rem;
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+}
+
 .pager-next {
   margin-left: auto;
 }

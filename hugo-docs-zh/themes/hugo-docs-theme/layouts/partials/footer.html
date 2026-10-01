@@ -4,5 +4,9 @@
     <p>站点：<a href="{{ site.BaseURL }}">{{ site.BaseURL }}</a></p>
     <p>原文仓库：<a href="{{ site.Params.upstreamRepo }}" target="_blank" rel="noopener">gohugoio/hugoDocs</a> · 由 Hugo {{ hugo.Version }} 构建 · {{ partial "time.html" (dict "label" "构建于" "date" now) }}</p>
     <p>站点版本 {{ site.Params.version | default "dev" }}{{ with site.Lastmod }}{{ if not .IsZero }} · 内容最近更新 {{ partial "time.html" (dict "date" .) }}{{ end }}{{ end }} · 源码受版本控制（每次提交都会更新各页「最后更新」）</p>
+    <p class="footer-mark">
+      <img src="{{ "images/hugo-logo-wide.svg" | relURL }}" width="132" alt="Hugo" loading="lazy">
+      <span>Hugo logos are copyright © Steve Francia 2013–{{ now.Year }}. 本站为非官方社区项目，此处标识仅用于说明文档主题，不表示任何官方关联或背书。</span>
+    </p>
   </div>
 </footer>

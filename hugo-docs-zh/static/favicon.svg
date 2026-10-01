@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hugo 中文文档">
+  <title>Hugo 中文文档 · hugozh.cn</title>
+  <defs>
+    <linearGradient id="hugozh" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff4088"/>
+      <stop offset="1" stop-color="#c9177e"/>
+    </linearGradient>
+  </defs>
+  <!-- 徽标底：圆角方块，沿用 Hugo 官方品牌粉（也是本站主题的激活色） -->
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="url(#hugozh)"/>
+  <!-- 「中」：用矩形与线条拼出，不依赖任何字体，任何环境渲染一致 -->
+  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="square">
+    <rect x="21.5" y="22.5" width="21" height="19"/>
+    <path d="M32 13.5v37"/>
+  </g>
+</svg>

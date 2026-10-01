@@ -18,8 +18,8 @@ Hugo 中文布道站 / Hugo Chinese Documentation & Advocacy
   * 按本站章节结构重新归位部分页面（例如 types、emojis 归入 templates / quick-reference，
     render-hooks、shortcodes 独立成章），并把内部链接改写为本站路径；
   * 每篇译文的前置元数据保留 source 字段，指向对应的英文原文页面；
-  * 翻译范围与未翻译部分（functions/、methods/、quick-reference/glossary/、news/、_common/）
-    见 README.md 与 hugo-docs-zh/README.md；
+  * 翻译范围：上游全部 19 个一级章节（含 functions/ 315、methods/ 268、quick-reference/glossary/ 159 等）；
+    未纳入的只有 news/（上游仅索引页，无正文）与 _common/ 片段目录（片段内容已随引用它的页面内联译出）；
   * 译文为学习交流用途，不构成对官方文档的替代；有出入时以官方英文原文为准。
 
 原创部分（MIT 许可，见 LICENSE）
@@ -29,3 +29,13 @@ Hugo 中文布道站 / Hugo Chinese Documentation & Advocacy
   * 项目的布局约束、配置、构建与校验流程；
   * AI 技能包 hugo-static-site（位于 .dsh/skills/）。
   Copyright (c) 2026 本项目贡献者
+
+第三方标识 / Third-party marks
+------------------------------
+
+  * "Hugo" 是 The Hugo Authors 的商标；Hugo logos 版权归 Steve Francia（2013–）。
+    Apache License 2.0 明确不授予商标与标识的使用权（见 LICENSE-APACHE 第 6 条）。
+  * 本站为非官方社区项目：站内出现的 Hugo 标识仅用于**指示文档主题**（指示性使用），
+    不表示任何官方关联、赞助或背书；页脚同时展示上述版权声明。
+  * 本站自有标识（favicon.svg、apple-touch-icon.png、images/icon-64.png、images/og-image.png）
+    为本项目原创，采用 MIT 许可；由 .translation/gen-brand-assets.py 生成，可复现。

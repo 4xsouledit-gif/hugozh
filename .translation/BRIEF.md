@@ -72,10 +72,16 @@ source = "https://gohugo.io/functions/strings/truncate/"
 
 1. 正文**从 `##` 开始**，绝不出现一级标题。
 2. **站内链接一律根相对**：`[截断](/functions/strings/truncate/)`。只有 `source` 字段写外链。
-3. 代码、标识符、函数名、键名、CLI 参数、文件名**不译**；代码块保留原语言标记。
-4. 原文的 `> [!NOTE]` / `> [!TIP]` 等 callout 语法保持原样。
-5. 表格、列表结构保持；不要为了「好看」改动结构。
-6. 上游的 `_index.md` 往往是短索引页，照译即可，不要额外扩写。
+3. **上游的 `[术语](g)` 写法可以原样保留**：本站已加链接渲染钩子
+   （`themes/hugo-docs-theme/layouts/_markup/render-link.html`），会把它解析为
+   `/quick-reference/glossary/<术语>/`；术语页尚未翻译时自动退化为纯文本，不会产生死链。
+   **不要**改写成 `[术语](/quick-reference/glossary/…)`（slug 容易写错），保持 `(g)` 即可。
+4. 代码、标识符、函数名、键名、CLI 参数、文件名**不译**；代码块保留原语言标记。
+5. 原文的 `> [!NOTE]` / `> [!TIP]` 等 callout 语法保持原样。
+6. 表格、列表结构保持；不要为了「好看」改动结构。
+7. 上游的 `_index.md` 往往是短索引页，照译即可，不要额外扩写。
+8. 术语表页（`quick-reference/glossary/*.md`）上游前置元数据里的 `reference` 字段是「参见主文档页」，
+   请把它转成正文末尾的一行：`参见：[中文标题](/对应站内路径/)`。
 
 ## 四、翻译风格
 

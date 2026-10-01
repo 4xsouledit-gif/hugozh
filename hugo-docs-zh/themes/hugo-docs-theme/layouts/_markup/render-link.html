@@ -1,0 +1,16 @@
+{{- /* 链接渲染钩子。
+     1) 上游文档用 [术语](g) 指向术语表；本站据此把 (g) 解析为
+        /quick-reference/glossary/<术语 slug>/ ——若该术语页不存在，则退化为纯文本，绝不产生死链。
+     2) 其余链接保持 Markdown 默认行为，外部链接加 target/rel。
+     依据：https://gohugo.io/render-hooks/links/ */ -}}
+{{- $dest := .Destination -}}
+{{- if eq $dest "g" -}}
+  {{- $slug := .Text | plainify | urlize -}}
+  {{- with site.GetPage (printf "/quick-reference/glossary/%s" $slug) -}}
+    <a href="{{ .RelPermalink }}">{{ $.Text | safeHTML }}</a>
+  {{- else -}}
+    {{- .Text | safeHTML -}}
+  {{- end -}}
+{{- else -}}
+  <a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if or (hasPrefix $dest "http://") (hasPrefix $dest "https://") }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- end -}}

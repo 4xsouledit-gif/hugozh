@@ -1,3 +1,0 @@
-:root{--cjk-sans:"PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC",
-    "Hiragino Sans GB", "Heiti SC", sans-serif;--cjk-serif:"Songti SC", "SimSun", "Noto Serif SC", "Source Han Serif SC", serif;--cjk-mono:"Cascadia Mono", Consolas, "JetBrains Mono", "Sarasa Mono SC",
-    "Noto Sans Mono CJK SC", monospace}body{font-family:var(--cjk-sans)}code,kbd,pre,samp{font-family:var(--cjk-mono)}p,li,dd{line-height:1.9}.content p{text-align:justify;text-justify:inter-ideograph;overflow-wrap:anywhere}h1,h2,h3,h4{line-height:1.35;letter-spacing:.01em}:lang(zh){word-break:normal;line-break:strict}

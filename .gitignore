@@ -16,3 +16,6 @@ hugoDocs/
 *.swp
 Thumbs.db
 Desktop.ini
+
+# 代理验证构建的临时输出（不入库）
+.translation/_verify*/

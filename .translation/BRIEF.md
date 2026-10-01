@@ -62,8 +62,11 @@ source = "https://gohugo.io/functions/strings/truncate/"
 ```
 
 - `weight`：同一目录内按上游文件名顺序，用 **10、20、30…** 递增，**不要重复**。
-- `source`：`https://gohugo.io/` + 上游相对路径去掉 `.md`；目录型页面以 `/` 结尾
-  （例：`functions/strings/_index.md` → `https://gohugo.io/functions/strings/`）。
+- `source`：`https://gohugo.io/` + 上游相对路径去掉 `.md`，**并全部转为小写**（Hugo 默认
+  `disablePathToLower=false`，输出 URL 一律小写；这也是本站既有 200+ 页的写法），目录型页面以 `/` 结尾。
+  例：`functions/collections/After.md` → `https://gohugo.io/functions/collections/after/`；
+  `methods/page/TableOfContents.md` → `https://gohugo.io/methods/page/tableofcontents/`；
+  `quick-reference/glossary/Page-Bundle.md` → `https://gohugo.io/quick-reference/glossary/page-bundle/`。
 - 上游前置元数据里的别名/分类等**不要照搬**；只保留上述六字段（可另加上游已有的 `aliases`，如确有需要）。
 
 ---

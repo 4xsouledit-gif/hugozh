@@ -11,9 +11,9 @@ signatures = ["TAXONOMY.Alphabetical"]
 returnType = "page.OrderedTaxonomy"
 +++
 
-`Taxonomy` 对象上的 `Alphabetical` 方法返回一个[有序分类法](g)，按[术语](g)的字母序排序。
+`Taxonomy` 对象上的 `Alphabetical` 方法返回一个 [ordered taxonomy](g)（有序分类法），按 [term](g)（术语）的字母序排序。
 
-`Taxonomy` 对象是[映射](g)（map），而有序分类法是一个[切片](g)（slice），其中每个元素都是一个对象，包含术语以及该术语的[加权页面](g)切片。
+`Taxonomy` 对象是 [map](g)（映射），而有序分类法是一个 [slice](g)（切片），其中每个元素都是一个对象，包含术语以及该术语的 [weighted pages](g)（加权页面）切片。
 
 在使用 `Taxonomy` 方法之前，需要先取得一个 `Taxonomy` 对象。
 
@@ -109,7 +109,7 @@ content/
 : （`page.Page`）返回该术语的 `Page` 对象，便于链接到术语页面。
 
 `Pages`
-: （`page.Pages`）返回一个 `Pages` 对象，其中包含该术语所关联的 `Page` 对象，按[分类法权重](g)排序。若要排序或分组，可使用 `Pages` 对象可用的任何[方法][]。例如按最后修改日期排序。
+: （`page.Pages`）返回一个 `Pages` 对象，其中包含该术语所关联的 `Page` 对象，按 [taxonomic weight](g)（分类法权重）排序。若要排序或分组，可使用 `Pages` 对象可用的任何[方法][]。例如按最后修改日期排序。
 
 `Term`
 : （`string`）返回术语名称。

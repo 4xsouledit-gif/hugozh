@@ -1,4 +1,4 @@
-# Hugo 官方文档 · 中文翻译站
+# Hugo 中文文档 · 社区翻译站
 
 一个**自包含**的 Hugo 站点：内容为 Hugo 官方文档（<https://gohugo.io/>）的简体中文翻译；版式由仓库内的两个主题（`themes/hugo-docs-theme` 版式基础层、`themes/hugo-docs-theme-zh` 中文排版叠加层）提供，项目 `layouts/` 只保留跨主题共用的骨架约束，**不依赖任何外部主题，也不需要联网即可构建与预览**。
 
@@ -30,7 +30,8 @@ hugo --minify        # 构建并压缩输出
 ```
 
 - 首次构建时 Hugo 会在 `resources/_gen/` 下缓存指纹化后的 CSS/JS，属于正常现象。
-- 部署到子路径（例如 `https://example.com/docs/`）时，先修改 `hugo.toml` 中的 `baseURL` 再构建。
+- 线上域名：<https://hugozh.cn/>（已写入 `hugo.toml` 的 `baseURL`）。
+- 部署到子路径（例如 `https://hugozh.cn/docs/`）时，先修改 `hugo.toml` 中的 `baseURL` 再构建。
 
 ## 目录结构
 
@@ -53,13 +54,17 @@ hugo-docs-zh/
 │   ├── configuration/             # 34 页
 │   ├── content-management/        # 23 页
 │   ├── contribute/                # 4 页
+│   ├── functions/                 # 313 页
 │   ├── getting-started/           # 4 页
 │   ├── host-and-deploy/           # 15 页
 │   ├── hugo-modules/              # 5 页
 │   ├── hugo-pipes/                # 10 页
 │   ├── installation/              # 5 页
-│   ├── quick-reference/           # 3 页
+│   ├── methods/                   # 268 页
+│   ├── news/                      # 1 页（仅索引页，无正文）
+│   ├── quick-reference/           # 166 页（含 glossary 术语 159 条）
 │   ├── render-hooks/              # 9 页
+│   ├── skill/                     # 1 页（原创：技能包介绍）
 │   ├── shortcodes/                # 12 页
 │   ├── templates/                 # 14 页
 │   ├── tools/                     # 6 页

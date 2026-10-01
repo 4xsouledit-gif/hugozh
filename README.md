@@ -62,14 +62,14 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]   # 左优先；项目自身�
 3) 在 ~/.dsh/profiles/<profile>/cordis.patch.yml 里给 skill-filesystem 指定 customSkillDirs
 ```
 
-站点上也有一页面向中文读者的介绍：<https://example.org/skill/>（部署后替换为真实域名）。
+站点上也有一页面向中文读者的介绍：<https://hugozh.cn/skill/>。
 
-## 公开部署前必做的一步
+## 部署
 
-`hugo-docs-zh/hugo.toml` 里的 `baseURL` 目前是占位符 `https://example.org/`。canonical、Open Graph、`hreflang`、`sitemap.xml` 全部基于它，**公开部署前必须改成真实域名**，否则搜索引擎与社交平台拿到的都是错地址。
+`hugo-docs-zh/hugo.toml` 里的 `baseURL` 已设为 **<https://hugozh.cn/>**（`.cn` 域名，2026-10-02 注册）。canonical、Open Graph、`hreflang`、`sitemap.xml` 全部基于它；改绑其他域名或部署到子路径时，**先改 `baseURL` 再构建**，否则搜索引擎与社交平台拿到的都是错地址。
 
 ```toml
-baseURL = "https://your-domain.example/"
+baseURL = "https://hugozh.cn/"
 ```
 
 ## 首次推送到远端

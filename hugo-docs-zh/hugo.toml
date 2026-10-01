@@ -1,13 +1,13 @@
 # ============================================================
-#  Hugo 官方文档 · 中文翻译 —— 站点配置
+#  Hugo 中文文档 · 社区翻译 —— 站点配置（https://hugozh.cn/）
 #  要求：Hugo 0.158 或更高版本（标准版即可，不依赖 extended）
 #  预览：hugo server     构建：hugo
 # ============================================================
 
-baseURL = "https://example.org/"
+baseURL = "https://hugozh.cn/"
 locale = "zh-CN"
 defaultContentLanguage = "zh-cn"
-title = "Hugo 官方文档 · 中文翻译"
+title = "Hugo 中文文档"
 enableRobotsTXT = true
 hasCJKLanguage = true
 summaryLength = 70
@@ -35,7 +35,7 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   date = ['date', ':git']
 
 [params]
-  description = "Hugo 官方文档 16 个一级章节的简体中文翻译，附英文原文链接，便于对照阅读。"
+  description = "Hugo 官方文档全部 19 个一级章节、948 页的社区简体中文翻译（非官方），附英文原文链接，便于对照阅读。"
   tagline = "把 Hugo 带到中文世界"          # 首页主视觉的眉题
   repoURL = ""                             # 公开仓库地址；填了就显示「查看源码」按钮
   upstream = "https://gohugo.io/"

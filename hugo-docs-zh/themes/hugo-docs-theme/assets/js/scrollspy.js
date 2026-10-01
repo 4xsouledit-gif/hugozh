@@ -158,3 +158,34 @@
     init();
   }
 })();
+
+/* ============================================================
+   左侧目录：把当前页滚到侧栏可视区中部
+   - methods/page 等章节有近百个页面，当前项常落在可视区之外，
+     用户会以为「侧栏没有保持激活」，因此进入页面时主动居中。
+   - 只滚动侧栏自身，不触碰页面滚动位置，避免刷新时跳动。
+   ============================================================ */
+(function () {
+  'use strict';
+
+  function centerActiveInSidebar() {
+    var box = document.querySelector('.sidebar');
+    if (!box) {
+      return;
+    }
+    var active = box.querySelector('a[aria-current="page"]');
+    if (!active || box.scrollHeight <= box.clientHeight) {
+      return;
+    }
+    box.scrollTop = Math.max(
+      0,
+      active.offsetTop - box.clientHeight / 2 + active.offsetHeight / 2
+    );
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', centerActiveInSidebar);
+  } else {
+    centerActiveInSidebar();
+  }
+})();

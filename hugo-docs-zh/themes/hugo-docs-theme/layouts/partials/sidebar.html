@@ -2,21 +2,34 @@
   <nav>
     <p class="sidebar-heading">文档目录</p>
     {{- $page := . -}}
-    {{- $currentSection := "" -}}
-    {{- with .CurrentSection }}{{ $currentSection = .RelPermalink }}{{ end -}}
+    {{- $top := .FirstSection -}}
     {{- range site.Home.Sections.ByWeight }}
-    {{- $isCurrent := eq $currentSection .RelPermalink }}
+    {{- $isTop := and $top (eq $top.RelPermalink .RelPermalink) }}
     <div class="sidebar-group">
-      <a class="sidebar-section{{ if $isCurrent }} is-active{{ end }}" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-      {{- if $isCurrent }}
-      {{- with .Pages.ByWeight }}
+      <a class="sidebar-section{{ if $isTop }} is-active{{ end }}" href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+      {{- if $isTop }}
+      {{- /* 一级：本顶层章节的直接子页（扁平章节，如「配置」） */ -}}
+      {{- with .RegularPages.ByWeight }}
       <ul class="sidebar-list">
         {{- range . }}
-        <li>
-          <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} class="is-active" aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
-        </li>
+        <li><a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} class="is-active" aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
         {{- end }}
       </ul>
+      {{- end }}
+      {{- /* 二级：子章节（如 methods/page、functions/strings、quick-reference/glossary）；
+             仅展开包含当前页面的那一个，并高亮其中的当前页。 */ -}}
+      {{- range .Sections.ByWeight }}
+      {{- $isSub := hasPrefix $page.RelPermalink .RelPermalink }}
+      <div class="sidebar-subgroup">
+        <a class="sidebar-subsection{{ if $isSub }} is-active{{ end }}" href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+        {{- if $isSub }}
+        <ul class="sidebar-list">
+          {{- range .RegularPages.ByWeight }}
+          <li><a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $page.RelPermalink }} class="is-active" aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+          {{- end }}
+        </ul>
+        {{- end }}
+      </div>
       {{- end }}
       {{- end }}
     </div>

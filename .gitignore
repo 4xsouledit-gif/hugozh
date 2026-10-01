@@ -25,3 +25,7 @@ Desktop.ini
 .tmpcheck*/
 .translation_tmp_verify*/
 hugo-docs-zh/.tmp*/
+
+# Playwright 测试的依赖与截图（不入库）
+.testing/node_modules/
+.testing/*.png

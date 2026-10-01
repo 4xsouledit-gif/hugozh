@@ -204,6 +204,29 @@ a:hover {
 
 .sidebar-section.is-active {
   color: var(--brand-dark);
+  font-weight: 700;
+}
+
+/* 二级子章节（如 methods/page、functions/strings） */
+.sidebar-subgroup {
+  margin: 0.4rem 0 0.2rem 0.15rem;
+}
+
+.sidebar-subsection {
+  display: block;
+  padding: 0.12rem 0;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.sidebar-subsection:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.sidebar-subsection.is-active {
+  color: var(--brand-dark);
+  font-weight: 600;
 }
 
 .sidebar-list {
@@ -235,6 +258,7 @@ a:hover {
   color: var(--brand-dark);
   font-weight: 600;
   border-left-color: var(--brand);
+  background: var(--bg-soft);
 }
 
 /* ---------- 本页目录 ---------- */

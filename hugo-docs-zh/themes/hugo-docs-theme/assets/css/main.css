@@ -550,6 +550,58 @@ a:hover {
   border-left-color: #2f855a;
 }
 
+.callout-important {
+  border-left-color: #6b46c1;
+}
+
+.callout-caution {
+  border-left-color: #c53030;
+}
+
+/* ---------- 代码块文件名标题（render-codeblock 钩子） ---------- */
+
+.code-block {
+  margin: 1.5rem 0;
+}
+
+.code-block-file {
+  margin: 0 0 0.35rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Cascadia Mono", monospace;
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+
+.code-block .highlight {
+  margin: 0;
+}
+
+/* ---------- 函数/方法签名块（partials/function-meta.html） ---------- */
+
+.fn-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  margin: 0.75rem 0 1.6rem;
+  padding: 0.7rem 1rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.fn-meta dt {
+  color: var(--text-faint);
+}
+
+.fn-meta dd {
+  margin: 0 0.75rem 0 0;
+}
+
+.fn-meta code {
+  font-size: 0.95em;
+}
+
 .callout-warning {
   border-left-color: #b7791f;
 }

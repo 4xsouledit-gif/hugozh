@@ -1,15 +1,22 @@
 {{- /* 链接渲染钩子。
-     1) 上游文档用 [术语](g) 指向术语表；本站据此把 (g) 解析为
-        /quick-reference/glossary/<术语 slug>/ ——若该术语页不存在，则退化为纯文本，绝不产生死链。
-     2) 其余链接保持 Markdown 默认行为，外部链接加 target/rel。
+     1) 上游文档用 [术语](g) 指向术语表。本站用 partials/glossary-index.html 建立索引：
+        先精确匹配归一化名称，再尝试去掉尾部 s 的变体（吸收单复数差异），
+        仍找不到则退化为纯文本——绝不产生死链。
+     2) 其余链接保持 Markdown 默认行为，外部链接补 target/rel。
      依据：https://gohugo.io/render-hooks/links/ */ -}}
 {{- $dest := .Destination -}}
 {{- if eq $dest "g" -}}
-  {{- $slug := .Text | plainify | urlize -}}
-  {{- with site.GetPage (printf "/quick-reference/glossary/%s" $slug) -}}
-    <a href="{{ .RelPermalink }}">{{ $.Text | safeHTML }}</a>
+  {{- $text := .Text -}}
+  {{- $want := $text | plainify | urlize -}}
+  {{- $idx := partialCached "glossary-index.html" . "glossary-index" -}}
+  {{- $href := index $idx $want -}}
+  {{- if not $href -}}
+    {{- $href = index $idx (strings.TrimSuffix "s" $want) -}}
+  {{- end -}}
+  {{- with $href -}}
+    <a href="{{ . }}">{{ $text | safeHTML }}</a>
   {{- else -}}
-    {{- .Text | safeHTML -}}
+    {{- $text | safeHTML -}}
   {{- end -}}
 {{- else -}}
   <a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if or (hasPrefix $dest "http://") (hasPrefix $dest "https://") }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>

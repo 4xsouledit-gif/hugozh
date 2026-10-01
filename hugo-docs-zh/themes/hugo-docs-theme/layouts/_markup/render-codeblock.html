@@ -1,0 +1,20 @@
+{{- /* 代码块渲染钩子：
+     1) 用 transform.HighlightCodeBlock 输出高亮结果（保留 Chroma 类名，配合 markup.highlight.noClasses=false）。
+     2) 把上游 ```go-html-template {file="layouts/x.html"} 的 file 属性渲染成文件名标题，
+        避免它作为非法 HTML 属性漏进输出。
+     3) 语言不被高亮器支持时回退为纯文本。
+     依据：https://gohugo.io/render-hooks/code-blocks/
+           https://gohugo.io/functions/transform/highlightcodeblock/ */ -}}
+{{- $opts := .Options -}}
+{{- if not (transform.CanHighlight .Type) -}}
+  {{- $opts = merge $opts (dict "type" "text") -}}
+{{- end -}}
+{{- $result := transform.HighlightCodeBlock . $opts -}}
+{{- with .Attributes.file -}}
+<figure class="code-block" data-file="{{ . }}">
+  <figcaption class="code-block-file">{{ . }}</figcaption>
+  {{ $result.Wrapped }}
+</figure>
+{{- else -}}
+{{ $result.Wrapped }}
+{{- end -}}

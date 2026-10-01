@@ -1,0 +1,24 @@
+{{- /* 术语表索引：归一化名称 → 站内路径。整个构建只计算一次（partialCached）。
+     键包含：页面标题的 urlize、文件基名的 urlize，以及去掉尾部 s 的变体，
+     用于吸收上游 [术语](g) 与术语表页面之间的单复数差异。
+     注意：partial 内的 `$` 是 partial 的入参，不是 range 的当前项，
+     因此必须在进入内层 range 之前把路径存进 $href。
+     依据：https://gohugo.io/functions/partials/partialcached/ */ -}}
+{{- $idx := dict -}}
+{{- range site.RegularPages -}}
+  {{- if hasPrefix .RelPermalink "/quick-reference/glossary/" -}}
+    {{- $href := .RelPermalink -}}
+    {{- $keys := slice (urlize .Title) -}}
+    {{- with .File }}{{ $keys = $keys | append (urlize .BaseFileName) }}{{ end -}}
+    {{- range $keys -}}
+      {{- if . -}}
+        {{- $idx = merge $idx (dict . $href) -}}
+        {{- $stem := strings.TrimSuffix "s" . -}}
+        {{- if and $stem (ne $stem .) -}}
+          {{- $idx = merge $idx (dict $stem $href) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $idx -}}

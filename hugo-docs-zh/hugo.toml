@@ -54,6 +54,11 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    # 与上游 gohugo.io 一致：解析块级属性（如表格后的 {.no-wrap-first-col}）。
+    # 不开这一项时，这类独立一行会被当作表格数据行，渲染出垃圾文本。
+    [markup.goldmark.parser]
+      [markup.goldmark.parser.attribute]
+        block = true
   [markup.highlight]
     noClasses = false
     lineNos = false

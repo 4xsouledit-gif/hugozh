@@ -82,6 +82,26 @@ source = "https://gohugo.io/functions/strings/truncate/"
 7. 上游的 `_index.md` 往往是短索引页，照译即可，不要额外扩写。
 8. 术语表页（`quick-reference/glossary/*.md`）上游前置元数据里的 `reference` 字段是「参见主文档页」，
    请把它转成正文末尾的一行：`参见：[中文标题](/对应站内路径/)`。
+9. **代码围栏的属性写法原样保留**：```go-html-template {file="layouts/x.html"}、{linenos=inline} 等。
+   主题已有代码块渲染钩子（`layouts/_markup/render-codeblock.html`），会把 `file` 渲染成文件名标题，
+   不会漏成非法 HTML 属性。
+10. **块级属性独立一行原样保留**（如表格后的 `{.no-wrap-first-col}`）：本站已按上游开启
+    `markup.goldmark.parser.attribute.block = true`；删掉反而与英文原文不一致。
+11. `> [!NOTE]` / `> [!TIP]` / `> [!WARNING]` / `> [!IMPORTANT]` / `> [!CAUTION]` **原样保留**：
+    主题已有引用块渲染钩子（`layouts/_markup/render-blockquote.html`），会渲染成带中文标签的警示框。
+12. **函数/方法页必须保留签名信息**。上游前置元数据里的 `params.functions_and_methods`
+    （`signatures` / `returnType` / `aliases`）是参考页最核心的内容，请转成 TOML 表放在前置元数据末尾：
+
+    ```toml
+    [params.functions_and_methods]
+    signatures = ["strings.Chomp STRING"]
+    returnType = "any"
+    aliases = ["chomp"]
+    ```
+
+    缺哪项就省略哪项（`aliases: []` 视为缺项）。主题的 `partials/function-meta.html` 会把它渲染成
+    「签名 / 返回类型 / 别名」一行。**若已漏掉也不必返工**：`.translation/backfill-signatures.ps1`
+    会从上游机械回填（幂等）。
 
 ## 四、翻译风格
 

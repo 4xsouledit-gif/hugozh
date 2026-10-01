@@ -1,0 +1,22 @@
+{{- /* 函数/方法签名块。
+     上游每个函数或方法页的前置元数据里有 params.functions_and_methods：
+       signatures（调用签名）、returnType（返回类型）、aliases（别名）。
+     译文页回填了同样的字段（见 .translation/backfill-signatures.ps1），
+     这里把它渲染成参考页顶部的一行签名 + 返回类型。
+     依据：上游 gohugo.io 的函数/方法参考页版式。 */ -}}
+{{- with .Params.functions_and_methods -}}
+<dl class="fn-meta">
+  {{- with .signatures }}
+  <dt>签名</dt>
+  <dd>{{ range . }}<code class="fn-signature">{{ . }}</code>{{ end }}</dd>
+  {{- end }}
+  {{- with .returnType }}
+  <dt>返回类型</dt>
+  <dd><code>{{ . }}</code></dd>
+  {{- end }}
+  {{- with .aliases }}
+  <dt>别名</dt>
+  <dd>{{ range $i, $a := . }}{{ if $i }}、{{ end }}<code>{{ $a }}</code>{{ end }}</dd>
+  {{- end }}
+</dl>
+{{- end -}}

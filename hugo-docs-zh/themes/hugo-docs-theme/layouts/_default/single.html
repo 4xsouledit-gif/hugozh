@@ -10,6 +10,7 @@
     <h1>{{ .Title }}</h1>
     {{ with .Description }}<p class="doc-description">{{ . }}</p>{{ end }}
   </header>
+  {{ partial "function-meta.html" . }}
   <div class="doc-body">{{ .Content }}</div>
   <footer class="doc-footer">
     {{ with .Params.source }}<p class="doc-source">英文原文：<a href="{{ . }}" target="_blank" rel="noopener">{{ . }}</a></p>{{ end }}

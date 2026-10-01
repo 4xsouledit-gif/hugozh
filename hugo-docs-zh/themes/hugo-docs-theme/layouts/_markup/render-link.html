@@ -1,18 +1,17 @@
 {{- /* 链接渲染钩子。
-     1) 上游文档用 [术语](g) 指向术语表。本站用 partials/glossary-index.html 建立索引：
-        先精确匹配归一化名称，再尝试去掉尾部 s 的变体（吸收单复数差异），
-        仍找不到则退化为纯文本——绝不产生死链。
+     1) 上游文档用 [术语](g) 指向术语表。本站用 partials/glossary-index.html 建索引：
+        先按链接原文匹配，再退回 urlize 形式，最后尝试去掉尾部 s——中英文写法都能命中；
+        仍找不到则退化为纯文本，绝不产生死链。
      2) 其余链接保持 Markdown 默认行为，外部链接补 target/rel。
      依据：https://gohugo.io/render-hooks/links/ */ -}}
 {{- $dest := .Destination -}}
 {{- if eq $dest "g" -}}
   {{- $text := .Text -}}
-  {{- $want := $text | plainify | urlize -}}
+  {{- $t := $text | plainify | strings.TrimSpace -}}
   {{- $idx := partialCached "glossary-index.html" . "glossary-index" -}}
-  {{- $href := index $idx $want -}}
-  {{- if not $href -}}
-    {{- $href = index $idx (strings.TrimSuffix "s" $want) -}}
-  {{- end -}}
+  {{- $href := index $idx $t -}}
+  {{- if not $href }}{{ $href = index $idx (urlize $t) }}{{ end -}}
+  {{- if not $href }}{{ $href = index $idx (strings.TrimSuffix "s" $t) }}{{ end -}}
   {{- with $href -}}
     <a href="{{ . }}">{{ $text | safeHTML }}</a>
   {{- else -}}

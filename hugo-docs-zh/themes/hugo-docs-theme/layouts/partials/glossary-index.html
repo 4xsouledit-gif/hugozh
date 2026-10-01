@@ -1,26 +1,29 @@
-{{- /* 术语表索引：归一化名称 → 站内路径。整个构建只计算一次（partialCached）。
-     键包含：页面标题的 urlize、文件基名的 urlize，以及去掉尾部 s 的变体，
-     用于吸收上游 [术语](g) 与术语表页面之间的单复数差异。
+{{- /* 术语表索引：多种写法 → 站内路径。整个构建只计算一次（partialCached）。
+     每个术语页收录这些键（原始文本 + urlize 变体 + 去尾 s 变体）：
+       · 标题原文（如「映射（map）」）及其去括号部分（「映射」）、括号内英文（map）
+       · 文件基名（英文 slug，如 map）
+     查找端（render-link.html）先按链接原文匹配，再退回 urlize 形式，
+     因此中文（[映射](g)）、英文（[map](g)）、带空格（[front matter](g)）都能命中。
      注意：partial 内的 `$` 是 partial 的入参，不是 range 的当前项，
-     因此必须在进入内层 range 之前把路径存进 $href。
-     依据：https://gohugo.io/functions/partials/partialcached/ */ -}}
+     因此必须在进入内层 range 之前把路径存进 $href。 */ -}}
 {{- $idx := dict -}}
 {{- range site.RegularPages -}}
   {{- if hasPrefix .RelPermalink "/quick-reference/glossary/" -}}
     {{- $href := .RelPermalink -}}
-    {{- $keys := slice (urlize .Title) -}}
-    {{- /* 标题形如「映射（map）」时，把括号内的英文也作为索引键，
-          这样 [map](g) 与 [映射](g) 两种写法都能命中。 */ -}}
+    {{- $variants := slice .Title -}}
     {{- $en := .Title | replaceRE "^.*[（(]([^）)]+)[）)].*$" "$1" -}}
-    {{- if and $en (ne $en .Title) }}{{ $keys = $keys | append (urlize $en) }}{{ end -}}
-    {{- with .File }}{{ $keys = $keys | append (urlize .BaseFileName) }}{{ end -}}
-    {{- range $keys -}}
-      {{- if . -}}
-        {{- $idx = merge $idx (dict . $href) -}}
-        {{- $stem := strings.TrimSuffix "s" . -}}
-        {{- if and $stem (ne $stem .) -}}
-          {{- $idx = merge $idx (dict $stem $href) -}}
-        {{- end -}}
+    {{- if and $en (ne $en .Title) }}{{ $variants = $variants | append $en }}{{ end -}}
+    {{- $zh := .Title | replaceRE "[（(][^）)]*[）)]" "" -}}
+    {{- if and $zh (ne $zh .Title) }}{{ $variants = $variants | append $zh }}{{ end -}}
+    {{- with .File }}{{ $variants = $variants | append .BaseFileName }}{{ end -}}
+    {{- range $variants -}}
+      {{- $v := . | strings.TrimSpace -}}
+      {{- if $v -}}
+        {{- $idx = merge $idx (dict $v $href) -}}
+        {{- $u := urlize $v -}}
+        {{- if $u }}{{ $idx = merge $idx (dict $u $href) }}{{ end -}}
+        {{- $stem := strings.TrimSuffix "s" $v -}}
+        {{- if and $stem (ne $stem $v) }}{{ $idx = merge $idx (dict $stem $href) }}{{ end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}

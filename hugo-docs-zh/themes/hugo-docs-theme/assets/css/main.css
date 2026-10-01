@@ -558,6 +558,90 @@ a:hover {
   border-left-color: #c53030;
 }
 
+/* ---------- 首页主视觉与按钮 ---------- */
+
+.hero {
+  margin: -0.5rem 0 2.5rem;
+  padding: 1.75rem 0 1.5rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.hero-eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+.hero h1 {
+  margin: 0 0 0.75rem;
+  font-size: 2.1rem;
+  line-height: 1.25;
+}
+
+.hero-lead {
+  margin: 0 0 1.25rem;
+  max-width: 46rem;
+  color: var(--text-soft);
+  font-size: 1.05rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+}
+
+.btn-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  opacity: 0.92;
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-stats li {
+  margin: 0;
+}
+
+.hero-stats strong {
+  display: block;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.hero-stats span {
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
 .pager-next {
   margin-left: auto;
 }

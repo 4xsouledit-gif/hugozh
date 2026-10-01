@@ -1,0 +1,56 @@
+# 许可 / License
+
+本仓库包含两类内容，适用不同许可。
+
+## 1. 中文译文内容 —— Apache License 2.0
+
+`hugo-docs-zh/content/` 下的中文译文，是 Hugo 官方文档
+（<https://github.com/gohugoio/hugoDocs>，其**内容部分**采用 Apache License 2.0）的**演绎作品**：
+我们把它翻译为简体中文，并做了少量结构调整（章节归位、内部链接改写、补充中文语境说明）。
+
+依据 Apache License 2.0 第 4 条的要求，本仓库：
+
+- **随附许可证全文**：见 [`LICENSE-APACHE`](LICENSE-APACHE)；
+- **保留原始署名与版权声明**：见 [`NOTICE`](NOTICE)；
+- **对修改过的文件作出显著说明**：每篇译文的前置元数据都含 `source` 字段指向对应英文原文，
+  且 `NOTICE` 与本文件均声明「文件已被翻译并改动」。
+
+原文版权归 The Hugo Authors 及 hugoDocs 贡献者所有。
+
+## 2. 站点代码与技能包 —— MIT
+
+以下部分为本仓库原创，采用 MIT 许可：
+
+- `hugo-docs-zh/themes/`（两个主题的模板、样式与脚本）
+- `hugo-docs-zh/layouts/`（跨主题的骨架约束）
+- `hugo-docs-zh/hugo.toml`、`hugo-docs-zh/archetypes/`
+- `.dsh/skills/hugo-static-site/`（Hugo 静态站点技能包）
+- 仓库级文档：`README.md`、`CONTRIBUTING.md`
+
+```text
+MIT License
+
+Copyright (c) 2026 本项目贡献者
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 商标
+
+Hugo 是 The Hugo Authors 的商标。本项目为非官方中文项目，使用「Hugo」仅用于说明来源与用途。

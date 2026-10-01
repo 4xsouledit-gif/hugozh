@@ -1,0 +1,31 @@
+Hugo 中文布道站 / Hugo Chinese Documentation & Advocacy
+======================================================
+
+本仓库包含 Hugo 官方文档的中文译文，以及为本项目创作的站点代码与 AI 技能包。
+
+上游作品署名（Apache License 2.0 第 4(d) 条要求）
+--------------------------------------------------
+
+  Hugo documentation (hugoDocs)
+  https://github.com/gohugoio/hugoDocs
+  Copyright (c) The Hugo Authors and the hugoDocs contributors
+  Licensed under the Apache License, Version 2.0（全文见 LICENSE-APACHE）
+
+改动说明（Apache License 2.0 第 4(b) 条要求）
+--------------------------------------------
+
+  * 将上游 content/ 下的英文文档翻译为简体中文；
+  * 按本站章节结构重新归位部分页面（例如 types、emojis 归入 templates / quick-reference，
+    render-hooks、shortcodes 独立成章），并把内部链接改写为本站路径；
+  * 每篇译文的前置元数据保留 source 字段，指向对应的英文原文页面；
+  * 翻译范围与未翻译部分（functions/、methods/、quick-reference/glossary/、news/、_common/）
+    见 README.md 与 hugo-docs-zh/README.md；
+  * 译文为学习交流用途，不构成对官方文档的替代；有出入时以官方英文原文为准。
+
+原创部分（MIT 许可，见 LICENSE）
+--------------------------------
+
+  * Hugo 主题（版式基础层 hugo-docs-theme、中文排版叠加层 hugo-docs-theme-zh）；
+  * 项目的布局约束、配置、构建与校验流程；
+  * AI 技能包 hugo-static-site（位于 .dsh/skills/）。
+  Copyright (c) 2026 本项目贡献者

@@ -1,10 +1,25 @@
 {{ define "main" }}
+{{- $skill := site.GetPage "/skill" -}}
 <article class="doc doc-home">
-  <header class="doc-header">
-    <h1>{{ .Title }}</h1>
-    {{ with .Description }}<p class="doc-description">{{ . }}</p>{{ end }}
-  </header>
+  <section class="hero">
+    <p class="hero-eyebrow">{{ site.Params.tagline | default "把 Hugo 带到中文世界" }}</p>
+    <h1>Hugo 中文文档 · 布道站</h1>
+    {{ with site.Params.description }}<p class="hero-lead">{{ . }}</p>{{ end }}
+    <p class="hero-actions">
+      {{ with $skill }}<a class="btn btn-primary" href="{{ .RelPermalink }}">获取 Hugo 技能包 →</a>{{ end }}
+      <a class="btn" href="{{ "/getting-started/quick-start/" | relURL }}">从快速开始读起</a>
+      {{ with site.Params.repoURL }}<a class="btn" href="{{ . }}" rel="noopener">查看源码</a>{{ end }}
+    </p>
+    <ul class="hero-stats">
+      <li><strong>{{ len site.RegularPages }}</strong><span>篇译文</span></li>
+      <li><strong>{{ len site.Home.Sections }}</strong><span>个章节</span></li>
+      <li><strong>22</strong><span>个真实踩坑</span></li>
+      <li><strong>MIT</strong><span>技能包许可</span></li>
+    </ul>
+  </section>
+
   <div class="doc-body">{{ .Content }}</div>
+
   {{ range site.Home.Sections.ByWeight }}
   <section class="home-section">
     <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>

@@ -11,6 +11,15 @@
 - 性质：社区维护的**非官方**中文翻译；如有出入，以官方英文原文为准
 - 语言：简体中文（zh-CN）
 
+## 这份文档是什么，以及它和官方文档的不同
+
+本站是 Hugo 官方文档的简体中文翻译，但**不止于直译**：在保留上游全部技术细节的前提下，额外补了一层
+「教学层」——把官方默认读者已经懂、因而省略的上下文写出来：这个约束为什么存在、这一步做完应该看到什么、
+出错时先查哪里。因此同一页对普通读者也能独立完成，不需要外部 AI 辅助。
+
+对人类读者，教学信息渲染成正文开头的「阅读提示」面板（难度 / 预计用时 / 前置 / 读完能做什么 / 接着读）；
+对机器，同一份信息以引用块出现在该页 Markdown 版本的标题与摘要之后。**两者同源，不会分叉。**
+
 ## 分主题入口
 
 {{- range site.Home.Sections.ByWeight }}
@@ -19,12 +28,40 @@
 
 ## 机器可读资源
 
-- 每个内容页都有 Markdown 版本：在页面 URL 后接 `index.md`，例如
-  {{ site.BaseURL }}methods/page/section/index.md
-- 全站页面清单：{{ site.BaseURL }}sitemap.xml
+- **首选**：每个内容页（含首页与各章节首页）都有 Markdown 版本，在页面 URL 后接 `index.md`，
+  例如 {{ site.BaseURL }}methods/page/section/index.md ；首页为 {{ site.BaseURL }}index.md
+- 全站页面清单（JSON）：{{ site.BaseURL }}pages.json
+  字段：url / markdown / kind / title / description / section / sectionTitle / source / lastmod /
+  role / difficulty / time / hasTeach / prereqCount / outcomeCount / hasSignature
+- 全站页面清单（XML）：{{ site.BaseURL }}sitemap.xml
 - 订阅源：{{ site.BaseURL }}index.xml
 - 技能包（供 AI 编码代理使用的 Hugo 作业手册）：{{ site.BaseURL }}skill/
 - 技能包清单（含每个文件的 sha256）：{{ site.BaseURL }}skill/skill-manifest.json
+
+## 页面角色（决定「怎么用这一页」）
+
+`pages.json` 的 `role` 字段给出机器可读的页面定位，用于决定是「照做」还是「查阅」：
+
+| role | 含义 | 建议用法 |
+| --- | --- | --- |
+| `tutorial` | 上手教程、安装、故障排查 | 按小标题顺序执行；每步都有「验证标准」，先满足再继续 |
+| `guide` | 流程/指南型章节页 | 找对应小节，取可运行示例后按需改写 |
+| `reference` | 函数 / 方法 / 命令 / 配置 | 查签名、参数、返回值与边界；不要凭签名臆测行为 |
+| `query` | 术语表与速查条目 | 对齐中英术语、取一行结论 |
+| `index` | 章节首页 | 拿本章范围与推荐阅读顺序 |
+
+`difficulty` / `time` / `hasTeach` 来自页面自身的教学块（与 HTML 面板同源）：`hasTeach` 为真表示
+该页有成体系的前置与目标说明，适合作为「先读这一页」的入口。
+
+## 抓取建议
+
+- 优先取 `.md`：HTML 页面含完整导航（术语页里侧栏约占全文 2/3），Markdown 版本只有正文。
+- 若必须解析 HTML：正文容器是 `main#main` 或 `article.doc`；函数与方法页的「签名/返回类型」在
+  `<dl class="fn-meta">` 内，位于 `.doc-body` **之外**，只抽 `.doc-body` 会丢签名；
+  教学面板是 `<section class="teach">`，同样位于 `.doc-body` 之外。
+- 建立全站映射只需一次请求：取 `pages.json`（约 950 条，未压缩约 460 KB，gzip 后约 50 KB），
+  不要逐页猜路径。
+- 引用建议格式：`标题（Hugo 中文文档）· 更新于 YYYY-MM-DD · 官方原文 <gohugo.io 链接>`。
 
 ## 内容约定（便于切分与引用）
 
@@ -32,3 +69,5 @@
 - 代码块使用围栏并标注语言；函数与方法页在正文开头给出「签名 / 返回类型」结构化信息。
 - 每页给出官方英文原文链接与最近更新时间（来自 Git 提交）。
 - 术语表条目按术语排列，标题形如「中文（english）」，便于对齐英文检索词。
+- 教学型页面在 Markdown 里同样使用固定小节名：「目标」「开始之前」「验证」「常见坑」「下一步」，
+  可按这些标题直接定位，不必先读全文。

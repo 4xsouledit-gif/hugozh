@@ -123,6 +123,13 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   isPlainText = true
   isHTML      = false
 
+[outputFormats.pagesjson]
+  mediaType   = 'application/json'
+  baseName    = 'pages'
+  isPlainText = true
+  isHTML      = false
+  notAlternative = true
+
 [outputFormats.llms]
   mediaType   = 'text/plain'
   baseName    = 'llms'
@@ -131,7 +138,7 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   notAlternative = true
 
 [outputs]
-  home = ['html', 'rss', 'llms']
+  home = ['html', 'rss', 'llms', 'md', 'pagesjson']
   section = ['html', 'rss', 'md']
   page = ['html', 'md']
 

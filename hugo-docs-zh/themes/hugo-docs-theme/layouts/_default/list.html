@@ -5,6 +5,7 @@
     <h1>{{ .Title }}</h1>
     {{ with .Description }}<p class="doc-description">{{ . }}</p>{{ end }}
   </header>
+  {{ partial "teach-box.html" . }}
   <div class="doc-body">{{ .Content }}</div>
   {{ with .Pages.ByWeight }}
   <section class="home-section">

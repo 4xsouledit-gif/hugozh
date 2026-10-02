@@ -1,0 +1,70 @@
+{{- /* /pages.json —— 全站页面清单，供 AI 代理/检索系统一次抓取，
+       避免让代理去解析 178KB 的 sitemap.xml 再逐页抓 HTML（约 950 条，压缩后 ~40KB）。
+       字段：url / markdown / kind / title / description / section / sectionTitle /
+             source / lastmod / role / difficulty / time / hasTeach / prereqCount /
+             outcomeCount / hasSignature。
+       其中 role 是「这一页该怎么用」的机器可读判断依据，由章节与前置元数据共同推出：
+         tutorial  上手教程（有教学块或位于 getting-started/installation）
+         guide     流程/指南型章节页
+         reference 函数、方法、命令、配置参考
+         query     术语与速查条目
+         index     章节首页
+       人类与机器读到的是同一份事实：role/difficulty/time 全部来自页面自身，
+       与 HTML 上的教学面板（partials/teach-box.html）同源。
+       注：这里是纯 JSON 输出（不在 <script> 里），用 jsonify 是正确的。
+       坑：多行 (dict …) 必须显式闭合右括号，否则整个模板解析失败、构建直接报错。 */ -}}
+{{- $guides := slice "templates" "render-hooks" "shortcodes" "hugo-pipes" "hugo-modules" "host-and-deploy" "content-management" "configuration" "contribute" "tools" "about" "news" -}}
+{{- $references := slice "functions" "methods" "commands" -}}
+{{- $queries := slice "quick-reference" -}}
+{{- $tutorials := slice "getting-started" "installation" "troubleshooting" -}}
+{{- $pages := slice -}}
+{{- /* 用 site.Pages（含首页与章节页，taxonomy 已禁用），与 `hugo list all` 的清单一致 */ -}}
+{{- range site.Pages -}}
+  {{- $teach := .Params.teach -}}
+  {{- if not $teach }}{{ $teach = index .Params "teach" }}{{ end -}}
+  {{- $role := "" -}}
+  {{- if eq .Kind "section" -}}
+    {{- $role = "index" -}}
+  {{- else if in $queries .Section -}}
+    {{- $role = "query" -}}
+  {{- else if in $references .Section -}}
+    {{- $role = "reference" -}}
+  {{- else if in $tutorials .Section -}}
+    {{- $role = "tutorial" -}}
+  {{- else if in $guides .Section -}}
+    {{- $role = "guide" -}}
+  {{- else if eq .Kind "home" -}}
+    {{- $role = "index" -}}
+  {{- else -}}
+    {{- $role = "guide" -}}
+  {{- end -}}
+  {{- if and $teach (eq $role "guide") -}}
+    {{- $role = "tutorial" -}}
+  {{- end -}}
+  {{- $pages = $pages | append (dict
+        "url" .Permalink
+        "markdown" (cond .IsPage (printf "%sindex.md" .Permalink) "")
+        "kind" .Kind
+        "title" .Title
+        "description" (.Description | plainify)
+        "section" .Section
+        "sectionTitle" (cond (ne .CurrentSection nil) .CurrentSection.Title "")
+        "source" (.Params.source | default "")
+        "lastmod" (cond .Lastmod.IsZero "" (.Lastmod.Format "2006-01-02T15:04:05Z07:00"))
+        "role" $role
+        "difficulty" (cond $teach ($teach.difficulty | default "") "")
+        "time" (cond $teach ($teach.time | default "") "")
+        "hasTeach" (ne $teach nil)
+        "prereqCount" (cond $teach (len ($teach.prereq | default slice)) 0)
+        "outcomeCount" (cond $teach (len ($teach.outcomes | default slice)) 0)
+        "hasSignature" (ne .Params.functions_and_methods nil)
+      ) -}}
+{{- end -}}
+{{- jsonify (dict
+      "site" site.Title
+      "url" site.BaseURL
+      "description" site.Params.description
+      "license" "译文遵循上游 Apache-2.0；站点主题与构建脚本为 MIT"
+      "roleNote" "role: tutorial=上手教程 / guide=流程指南 / reference=API 参考 / query=术语速查 / index=章节首页；difficulty 与 time 来自页面教学块，与 HTML 面板同源"
+      "count" (len $pages)
+      "pages" $pages) -}}

@@ -1,0 +1,20 @@
+{{- /* 处理页面的 Markdown 正文，供 .md 输出（single.md.md / list.md.md / index.md.md）复用：
+       ① 把 (g) 术语链接改写成站内绝对路径——(g) 是 HTML 渲染钩子在渲染阶段替换的，
+          RawContent 里仍是字面量 "g"，不改的话代理拿到的 Markdown 链接是坏的；
+       ② 去掉独占一行的短代码定界符，保留其内部内容。
+       返回：处理后的字符串。 */ -}}
+{{- $body := .RawContent -}}
+{{- if strings.Contains $body "](g)" -}}
+  {{- /* 术语表索引：归一化名称 → 站内路径（与 render-link.html 共用同一份缓存） */ -}}
+  {{- $idx := partialCached "glossary-index.html" . "glossary-index" -}}
+  {{- range $key, $href := $idx -}}
+    {{- $body = replace $body (printf "[%s](g)" $key) (printf "[%s](%s)" $key $href) -}}
+    {{- /* 术语表里大量写作 [_term_](g) 这种带斜体强调的形式，需一并命中 */ -}}
+    {{- $body = replace $body (printf "[_%s_](g)" $key) (printf "[_%s_](%s)" $key $href) -}}
+    {{- $body = replace $body (printf "[*%s*](g)" $key) (printf "[*%s*](%s)" $key $href) -}}
+  {{- end -}}
+  {{- /* 兜底：仍匹配不到的（如链接文字与术语名不一致）指向术语表总目录，绝不留下字面量 g */ -}}
+  {{- $body = replace $body "](g)" "](/quick-reference/glossary/)" -}}
+{{- end -}}
+{{- $body = replaceRE `(?m)^[ \t]*\{\{[<%][^\n]*[>%]\}\}[ \t]*\n?` "" $body -}}
+{{- return $body -}}

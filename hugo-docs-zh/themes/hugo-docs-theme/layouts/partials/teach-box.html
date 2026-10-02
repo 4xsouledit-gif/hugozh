@@ -1,0 +1,50 @@
+{{- /* 教学层：把前置元数据的教学表渲染成正文开头的「这是一篇什么页」面板。
+       规范位置：[params.teach]（与 [params.functions_and_methods] 同一命名空间）。
+       兼容：早期/手写的 [teach] 顶层表也认，避免页面因此丢面板。
+       字段（全部可选，见 .translation/BRIEF.md「教学层」一节）：
+         difficulty  string  入门 / 进阶 / 参考
+         time        string  预计耗时，如「15–20 分钟」
+         prereq      []string 前置条件（读者要先具备什么）
+         outcomes    []string 读完之后能做到什么
+         next        []string 读完后建议接着读的站内路径，如 ["/templates/"]
+         （readAfter 是 next 的旧名，仍兼容）
+       与 AI 出口的关系：面板数据来自页面自身 front matter，同一份数据由 partials/teach-md.html
+       输出给 Markdown 出口，人类与机器看到的是同一份事实，不会分叉。 */ -}}
+{{- $t := .Params.teach -}}
+{{- if not $t }}{{ $t = .Params.teach | default (index .Params "teach") }}{{ end -}}
+{{- with $t -}}
+{{- $difficulty := .difficulty -}}
+{{- $time := .time -}}
+{{- $prereq := .prereq -}}
+{{- $outcomes := .outcomes -}}
+{{- $next := .next | default .readAfter -}}
+{{- if or $difficulty $time $prereq $outcomes $next -}}
+<section class="teach" aria-label="阅读提示">
+  <dl class="teach-meta">
+    {{- with $difficulty }}<dt>难度</dt><dd>{{ . }}</dd>{{ end }}
+    {{- with $time }}<dt>预计用时</dt><dd>{{ . }}</dd>{{ end }}
+  </dl>
+  {{- with $prereq }}
+  <div class="teach-group">
+    <p class="teach-label">开始之前，你需要</p>
+    <ul>
+      {{- range . }}<li>{{ . | markdownify }}</li>{{ end }}
+    </ul>
+  </div>
+  {{- end }}
+  {{- with $outcomes }}
+  <div class="teach-group">
+    <p class="teach-label">读完之后你能</p>
+    <ul>
+      {{- range . }}<li>{{ . | markdownify }}</li>{{ end }}
+    </ul>
+  </div>
+  {{- end }}
+  {{- with $next }}
+  <p class="teach-next">接着读：
+    {{- range $i, $p := . }}{{ if $i }} · {{ end }}<a href="{{ $p }}">{{ with site.GetPage $p }}{{ .LinkTitle }}{{ else }}{{ $p }}{{ end }}</a>{{ end -}}
+  </p>
+  {{- end }}
+</section>
+{{- end -}}
+{{- end -}}

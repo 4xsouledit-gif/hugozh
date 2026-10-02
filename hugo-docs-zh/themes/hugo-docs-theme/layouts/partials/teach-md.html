@@ -1,0 +1,33 @@
+{{- /* 教学层的 Markdown 出口：给 AI 代理 / 答案引擎的「页面角色」信息块。
+       与 partials/teach-box.html 同源（都读 .Params.teach），保证人类与机器读到同一份事实。
+       输出为引用块，紧跟页面摘要之后；不含 HTML，便于直接喂给模型。 */ -}}
+{{- $t := .Params.teach -}}
+{{- if not $t }}{{ $t = .Params.teach | default (index .Params "teach") }}{{ end -}}
+{{- with $t -}}
+{{- $difficulty := .difficulty -}}
+{{- $time := .time -}}
+{{- $prereq := .prereq -}}
+{{- $outcomes := .outcomes -}}
+{{- $next := .next | default .readAfter -}}
+{{- if or $difficulty $time $prereq $outcomes $next }}
+> **教学信息**{{ with $difficulty }} · 难度：{{ . }}{{ end }}{{ with $time }} · 预计用时：{{ . }}{{ end }}
+{{- with $prereq }}
+>
+> 开始之前需要：
+{{- range . }}
+> - {{ . | plainify }}
+{{- end }}
+{{- end }}
+{{- with $outcomes }}
+>
+> 读完之后能：
+{{- range . }}
+> - {{ . | plainify }}
+{{- end }}
+{{- end }}
+{{- with $next }}
+>
+> 接着读：{{ range $i, $p := . }}{{ if $i }} · {{ end }}{{ with site.GetPage $p }}{{ .Title }}（{{ .Permalink }}）{{ else }}{{ $p }}{{ end }}{{ end }}
+{{- end }}
+{{- end -}}
+{{- end -}}

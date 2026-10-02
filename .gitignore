@@ -20,6 +20,10 @@ Desktop.ini
 # 代理验证构建的临时输出（不入库）
 .translation/_verify*/
 
+# 文件权限诊断报告与一次性迁移的改动前副本（都不属于源码）
+.acl-report/
+.translation/.teach-migration-backup/
+
 # 代理验证构建的临时目录（不入库）
 .tmp-verify*/
 .tmpcheck*/

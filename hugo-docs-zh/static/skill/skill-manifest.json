@@ -32,8 +32,8 @@
     },
     {
       "path": "references/gotchas.md",
-      "bytes": 10137,
-      "sha256": "357c0468d02325eb5ba89d8ac1d9086a54c93993f06e68f16e475fff7d145385",
+      "bytes": 13042,
+      "sha256": "db16b95a4a81702f713ec6b28df493f68f8c48c10ac644c8328c32e3ea28897d",
       "url": "https://hugozh.cn/skill/references/gotchas.md",
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/gotchas.md"
     },
@@ -66,6 +66,13 @@
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/site-structure.md"
     },
     {
+      "path": "references/teaching-layer.md",
+      "bytes": 5533,
+      "sha256": "63f5d731d5c700b1695f950b372b3212613491eaa1f27c64fc4b397a4de60d1b",
+      "url": "https://hugozh.cn/skill/references/teaching-layer.md",
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/teaching-layer.md"
+    },
+    {
       "path": "references/versioning.md",
       "bytes": 2505,
       "sha256": "1b39e0ef4d0a28bf1660fdb6289b8a8d20fbd26d2da5192ed5df3b7b65e240e1",
@@ -81,8 +88,8 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 20501,
-      "sha256": "db184dcc1eaf3608c6c0bcd5710975e733da816cc6545401567e1c8e6a7f67bd",
+      "bytes": 21978,
+      "sha256": "80c072fd213fbb8327029a5c77413bb6e58e2f41b165481810386d9d0f78a5e3",
       "url": "https://hugozh.cn/skill/SKILL.md",
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/SKILL.md"
     }

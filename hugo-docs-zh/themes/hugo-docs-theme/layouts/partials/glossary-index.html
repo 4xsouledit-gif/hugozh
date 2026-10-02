@@ -24,6 +24,11 @@
         {{- if $u }}{{ $idx = merge $idx (dict $u $href) }}{{ end -}}
         {{- $stem := strings.TrimSuffix "s" $v -}}
         {{- if and $stem (ne $stem $v) }}{{ $idx = merge $idx (dict $stem $href) }}{{ end -}}
+        {{- /* 连字符写法（content-format）与空格写法（content format）都收，便于链接文字自由书写 */ -}}
+        {{- $spaced := replace $v "-" " " -}}
+        {{- if ne $spaced $v }}{{ $idx = merge $idx (dict $spaced $href) }}{{ end -}}
+        {{- $plural := printf "%ss" $v -}}
+        {{- if ne $plural $v }}{{ $idx = merge $idx (dict $plural $href) }}{{ end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}

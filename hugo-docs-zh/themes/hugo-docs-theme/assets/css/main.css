@@ -634,6 +634,64 @@ a:hover {
   border-left-color: #c53030;
 }
 
+/* ---------- 教学层面板（partials/teach-box.html，数据来自前置元数据的 [teach]） ---------- */
+
+.teach {
+  margin: 0.75rem 0 1.75rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--brand);
+  border-radius: var(--radius);
+}
+
+.teach-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.teach-meta dt {
+  color: var(--text-faint);
+}
+
+.teach-meta dd {
+  margin: 0 0.85rem 0 0;
+  font-weight: 600;
+}
+
+.teach-group {
+  margin-top: 0.7rem;
+}
+
+.teach-group > ul {
+  margin: 0.2rem 0 0;
+  padding-left: 1.15rem;
+  font-size: 0.94rem;
+}
+
+.teach-group > ul > li {
+  margin: 0.15rem 0;
+}
+
+.teach-label {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+}
+
+.teach-next {
+  margin: 0.7rem 0 0;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--border-soft);
+  font-size: 0.9rem;
+}
+
 /* ---------- 首页主视觉与按钮 ---------- */
 
 .hero {

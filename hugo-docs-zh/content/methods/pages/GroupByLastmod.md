@@ -11,6 +11,27 @@ signatures = ["PAGES.GroupByLastmod LAYOUT [SORT]"]
 returnType = "page.PagesGroup"
 +++
 
+## 这一页解决什么问题
+
+把页面按**最后修改日期（`lastmod`）分组**：用于「更新日志按月归档」「最近改动分块」这类列表。组名（`.Key`）由布局字符串决定，例如 `"2006-01"` 得到 `2024-04` 这样的组名。
+
+返回 `page.PagesGroup`：每组有 `.Key`（`string`）与 `.Pages`。默认**降序**（最近的改动在前）。
+
+**回落规则**：页面没写 `lastmod` 时，Hugo 会沿回落链取值（实测 `.Lastmod` 会等于 `date`，而 `date` 又可能来自 `publishDate`），所以没写 `lastmod` 的页面**不会掉进 `0001` 组**，而是按 `date` 归组——这让结果看起来「对」，却容易掩盖「其实没有维护 `lastmod`」这个事实。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 有维护 `lastmod` 的站点，做更新归档或维护审计；
+- 想按「最近改动」分块展示。
+
+**别用**：
+
+- 想按修改时间**排序**不分块 → 用 [`ByLastmod`](/methods/pages/bylastmod/)；
+- 按写作/发布/过期日期分组 → 用 [`GroupByDate`](/methods/pages/groupbydate/) / [`GroupByPublishDate`](/methods/pages/groupbypublishdate/) / [`GroupByExpiryDate`](/methods/pages/groupbyexpirydate/)；
+- 站点没维护 `lastmod` → 分组结果等同于按 `date` 分组，不如直接用 [`GroupByDate`](/methods/pages/groupbydate/) 写明口径。
+
 ## 用法
 
 按最后修改日期分组时，取值由[项目配置][]决定，默认使用前置元数据中的 `lastmod` 字段。
@@ -57,6 +78,56 @@ returnType = "page.PagesGroup"
   </ul>
 {{ end }}
 ```
+
+## 完整示例：按修改月份分组
+
+示例沿用本章首页的[示例站点结构](/methods/pages/)：
+
+| 页面 | `linkTitle` | `lastmod` |
+| --- | --- | --- |
+| `post-1.md` | `alpha` | 2024-03-01 |
+| `post-2.md` | `bravo` | 2024-01-15 |
+| `post-3.md` | `charlie` | 2024-02-20 |
+| `post-4.md` | `delta` | 2024-04-01 |
+
+```go-html-template {file="layouts/_default/list.html"}
+按修改月：{{ range .Pages.GroupByLastmod "2006-01" }}{{ .Key }}:{{ range .Pages }}{{ .LinkTitle }} {{ end }}|{{ end }}
+升序：{{ range .Pages.GroupByLastmod "2006-01" "asc" }}{{ .Key }}:{{ range .Pages }}{{ .LinkTitle }} {{ end }}|{{ end }}
+```
+
+Hugo 渲染为：
+
+```html
+按修改月：2024-04:delta |2024-03:alpha |2024-02:charlie |2024-01:bravo |
+升序：2024-01:bravo |2024-02:charlie |2024-03:alpha |2024-04:delta |
+```
+
+**你应当看到什么**：默认降序，`2024-04`（`delta`）在最前；传 `"asc"` 后变成 `2024-01` 开头。因为是「月」布局，四页恰好各占一组。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，单语言站点（`locale = 'en-US'`、`timeZone = 'UTC'`），Windows，未开启 `enableGitInfo`。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 四页都有 `lastmod`（2024-01 ~ 2024-04） | 默认降序 4 组（见上） | 否 |
+| 页面只有 `date` | `.Lastmod` 等于该 `date`，按 `date` 归组（实测） | 否 |
+| 页面只有 `publishDate` | `.Lastmod` 等于该 `publishDate`，按其归组（实测） | 否 |
+| 四个日期字段都没有 | 归入 `0001` 对应的组 | 否 |
+| 布局字符串为 `""` | 所有页面归入一个空组名的组 | 否 |
+| 空集合 | 空分组切片；`range` 无输出 | 否 |
+| 返回类型 | `page.PagesGroup`（`.Key` 为 `string`，`.Pages` 为 `page.Pages`） | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 分组结果和 `GroupByDate` 一模一样 | 页面都没写 `lastmod`，全体回落到 `date` | 补 `lastmod`；或改用 `GroupByDate` |
+| 没报错但结果不对 | 分组顺序反了 | 默认降序 | 显式写 `"asc"` / `"desc"` |
+| 没报错但结果不对 | 出现 `0001` 组 | 该页四个日期字段都缺 | 补日期，或跳过该组 |
+| 报错看不懂 | 分组为空 | 集合本身为空 | 先用 `{{ if .Pages }}` 判断 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 ## 布局字符串
 

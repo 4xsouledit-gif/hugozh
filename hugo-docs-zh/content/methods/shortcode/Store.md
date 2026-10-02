@@ -18,6 +18,27 @@ returnType = "maps.Scratch"
 > [!NOTE]
 > 随着 [`newScratch`][] 函数的引入，以及初始化之后[给模板变量赋值][]的能力，短代码中的 `Store` 方法基本已经过时了。
 
+## 这一页解决什么问题
+
+短代码模板有时需要一块**临时存放值的地方**：把中间结果存下来、等后面再用；或者在模板的多个分支之间传递数据。`Store` 就是这次短代码调用专属的「带 key 的小仓库」，提供 `Set`/`Get`/`Add`/`SetInMap` 等方法。
+
+它最容易误解的地方是**作用域**：这里的 `Store` 属于**当前这一次短代码调用**，不是整个页面、也不是整个站点。同一短代码在同一页被调用两次，第二次读不到第一次写的值——这一点在下面的实测里可以看到。要其他作用域，见「作用域」一节。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 需要在模板里多次读写同一组命名值，且用普通变量表达不顺手；
+- 需要在 `range` 循环里累计（`Add`）、先收集再排序（`SetInMap` + `GetSortedMapValues`）；
+- 需要明确「这份状态只属于本次调用」。
+
+**别用**：
+
+- 能用模板变量就直接用变量：`{{ $x := … }}`、以及初始化后重新赋值 `{{ $x = … }}`（上游也指出，`Store` 因此已基本过时）；
+- 想在**两次短代码调用之间**共享状态 → 这里的 `Store` 不共享（实测）；共享请让调用方传参，或用页面/站点级 `Store`；
+- 想读页面或站点数据 → 用 [`Page`](/methods/shortcode/page/) / [`Site`](/methods/shortcode/site/)；
+- 老代码里的 `.Scratch` → 0.139.0 起它就是本方法的别名，见 [`Scratch`](/methods/shortcode/scratch/)。
+
 ## 方法
 
 在数据结构上使用这些方法。
@@ -107,6 +128,59 @@ site|[`SITE.Store`][]
 global|[`hugo.Store`][]
 local|[`collections.NewScratch`][]
 shortcode|[`SHORTCODE.Store`][]
+
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点。先读一次旧值再写入，用来确认「上一次调用留下的值」在不在：
+
+```go-html-template {file="layouts/_shortcodes/store-demo.html"}
+<p>读取旧值：{{ with .Store.Get "seen" }}{{ . }}{{ else }}（空）{{ end }}</p>
+{{ .Store.Set "seen" (printf "第 %d 次调用写入" .Ordinal) }}
+<p>写入后：{{ .Store.Get "seen" }}</p>
+```
+
+```md {file="content/about.md"}
+{{</* store-demo */>}}
+
+{{</* store-demo */>}}
+```
+
+Hugo 渲染为（实测）：
+
+```html
+<p>读取旧值：（空）</p>
+<p>写入后：第 0 次调用写入</p>
+
+<p>读取旧值：（空）</p>
+<p>写入后：第 1 次调用写入</p>
+```
+
+**你应当看到什么**：第二次调用的「读取旧值」**也是（空）**——第一次调用写进去的 `seen` 没有留下来。这证明 `Store` 的作用域是**单次调用**；同时也解释了为什么 `Ordinal` 在这里是 0 和 1（见 [`Ordinal`](/methods/shortcode/ordinal/)）。
+
+> [!TIP]
+> 如果你的意图恰恰是「跨调用共享」，`Store` 不是答案：请在调用方把值作为参数传进来。要真正跨页面/跨短代码共享，请使用下表中对应作用域的 `Store`。
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 同一次调用内 `Set` 后 `Get` | 取回刚写入的值 | 否 |
+| 读取从未写入的 key | 空值，`with` 判为假 | 否 |
+| 同一短代码第二次调用读取第一次写的值 | **读不到**（实测两次都显示「（空）」）——作用域是单次调用 | 否 |
+| 返回值类型 | `maps.Scratch`，提供 `Set`/`Get`/`Add`/`SetInMap`/`DeleteInMap`/`GetSortedMapValues`/`Delete` | 否 |
+| 跨页共享 | 不共享；需要时改用 page/site/global 作用域 | 否 |
+| 复杂用法（`Add`、`SetInMap` 等） | 上游示例给出预期结果；本站未逐条实测 | —— |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 第二次调用读不到第一次写的值 | `Store` 作用域是单次调用 | 让调用方传参；或改用 page/site/global 作用域的 `Store` |
+| 没报错但结果不对 | key 读出来总是空 | key 与写入时不一致（必须逐字符相同） | 统一 key 命名 |
+| 没报错但结果不对 | `Add` 的结果不是预期 | `Add` 对数字做加法，对切片做追加（上游说明） | 先 `Set` 初始值，再 `Add` |
+| 过度设计 | 模板里到处 `Set`/`Get` | 有更直接的写法 | 优先用模板变量赋值（上游也建议如此） |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`PAGE.Store`]: /methods/page/store/
 [`SHORTCODE.Store`]: /methods/shortcode/store/

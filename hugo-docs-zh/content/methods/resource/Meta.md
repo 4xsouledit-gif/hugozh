@@ -23,6 +23,27 @@ Hugo 会把许多文件类型归类为图像，但只有部分格式支持提取
 > [!NOTE]
 > 图像变换过程中不会保留元数据。要从受支持的格式中提取元数据，请对*原始*图像资源使用该方法。
 
+## 这一页解决什么问题
+
+照片文件里除了像素，还带着一层「说明文字」：拍摄时间、GPS 坐标、相机方向、作者、版权。`Meta` 就是读取这层信息的统一入口——一次返回 **Exif、IPTC、XMP** 三套元数据中 Hugo 已解析的部分，另有 `Date`、`Lat`、`Long`、`Orientation` 四个整理好的字段。
+
+它能支撑的具体需求：在图片旁显示拍摄地点与时间；按 `Orientation` 给图片加 CSS 旋转；把版权信息输出到页面底部。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 需要拍摄时间、GPS、方向、版权等**来自文件本身**的信息；
+- 做图片画廊/旅行日志，要自动标注地点和时间；
+- 需要按 `Orientation` 决定是否旋转（或直接改用 `images.AutoOrient` 滤镜，见上游示例）。
+
+**别用**：
+
+- 需要的是**前置元数据**（你自己在 front matter 里写的 `lat`、`alt` 等）→ 用 [`Params`](/methods/resource/params/)；
+- 需要 HTTP 响应信息 → 用 [`Data`](/methods/resource/data/)；
+- 只想读尺寸 → 用 [`Width`](/methods/resource/width/) / [`Height`](/methods/resource/height/)；`Meta` 更重，而且对 ICO/SVG 这类格式根本不可用；
+- 0.155.0 之前的写法 `.Exif` → 见 [`Exif`](/methods/resource/exif/)（已弃用）。
+
 ## 用法
 
 调用 `Meta` 方法之前，请先用 [`reflect.IsImageResourceWithMeta`][] 函数确认资源支持提取元数据。
@@ -94,6 +115,65 @@ Hugo 会把许多文件类型归类为图像，但只有部分格式支持提取
   {{ end }}
 {{ end }}
 ```
+
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点；`assets/images/exif.jpg` 是上游示例库中带 Exif 方向标记的 JPEG（方向值为 5）。放进 `layouts/_default/single.html`：
+
+```go-html-template {file="layouts/_default/single.html"}
+{{ with resources.Get "images/exif.jpg" }}
+  {{ if reflect.IsImageResourceWithMeta . }}
+    {{ with .Meta }}
+      {{ if not .Date.IsZero }}<p>拍摄时间：{{ .Date.Format "2006-01-02" }}</p>{{ else }}<p>没有拍摄时间（零值）</p>{{ end }}
+      <p>方向：{{ .Orientation }}</p>
+      <p>纬度：{{ .Lat }}，经度：{{ .Long }}</p>
+      <p>Exif 字段数：{{ len .Exif }}</p>
+    {{ end }}
+  {{ end }}
+{{ end }}
+```
+
+Hugo 渲染为：
+
+```html
+<p>没有拍摄时间（零值）</p>
+<p>方向：5</p>
+<p>纬度：0，经度：0</p>
+<p>Exif 字段数：2</p>
+```
+
+**你应当看到什么**：这张图只有 Exif 里的 `Orientation` 与 `YCbCrPositioning` 两个字段，所以 `len .Exif` 是 `2`。三个「缺失」的写法值得记住：
+
+- `Date` 缺失时是**零值** `0001-01-01 00:00:00 +0000 UTC`，不是 `nil`。判断要写 `{{ if not .Date.IsZero }}`——`time.Time` 是结构体，`{{ with .Date }}` 永远为真；
+- `Lat`/`Long` 缺失时是数字 `0`，不是 `nil`。想区分「赤道上的 0」和「没有 GPS」，只能看 `.Exif` 里有没有对应字段；
+- `Exif` 缺失时是**空映射**（实测普通 JPEG 上 `not .Meta.Exif` 为 `true`），不会报错。
+
+另外，用 `printf` 直接打印整套字段可以快速摸清一张图有什么（上游「示例」一节就是这么做的）：
+
+```text
+{{ printf "%v" .Meta.Exif }} → map[Orientation:5 YCbCrPositioning:1]
+```
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 带 Exif 的 JPEG | `Orientation`、`Exif` 有值（实测方向 5、2 个字段） | 否 |
+| 没有元数据的 JPEG | 对象仍返回，`.Exif` 为空映射，`Date` 为零值，`Lat`/`Long` 为 `0` | 否 |
+| ICO / SVG | `reflect.IsImageResourceWithMeta` 为 `false`（见下表）；此时调用 `.Meta` | 是：`does not support this method: use reflect.IsImageResource…` |
+| 非图像资源（文本、CSS） | —— | 是：`does not support this method: use reflect.IsImageResource…` |
+| 对**处理后的**资源调用 `.Meta` | 实测仍返回与源图相同的 `Orientation` 与字段数（元数据读自源文件）；但上游明确要求对原图调用，且发布出去的变换结果**不保证**带这些标记 | 否 |
+| `resources.Get` 找不到文件（`nil`） | —— | 是：`nil pointer evaluating resource.Resource.Meta` |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 输出 `0001-01-01` | `Date` 缺失时是零值，`with` 判不出来 | 用 `{{ if not .Date.IsZero }}` |
+| 没报错但结果不对 | 把 `Lat`/`Long` 的 `0` 当成有效坐标 | 缺失即 `0`，与「真的在 0 度」不可区分 | 先确认 `.Exif` 里有 GPS 字段再取值 |
+| 报错看不懂 | `does not support this method` | 该格式不支持元数据（如 SVG、ICO），或对象根本不是图像 | 先用 `reflect.IsImageResourceWithMeta` 判断，见下表 |
+| 没报错但结果不对 | 变换后的图读不到新元数据 | 元数据属于源文件 | 对原始图像资源调用 `Meta` |
+| 页面显示方向不对 | 手机竖拍的照片躺倒 | 只看元数据、没做旋转 | 用 [`images.AutoOrient`][] 滤镜按 `Orientation` 自动校正 |
 
 ## 图像操作
 

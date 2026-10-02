@@ -19,6 +19,32 @@ returnType = "images.ImageResource"
 > [!NOTE]
 > 用 [`reflect.IsImageResourceProcessable`][] 函数判断图像是否可处理。
 
+## 这一页解决什么问题
+
+`Crop` 从一张可处理的图像里**按矩形区域截取一块**，返回一个新的资源。它**不缩放**：你写 `200x200`，就得到 200×200 的像素块，取哪一块由[锚点](#anchor)决定（默认取[成像配置][]里的 `anchor`）。
+
+典型场景：卡片缩略图、头像框、把画面焦点固定在主体的局部截图。
+
+## 什么时候用，什么时候别用
+
+四个变换方法最容易混，先记住这一行：
+
+| 方法 | 缩放？ | 裁剪？ | 会放大吗？ | 一句话 |
+| --- | --- | --- | --- | --- |
+| `Crop` | 否 | 是（按给定矩形取一块） | 不会 | 只裁不缩 |
+| [`Fit`](/methods/resource/fit/) | 是（等比缩小） | 否 | **不会** | 缩到「装得进」为止 |
+| [`Fill`](/methods/resource/fill/) | 是 | 是（裁掉溢出） | 会（为铺满而放大） | 缩放到铺满后裁掉多余 |
+| [`Resize`](/methods/resource/resize/) | 是 | 否 | 会 | 直接缩到指定尺寸（可能变形） |
+
+**该用**：只要局部、不想重采样（像素级还原）；目标尺寸固定且知道要保留哪个角。
+
+**别用**：
+
+- 想让整张图「装进」某个框 → `Fit`；
+- 想「填满」某个框、允许裁边 → `Fill`；
+- 只改尺寸不裁 → `Resize`；
+- 还要转格式、旋转、调质量 → [`Process`](/methods/resource/process/) 一条规格字符串全包。
+
 ## 用法
 
 裁剪时必须在规格中同时给出宽度和高度（例如 `200x200`）。该方法不做任何缩放，只是按给出的尺寸以及[锚点](#anchor)（如果有）截取图像的一个区域。
@@ -99,6 +125,78 @@ rotation
 ```
 
 英文原文此处用示例照片演示 `crop 200x200 TopRight` 的前后对比效果；本站未收录该示例图。
+
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows；`assets/images/original.jpg` 是一张 600×400 的 JPEG。把下面这段放进 `layouts/_default/single.html`：
+
+```go-html-template {file="layouts/_default/single.html"}
+{{ with resources.Get "images/original.jpg" }}
+  {{ with .Crop "200x200 TopRight" }}
+    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="">
+  {{ end }}
+{{ end }}
+```
+
+Hugo 渲染为：
+
+```html
+<img src="/images/original_hu_c40a25d8b29cdb3e.jpg" width="200" height="200" alt="">
+```
+
+**你应当看到什么**：宽高正是 200×200；URL 里的 `_hu_` 段是 Hugo 的缓存键（由源文件与处理规格算出），同一张图同一规格每次构建都一样，换图或换规格就会变。裁剪出来的文件同时被发布到 `public/images/`。
+
+再试一个越界请求：源图只有 600×400，却要求 `1000x1000`：
+
+```go-html-template
+{{ with resources.Get "images/original.jpg" }}
+  {{ with .Crop "1000x1000" }}宽 {{ .Width }}，高 {{ .Height }}{{ end }}
+{{ end }}
+```
+
+实测输出：
+
+```text
+宽 400，高 400
+```
+
+**这里有个容易踩的坑**：越界**不会报错**，你拿到的是一个比请求尺寸小的图。`Crop` 不会放大图像，超出源图的部分自然取不到。要「放大到指定尺寸」，得用 `Resize` 或 `Fill`。
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 规格正常（`200x200 TopRight`） | `images.ImageResource`，尺寸即所写 | 否 |
+| 只写一个维度（`200x`、`x200`） | —— | 是：`error calling Crop: failed to crop image "…": must provide Width and Height` |
+| 请求尺寸大于源图（`1000x1000`） | 返回源图范围内可取的尺寸（实测 400×400），**不放大** | 否 |
+| 锚点拼错（`NoSuchAnchor`） | 实测仍返回 200×200，**不报错**；本页无法从输出判断它最终用了哪个锚点 | 否 |
+| 对非图像资源调用 | —— | 是：`does not support this method: use reflect.IsImageResource…` |
+| `resources.Get` 找不到文件（`nil`） | —— | 是：`nil pointer evaluating resource.Resource.Crop` |
+
+写模板时可以先用 `reflect.IsImageResourceProcessable` 判断，再用 `with` 接住结果：
+
+```go-html-template
+{{ with resources.Get "images/original.jpg" }}
+  {{ if reflect.IsImageResourceProcessable . }}
+    {{ with .Crop "200x200 TopRight" }}
+      <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="">
+    {{ end }}
+  {{ else }}
+    {{ errorf "无法处理这张图：%s" .RelPermalink }}
+  {{ end }}
+{{ end }}
+```
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 输出比预期小 | 请求尺寸超过源图，`Crop` 不放大 | 换 `Resize`/`Fill`，或把目标尺寸调小 |
+| 没报错但结果不对 | 裁出来的位置不是想要的 | 锚点写错或没写（默认取成像配置的 `anchor`） | 显式写 `TopRight`、`Center`、`Smart` 等 |
+| 报错看不懂 | `must provide Width and Height` | 裁剪必须同时给出宽和高 | 补成 `200x200`（不能只写 `200x`） |
+| 构建失败 | `does not support this method` | 对文本等非图像资源用了 `Crop` | 先用 `reflect.IsImageResourceProcessable` 判断 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`Process`]: /methods/resource/process/
 [`images.AutoOrient`]: /functions/images/autoorient/

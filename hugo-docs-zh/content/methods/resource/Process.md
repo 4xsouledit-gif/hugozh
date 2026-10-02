@@ -19,6 +19,26 @@ returnType = "images.ImageResource"
 > [!NOTE]
 > 用 [`reflect.IsImageResourceProcessable`][] 函数判断图像是否可处理。
 
+## 这一页解决什么问题
+
+`Process` 是图像处理的「一条龙」：**把整套变换写进一条空格分隔的规格字符串**，一次完成缩放、裁剪、旋转、转格式、调质量。当你需要「裁成方形 + 转 WebP + 质量 50」这种组合时，它比连续调用 `Crop`、`Resize`、再想办法转格式要干净得多。
+
+它对尺寸的处理与专用方法不同：**要改尺寸就必须在规格里写出 action**（`crop`/`fill`/`fit`/`resize`）。只写 `300x` 会直接报错，这是最容易踩的一点（见下文实测）。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 一次要做**两件以上**的事（裁 + 转格式 + 调质量）；
+- 要转格式（WebP/AVIF 等）或旋转；
+- 想把变换写成可配置的字符串（例如来自站点参数），而不是写死一串方法调用；
+- 在滤镜链里需要整套变换 → 用 [`images.Process`](/functions/images/process/) 滤镜配合 [`Filter`](/methods/resource/filter/)。
+
+**别用**：
+
+- 只做一件事 → 用专用方法更清楚：改尺寸 [`Resize`](/methods/resource/resize/)、裁一块 [`Crop`](/methods/resource/crop/)、装进框 [`Fit`](/methods/resource/fit/)、铺满框 [`Fill`](/methods/resource/fill/)、加效果 [`Filter`](/methods/resource/filter/)；
+- 想靠规格里的拼写错误发现笔误 → `Process` **不会**报「未知关键字」的错（实测，见下），拼错格式名会静默失败。
+
 ## 用法
 
 这个方法功能全面，能在一条规格字符串中完成完整的图像变换，包括缩放、裁剪、旋转与格式转换。与 [`Resize`][]、[`Crop`][] 这类专用方法不同，如果要改变图像尺寸，你必须在规格中显式写出 [action](#action)。
@@ -111,6 +131,84 @@ rotation
 ```
 
 英文原文此处用示例照片演示 `crop 200x200 TopRight webp q50` 的前后对比效果；本站未收录该示例图。
+
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows；`assets/images/original.jpg` 是一张 600×400 的 JPEG。放进 `layouts/_default/single.html`：
+
+```go-html-template {file="layouts/_default/single.html"}
+{{ with resources.Get "images/original.jpg" }}
+  {{ with .Process "crop 200x200 TopRight webp q50" }}
+    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="">
+  {{ end }}
+{{ end }}
+```
+
+Hugo 渲染为：
+
+```html
+<img src="/images/original_hu_fdcd68e7d22ca54f.webp" width="200" height="200" alt="">
+```
+
+**你应当看到什么**：一句话完成了三件事——裁剪成 200×200、转成 WebP、质量 50；URL 的后缀变成 `.webp`、MIME 也随之改变（实测 `.MediaType.Type` 为 `image/webp`）。
+
+再试只做旋转、只做转格式：
+
+```text
+.Process "r90"   → 400x600（宽高互换，逆时针 90 度）
+.Process "webp"  → MediaType.Type 变成 image/webp
+.Process "grayscale" → 生效（等价于 images.Grayscale 滤镜）
+```
+
+**必须注意的两个实测行为**：
+
+```text
+.Process "300x"
+→ error calling Process: failed to  image "…": width or height are not supported for this action
+
+.Process "crop"
+→ error calling Process: failed to  image "…": must provide Width and Height
+```
+
+第一条说明：**写了尺寸就一定要写 action**（对照上游「要改变图像尺寸必须在规格中显式写出 action」）。第二条说明：`crop`/`fill`/`fit` 这些 action 需要成对的宽高。
+
+而**拼错的关键字不会报错**：
+
+```text
+.Process "web"   → 不报错，输出的仍是 image/jpeg（"web" 被忽略）
+.Process "bogus" → 不报错，输出的仍是 image/jpeg、尺寸不变
+```
+
+也就是说，`Process` 的规格里出现无法识别的词时会被**静默忽略**。所以「转 WebP 没生效」这类问题，第一件事是核对拼写，而不是怀疑缓存。
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| `crop 200x200 TopRight webp q50` | 200×200、`image/webp` 的新资源 | 否 |
+| `r90` | 400×600（旋转后宽高互换） | 否 |
+| `webp` | `image/webp`，尺寸不变 | 否 |
+| `grayscale` | 灰度效果，尺寸不变 | 否 |
+| 写了尺寸但没写 action（`300x`） | —— | 是：`width or height are not supported for this action` |
+| 写了 `crop`/`fill`/`fit` 但没写尺寸 | —— | 是：`must provide Width and Height` |
+| 规格里有无法识别的词（`web`、`bogus`） | **静默忽略**，按剩余可识别的选项出图 | 否 |
+| 对非图像资源调用 | —— | 是：`does not support this method: use reflect.IsImageResource…` |
+| `resources.Get` 找不到文件（`nil`） | —— | 是：`nil pointer evaluating resource.Resource.Process` |
+
+> [!TIP]
+> 规格字符串里的选项**大小写不敏感、顺序任意**（上游说明）。但拼写要准确：无法识别的词既不生效也不报错。
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 转 WebP 没生效，还是 JPEG | 格式名拼错（如 `web`），被静默忽略 | 核对格式名：`avif`、`bmp`、`gif`、`jpeg`、`png`、`tiff`、`webp` |
+| 没报错但结果不对 | 质量参数没起作用 | 质量只在 JPEG，以及 `lossy` 的 AVIF/WebP 上有效；写成 `q50` 才被识别 | 写 `q50`，并确认目标格式支持 |
+| 报错看不懂 | `width or height are not supported for this action` | 只写了尺寸、没写 action | 补 action：`crop 300x200`、`resize 300x`、`fit 300x200`、`fill 300x200` |
+| 报错看不懂 | `must provide Width and Height` | `crop`/`fill`/`fit` 缺成对尺寸 | 写成 `crop 200x200 …` |
+| 没报错但结果不对 | 旋转后尺寸与预期不符 | Hugo 先旋转、再按你写的尺寸处理，锚点/尺寸要针对旋转后的方向（上游说明） | 调整规格顺序或尺寸，参考「处理规格」一节 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`Crop`]: /methods/resource/crop/
 [`Process`]: /methods/resource/process/

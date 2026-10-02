@@ -19,6 +19,32 @@ returnType = "images.ImageResource"
 > [!NOTE]
 > 用 [`reflect.IsImageResourceProcessable`][] 函数判断图像是否可处理。
 
+## 这一页解决什么问题
+
+`Resize` 解决「**我要一个指定尺寸的图，怎么给都行**」：它会真的把图像缩放成你写的尺寸，等比或非等比都可以。它是四个变换方法里最「听话」的一个——不留白、不裁边（除非你同时给了宽和高），你写多少它就给你多少。
+
+典型场景：为 `srcset` 生成多个宽度的候选图；把过大的原图压到合适的显示宽度；需要精确尺寸（例如固定 300×150 的卡片位）时接受轻微变形。
+
+## 什么时候用，什么时候别用
+
+四个变换方法的分工：
+
+| 方法 | 缩放？ | 裁剪？ | 会放大吗？ | 结果尺寸 |
+| --- | --- | --- | --- | --- |
+| `Resize` | 是 | 否 | 会 | 写单边即等比；写双边即精确（可能变形） |
+| [`Fit`](/methods/resource/fit/) | 是（等比缩小） | 否 | **不会** | 装得下即可，通常不等于请求值 |
+| [`Fill`](/methods/resource/fill/) | 是 | 是（裁掉溢出） | 会 | 正好等于请求值 |
+| [`Crop`](/methods/resource/crop/) | 否 | 是 | 不会 | 正好等于请求值（源图足够大时） |
+
+**该用**：只要能缩放到目标尺寸、不介意等比/变形；做响应式候选图；把原图缩小到展示宽度。
+
+**别用**：
+
+- 不能变形、也不能裁 → 用 `Resize` 的**单边**写法（`300x`）或 `Fit`；
+- 要求正好填满且允许裁边 → `Fill`；
+- 只要取局部 → `Crop`；
+- 还要转格式、调质量、旋转 → [`Process`](/methods/resource/process/)。
+
 ## 用法
 
 按给定的处理规格缩放图像。等比缩放时可以只指定宽度（如 `300x`），也可以只指定高度（如 `x150`）。
@@ -101,6 +127,62 @@ rotation
 ```
 
 英文原文此处用示例照片演示 `resize 300x` 的前后对比效果；本站未收录该示例图。
+
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows；`assets/images/original.jpg` 是一张 600×400 的 JPEG。放进 `layouts/_default/single.html`：
+
+```go-html-template {file="layouts/_default/single.html"}
+{{ with resources.Get "images/original.jpg" }}
+  {{ with .Resize "300x" }}<p>300x → {{ .Width }}x{{ .Height }}</p>{{ end }}
+  {{ with .Resize "x150" }}<p>x150 → {{ .Width }}x{{ .Height }}</p>{{ end }}
+  {{ with .Resize "300x150" }}<p>300x150 → {{ .Width }}x{{ .Height }}</p>{{ end }}
+{{ end }}
+```
+
+Hugo 渲染为：
+
+```html
+<p>300x → 300x200</p>
+<p>x150 → 225x150</p>
+<p>300x150 → 300x150</p>
+```
+
+**你应当看到什么**：
+
+- 只写宽度 `300x`：高度按原比例算出 200；
+- 只写高度 `x150`：宽度按原比例算出 225；
+- 同时写两个值 `300x150`：结果就是 300×150——源图是 3:2、目标 2:1，**画面被横向压扁了**。这是「没报错但结果不对」的典型来源。
+
+放大同样有效（与 `Fit` 相反）：
+
+```text
+{{ .Resize "1200x" }} → 1200x800
+```
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 单边等比（`300x`） | 300×200（高度自动） | 否 |
+| 单边等比（`x150`） | 225×150（宽度自动） | 否 |
+| 双边（`300x150`） | 精确 300×150，**可能非等比变形** | 否 |
+| 放大（`1200x`） | 1200×800，**会放大** | 否 |
+| 两个维度都给 0（`0x`） | —— | 是：`error calling Resize: failed to resize image "…": must provide Width or Height` |
+| 锚点：本方法不使用 | 写 `TopRight` 之类不会生效（缩放没有「取哪一块」的概念） | 否 |
+| 对非图像资源调用 | —— | 是：`does not support this method: use reflect.IsImageResource…` |
+| `resources.Get` 找不到文件（`nil`） | —— | 是：`nil pointer evaluating resource.Resource.Resize` |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 图片被压扁/拉长 | 双边写法 `300x150` 与源图比例不一致 | 改成单边（`300x`）或 `Fit`；确实要裁边就用 `Fill` |
+| 没报错但结果不对 | 小图被放大后发虚 | `Resize` 会放大 | 改用 `Fit`（绝不放大），或换成更大的源图 |
+| 报错看不懂 | `must provide Width or Height` | `0x`、`x0` 这类没有任何有效维度的规格 | 至少给一个非零维度 |
+| 没报错但结果不对 | 写了锚点却没起作用 | `Resize` 不涉及裁剪区域 | 锚点交给 `Fill`/`Crop`/`Process` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`Process`]: /methods/resource/process/
 [`images.AutoOrient`]: /functions/images/autoorient/

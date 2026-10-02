@@ -11,6 +11,32 @@ signatures = ["PAGE.Summary"]
 returnType = "template.HTML"
 +++
 
+## 这一页解决什么问题
+
+列表页要显示每篇文章的开头一段（生成 `<meta name="description">`、做卡片摘要），`.Summary` 就是这份「摘要 HTML」。它有三种来源，优先级依次是：
+
+1. **手动摘要**：正文里的 `<!--more-->` 分隔符之前的全部内容；
+2. **前置元数据摘要**：front matter 里的 `summary` 字段；
+3. **自动摘要**：[`summaryLength`](/configuration/all/) 决定的字数截断。
+
+实测这三条规则确实按此顺序生效（见下表）。想看「摘要是不是比正文短」，用 [`.Truncated`](/methods/page/truncated/)。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 列表页/卡片显示摘要，并配合 `.Truncated` 决定是否显示「阅读更多」；
+- SEO：把摘要塞进 `<meta name="description">`（需要先 `plainify`）。
+
+**别用**：
+
+- 想要完整正文 → 用 [`.Content`](/methods/page/content/)；
+- 想要纯文本摘要 → `.Summary` 是 HTML，需要 `{{ .Summary | plainify }}`；
+- 想自己控制截断长度 → 用 `<!--more-->` 或 front matter `summary`，自动摘要的长度在[站点配置](/configuration/all/)里改；
+- 想要不含摘要的正文（例如 RSS 全文）→ 用 [`ContentWithoutSummary`](/methods/page/contentwithoutsummary/)。
+
+## 用法
+
 <!-- Do not remove the manual summary divider below. -->
 <!-- If you do, you will break its first literal usage on this page. -->
 
@@ -44,6 +70,65 @@ returnType = "template.HTML"
 
 > [!NOTE]
 > 如果你在前置元数据中定义摘要，`Truncated` 方法会返回 `false`。
+
+## 完整示例：三种摘要来源对照
+
+测试站的三个内容文件：
+
+```md
+<!-- content/posts/bundle-1/index.md（用 <!--more--> 手动分隔） -->
+叶子包的开场段落。
+
+<!--more-->
+
+## 包内标题
+包内正文。
+```
+
+```toml
+# content/posts/summary-front.md（前置元数据摘要）
+summary = "手写摘要。"
+```
+
+```md
+<!-- content/posts/post-2.md（没有分隔符、也没有 summary） -->
+第二篇正文，只有一小段。
+```
+
+列表模板：
+
+```go-html-template {file="layouts/_default/list.html"}
+{{ range .RegularPages }}
+  <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+  {{ .Summary }}
+  {{ if .Truncated }}<a href="{{ .RelPermalink }}">阅读更多</a>{{ end }}
+{{ end }}
+```
+
+实测（Hugo 0.167.0）：
+
+| 页面 | `.Summary` 的值 | `.Truncated` |
+| --- | --- | --- |
+| `/posts/bundle-1/` | `<p>叶子包的开场段落。</p>` | `true` |
+| `/posts/post-1/`（有 `<!--more-->`） | `<p>第一篇的开场段落。</p>` | `true` |
+| `/posts/summary-front/`（front matter `summary`） | `手写摘要。` | `false` |
+| `/posts/post-2/`（短内容、无分隔符） | `<p>第二篇正文，只有一小段。</p>` | `false` |
+| `/posts/empty-body/`（正文为空） | 空字符串 | `false` |
+
+**你应当看到什么**：手动分隔符与自动摘要都带 `<p>` 包裹，而 front matter 的 `summary` **原样输出**（`手写摘要。` 没有 `<p>`）；前三种情况下 `.Truncated` 只有「内容确实被截断」时才为 `true`。
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 正文含 `<!--more-->` | 分隔符之前的 HTML（实测带 `<p>`） | 否 |
+| front matter 有 `summary` | 该字符串原样（实测无 `<p>`） | 否 |
+| 都没有、内容很短 | 自动摘要 = 全部内容，`.Truncated` 为 `false` | 否 |
+| 正文为空 | 空字符串（实测） | 否 |
+| 返回类型 | `template.HTML`（输出不转义） | 否 |
+| 想要纯文本 | 需自行 `plainify` | 否 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`Truncated`]: /methods/page/truncated/
 [automatic summary]: /content-management/summaries/#automatic-summary

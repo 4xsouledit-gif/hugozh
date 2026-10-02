@@ -11,6 +11,27 @@ signatures = ["templates.Defer OPTIONS"]
 returnType = "string"
 +++
 
+## 这一页解决什么问题
+
+有些模板必须**等所有页面都渲染完**才能执行。典型场景是 CSS 处理：Tailwind / PurgeCSS 需要先读完 `hugo_stats.json`（Hugo 渲染完所有页面后才写出的「用到了哪些类名」清单），如果边渲染页面边处理 CSS，就会漏掉后面的类名。`templates.Defer` 把这段模板推迟到渲染结束阶段再跑。
+
+用法上它有点特别：必须写成 `{{ with (templates.Defer (dict ...)) }}…{{ end }}`，推迟的代码放在 `with` 块里。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 处理依赖「全站 HTML 统计」的 CSS：`css.TailwindCSS`、`css.PostCSS` + PurgeCSS；
+- 需要等所有站点 / 输出格式渲染完才做的收尾计算；
+- 想在延迟模板里安全读 `site` / `.RelPermalink`（站点、语言、输出格式保持不变）。
+
+**别用**：
+
+- 普通局部模板 → 直接用 [`partial`](/functions/partials/include/)；
+- 在 [`partialCached`](/functions/partials/includecached/) 里使用 → 实测直接报错（见下）；
+- 在短代码 / 渲染钩子里使用 → 上游提示结果可能不可预期；
+- 不需要「全站视角」的模板 → 延迟执行只会让输出顺序更难理解。
+
 ## 用法
 
 `templates.Defer` 函数把模板的执行推迟到所有站点与输出格式都渲染完成之后。
@@ -187,3 +208,31 @@ I18n Outside: {{ i18n "hello" }}
 [language]: /methods/site/language/
 [output format]: /configuration/output-formats/
 [site]: /methods/page/site/
+
+## 完整示例（实测）
+
+```go-html-template
+{{ $data := dict "page" . }}
+{{ with (templates.Defer (dict "key" "global" "data" $data)) }}
+  deferred page: {{ .page.Title }}
+{{ end }}
+```
+
+Hugo 0.167.0 实测渲染：
+
+```text
+deferred page: Teach Test
+```
+
+**你应当看到什么**：`data` 选项把数据传进延迟模板，块内用 `.`（或 `$`）访问；`key` 相同的延迟模板会按「模板内容哈希 + key」缓存。省略 `key` 也能正常渲染（实测），只是每次渲染都会重新执行，对共享 CSS 这类资源效率更低。
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| `with (templates.Defer (dict "key" "k" "data" …))` | 块内模板在渲染结束阶段执行，输出回到调用位置 | 否 |
+| 省略 `key` | 正常工作，但每次渲染都会执行（上游说明效率更低） | 否 |
+| 不带 `with` 直接调用 | —— | 是：`error calling Defer: Defer does not take any arguments` |
+| 在 `partialCached` 调用的局部模板里使用 | —— | 是：`templates.Defer cannot be used inside a partialCached partial; use partial instead, or move templates.Defer to the calling template` |
+| 在短代码 / 渲染钩子里使用 | 上游提示结果可能不可预期 | —— |
+| 返回类型 | `string`（签名如此；实际用法是作为 `with` 的表达式） | 否 |

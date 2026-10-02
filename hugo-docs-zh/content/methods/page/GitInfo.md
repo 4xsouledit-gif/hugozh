@@ -11,6 +11,26 @@ signatures = ["PAGE.GitInfo"]
 returnType = "*gitmap.GitInfo"
 +++
 
+## 这一页解决什么问题
+
+`GitInfo` 把「这个文件在 Git 里的最后一次提交」交给模板：作者、邮箱、提交哈希、提交信息、提交时间。常见用途是页脚显示「最后由谁在什么时候更新」、给文章加编辑链接、把提交时间当作页面的日期。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 页脚显示最近一次提交（作者、日期、摘要）；
+- 用提交时间驱动「最后更新」；
+- 生成「在 GitHub 上编辑此页」链接。
+
+**别用**：
+
+- 只想显示页面日期 → 用 [`Date`](/methods/page/date/) / [`Lastmod`](/methods/page/lastmod/)；
+- 站点没有 Git 或不想增加构建时间 → `GitInfo` 需要 `enableGitInfo = true` 且文件已被提交，否则为 `nil`；
+- 想显示**代码所有者** → 用 [`CodeOwners`](/methods/page/codeowners/)。
+
+## 用法
+
 `Page` 对象上的 `GitInfo` 方法可以访问 Git 历史中的提交元数据，例如作者姓名、提交哈希与提交信息。
 
 > [!NOTE]
@@ -187,6 +207,61 @@ Vercel|浅|是 [^1]
 [^2]: 在 GitHub Pages 上托管时，要在 GitHub Action 的 `checkout` 步骤中设置 `fetch-depth: 0`，以执行完整克隆。
 
 [^3]: 在 GitLab Pages 上托管时，要在工作流文件中把 `GIT_DEPTH` 环境变量设为 `0`，以执行完整克隆。
+
+## 完整示例：页脚显示最后一次提交
+
+最小站点：临时目录里 `git init`、提交全部文件，`hugo.toml` 设 `enableGitInfo = true`。模板放在 `layouts/_default/single.html`：
+
+```go-html-template {file="layouts/_default/single.html"}
+{{ with .GitInfo }}
+  <p>{{ .AbbreviatedHash }} · {{ .AuthorName }} · {{ .Subject }}</p>
+{{ end }}
+```
+
+`hugo --source <站点目录> --ignoreCache` 构建后：
+
+```html
+<p>36f3a8a · Lab Tester · Add tutorials</p>
+```
+
+同一次构建中其它字段的实测值：
+
+```go-html-template
+{{ with .GitInfo }}{{ .Hash }} → 36f3a8a47aef3254083093eb8ab75a2d2c683080
+{{ .AuthorDate.Format "2006-01-02" }} → 2026-10-03
+{{ .CommitDate.Format "2006-01-02" }} → 2026-10-03
+{{ .Body }} → （空，该提交没有正文）
+{{ range .Ancestors }} → （空，该文件只有一次提交）{{ end }}{{ end }}
+```
+
+**你应当看到什么**：`.AbbreviatedHash` 是 7 位短哈希，`.Hash` 是完整 SHA-1；`.Body` 只包含提交信息的正文部分（摘要行的内容在 `.Subject` 里）；某个文件只有一次提交时 `.Ancestors` 是**空切片**，`range` 什么都不输出。
+
+> [!IMPORTANT]
+> `enableGitInfo = true` 会顺带改变 [`Lastmod`](/methods/page/lastmod/)：实测中 `alpha.md` 的前置元数据写了 `lastmod = 2024-05-06`，但页面输出的 `.Lastmod` 是**最后一次提交的作者日期**（2026-10-03）。想保留前置元数据的值，就要按上游「最后修改日期」一节调整[日期配置](/configuration/front-matter/#dates)。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows；`git init` 后提交全部文件，`enableGitInfo = true`。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 文件已被提交 | 返回提交元数据对象 | 否 |
+| `enableGitInfo` 未开启（默认） | `nil`，`{{ with .GitInfo }}` 不执行 | 否 |
+| 文件尚未提交 | `nil` | 否 |
+| 该文件只提交过一次 | `.Ancestors` 为空切片 | 否 |
+| 同时启用 `enableGitInfo` | `.Lastmod` 变为该提交的作者日期 | 否 |
+| 返回类型 | `*gitmap.GitInfo`（可能为 `nil`，务必用 `with` 包住） | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 构建报错 | `nil pointer evaluating *gitmap.GitInfo.Hash` | 未启用 `enableGitInfo`，或文件没提交 | 一律用 `{{ with .GitInfo }}` 包住整段 |
+| 什么都没输出 | 页脚没有提交信息 | 同上 | 在 `hugo.toml` 设 `enableGitInfo = true`，并确认文件已 `git add` + `commit` |
+| 提交信息不准确 | 显示的是仓库最近一次提交，而不是改这个文件的提交 | CI 上做了浅克隆（shallow clone） | 改为完整克隆，见上游「托管注意事项」 |
+| 日期与预期不符 | `.Lastmod` 与前置元数据不一致 | `enableGitInfo` 覆盖了 `Lastmod` | 通过[日期配置](/configuration/front-matter/#dates)调整优先级 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`enableGitInfo`]: /configuration/all/#enablegitinfo
 [`replacements`]: /configuration/module/#replacements

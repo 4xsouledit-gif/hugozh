@@ -11,6 +11,26 @@ signatures = ["SHORTCODE.Inner"]
 returnType = "template.HTML"
 +++
 
+## 这一页解决什么问题
+
+带结束标签的短代码（`{{</* card */>}}…{{</* /card */>}}`）需要把「标签之间的那一段内容」取出来再加工——包一层 `<div>`、加标题、决定是否按 Markdown 渲染。`Inner` 返回的就是这段内容。
+
+它最容易让人困惑的地方是：**同一段内容，用 `{{</* */>}}` 调用时是「原始 Markdown 文本」，用 `{{%/* */%}}` 调用时已经是「渲染好的 HTML」**。把这一点搞反，页面就会显示一堆 `**星号**`，或者出现双重转义。这一页把两种记法下的取值、以及要不要 `TrimSpace`/`RenderString` 讲清楚。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 短代码是「包裹型」的：卡片、提示框、折叠面板、画廊，需要拿到内部内容；
+- 需要决定内部内容的渲染方式（纯文本转义 / Markdown 转 HTML / 原样输出）；
+- 想把内部内容拆开处理（例如按行遍历）。
+
+**别用**：
+
+- 短代码是自闭合的（`{{</* img src="…" */>}}`）→ 它没有内部内容，`.Inner` 是空字符串；
+- 只想取**参数** → 用 [`Get`](/methods/shortcode/get/) / [`Params`](/methods/shortcode/params/)；
+- 内部内容被缩进过、又想按 Markdown 渲染 → 先用 [`InnerDeindent`](/methods/shortcode/innerdeindent/) 去掉缩进，否则会被当成代码块。
+
 这段内容：
 
 ```md {file="content/services.md"}
@@ -134,8 +154,87 @@ unsafe = true
 > [!NOTE]
 > 使用 [Markdown 记法][]调用短代码时，不要用 `RenderString` 或 `markdownify` 处理 `Inner` 的值。
 
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点。
+
+模板 `layouts/_shortcodes/card.html`：
+
+```go-html-template {file="layouts/_shortcodes/card.html"}
+<div class="card">
+  {{ with .Get "title" }}<div class="card-title">{{ . }}</div>{{ end }}
+  <div class="card-content">{{ .Inner | strings.TrimSpace | .Page.RenderString }}</div>
+</div>
+```
+
+内容 `content/services.md`：
+
+```md {file="content/services.md"}
+{{</* card title="Product Design" */>}}
+We design the **best** widgets in the world.
+{{</* /card */>}}
+```
+
+Hugo 渲染为：
+
+```html
+<div class="card">
+  <div class="card-title">Product Design</div>
+  <div class="card-content">We design the <strong>best</strong> widgets in the world.</div>
+</div>
+```
+
+**你应当看到什么**：`**best**` 变成了 `<strong>best</strong>`，说明 `Inner` 返回的是 **Markdown 原文**，需要 `RenderString` 才会变成 HTML。这一步很容易验证——把 `.Page.RenderString` 去掉，页面里就会原样显示 `**best**`（上游「示例」一节的渲染结果正是如此）。
+
+改用 Markdown 记法后，情况反过来：
+
+```md {file="content/services.md"}
+{{%/* card title="Product Design" */%}}
+We design the **best** widgets in the world.
+{{%/* /card */%}}
+```
+
+此时 `.Inner` 已经是渲染好的 HTML。实测在 `layouts/_shortcodes/sccardmd.html` 中直接输出 `.Inner` 得到：
+
+```html
+<p>We design the <strong>best</strong> widgets in the world.</p>
+```
+
+所以 [Markdown 记法][]下**不要**再套 `RenderString`。上游「另一种记法」一节还给出了配套的缩进/空行写法，以及需要 `unsafe = true` 的原因。
+
+自闭合调用没有内部内容，实测 `.Inner` 为空字符串、不报错：
+
+```text
+有开始标签、没有结束标签 → 构建在解析阶段就失败（见下）
+自闭合写法（在 > 之前加 /）→ .Inner 为空字符串
+```
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| `{{</* */>}}` 记法 + 结束标签 | **原始 Markdown 文本**，含开头/结尾换行（实测 `\nWe design the **best** widgets…\n`） | 否 |
+| 同上，经过 `strings.TrimSpace` | 去掉首尾空白后的 Markdown | 否 |
+| 同上，再经过 `.Page.RenderString` | 渲染后的 HTML（实测 `<strong>best</strong>`） | 否 |
+| `{{%/* */%}}` 记法 | **已经渲染好的 HTML**（实测 `<p>We design the <strong>best</strong> widgets in the world.</p>`） | 否 |
+| 自闭合写法（在 `>` 之前加 `/`） | 空字符串 | 否 |
+| 有开始标签但没有结束标签 | —— | 是：`failed to extract shortcode: shortcode "x" must be closed or self-closed` |
+| 返回类型 | `template.HTML`（所以直接输出不会被转义） | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 页面上显示 `**best**` 字面量 | `{{</* */>}}` 记法下 `Inner` 是 Markdown，没渲染 | 用 `.Page.RenderString` 或 `markdownify` |
+| 没报错但结果不对 | Markdown 记法下 HTML 标签被显示出来 | 已经渲染过，又套了一次 `RenderString`/`markdownify` | Markdown 记法下直接输出 `.Inner` |
+| 没报错但结果不对 | 输出里多出空白行 | `Inner` 带首尾换行 | `strings.TrimSpace` |
+| 构建失败 | `shortcode "x" must be closed or self-closed` | 有开始标签、没写结束标签 | 补上 `{{</* /x */>}}`，或把调用改成自闭合写法（在 `>` 之前加 `/`） |
+| 没报错但结果不对 | 内部 Markdown 变成了代码块 | 内容被缩进（CommonMark 的缩进代码块） | 见 [`InnerDeindent`](/methods/shortcode/innerdeindent/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。
+
 [CommonMark]: https://spec.commonmark.org/current/
-[Markdown 记法]: /content-management/shortcodes/#notation
+[Markdown 记法]: /shortcodes/
 [`RenderString`]: /methods/page/renderstring/
 [`markdownify`]: /functions/transform/markdownify/
 [`strings.TrimSpace`]: /functions/strings/trimspace/

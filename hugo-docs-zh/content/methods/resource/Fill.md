@@ -19,6 +19,32 @@ returnType = "images.ImageResource"
 > [!NOTE]
 > 用 [`reflect.IsImageResourceProcessable`][] 函数判断图像是否可处理。
 
+## 这一页解决什么问题
+
+`Fill` 解决的是「**给我一个正好这么大的框，把图铺满，别留白、别变形**」：它先等比缩放图像直到能盖住目标尺寸，再把多出来的部分按[锚点](#anchor)裁掉，所以结果一定是你写的尺寸，而且宽高比没有被拉伸。
+
+典型场景：封面图、卡片图、`og:image` 缩略图——这些位置的容器尺寸固定，宁可裁掉边缘也不能留白或压扁。
+
+## 什么时候用，什么时候别用
+
+四个变换方法的分工：
+
+| 方法 | 缩放？ | 裁剪？ | 会放大吗？ | 一句话 |
+| --- | --- | --- | --- | --- |
+| `Fill` | 是 | 是（裁掉溢出） | 会 | 铺满目标框后裁边 |
+| [`Fit`](/methods/resource/fit/) | 是（等比缩小） | 否 | **不会** | 缩到装得进为止 |
+| [`Crop`](/methods/resource/crop/) | 否 | 是（按矩形取一块） | 不会 | 只裁不缩 |
+| [`Resize`](/methods/resource/resize/) | 是 | 否 | 会 | 直接缩到指定尺寸（可能变形） |
+
+**该用**：容器尺寸固定、图片内容允许裁边（人像/风景的边缘裁掉不影响表达）；需要「缩略图墙」那样整齐的网格。
+
+**别用**：
+
+- 图上有不能裁的内容（图表、含文字的海报）→ 用 `Resize` 等比缩或 `Fit`（不改内容，最多留白）；
+- 要保留整张图又要固定尺寸 → `Fit`；
+- 只要局部、不要重采样 → `Crop`；
+- 还要顺带转 WebP、调质量 → [`Process`](/methods/resource/process/)。
+
 ## 用法
 
 填充时必须在规格中同时给出宽度和高度（例如 `500x200`）。`Fill` 会缩放图像以覆盖目标区域，再按给出的[锚点](#anchor)裁掉溢出的像素，从而保持原始宽高比。
@@ -99,6 +125,56 @@ rotation
 ```
 
 英文原文此处用示例照片演示 `fill 500x200 TopRight` 的前后对比效果；本站未收录该示例图。
+
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows；`assets/images/original.jpg` 是一张 600×400 的 JPEG。放进 `layouts/_default/single.html`：
+
+```go-html-template {file="layouts/_default/single.html"}
+{{ with resources.Get "images/original.jpg" }}
+  {{ with .Fill "500x200 TopRight" }}
+    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="">
+  {{ end }}
+{{ end }}
+```
+
+Hugo 渲染为：
+
+```html
+<img src="/images/original_hu_8c177808e0a3bfcc.jpg" width="500" height="200" alt="">
+```
+
+**你应当看到什么**：输出一定是 500×200——源图是 600×400（3:2），目标 500×200（5:2）更扁，`Fill` 先把图放大到「高度铺满 200」所需的宽度（600×400 → 约 750×200），再按 `TopRight` 裁掉左边多出来的部分。所以**边缘会被裁掉**，这正是 `Fill` 与你写 `Resize "500x200"` 的区别：后者会横向压扁，不会裁。
+
+越界与放大的边界实测（同一张 600×400 源图）：
+
+```text
+.Fill "500x200 TopRight"  → 500x200（放大到铺满后裁边）
+.Fill "500x"              → 构建失败：error calling Fill: failed to fill image "…": must provide Width and Height
+```
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 规格正常（`500x200 TopRight`） | `images.ImageResource`，尺寸即所写 | 否 |
+| 只写一个维度（`500x`、`x200`） | —— | 是：`error calling Fill: failed to fill image "…": must provide Width and Height` |
+| 目标尺寸大于源图 | 会**放大**到目标尺寸再裁边（与 `Fit` 相反） | 否 |
+| 源图本身就是目标宽高比 | 无像素被裁，等价于一次等比缩放 | 否 |
+| 目标格式不支持透明（如 JPEG）而源图有 alpha | 透明区按背景色填充，默认取[成像配置][]的 `bgColor` | 否 |
+| 对非图像资源调用 | —— | 是：`does not support this method: use reflect.IsImageResource…` |
+| `resources.Get` 找不到文件（`nil`） | —— | 是：`nil pointer evaluating resource.Resource.Fill` |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 图片边缘的内容被切掉了 | `Fill` 的语义就是裁边铺满 | 改 `Fit`（不裁、整张装入）或 `Resize`（可能变形） |
+| 没报错但结果不对 | 人物脸被裁掉一半 | 默认锚点（成像配置的 `anchor`）不在人脸上 | 显式写 `Top`、`Smart` 等锚点，`Smart` 会找主体 |
+| 没报错但结果不对 | 小图被放大后变糊 | 目标尺寸大于源图，`Fill` 会放大 | 换 `Fit`（绝不放大），或提供更大的源图 |
+| 报错看不懂 | `must provide Width and Height` | 填充必须同时给出宽和高 | 写成 `500x200`，不能只写 `500x` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`Process`]: /methods/resource/process/
 [`images.AutoOrient`]: /functions/images/autoorient/

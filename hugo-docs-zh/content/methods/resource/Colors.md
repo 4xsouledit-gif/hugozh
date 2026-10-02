@@ -14,10 +14,29 @@ returnType = "[]images.Color"
 > [!NOTE]
 > 该方法可用于全局资源、页面资源或远程资源。
 
-`Colors` 方法返回[processable image](g)（可处理的图像）中最主要颜色的切片，从最主要到最次要排序。
+## 这一页解决什么问题
+
+`Colors` 方法返回[processable image](g)（可处理的图像）中最主要颜色的切片，从最主要到最次要排序。它的用途是**让页面的配色跟着图片走**：用图里最暗的颜色做边框、用最亮和最暗的颜色拼一个文字框、把主色交给别的图像滤镜当背景色。
 
 > [!NOTE]
 > 用 [`reflect.IsImageResourceProcessable`][] 函数判断图像是否可处理。
+
+返回的每一项都是一个颜色对象，带 `ColorHex` 与 `Luminance` 两个方法；把它直接放进模板输出（`{{ . }}`）会渲染成十六进制颜色值（实测：`{{ range first 1 .Colors }}{{ . }}{{ end }}` → `#523c33`）。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 需要从图片里**自动取一个颜色**去配文字、边框、占位背景；
+- 需要按「主要程度」或「明暗」排序后取第一个（`index (sort .Colors "Luminance") 0`）；
+- 需要算 WCAG 对比度，判断这组前景/背景色是否合规。
+
+**别用**：
+
+- 只想知道图片的**尺寸** → 用 [`Width`](/methods/resource/width/) / [`Height`](/methods/resource/height/)；
+- 想把图片变成灰阶、去色 → 用 [`Filter`](/methods/resource/filter/) 配 `images.Grayscale`；
+- 想按像素精确读取某个坐标的颜色 → `Colors` 是直方图统计，不提供坐标查询；
+- 大图只要颜色、不要整张图 → 先 `Resize` 缩小再取色（上游建议；实测 `.Colors` 会返回 5 种颜色，缩小后的图更快且主色基本一致）。
 
 ## 用法
 
@@ -166,6 +185,68 @@ $$contrast\ ratio = { L_1 + 0.05 \over L_2 + 0.05 }$$
   {{ end }}
 {{ end }}
 ```
+
+## 完整示例（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点；`assets/images/a.jpg` 是一张 600×400 的 JPEG，`params` 无特殊设置。把下面的模板放进 `layouts/_default/single.html`（任何会渲染 HTML、且能访问 `assets/` 全局资源的模板都可以）：
+
+```go-html-template {file="layouts/_default/single.html"}
+{{ with resources.Get "images/a.jpg" }}
+  {{ $darkest := index (sort .Colors "Luminance") 0 }}
+  {{ $lightest := index (sort .Colors "Luminance" "desc") 0 }}
+  <p>最暗 {{ $darkest.ColorHex }}，最亮 {{ $lightest.ColorHex }}</p>
+  <ul>
+    {{ range .Colors }}
+      <li>{{ .ColorHex }} — {{ .Luminance | lang.FormatNumber 4 }}</li>
+    {{ end }}
+  </ul>
+{{ end }}
+```
+
+Hugo 渲染为（`range` 每轮留下的空行已省略）：
+
+```html
+<p>最暗 #523c33，最亮 #c6cbd2</p>
+<ul>
+  <li>#523c33 — 0.0526</li>
+  <li>#c6cbd2 — 0.5937</li>
+  <li>#966a43 — 0.1720</li>
+  <li>#5f92c9 — 0.2721</li>
+  <li>#c09460 — 0.3323</li>
+</ul>
+```
+
+**你应当看到什么**：同一张图、同一台机器，`Colors` 每次返回**同样顺序**的颜色（直方图算法是确定性的）；`Luminance` 是 `0`–`1` 之间的小数，越小越暗。这块图一共返回 5 种颜色——数量随图片内容变化，不要把它当成固定值。
+
+## 返回值边界（实测）
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 正常图像资源 | `[]images.Color`，按主要程度从高到低 | 否 |
+| 对非图像资源（如 `text/plain`）调用 `.Colors` | —— | 是：`error calling Colors: resource "/quotations/kipling.txt" of media type "text/plain" does not support this method: use reflect.IsImageResource, reflect.IsImageResourceProcessable, or reflect.IsImageResourceWithMeta to check if the resource supports this method before calling it` |
+| 对 `nil` 资源（`resources.Get` 找不到文件）调用 | —— | 是：`nil pointer evaluating resource.Resource.Colors` |
+| `index .Colors 0` 而切片为空 | 未实测（上游未说明空图像会返回什么） | —— |
+
+要避免前两类报错，先判断再调用：
+
+```go-html-template
+{{ with resources.Get "images/a.jpg" }}
+  {{ if reflect.IsImageResourceProcessable . }}
+    {{ range first 3 .Colors }}{{ .ColorHex }}{{ end }}
+  {{ end }}
+{{ end }}
+```
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 报错看不懂 | `does not support this method: use reflect.IsImageResource...` | 把 `Colors` 用在了文本/CSS 等非图像资源上 | 先 `reflect.IsImageResourceProcessable`，或改用 `MediaType.MainType` 判断 |
+| 没报错但结果不对 | 颜色顺序和自己肉眼判断的不一致 | `Colors` 是直方图统计，不是「人眼最主要」 | 需要「人眼感觉」时按 `Luminance` 排序后取用 |
+| 报错看不懂 | `nil pointer evaluating resource.Resource.Colors` | `resources.Get` 没找到文件，返回 `nil`，`with` 之外调用就会崩 | 始终 `{{ with resources.Get "…" }}` 包住 |
+| 性能 | 大图上取色慢 | 直接从原图统计 | 先 `{{ $small := .Resize "200x" }}` 再 `$small.Colors` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [WCAG]: https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines
 [`images.Dither`]: /functions/images/dither/

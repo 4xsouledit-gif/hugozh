@@ -32,8 +32,8 @@
     },
     {
       "path": "references/gotchas.md",
-      "bytes": 13042,
-      "sha256": "db16b95a4a81702f713ec6b28df493f68f8c48c10ac644c8328c32e3ea28897d",
+      "bytes": 15219,
+      "sha256": "17c4b50b1bd60fd76296eeaeb71f2dec152c8dad95df2be072100bed6fe66cf2",
       "url": "https://hugozh.cn/skill/references/gotchas.md",
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/gotchas.md"
     },

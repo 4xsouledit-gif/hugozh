@@ -7,7 +7,7 @@ Each entry: what you see → what actually happened → what to do. Entries are 
 
 - **documented** — reproduces stated behaviour and names the page or command involved: G1,
   G3–G10, G14, G18–G20.
-- **observed** — reproduced on a working site, not stated in the docs: G11–G13, G15–G17, G21–G24.
+- **observed** — reproduced on a working site, not stated in the docs: G11–G13, G15–G17, G21–G26.
 - **not documented** — real but unstated; G2 says so in its own Status line.
 
 Where an entry disagrees with what your own build shows, trust the build: these are behaviours,
@@ -267,3 +267,45 @@ rule).
 `isPlainText = true` so the body is parsed by `text/template` rather than `html/template`
 (<https://gohugo.io/configuration/output-formats/>) — without it, Markdown comes out
 HTML-escaped, which is the same class of silent divergence.
+
+## G25 — `site.Data` is deprecated and fails a warning-strict build
+
+**Symptom.** A build that used to pass fails only when run with `--panicOnWarning`:
+
+```text
+WARN  deprecated: .Site.Data was deprecated in Hugo v0.156.0 and will be removed in a future release. Use hugo.Data instead.
+```
+
+**Cause.** The accessor moved from `site.Data` / `.Site.Data` to the global `hugo.Data`
+(Hugo 0.156.0). Reading data files through the old accessor still works, so nothing breaks until
+the warning is made fatal.
+
+**Fix.** Use `hugo.Data` with `index` for a dashed filename —
+`{{ index hugo.Data "glossary-alias" }}` reads `data/glossary-alias.toml`. Worth knowing: a
+*shorter* path is not always the newer one, so re-check every accessor against the current version
+before treating a warning as noise. This is exactly the class of change `--panicOnWarning` exists
+to surface: the site had been passing `--ignoreCache` builds with the deprecated key for months.
+
+**Status:** observed (Hugo 0.167.0; surfaced by `--panicOnWarning`, fixed the same day).
+
+## G26 — `--printUnusedTemplates` reports a partial that is used
+
+**Symptom.** A build with `--printUnusedTemplates` claims a partial that templates clearly call is
+unused:
+
+```text
+WARN  Template /_partials/md-body.html is unused, source "…/layouts/partials/md-body.html"
+```
+
+**Cause.** The report is about *reachability within the currently rendered outputs*. A partial
+called only from an output-format template that is itself conditionally exercised (here the
+Markdown output templates, which also referenced the then-deprecated `site.Data`) can be reported
+while the real problem is elsewhere. In this case fixing the deprecation (G25) made the warning
+disappear, so the warning was a **symptom of the other defect**, not an unused file.
+
+**Fix.** Do not delete the "unused" template on the strength of this flag. First make the build
+warning-clean (`--panicOnWarning`), then re-run `--printUnusedTemplates`; only a template still
+reported on a clean build is a genuine candidate. Never delete a template whose call site you can
+point at.
+
+**Status:** observed (Hugo 0.167.0; the warning vanished when G25 was fixed).

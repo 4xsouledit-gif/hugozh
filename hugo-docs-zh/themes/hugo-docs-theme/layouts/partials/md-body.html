@@ -14,8 +14,9 @@
     {{- $body = replace $body (printf "[*%s*](g)" $key) (printf "[*%s*](%s)" $key $href) -}}
   {{- end -}}
   {{- /* 兜底：仍匹配不到的（如链接文字与术语名不一致）先查别名表，再指向术语表总目录，
-         绝不留下字面量 g。别名表与 HTML 钩子（_markup/render-link.html）共用同一份数据。 */ -}}
-  {{- $alias := index site.Data "glossary-alias" | default dict -}}
+         绝不留下字面量 g。别名表与 HTML 钩子（_markup/render-link.html）共用同一份数据。
+         用 hugo.Data 而不是 site.Data：后者自 Hugo 0.156.0 起弃用。 */ -}}
+  {{- $alias := index hugo.Data "glossary-alias" | default dict -}}
   {{- range $k, $slug := $alias -}}
     {{- with index $idx $slug -}}
       {{- $body = replace $body (printf "[%s](g)" $k) (printf "[%s](%s)" $k .) -}}

@@ -1,4 +1,4 @@
-﻿# 把技能包同步到站点静态目录，供 https://hugozh.cn/skill/… 直接取用；并生成机器可读清单。
+# 把技能包同步到站点静态目录，供 https://hugozh.cn/skill/… 直接取用；并生成机器可读清单。
 # 用法：
 #   pwsh -File .translation/sync-skill-static.ps1            # 同步 + 生成清单
 #   pwsh -File .translation/sync-skill-static.ps1 -Verify    # 只校验镜像与源是否一致（CI/验收用）
@@ -11,6 +11,24 @@ $verifyOnly = $PSBoundParameters.ContainsKey('Verify')
 if (-not (Test-Path $src)) { Write-Output "找不到技能包目录: $src"; exit 2 }
 
 $srcFiles = @(Get-ChildItem $src -Recurse -File | Sort-Object FullName)
+
+# 防漂移：INSTALL-PROMPT.txt 里写死了「N 个文件」与文件名清单。技能包增删文件后
+# 若忘了改它，代理会照着一份过期的清单安装。这里把两边的数量对一下，不一致就报错。
+$promptPath = Join-Path $src 'INSTALL-PROMPT.txt'
+if (Test-Path $promptPath) {
+  $promptText = [System.IO.File]::ReadAllText($promptPath)
+  $m = [regex]::Match($promptText, '(\d+)\s*个文件')
+  if (-not $m.Success) {
+    Write-Output 'INSTALL-PROMPT.txt 里找不到「N 个文件」这句话，无法做防漂移校验'
+    exit 1
+  }
+  $declared = [int]$m.Groups[1].Value
+  if ($declared -ne $srcFiles.Count) {
+    Write-Output ("INSTALL-PROMPT.txt 声明 {0} 个文件，实际 {1} 个 —— 请更新提示词里的数量与文件名清单" -f $declared, $srcFiles.Count)
+    exit 1
+  }
+  Write-Output ("防漂移：INSTALL-PROMPT.txt 声明 {0} 个文件，与实际一致" -f $declared)
+}
 
 if ($verifyOnly) {
   $bad = 0

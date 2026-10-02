@@ -18,6 +18,7 @@ It exists because a 200-page Hugo site was built the hard way: the traps in
 hugo-static-site/
 ├── SKILL.md                        # workflow + iron rules (loaded as the skill)
 ├── README.md                       # this file
+├── INSTALL-PROMPT.txt              # copy-paste install prompt (agent-agnostic; see Install)
 └── references/
     ├── commands.md                 # command notes: what the workflow uses (reference: `hugo gen doc`)
     ├── dates.md                    # date fields, time zones, localized formats, relative time
@@ -31,7 +32,7 @@ hugo-static-site/
     └── versions.md                 # version-keyed renames and defaults
 ```
 
-Twelve files in total. A published mirror of this folder, with a machine-readable manifest
+Thirteen files in total. A published mirror of this folder, with a machine-readable manifest
 (`path`, `bytes`, `sha256`, `url`, `rawUrl` per file), lives at <https://hugozh.cn/skill/> —
 `https://hugozh.cn/skill/skill-manifest.json`.
 
@@ -45,46 +46,41 @@ workflow prescribes; what cannot be generated (the trap catalogue, the workflow)
 
 ## Install
 
-**Fixed: it installs into the current project, not a user-level directory.**
+**Copy [INSTALL-PROMPT.txt](INSTALL-PROMPT.txt) into your agent and let it install itself.**
 
-```text
-<current project>/.dsh/skills/hugo-static-site/
-```
+The prompt deliberately contains **no product-specific path** — no `.dsh`, no `.claude`, no
+`.cursor`. It cannot: every agent's skills/rules directory, loading mechanism and project-vs-user
+support differs, so any hard-coded directory silently fails for everyone else. (This skill's own
+docs got that wrong twice — first pinning `~/.dsh/skills/`, then treating `.dsh` as the default.)
 
-Project scope is deliberate. The skill then travels with the repository — everyone who clones the
-project gets the same manual, and an agent working there cannot end up in the "I have it, you don't"
-state that a per-machine install produces. One project, one copy; nothing else on the machine is
-touched.
+What the prompt does fix is only what makes the install *checkable*; everything else is left to the
+agent, which knows its own convention better than this file does:
 
-**How** the files get there, and how the project is made to load them, is the agent's call. Loaders
-differ (scanning a skills directory, declaring a directory in project config, a per-project profile
-patch), and the agent working in the project knows its own convention better than this document
-does. Use whatever convention the project already has; do not introduce a mechanism it does not.
+| Fixed (otherwise unverifiable) | Left to the agent |
+| --- | --- |
+| the manifest's `path` and `sha256` for all files | which directory, and what it is called |
+| internal relative paths preserved (`references/` never flattened) | which loading/registration mechanism |
+| every file hash-verified after writing | project-level or user-level install |
+| the agent must state its identity and basis **before** acting | whether a session restart is needed |
 
-**Fixed contract, whatever the mechanism:**
-
-1. the directory is `<current project>/.dsh/skills/hugo-static-site/` and holds all twelve files;
-2. internal relative paths are preserved — `references/gotchas.md` stays at
-   `<skill-dir>/references/gotchas.md`, never flattened to the root;
-3. every file's SHA-256 matches the manifest, and the loader can actually read `SKILL.md` (ask it to
-   restate the first iron rule: an unescaped shortcode delimiter anywhere in content fails the
-   **entire** build).
+The prompt also asks the agent to look for an existing project convention first
+(`AGENTS.md`, `CLAUDE.md`, `.cursor/rules`, `.<you>/`) and follow it rather than inventing a
+mechanism the project does not have.
 
 **Materials.** The manifest at <https://hugozh.cn/skill/skill-manifest.json> lists each file's
 `path`, `bytes`, `sha256` plus two download locations (`url` site mirror, `rawUrl` repository).
-The source is `.dsh/skills/hugo-static-site/` in <https://github.com/hencter/hugozh>.
+`sha256` matches the **published bytes** (UTF-8, no BOM, LF); it proves "identical to what was
+published", not "suitable for your project".
 
-**Manual route** (for a human, not a loader): clone the repository and copy the folder into
-`.dsh/skills/`. Note that `git` rewrites line endings on some platforms (notably Windows), so a
-clone can hash differently from the manifest while the content is identical; fetch per-file from
-the manifest `url` when an exact hash match is required.
+**No skills mechanism?** These are thirteen plain Markdown files with no executable code. Read
+them into context as reference documentation, or distil the rules into whatever rules file the
+agent does support — there is nothing to install. You can also read the site mirror directly:
+<https://hugozh.cn/skill/SKILL.md>.
 
-**Loader timing.** DSH builds its skill catalog when a session starts, so a freshly installed skill
-appears only in a new session. Other loaders have their own reload rules — follow the project's,
-not this one's.
-
-**No installation at all.** Read `SKILL.md` and follow it as plain documentation. Nothing here
-requires being loaded as a skill.
+**Fetching without a skills loader.** Either `git clone` the repository and copy the folder, or
+fetch each manifest `url` per file. Prefer the manifest route when hashes must match exactly:
+`git` rewrites line endings on some platforms (notably Windows), so a clone can hash differently
+while the content is identical.
 
 ## Use
 

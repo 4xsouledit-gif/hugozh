@@ -10,9 +10,16 @@
   },
   "files": [
     {
+      "path": "INSTALL-PROMPT.txt",
+      "bytes": 1618,
+      "sha256": "b65b125e500c8017ad75f65c2d66305bd9a55ce4df4ee412149d24bd50aaba40",
+      "url": "https://hugozh.cn/skill/INSTALL-PROMPT.txt",
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/INSTALL-PROMPT.txt"
+    },
+    {
       "path": "README.md",
-      "bytes": 6121,
-      "sha256": "37eb8a12a2672b3f725bd3ca2eb899d725c3b0c0ef5cf6a918bf0cf02dabd5ce",
+      "bytes": 6201,
+      "sha256": "485a5077f8316835e7905636ed5d22e20fa363f4ac8366d5d21d6cd7d199dc4c",
       "url": "https://hugozh.cn/skill/README.md",
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/README.md"
     },

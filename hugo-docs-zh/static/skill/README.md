@@ -1,8 +1,12 @@
 # hugo-static-site
 
-A DSH skill for building, updating, and verifying Hugo static sites — theming and multi-theme
-layering, SEO head output and structured data, content in bulk — and for diagnosing the build
-failures that Hugo attributes to the wrong file.
+A skill for building, updating, and verifying Hugo static sites — theming and multi-theme
+layering, SEO head output and structured data, content in bulk, localized teaching-oriented
+documentation — and for diagnosing the build failures that Hugo attributes to the wrong file.
+
+It is written for agents in general, not for one product: the files are plain Markdown with no
+scripts, no dependencies and no absolute paths, and the install contract below is the same
+whatever loader you use.
 
 It exists because a 200-page Hugo site was built the hard way: the traps in
 [`references/gotchas.md`](references/gotchas.md) each cost a real debugging cycle, and one of them
@@ -17,14 +21,19 @@ hugo-static-site/
 └── references/
     ├── commands.md                 # command notes: what the workflow uses (reference: `hugo gen doc`)
     ├── dates.md                    # date fields, time zones, localized formats, relative time
-    ├── gotchas.md                  # G1…G22: symptom → cause → fix
+    ├── gotchas.md                  # G1…G26: symptom → cause → fix
     ├── i18n.md                     # optional multilingual setup, switcher, i18n strings
     ├── seo.md                      # head tags, JSON-LD pitfall, sitemap/robots, performance
     ├── shortcodes.md               # authoring custom shortcodes: notation, methods, nesting
     ├── site-structure.md           # theme layers, front matter, navigation, i18n
+    ├── teaching-layer.md           # human/machine doc parity: front-matter contract, shared partials
     ├── versioning.md               # what to track, gitInfo, commit-backed "last updated"
     └── versions.md                 # version-keyed renames and defaults
 ```
+
+Twelve files in total. A published mirror of this folder, with a machine-readable manifest
+(`path`, `bytes`, `sha256`, `url`, `rawUrl` per file), lives at <https://hugozh.cn/skill/> —
+`https://hugozh.cn/skill/skill-manifest.json`.
 
 **No scripts, and nothing transcribed that Hugo can generate.** Verification uses Hugo's own
 documented commands (`--printPathWarnings`, `--printUnusedTemplates`, `--printI18nWarnings`,
@@ -36,12 +45,26 @@ workflow prescribes; what cannot be generated (the trap catalogue, the workflow)
 
 ## Install
 
-Nothing is machine-specific: no scripts, no dependencies, no absolute paths.
+The install contract is deliberately loader-agnostic. **Fixed, whatever loads the skill:**
 
-**A. Put the folder where DSH already looks.** The natural place is a `skills` directory beside
-the profile data, e.g. `~/.dsh/skills/hugo-static-site/`.
+1. the directory is named `hugo-static-site`;
+2. the internal relative paths are preserved — `references/gotchas.md` stays at
+   `<skill-dir>/references/gotchas.md`, never flattened to the root;
+3. after copying, every file's SHA-256 matches the manifest, and the loader can actually read
+   `SKILL.md` (ask it to restate the first iron rule: an unescaped shortcode delimiter anywhere in
+   content fails the **entire** build).
 
-**B. Or point DSH at wherever you keep it.** Add a patch entry to
+**Where** those files go is a property of your loader, not of this skill. Two mechanical options
+that need no loader support at all:
+
+- **Copy into the project** — `<your project>/.dsh/skills/hugo-static-site/` (or any directory your
+  loader is configured to scan). Travels with the repository, so collaborators get the same manual;
+- **Copy into a user-level skills directory** — the conventional fallback when a loader has no
+  documented location of its own: `~/.dsh/skills/hugo-static-site/`.
+
+**If your loader is DSH specifically:** put the folder in a `skills` directory beside the profile
+data (`~/.dsh/skills/hugo-static-site/`, or `<project>/.dsh/skills/hugo-static-site/`), or point it
+at wherever you keep it by adding a patch entry to
 `~/.dsh/profiles/<profile>/cordis.patch.yml`:
 
 ```yaml
@@ -52,10 +75,17 @@ the profile data, e.g. `~/.dsh/skills/hugo-static-site/`.
       - <absolute path of the directory that contains hugo-static-site>
 ```
 
-The skill catalog is built when a session starts, so restart DSH or open a new session — a
-freshly installed skill does not appear mid-session.
+The skill catalog is built when a session starts, so restart DSH or open a new session — a freshly
+installed skill does not appear mid-session. Other loaders have their own reload rules; check
+theirs rather than assuming this one.
 
-**C. No installation.** Read `SKILL.md` and follow it as plain documentation.
+**Fetching the files.** Either `git clone` the repository and copy the folder, or — when a loader
+has no filesystem access — fetch each file listed in the manifest from its `url` and write it to
+its `path`. Prefer the manifest route when hashes must match: `git` rewrites line endings on some
+platforms (notably Windows), so a clone can hash differently while the content is identical.
+
+**No installation at all.** Read `SKILL.md` and follow it as plain documentation. Nothing here
+requires being loaded as a skill.
 
 ## Use
 

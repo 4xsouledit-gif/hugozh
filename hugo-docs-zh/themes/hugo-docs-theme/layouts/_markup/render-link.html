@@ -1,7 +1,7 @@
 {{- /* 链接渲染钩子。
      1) 上游文档用 [术语](g) 指向术语表。本站用 partials/glossary-index.html 建索引：
-        先按链接原文匹配，再退回 urlize 形式，最后尝试去掉尾部 s——中英文写法都能命中；
-        仍找不到则退化为纯文本，绝不产生死链。
+        先按链接原文匹配，再退回 urlize 形式，再去掉尾部 s，最后查「别名映射表」——
+        中英文写法都能命中；仍找不到则退化为纯文本，绝不产生死链。
      2) 其余链接保持 Markdown 默认行为，外部链接补 target/rel。
      依据：https://gohugo.io/render-hooks/links/ */ -}}
 {{- $dest := .Destination -}}
@@ -12,6 +12,13 @@
   {{- $href := index $idx $t -}}
   {{- if not $href }}{{ $href = index $idx (urlize $t) }}{{ end -}}
   {{- if not $href }}{{ $href = index $idx (strings.TrimSuffix "s" $t) }}{{ end -}}
+  {{- if not $href -}}
+    {{- /* 别名映射：处理「链接文字与术语页名不同形」的写法（上游用 $cheating 字典）。
+           表在 data/glossary-alias.toml，Markdown 出口（partials/md-body.html）共用同一份。 */ -}}
+    {{- $alias := index site.Data "glossary-alias" | default dict -}}
+    {{- $mapped := index $alias (lower $t) -}}
+    {{- if $mapped }}{{ $href = index $idx $mapped }}{{ end -}}
+  {{- end -}}
   {{- with $href -}}
     <a href="{{ . }}">{{ $text | safeHTML }}</a>
   {{- else -}}

@@ -1,0 +1,16 @@
+# 术语别名表：把「链接文字写法」映射到术语页的文件基名（英文 slug）。
+#
+# 用途：上游文档里有些 `[xxx](g)` 的链接文字与术语页名不同形（例如写作 paginating，
+# 术语页却是 paginate）。上游在 render-link.html 里用一张 $cheating 字典处理这些情况；
+# 本站把同一张表放在这里，供两处消费，避免各写一半：
+#   · layouts/_markup/render-link.html   —— HTML 渲染
+#   · layouts/partials/md-body.html      —— Markdown 出口（每页 index.md）
+# 依据：hugoDocs/layouts/_markup/render-link.html 的 $cheating（观测量见
+# .translation/BRIEF.md；本文件键名与上游逐条一致）。
+chaining = "chain"
+"ci/cd" = "cicd"
+interleaved = "interleave"
+localize = "localization"
+localized = "localization"
+paginating = "paginate"
+walking = "walk"

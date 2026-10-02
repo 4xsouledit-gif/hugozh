@@ -406,14 +406,31 @@ pwsh -NoProfile -File .translation/audit-teach.ps1 -Section getting-started
 
 ### 现状与推进顺序
 
-教学层按「学习成本」排序推进，不追求一次覆盖全站：参考页（`functions/`、`methods/`、`quick-reference/glossary/` 共 700 余页）本身是查阅型内容，优先级最低。
+教学层按「学习成本」排序推进，不追求一次覆盖全站。当前状态：
 
-| 状态 | 章节 | 说明 |
+| 状态 | 范围 | 说明 |
 | --- | --- | --- |
-| 已完成 | `getting-started`、`installation`、`templates`、`render-hooks`、`hugo-pipes`、`troubleshooting`、`shortcodes`、`content-management`、`configuration`、`host-and-deploy`、`hugo-modules`、`tools`、`about`、`contribute`、`news`、`skill` | 逐页改写为教学版，并加 `[params.teach]` 教学块；全部章节首页已覆盖 |
-| 待推进 | `functions`（313 页）、`methods`（268 页）、`quick-reference/glossary`（159 条） | 上游多为自动生成的几行骨架；改写口径见 BRIEF 4.2.1 的「参考页」两行——补「这一页解决什么问题 / 什么时候用与别用 / 一个能跑通的完整示例 + 返回值边界」 |
+| 已完成（教程/流程/内容型） | `getting-started`、`installation`、`templates`、`render-hooks`、`hugo-pipes`、`troubleshooting`、`shortcodes`、`content-management`、`configuration`、`host-and-deploy`、`hugo-modules`、`tools`、`about`、`contribute`、`news`、`skill` | 逐页改写为教学版，并加 `[params.teach]` 教学块；全部章节首页已覆盖 |
+| 已完成（参考页） | `functions`（313 页）、`methods`（268 页） | 上游多为几行自动生成的骨架，已逐页补「这一页解决什么问题 / 什么时候用与别用 / 完整示例 + 实测输出 + 返回值边界」；全部命名空间首页补了「怎么找函数」「三种角色」「这里的坑」等导读 |
+| 已完成（术语表） | `quick-reference/glossary`（158 条） | 保持条目形态，每条补「为什么重要」与延伸阅读；教学块给出机器可读的相关主线页 |
+| 有意保持精简 | `quick-reference` 的速查页、`news` 索引等 | 速查类内容按 BRIEF 4.2.1 只做索引，不扩写 |
 
-`functions/strings/truncate.md`、`functions/collections/where.md` 等页是参考页改写的范式，照它推进即可。改完一页跑一次 `audit-teach.ps1 -List` 就能看到该页是否已计入。
+参考页的写法见 `functions/collections/Where.md`、`functions/urls/RelURL.md`（函数）与 `methods/page/Summary.md`、`methods/site/Param.md`（方法）。
+改完一页跑一次 `audit-teach.ps1 -List` 就能看到该页是否已计入。
+
+### 参考页的实测门槛（重要）
+
+参考页的示例**必须真跑过再写**，这是本层最容易失守的一环——凭签名推断输出会写出看起来合理但错误的断言。做法：
+
+```powershell
+# 1) 在系统临时目录建最小站点：hugo.toml 写 baseURL；content/ 放几页内容；layouts/ 放模板
+# 2) 把文档里的示例原样搬进模板，构建并读产物
+hugo --source <临时目录> --ignoreCache
+```
+
+- **`--source` 不能漏**：在工作区根不带 `--source` 跑 `hugo` 会构建一个**空站点**并返回 `exit=0`——这是假阳性，不能作为验证证据（BRIEF 第五节）；
+- 需要 fixture 的页面（`assets/` 下的图片、`i18n/` 表、多语言配置）要在报告里说明，不能只写「输出如下」；
+- 跑不出来的（需要联网等）就写「上游未说明」，**不要臆造**。
 
 ## 面向 AI 代理的输出（SEO / GEO）
 

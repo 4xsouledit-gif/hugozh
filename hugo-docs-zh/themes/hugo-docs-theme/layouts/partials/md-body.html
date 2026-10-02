@@ -13,7 +13,16 @@
     {{- $body = replace $body (printf "[_%s_](g)" $key) (printf "[_%s_](%s)" $key $href) -}}
     {{- $body = replace $body (printf "[*%s*](g)" $key) (printf "[*%s*](%s)" $key $href) -}}
   {{- end -}}
-  {{- /* 兜底：仍匹配不到的（如链接文字与术语名不一致）指向术语表总目录，绝不留下字面量 g */ -}}
+  {{- /* 兜底：仍匹配不到的（如链接文字与术语名不一致）先查别名表，再指向术语表总目录，
+         绝不留下字面量 g。别名表与 HTML 钩子（_markup/render-link.html）共用同一份数据。 */ -}}
+  {{- $alias := index site.Data "glossary-alias" | default dict -}}
+  {{- range $k, $slug := $alias -}}
+    {{- with index $idx $slug -}}
+      {{- $body = replace $body (printf "[%s](g)" $k) (printf "[%s](%s)" $k .) -}}
+      {{- $body = replace $body (printf "[_%s_](g)" $k) (printf "[_%s_](%s)" $k .) -}}
+      {{- $body = replace $body (printf "[*%s*](g)" $k) (printf "[*%s*](%s)" $k .) -}}
+    {{- end -}}
+  {{- end -}}
   {{- $body = replace $body "](g)" "](/quick-reference/glossary/)" -}}
 {{- end -}}
 {{- $body = replaceRE `(?m)^[ \t]*\{\{[<%][^\n]*[>%]\}\}[ \t]*\n?` "" $body -}}

@@ -5,6 +5,21 @@ description = "Hugo 命令行界面的整体结构与各命令索引。"
 date = 2026-10-01
 weight = 30
 source = "https://gohugo.io/commands/"
+
+[params.teach]
+difficulty = "参考"
+time = "按需查阅；先读 10 分钟"
+prereq = [
+  "已经知道「在项目根目录执行命令」这件事为什么重要——不在根目录执行会构建出空站点且**不报错**。",
+  "手边有一个 Hugo 项目；本章的命令大多需要真实项目才能看到效果。",
+]
+outcomes = [
+  "分清日常只需用的三条命令（`hugo`、`hugo server`、`hugo new content`）与其余按需命令；",
+  "看懂「继承自父命令的选项」这一栏，知道 `--config`、`--logLevel`、`-s` 等全局选项对任何子命令都有效；",
+  "用 `hugo <命令> --help` 查出你这一版的准确参数，而不是背文档（本站文档会与你的版本存在差异）；",
+  "判断一条命令该在什么目录下执行，以及用 `--source` 指定别处目录的写法。",
+]
+next = ["/commands/hugo/", "/commands/hugo-server/", "/getting-started/basic-usage/"]
 +++
 
 Hugo 的命令行界面（command line interface，CLI）构建在 Cobra 之上。构建站点、本地预览、创建内容这些日常工作，都可以在项目根目录下用少数几条命令完成。本节先说明 CLI 的组织方式，再分别给出各命令的参考页面。

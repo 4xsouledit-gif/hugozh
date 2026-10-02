@@ -5,6 +5,21 @@ description = "用模板覆盖 Markdown 元素到 HTML 的转换：模板放在�
 date = 2026-10-01
 weight = 80
 source = "https://gohugo.io/render-hooks/"
+
+[params.teach]
+difficulty = "进阶"
+time = "约 1 小时"
+prereq = [
+  "站点里已经在用 Markdown 内容，并且你会看 `public/` 里生成的 HTML——本章的验证全靠对产物。",
+  "知道模板放在 `layouts/` 下、函数与上下文是什么；不确定先读[模板简介](/templates/introduction/)。",
+]
+outcomes = [
+  "说清渲染钩子与短代码的分工，知道该用哪一个；",
+  "在项目里正确创建 `layouts/_markup/`，并按命名规则判断自己写的钩子为什么没生效；",
+  "从每页的「上下文」小节查出可用字段，并分清 `string`、`template.HTML`、`template.HTMLAttr` 三种类型的输出方式；",
+  "用「加唯一记号 + 搜索产出 HTML」证明钩子真的生效，而不是靠肉眼判断。",
+]
+next = ["/render-hooks/introduction/", "/render-hooks/links/", "/shortcodes/"]
 +++
 
 这一章讲的是 Hugo 里一处**不太按常理出牌**的功能。多数功能配错了会立刻报错，渲染钩子（render hook）配错了往往**什么都不说**：构建成功、页面照常渲染，只是效果没出现。所以本章的重点不是「有哪些钩子」，而是「**它在哪里生效、名字怎么取、结果对不对**」。

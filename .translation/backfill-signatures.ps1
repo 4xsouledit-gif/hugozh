@@ -1,4 +1,4 @@
-# 回填上游 params.functions_and_methods 到译文页。说明见同目录 backfill-signatures.md
+﻿# 回填上游 params.functions_and_methods 到译文页。说明见同目录 backfill-signatures.md
 # 幂等策略：总是删除旧的 [params.functions_and_methods] 块再重建，因此可反复运行（也可用于修正数据）。
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot

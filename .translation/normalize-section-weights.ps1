@@ -1,4 +1,4 @@
-# 归一化章节首页（*/*/_index.md）的 weight：父目录下按字母序 10×n，幂等。
+﻿# 归一化章节首页（*/*/_index.md）的 weight：父目录下按字母序 10×n，幂等。
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $contentRoot = Join-Path $root 'hugo-docs-zh\content'

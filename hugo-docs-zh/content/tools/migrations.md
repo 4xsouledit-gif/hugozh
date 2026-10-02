@@ -1,17 +1,113 @@
 +++
 title = "从其他系统迁移"
 linkTitle = "从其他系统迁移"
-description = "把现有博客或 CMS 内容迁移到 Hugo 的工具。"
+description = "把 Jekyll、WordPress、Medium 等旧站内容迁到 Hugo：先判断走内置 importer 还是社区工具，再按「导出 → 转换 → 核对」三步验证，附迁移后必须检查的清单。"
 date = 2026-10-01
 weight = 30
 source = "https://gohugo.io/tools/migrations/"
+
+[params.teach]
+difficulty = "进阶"
+time = "30 分钟读完；实际迁移视文章数量而定（几百篇通常需要半天到两天）"
+prereq = [
+  "旧站点的后台或数据库可访问，能导出全部内容。",
+  "本机已装好 Hugo 并能建起一个空站点。",
+  "旧站内容已完整备份（迁移工具大多会就地改写或生成大量文件）。",
+]
+outcomes = [
+  "按源系统选出正确路线：Hugo 内置 importer、社区转换工具，还是先导出再手工处理；",
+  "用 `hugo import jekyll` 跑通一次最小迁移，并核对 front matter、固定链接与静态资源三处结果；",
+  "列出迁移后必须逐项检查的清单，避免上线才发现链接大面积 404；",
+  "知道旧站 URL 与新站 URL 不一致时，用 `aliases` 或重定向兜住老访客。",
+]
+next = ["/commands/hugo-import-jekyll/", "/content-management/urls/", "/getting-started/directory-structure/", "/tools/search/"]
 +++
 
-## 简介
+## 这一页解决什么问题
 
-本节汇总一些与 Hugo 相关的独立开发项目。这些工具用于扩展功能，或者帮你更快上手。
+这一页解决**「我的文章怎么从旧系统搬过来」**。它不追求帮你选一个「最好的工具」，而是让你在动手前就能判断：这次迁移要花多少工夫、哪些东西会丢、搬完之后检查哪几样才算完成。
 
-如果你现在用的是 Jekyll、WordPress 一类的其他博客工具，但打算改用 Hugo，可以看看下面这份迁移工具清单。它们能帮你把内容导出成对 Hugo 友好的格式。
+有两件事必须先说清楚，否则后面几乎一定要返工：
+
+1. **迁移工具只负责把文件转成 Hugo 能读的格式，不负责让你的旧链接继续有效。** URL 结构是新旧系统的最大差异，而它决定搜索引擎与老访客还能不能找到页面。要处理这一层，靠的是 [URL 管理](/content-management/urls/)里的 `aliases` 与固定链接设置。
+2. **迁移的成败以「构建通过 + 抽查页面 + 链接可达」为准**，不以工具输出「Completed」为准。社区工具的维护状态差异很大，工具跑完没报错、内容却是空的，是很常见的结果。
+
+## 该走哪条路
+
+先看源系统，再看工具是否还活着：
+
+| 源系统 | 首选路线 | 备选 |
+| --- | --- | --- |
+| Jekyll / Octopress | **Hugo 内置** `hugo import jekyll`，见[命令页](/commands/hugo-import-jekyll/) | `JekyllToHugo`、`ConvertToHugo`、`octohug` |
+| WordPress | `wordpress-to-hugo-exporter` 插件导出 Markdown/YAML；内容多、要保 URL 用 `wp2hugo` | 导出成 Jekyll 格式再用内置 importer；`blog2md`、`wordhugopress` |
+| Medium | `medium2md`（一条命令）或 `medium-to-hugo`（含标签与图片） | —— |
+| Tumblr | `tumblr2hugomarkdown` 或 `tumblr-importr` | `Tumblr to Hugo`（额外产出重定向用 CSV） |
+| Blogger | `blogger2hugo`（用 Google Takeout 的 `.atom` 备份） | `blogimport`、`blogger-to-hugo`、`BloggerToHugo`（仅 Windows）、`blog2md` |
+| DokuWiki | `dokuwiki-to-hugo`（生成 TOML 头部，可直接塞进 `content/`） | —— |
+| Drupal / Joomla / Contentful / BlogML | `drupal2hugo` / `hugojoomla` / `contentful-hugo` / `BlogML2Hugo` | —— |
+
+判断社区工具还能不能用的三个动作（比看介绍可靠）：
+
+1. **看最近一次提交**：打开工具的仓库，提交列表顶部那条是什么时候。（想从命令行确认，用 `git clone --depth 1 <仓库地址>` 之后执行 `git log -1 --date=short --format='%ad %s'`。）
+2. **看它提到哪些版本**：README 与 Issues 里有没有说明支持的 Hugo 版本、以及最近报出的问题。
+3. **先拿 3–5 篇文章试跑**：确认产物能被 `hugo` 构建、正文不空，再决定是否全量转换。
+
+## 最小可用步骤：用内置 importer 迁移 Jekyll
+
+Jekyll 是唯一由 Hugo 自己提供迁移命令的系统，因此它也是验证「迁移流程长什么样」的最短路径。命令需要两个位置参数，**先源目录、后目标目录**：
+
+```bash
+hugo import jekyll ./my-jekyll-site ./my-hugo-site
+```
+
+目标目录已经存在且非空时，必须显式允许写入：
+
+```bash
+hugo import jekyll ./my-jekyll-site ./my-hugo-site --force
+```
+
+迁移过程不顺利时，把日志级别调到 `debug` 再看：
+
+```bash
+hugo import jekyll ./my-jekyll-site ./my-hugo-site --logLevel debug
+```
+
+**你应当看到什么**：
+
+1. 命令退出码为 0，目标目录里出现 `content/` 与 `hugo.toml` 之类的站点文件；
+2. 新站点目录下执行构建，退出码为 0：
+
+   ```bash
+   cd ./my-hugo-site
+   hugo --renderToMemory
+   ```
+
+3. 文章出现在内容清单里，数量与源站点的一篇文章数大致相符：
+
+   ```bash
+   hugo list all
+   ```
+
+4. 打开构建产物里的任意两篇（例如 `public/posts/xxx/index.html`），**正文不是空的**，且标题、日期是原文章的值。
+
+以上四条任一不成立，先别继续往下搬——先拿三五篇定位问题，比全量导入后再排查便宜得多。
+
+> [!TIP]
+> 迁移是「**导出 → 转换 → 核对**」三步，工具只做第二步。核对阶段至少要覆盖三处：**front matter**（日期、标签、草稿状态是否带过来）、**固定链接**（新旧 URL 是否一致）、**静态资源**（文章里的图片链接是否还指向旧站）。这三处各自的失败方式不同，但都会表现为「文章看着在，实际不能用」。
+
+## 迁移后必须检查的清单
+
+| 检查项 | 怎么查 | 不合格的表现 |
+| --- | --- | --- |
+| 文章总数 | `hugo list all` 的行数与源站文章数对比 | 差了很多：导出不完整，或草稿被排除 |
+| 正文完整性 | 在产物里打开几篇最长的文章 | 正文为空、只剩标题；短代码或代码块被吃掉 |
+| 前置元数据 | 打开源文件，确认 `title`/`date`/`tags` 等键齐全并与源站对应 | 日期全是迁移当天；标签丢失 |
+| 固定链接 | 用源站的一批旧 URL 拼出新站地址逐条打开 | 大量 404 —— 需要配置固定链接与 `aliases`，见 [URL 管理](/content-management/urls/) |
+| 静态资源 | 搜索产物里是否还有指向旧域名的 `img src` | 图片 404、仍从旧站加载 |
+| 分类与标签 | 检查 `public/tags/`、`public/categories/` 下的页面 | 标签页为空：源站的分类体系没有映射成 Hugo 的分类法 |
+| 构建告警 | `hugo --ignoreCache` 是否输出 WARNING | 有告警说明部分内容被跳过，逐条处理后再发布 |
+
+只有这一张表全部通过，这次迁移才算结束。**搜索引擎收录的是 URL，不是文章**，所以固定链接那一行的优先级最高。
 
 ## Jekyll
 
@@ -102,6 +198,21 @@ source = "https://gohugo.io/tools/migrations/"
 
 [BlogML2Hugo][]
 : 一个帮你把 BlogML xml 文件转换为 Hugo Markdown 文件的工具。附件与图片的链接需要用户自行处理。它能让导出 BlogML 文件的博客（例如 BlogEngine.NET）更容易转换为 Hugo 站点。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| `hugo import jekyll` 报目标目录非空 | 命令默认只写空目录 | 确认真要写入该目录后加 `--force`；更稳妥的做法是每次都导入到一个全新目录 |
+| 只给了一个路径参数，命令报错 | 它需要两个位置参数，顺序是「源目录 目标目录」 | 补全参数；先 `pwd` 确认两个路径都存在 |
+| 迁移后文章全都跑到同一个目录 | 源系统没有目录层级信息，或文章都是页面包外的散文件 | 按[目录结构](/getting-started/directory-structure/)重建分区，再用 `weight` 与 `cascade` 组织，而不是逐篇手工移动 |
+| 构建报 `failed to extract shortcode` | 旧系统的短代码/宏被原样写进了正文，而新站点没有对应短代码 | 见[短代码](/shortcodes/)；批量替换成普通 Markdown，或为它补一个模板 |
+| 迁移后旧链接全部 404 | 新旧 URL 结构不同，且没有配置重定向 | 配置固定链接与 `aliases`，见 [URL 管理](/content-management/urls/) |
+| 图片显示为破图 | 附件没有被工具下载，正文里仍是旧域名地址 | 用工具提供的「下载媒体」选项，或在源文件里批量替换域名 |
+| 工具跑完显示成功但 `content/` 是空的 | 工具与当前版本不兼容，或输入格式不符合预期 | 换用内置命令或另一个工具；先拿三五篇文章试跑，别一次全量转换 |
+| 报错看不懂 | 报错来自转换脚本（Python/Java/Go 各自的错误） | 先确认 `hugo --renderToMemory` 的退出码：为 0 说明站点本身没问题，故障在转换产物或脚本 |
+
+更多排查入口见[故障排查](/troubleshooting/)；迁移完成后想给站点加搜索，见[站内搜索](/tools/search/)。
 
 [BlogML2Hugo]: https://github.com/jijiechen/BlogML2Hugo
 [BloggerToHugo]: https://github.com/huanlin/blogger-to-hugo

@@ -5,6 +5,20 @@ description = "Hugo 常用语法、配置与术语的速查索引。"
 date = 2026-10-01
 weight = 140
 source = "https://gohugo.io/quick-reference/"
+
+[params.teach]
+difficulty = "参考"
+time = "按需查阅"
+prereq = [
+  "已经读过[快速开始](/getting-started/quick-start/)，知道项目结构与内容大致怎么组织——本章刻意不展开背景。",
+]
+outcomes = [
+  "在「知道要做什么、但记不清写法」时，先确认名字与参数的准确拼写，再回对应章节读完整说明；",
+  "定位术语：遇到不认识的中文译名或英文原词，先在[术语表](/quick-reference/glossary/)里对齐；",
+  "查到 Glob 模式、Emoji、语法高亮样式、页面集合这些散落在多处的速查内容；",
+  "知道什么时候**不该**只信速查页——涉及具体配置项时以[配置](/configuration/)为准。",
+]
+next = ["/quick-reference/glossary/", "/functions/", "/methods/"]
 +++
 
 ## 本章导读

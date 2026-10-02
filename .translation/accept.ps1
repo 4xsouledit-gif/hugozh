@@ -1,4 +1,4 @@
-# 一键验收：覆盖率 → 权重归一 → 签名回填 → 严格构建 → 站内链接 → 铁律扫描
+﻿# 一键验收：覆盖率 → 权重归一 → 签名回填 → 严格构建 → 站内链接 → 铁律扫描
 # 用法：pwsh -File .translation/accept.ps1
 $ErrorActionPreference = 'Continue'
 $root = Split-Path -Parent $PSScriptRoot

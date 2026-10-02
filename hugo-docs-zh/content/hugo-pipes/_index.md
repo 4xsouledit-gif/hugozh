@@ -5,6 +5,21 @@ description = "用资源管道把 assets 目录里的文件取得、转换、压
 date = 2026-10-01
 weight = 50
 source = "https://gohugo.io/hugo-pipes/"
+
+[params.teach]
+difficulty = "进阶"
+time = "约 1.5 小时（含动手）"
+prereq = [
+  "站点已经能构建，并且你在写自己的模板或改主题——这一章全部内容都发生在 `layouts/` 里。",
+  "知道 Go 模板的管道写法 `{{ $x | f }}` 是什么意思；不确定就先读[模板简介](/templates/introduction/)。",
+]
+outcomes = [
+  "判断一份文件属于全局资源、远程资源还是页面资源，并用对应函数取出来；",
+  "把「取得 → 转换 → 压缩 → 指纹」写成一条管道链，并说清每一环为什么在那个位置；",
+  "用 `css.Sass`、`css.PostCSS`、`js.Build` 分别处理样式与脚本；",
+  "在资源没有出现在 `public/` 时，按「是否存在 → 是否被引用 → 是否被缓存」自己定位。",
+]
+next = ["/hugo-pipes/introduction/", "/hugo-pipes/transpile-sass-to-css/", "/render-hooks/"]
 +++
 
 ## 本章内容

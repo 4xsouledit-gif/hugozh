@@ -5,6 +5,21 @@ description = "在模板与原型中使用的全部函数与方法。"
 date = 2026-10-02
 weight = 10
 source = "https://gohugo.io/functions/"
+
+[params.teach]
+difficulty = "参考"
+time = "按需查阅；通读约 30 分钟"
+prereq = [
+  "知道 Go 模板的基本语法（`{{ }}`、变量、`if` / `range` / `with`），否则先读[模板简介](/templates/introduction/)。",
+  "手边有一个能构建的站点，遇到函数时可以立刻放进模板里试一次。",
+]
+outcomes = [
+  "按包（`strings`、`collections`、`transform`、`urls` 等）找到需要的函数，而不是靠翻页；",
+  "分清**函数**与[方法](/methods/)：什么时候写 `strings.Truncate`，什么时候写 `$page.Title`；",
+  "看懂管道写法 `{{ $x | f a }}` 与嵌套写法 `{{ f a $x }}` 为什么等价；",
+  "判断一个函数拿到空值、`nil` 或不符类型时会返回什么，而不是假设它一定会报错。",
+]
+next = ["/methods/", "/templates/introduction/", "/quick-reference/"]
 +++
 
 ## 本章导读

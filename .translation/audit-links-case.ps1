@@ -1,4 +1,4 @@
-# 站内链接检查（大小写敏感）。
+﻿# 站内链接检查（大小写敏感）。
 # 动机：Hugo 生成的 URL 全小写，而内容里若写 /functions/urls/absURL/ 会 404；
 # 大小写不敏感的检查器会漏报（本仓库此前就漏了 6 条）。
 # 用法：pwsh -File .translation/audit-links-case.ps1

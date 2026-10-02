@@ -10,7 +10,7 @@
 
 ### 1. 上游短代码调用**不能照抄**
 
-本站**只有 `note` 一个短代码**，上游那些短代码在本站不存在，照抄会报
+本站只有**主题自带的三个短代码**——`note`、`banner`、`quick-reference`（模板在 `themes/hugo-docs-theme/layouts/_shortcodes/`）——上游那些短代码在本站不存在，照抄会报
 `failed to extract shortcode: template for shortcode "…" not found`，**整个站点**构建失败。必须改写：
 
 | 上游写法 | 本站改写 |

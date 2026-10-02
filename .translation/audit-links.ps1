@@ -1,4 +1,4 @@
-# 站内链接检查：扫描 public 下 HTML 的根相对链接，验证目标文件/目录是否存在（不校验锚点）。
+﻿# 站内链接检查：扫描 public 下 HTML 的根相对链接，验证目标文件/目录是否存在（不校验锚点）。
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $pub = Join-Path $root 'hugo-docs-zh\public'

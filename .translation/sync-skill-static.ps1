@@ -1,4 +1,4 @@
-# 把技能包同步到站点静态目录，供 https://hugozh.cn/skill/… 直接取用；并生成机器可读清单。
+﻿# 把技能包同步到站点静态目录，供 https://hugozh.cn/skill/… 直接取用；并生成机器可读清单。
 # 用法：
 #   pwsh -File .translation/sync-skill-static.ps1            # 同步 + 生成清单
 #   pwsh -File .translation/sync-skill-static.ps1 -Verify    # 只校验镜像与源是否一致（CI/验收用）

@@ -1,4 +1,4 @@
-# 覆盖率审计：逐节对比上游 en 目录与本站同路径目录，列出缺失/多余文件。幂等，随时可跑。
+﻿# 覆盖率审计：逐节对比上游 en 目录与本站同路径目录，列出缺失/多余文件。幂等，随时可跑。
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $enRoot = Join-Path $root 'hugoDocs\content\en'

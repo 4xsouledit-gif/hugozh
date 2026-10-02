@@ -4,6 +4,21 @@ linkTitle = "技能包"
 description = "把建站经验打包给 AI 编码代理：一份可复用的 Hugo 技能包，含 22 个真实踩坑、SEO、多主题、日期与短代码的参考手册。"
 date = 2026-10-01
 weight = 5
+
+[params.teach]
+difficulty = "进阶"
+time = "安装 2 分钟；通读约 20 分钟"
+prereq = [
+  "你要么在用某个 AI 编码代理（想要它别再犯 Hugo 的坑），要么自己在维护 Hugo 站点（想直接看踩坑清单）。",
+  "不需要写代码——技能包就是一组 Markdown 文件。",
+]
+outcomes = [
+  "把这个技能包装进 DSH 或任意 AI 编码代理，让它「加载后就知道该查什么、该避什么」；",
+  "不用任何工具也能直接读：把 `references/` 当文档看，其中 G1–G24 逐条是「症状 → 真因 → 修法」；",
+  "分清技能包里的断言哪些是「官方文档明文」、哪些是「实测观察」，知道该信到什么程度；",
+  "自己写一条新的踩坑记录投稿：附最小复现与 `hugo version`，这比结论本身更有价值。",
+]
+next = ["/skill/SKILL.md", "/skill/references/gotchas.md", "/troubleshooting/"]
 +++
 
 {{< banner >}}

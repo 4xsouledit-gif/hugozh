@@ -1,10 +1,25 @@
 +++
 title = "图片"
 linkTitle = "图片"
-description = "创建图片渲染钩子，覆盖 Markdown 图片到 HTML 的转换，并了解上下文与内建钩子。"
+description = "创建图片渲染钩子，覆盖 Markdown 图片到 HTML 的转换；含上下文变量、figure 版式、内建钩子与 IsBlock 的坑。"
 date = 2026-10-01
 weight = 30
 source = "https://gohugo.io/render-hooks/images/"
+
+[params.teach]
+difficulty = "参考"
+time = "10–15 分钟"
+prereq = [
+  "读过[简介](/render-hooks/introduction/)，知道钩子模板要放在 `layouts/_markup/`、文件名怎么取。",
+  "站点里至少有一张 Markdown 插图，改完能立刻在页面上比对效果。",
+]
+outcomes = [
+  "写出一个把独立图片渲染成 `figure` + `figcaption` 的 `render-image.html`；",
+  "说清 `IsBlock` 为什么会是假，以及它依赖哪一项站点配置；",
+  "分清「解析图片地址」与「处理图片」是两件事，知道该去哪一类页面找答案。",
+]
+next = ["/render-hooks/links/", "/render-hooks/code-blocks/", "/content-management/image-processing/"]
+
 +++
 
 ## Markdown 中的图片
@@ -14,7 +29,7 @@ source = "https://gohugo.io/render-hooks/images/"
 ```text
 ![white kitten](/images/kitten.jpg "A kitten!")
   ------------  ------------------  ---------
-     描述            目标地址          标题
+      描述            目标地址          标题
 ```
 
 这三部分会按下文所列的字段传入渲染钩子的上下文。
@@ -40,6 +55,7 @@ source = "https://gohugo.io/render-hooks/images/"
 : （`bool`）报告独立图片是否未被包裹在段落元素中。
 
 `Ordinal`
+: **（0.160.0 新增）**
 : （`int`）图片在页面中的序号，从 0 开始。
 
 `Page`
@@ -52,6 +68,7 @@ source = "https://gohugo.io/render-hooks/images/"
 : （`string`）图片描述的纯文本形式。
 
 `Position`
+: **（0.160.0 新增）**
 : （`string`）图片在页面内容中的位置。
 
 `Text`
@@ -67,7 +84,7 @@ source = "https://gohugo.io/render-hooks/images/"
 
 默认配置下，Hugo 按 [CommonMark](https://spec.commonmark.org/current/) 规范渲染 Markdown 图片。要写出行为一致的渲染钩子：
 
-```go-html-template
+```go-html-template {file="layouts/_markup/render-image.html"}
 <img src="{{ .Destination | safeURL }}"
   {{- with .PlainText }} alt="{{ . }}"{{ end -}}
   {{- with .Title }} title="{{ . }}"{{ end -}}
@@ -77,7 +94,7 @@ source = "https://gohugo.io/render-hooks/images/"
 
 要把独立图片渲染进 `figure` 元素：
 
-```go-html-template
+```go-html-template {file="layouts/_markup/render-image.html"}
 {{- if .IsBlock -}}
   <figure>
     <img src="{{ .Destination | safeURL }}"
@@ -100,6 +117,38 @@ source = "https://gohugo.io/render-hooks/images/"
 wrapStandAloneImageWithinParagraph = false
 ```
 
+### 为什么 `IsBlock` 会是假
+
+这是本页最容易踩的坑：**复制了模板，却没改配置**。`wrapStandAloneImageWithinParagraph` 描述的是 Goldmark 的默认行为——把四周没有相邻内容的图片也用 `<p>` 包起来，默认值是 `true`。图片一旦被包进 `<p>`，钩子里拿到的就不是「独立图片」，`IsBlock` 为假，`figure` 那个分支永远走不到。
+
+后果是**没有任何报错**：构建成功，页面上图片也在，只是没有 `figure`、没有 `figcaption`，题注干脆不显示。遇到「模板明明写了却看不到效果」，先检查这行配置。
+
+实测（Hugo 0.167，本站）：本站 `hugo.toml` 只开了 `[markup.goldmark.parser.attribute] block = true`，没有设置 `wrapStandAloneImageWithinParagraph`（即保持默认 `true`）。因此在本站上，上面那个 `figure` 版本需要先补上这行配置才会生效。
+
+> [!NOTE]
+> `alt` 用的是 `.PlainText` 而不是 `.Text`：`alt` 属性里只能是纯文本，而 `.Text` 是已经渲染过的 `template.HTML`，可能含标签。
+
+### 边界情况
+
+- `.PlainText` 为空（例如 `![](/images/kitten.jpg)`）时 `{{ with }}` 判假，不会输出 `alt`。**这对可访问性不利，但模板不该替内容做决定**；需要在站内强制时，应先修内容。
+- `.Title` 为空时同理，`title` 与 `figcaption` 都不会输出。这正是 `.Title` 可选的正确定义。
+- `.Destination` 是 `string`，必须套 `safeURL` 才能安全地放进 `src`；漏掉它在多数地址上看不出差别，但地址里带 `&` 等字符时会出问题。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 把独立图片统一包成 `figure`，让题注（`.Title`）有地方显示；
+- 给全站图片统一补 `loading="lazy"`、`decoding="async"` 这类属性；
+- 按页面资源解析图片地址（多语言站点、页面包里的图片）；
+- 让主题接管图片渲染，把规则集中到一处。
+
+**别用**：
+
+- **想要缩放、裁剪、转格式**——那是[图像处理](/content-management/image-processing/)的事。文档明确写着：内建图片渲染钩子**不执行图片处理**，它唯一的用途是解析 Markdown 图片的目标地址。图片钩子能做到的是把 `src` 指向一个已经处理好的资源地址，处理本身要在别处完成；
+- 只想让某一张图变大变小——用 `figure` 短代码或直接写 HTML 更直接；
+- 只想让图片适应容器宽度——那是 CSS（`max-width: 100%`）的事。
+
 ## 内建钩子
 
 Hugo 自带一个内建图片渲染钩子，用于解析 Markdown 图片的目标地址，你可以在项目配置中调整它的行为。默认配置为：
@@ -111,7 +160,9 @@ useEmbedded = 'auto'
 
 如上取值为 `auto` 时，Hugo 会自动为多语言单主机项目使用内建图片渲染钩子，具体条件是「共享页面资源复制」功能处于关闭状态；这也是这类项目的默认行为。如果项目、模块或主题定义了自定义图片渲染钩子，则改用自定义钩子。
 
-还可以把该选项配置为 `always`（始终使用内建钩子）、`fallback`（仅作为回退）或 `never`（从不使用）。
+还可以把该选项配置为 `always`（始终使用内建钩子）、`fallback`（仅作为回退）或 `never`（从不使用）。四个取值的完整语义见[配置 Markup](/configuration/markup/#goldmark)；通俗地说，**只要自己写了图片钩子，通常就是自己在负责解析地址**（唯一的例外是 `always`，它会让内建钩子压过你的钩子）。
+
+实测（Hugo 0.167，本站）：本站不是多语言站点，主题也没有提供 `render-image.html`，因此按 `auto` 的规则，内建图片钩子与自定义钩子都没有参与，本站的 Markdown 图片走的是 Goldmark 默认渲染。
 
 内建图片渲染钩子解析站内 Markdown 目标地址时，先查找匹配的页面资源，再回退到匹配的全局资源；远程目标直接透传，无法解析时不会抛出错误或警告。
 
@@ -129,10 +180,45 @@ target = 'assets'
 
 需要注意，内建图片渲染钩子不执行图片处理，它唯一的用途是解析 Markdown 图片的目标地址。
 
+## 验证与常见坑
+
+验证方法与链接钩子相同：给输出的 `<figure>` 或 `<img>` 加一个独一无二的 `class`，构建后到产出的 HTML 里搜它。
+
+**你应当看到什么**：独立图片的 HTML 变成 `<figure>` 包 `<img>`，有 `.Title` 时多出 `<figcaption>`；行内图片（与文字同处一行）仍然只输出 `<img>`。
+
+三类典型问题：
+
+| 类别 | 现象 | 原因与修法 |
+| --- | --- | --- |
+| 钩子没生效 | 没有报错，图片和以前一模一样 | 文件名或位置不对；到[简介的排查表](/render-hooks/introduction/#配错时的典型报错与常见坑)逐条核对 |
+| 没报错但结果不对 | 写了 `figure` 分支，页面上却还是普通的 `<img>` 被 `<p>` 包着 | `wrapStandAloneImageWithinParagraph` 没有设为 `false`，`IsBlock` 恒为假；见本页「为什么 `IsBlock` 会是假」 |
+| 没报错但结果不对 | `alt` 里出现了 HTML 标签的尖括号 | 用了 `.Text` 而不是 `.PlainText` |
+| 报错看不懂 | 报错带模板文件名与行号 | 模板里 `{{ if }}`／`{{ with }}` 少了 `{{ end }}`；注意 `if`／`else`／`end` 三个分支都要配平 |
+
+更多图片相关问题，见[故障排查](/troubleshooting/)与[常见问题](/troubleshooting/faq/)。
+
 ## PageInner details
 
-`PageInner` 的主要用途是相对于被包含的页面来解析链接与页面资源。例如可以创建一个「包含」短代码，用多个内容文件拼装一个页面，同时为脚注与目录保留全局上下文：先用位置参数取出要包含的页面逻辑路径，再调用该页面的 `RenderShortcodes` 方法，取不到页面时用 `errorf` 报错。
+`PageInner` 的主要用途是相对于被包含的页面来解析链接与页面资源。例如可以创建一个「包含」短代码，用多个内容文件拼装一个页面，同时为脚注与目录保留全局上下文：先用位置参数取出要包含的页面逻辑路径，再调用该页面的 [`RenderShortcodes`](/methods/page/rendershortcodes/) 方法，取不到页面时用 `errorf` 报错。
 
-然后在 Markdown 中用 Markdown 记法调用这个短代码，被包含页面的路径写在位置参数里。渲染 `/posts/post-2` 时触发的任何渲染钩子，调用 `Page` 会得到 `/posts/post-1`，调用 `PageInner` 则会得到 `/posts/post-2`。
+```go-html-template {file="layouts/_shortcodes/include.html"}
+{{ with .Get 0 }}
+  {{ with $.Page.GetPage . }}
+    {{- .RenderShortcodes }}
+  {{ else }}
+    {{ errorf "The %q shortcode was unable to find %q. See %s" $.Name . $.Position }}
+  {{ end }}
+{{ else }}
+  {{ errorf "The %q shortcode requires a positional parameter indicating the logical path of the file to include. See %s" .Name .Position }}
+{{ end }}
+```
+
+然后在 Markdown 中用 Markdown 记法调用这个短代码，被包含页面的路径写在位置参数里。
+
+```md {file="content/posts/post-1.md"}
+{{%/* include "/posts/post-2" */%}}
+```
+
+渲染 `/posts/post-2` 时触发的任何渲染钩子，调用 `Page` 会得到 `/posts/post-1`，调用 `PageInner` 则会得到 `/posts/post-2`。
 
 `PageInner` 在不适用时会回退为 `Page` 的值，并且始终有返回值。它只对调用 `RenderShortcodes` 方法的短代码有意义，并且必须以 Markdown 记法调用该短代码。Hugo 的内建链接渲染钩子与内建图片渲染钩子都用 `PageInner` 来解析 Markdown 中链接与图片的目标地址。

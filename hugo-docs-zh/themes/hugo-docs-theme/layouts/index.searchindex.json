@@ -1,0 +1,29 @@
+{{- /* /search.json —— 客户端搜索用的索引（output format: searchindex）。
+       设计取舍：
+         · 只放「找得到、认得出」需要的最小字段（标题、链接、章节、摘要、限定名标记），
+           不塞全文——948 页的全文索引会让首屏下载变成几百 KB；
+         · 首次打开搜索框时才拉取（见 assets/js/site.js），不进首屏关键路径；
+         · 标题里带上签名（若有），让读者能靠 `strings.Truncate SIZE` 这类片段搜到；
+         · `q` 表示标题是「命名空间.名字」这种限定名（如 strings.Truncate）。检索端的排序
+           靠它把限定名排在同名方法之前——不存 weight，那对排序没有帮助还占体积；
+         · 中文没有词边界，检索端按「去空格子串匹配」处理，因此这里不做分词。
+       注：这里是纯 JSON 输出，用 jsonify 是正确的（不在 <script> 里）。 */ -}}
+{{- $items := slice -}}
+{{- range site.RegularPages -}}
+  {{- $title := .Title -}}
+  {{- with .Params.functions_and_methods -}}
+    {{- with .signatures }}{{ $title = printf "%s %s" $title (delimit . " ") }}{{ end -}}
+  {{- end -}}
+  {{- $section := "" -}}
+  {{- with .CurrentSection }}{{ if ne .Kind "home" }}{{ $section = .Title }}{{ end }}{{ end -}}
+  {{- $items = $items | append (dict
+        "t" $title
+        "u" .RelPermalink
+        "s" $section
+        "d" (.Description | plainify | truncate 110)
+        "q" (cond (in .Title ".") 1 0)
+      ) -}}
+{{- end -}}
+{{- jsonify (dict
+      "count" (len $items)
+      "items" $items) -}}

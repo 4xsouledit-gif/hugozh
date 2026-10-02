@@ -44,9 +44,13 @@ hugo-docs-zh/
 ├── assets/
 │   ├── css/
 │   │   ├── main.css               # 版式主体：顶部 :root 自定义属性 + 深色模式 + 响应式
+│   │   ├── ui.css                 # 界面层：落地页 / 搜索 / 抽屉 / 面包屑 / 代码复制
 │   │   └── syntax.css             # 代码高亮配色（Chroma 类名）
 │   └── js/
-│       └── scrollspy.js           # 右侧「本页目录」滚动高亮（原生 JS，无依赖）
+│       ├── scrollspy.js           # 右侧「本页目录」滚动高亮（原生 JS，无依赖）
+│       └── site.js               # 交互层：搜索、主题、抽屉、进度、锚点、复制、返回顶部
+├── data/
+│   └── glossary-alias.toml        # 术语别名表（HTML 钩子与 md 出口共用一份）
 ├── content/
 │   ├── _index.md                  # 首页
 │   ├── about/                     # 5 页
@@ -185,7 +189,7 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
 | 层 | 位置 | 内容 |
 | --- | --- | --- |
 | 项目约束层 | `layouts/_default/baseof.html` | 唯一的 `main` 块与六个必须由主题提供的 partial 名称——所有主题共同遵守的契约，不放别的 |
-| 基础主题 | `themes/hugo-docs-theme/` | 版式模板（首页 / 列表 / 单页 / 404）、partial（含 SEO 头与 JSON-LD）、`main.css`、`syntax.css`、`scrollspy.js`、`robots.txt` |
+| 基础主题 | `themes/hugo-docs-theme/` | 版式模板（首页 / 列表 / 单页 / 404）、partial（含 SEO 头、JSON-LD、落地页部件、搜索面板、面包屑）、`main.css`、`ui.css`、`syntax.css`、`scrollspy.js`、`site.js`、`robots.txt` |
 | 中文叠加层 | `themes/hugo-docs-theme-zh/` | 只有 CJK 排版（`assets/css/cjk.css`）与 `[params.cjk] enabled` 开关 |
 
 两个主题都由命令生成（`hugo new theme`），生成的示例模板、示例文章与示例菜单已删除。查找顺序为「项目 → 最左主题 → 次左」，`layouts`/`static`/`archetypes` **按文件级覆盖**（同路径文件是替换而非合并），`i18n`/`data` 才按键深度合并；主题配置只能设置 `params`、`menu`、`outputformats`、`mediatypes`。依据：<https://gohugo.io/hugo-modules/theme-components/>。
@@ -346,6 +350,69 @@ hugo --minify --config hugo.toml,hugo.nogit.toml           # 没有 .git
 
 另注：若平台做的是**浅克隆**（`--depth 1`），构建不会失败，但所有页面的「最后更新」都会等于那一次提交的日期（信息失真，不影响构建）。
 
+## 界面层：落地页、搜索、导航与阅读体验
+
+这一层放在 `assets/css/ui.css` 与 `assets/js/site.js`（都由 `head.html` / `scripts.html` 经资源管道 minify + fingerprint 引入），不与 `main.css` 的版式规则混写。全部使用 `main.css` 的令牌，深浅色自动跟随。
+
+### 落地页（`layouts/index.html`）
+
+按**任务**分流，而不是按章节罗列——读者先回答「我想做什么」，再进入正文。
+
+| 区块 | 数据来源 | 说明 |
+| --- | --- | --- |
+| Hero（标题、三个主按钮、统计） | `[params]` + 实时统计 | 页数、章节数、教学说明页数都是**构建时算出来的**，不写死 |
+| 你想做什么（8 张任务卡） | `[[params.home.cards]]` | 想改内容只动 `hugo.toml`，不用碰模板 |
+| 常用入口（胶囊） | `[[params.home.quickLinks]]` | 站内被引用最多的函数/命令/速查页 |
+| 全部章节（含条目数） | `site.Home.Sections.ByWeight` | 页数用 `len .Pages`，与章节列表页列出的条目一致 |
+
+> **统计口径的坑（实测）**：`len .RegularPagesRecursive` 会把正文页在 `site.RegularPages` 里已算过一次的量再累加，得出双倍数（曾出现 1788 这种明显偏大的值）；`site.Sections` 又只给一级章节，会漏掉 `functions/strings`、`methods/page` 这类二级 `_index.md`。正确写法是 `len site.RegularPages` + `where site.Pages "Kind" "section"`。
+
+### 搜索（纯静态，无后端）
+
+- 索引：首页额外产出 `/search.json`（output format `searchindex`），884 条、约 150 KB，字段只有 `t`（标题，含签名）、`u`（链接）、`s`（章节）、`d`（摘要）、`q`（是否为限定名）；
+- 加载：**首次打开搜索框时才拉取**，不进首屏关键路径；入口有按钮、`Ctrl/⌘+K`、`/` 三种；
+- 匹配：中文没有词边界，统一走「小写 + 去空格 + 子串」，因此中文可直接输入；
+- 排序（改动时请同步 `.testing/search-check.mjs`，它用同一组向量盯着实现）：
+  标题完全匹配 `100` → 以查询开头 `80` → **限定名的最后一段以查询开头** `78` → 含查询 `60` → 章节 `22` → 摘要 `18`；限定名（标题含 `.`）额外 +10。
+
+  最后一段那条规则是实测踩出来的：读者搜 `truncate`，而模板里写的是 `strings.Truncate`——只看整串前缀时，`Truncate DURATION1.…` 这类裸方法名会以 80 分压过它（它整串以 `strings.` 开头，只能拿子串分）。
+
+### 导航与阅读体验
+
+| 功能 | 位置 | 说明 |
+| --- | --- | --- |
+| 移动端抽屉 | `partials/sidebar.html` + `ui.css` | ≤860px 时侧栏变为浮层，带遮罩、Esc 关闭、点链接自动收起 |
+| 章节下拉 | `partials/header.html` | 列出全部一级章节与条目数，点外部或 Esc 收起（`<details>` 原生不响应这两件事，由 JS 补） |
+| 面包屑 | `partials/breadcrumbs.html` | home → 各级 section → 当前页；首页与 404 不渲染 |
+| 本页目录 | `partials/toc.html` + `scrollspy.js` | 既有实现，滚动高亮 |
+| 深色模式开关 | `header.html` + `head.html` 内联脚本 | 三态：未选跟随系统、手选深浅写 `localStorage`；内联脚本先于样式执行，避免刷新闪白 |
+| 阅读进度 / 返回顶部 | `baseof.html` + `site.js` | 滚动驱动，`prefers-reduced-motion` 时不做平滑动画 |
+| 标题锚点 | `site.js` 注入 | 悬停显示 `#`，点击复制带锚点的完整地址 |
+| 代码块复制 | `_markup/render-codeblock.html` + `site.js` | 渲染钩子统一包 `.code-block` 并给出语言标签与按钮位，按钮由 JS 注入（无 JS 时退化为普通代码块） |
+
+### 怎么验证这一层
+
+```powershell
+# 1) 起本地服务（回归脚本约定端口 1515）
+cd hugo-docs-zh; hugo server --port 1515 --noBuildLock
+
+# 2) 端到端 UI 检查：搜索、主题、抽屉、复制、锚点、进度、落地页、移动端溢出
+node .testing/ui-check.mjs        # 30 项断言
+
+# 3) 搜索排序（不需要浏览器，只读 search.json）
+node .testing/search-check.mjs    # 10 条查询向量 + 4 项排序
+
+# 4) 侧栏激活态回归
+node .testing/sidebar-check.mjs   # 6 个层级 + 点击跳转后保持高亮
+```
+
+`ui-check.mjs` 会断言「窄屏不横向溢出」「搜索框不超出视口」这类**会被真实用户看到**的问题，而不只是「DOM 里有没有这个类」。它还会收集控制台错误——本轮就是靠它发现 `hugo.OS` 字段不存在导致的模板报错。
+
+### 本轮踩到的两个 CSS/模板坑（已修，留档）
+
+1. **媒体查询顺序**：`.drawer-head { display: none }` 原本写在 `@media (max-width: 860px)` **之后**，同为单类选择器时后写者胜，把窄屏的 `display: flex` 覆盖掉——现象是抽屉能打开、关闭按钮却点不到。规则现在明确放在媒体查询之前，并在文件里留了注释。
+2. **`hugo.OS` 不存在**：模板里没有这个字段（`hugo.Info` 不含 OS），写它会整站渲染失败。快捷键提示改成跨平台的 `Ctrl/⌘ K`。
+
 ## 教学层（本站在直译之外增加的一层）
 
 上游文档刻意克制：默认读者懂命令行、能自己补齐上下文、遇到报错会自己查。本站要补的正是这一层——**让没有 AI 辅助的普通读者也能照着做完**。做法是「正文增补 + 可选的前置元数据教学块」，不另起一套页面。
@@ -434,18 +501,19 @@ hugo --source <临时目录> --ignoreCache
 
 ## 面向 AI 代理的输出（SEO / GEO）
 
-站点不只给人看，也给 AI 代理与答案引擎看。为此额外产出四类机器可读资源：
+站点不只给人看，也给 AI 代理与答案引擎看。**同一份正文**派生出下列机器可读资源：
 
 | 资源 | 路径 | 说明 |
 | --- | --- | --- |
 | **LLM 入口文件** | `/llms.txt` | 站点摘要 + 页面角色说明 + 分主题入口 + 机器可读资源清单 + 抓取建议 + 内容约定（约定见 <https://llmstxt.org/>） |
 | **每页 Markdown** | 任意页面 URL 后接 `index.md` | 例如 `/functions/strings/chomp/index.md`：头部给出官方原文、规范地址、最近更新、最后提交、**函数签名与返回类型**，随后是该页 Markdown 原文；有教学块的页面还会带上「教学信息」引用块 |
 | **全站页面清单** | `/pages.json` | 约 950 条，每条含 url / markdown / kind / title / description / section / sectionTitle / source / lastmod / **role** / difficulty / time / hasTeach / prereqCount / outcomeCount / hasSignature（约 460 KB，gzip 后约 50 KB） |
+| **搜索索引** | `/search.json` | 884 条，字段 `t`/`u`/`s`/`d`/`q`（约 150 KB）；供本站客户端搜索按需拉取，也可被代理直接用来做检索 |
 | **发现链** | HTML `<head>` | `<link rel="alternate" type="text/markdown" href="…/index.md">`，代理无需猜路径 |
 
 `pages.json` 里的 `role` 是「这一页该怎么用」的机器可读判断：`tutorial`（上手教程，按步骤执行）/ `guide`（流程指南，取示例）/ `reference`（查签名与边界）/ `query`（术语速查）/ `index`（章节首页）。`difficulty` / `time` / `hasTeach` 与 HTML 教学面板**同源**，代理据此决定是先读这一页还是直接查阅。
 
-配置（`hugo.toml`）与模板（`themes/hugo-docs-theme/layouts/{_default/single.md.md,_default/list.md.md,index.md.md,index.llms.txt,index.pagesjson.json}`）都基于官方 output format 机制：
+配置（`hugo.toml`）与模板（`themes/hugo-docs-theme/layouts/{_default/single.md.md,_default/list.md.md,index.md.md,index.llms.txt,index.pagesjson.json,index.searchindex.json}`）都基于官方 output format 机制：
 
 ```toml
 [mediaTypes.'text/markdown']
@@ -472,7 +540,7 @@ hugo --source <临时目录> --ignoreCache
 
 要点与坑：
 
-- 模板命名遵循 `[page kind].[output format].[suffix]`，因此是 `single.md.md` / `list.md.md` / `index.llms.txt` / `index.pagesjson.json`（依据：<https://gohugo.io/configuration/output-formats/#template-lookup-order>）。
+- 模板命名遵循 `[page kind].[output format].[suffix]`，因此是 `single.md.md` / `list.md.md` / `index.llms.txt` / `index.pagesjson.json` / `index.searchindex.json`（依据：<https://gohugo.io/configuration/output-formats/#template-lookup-order>）。
 - `isPlainText = true` 是关键：否则 Markdown 正文会被 `html/template` 转义成实体。
 - 页面模板会**剥离独占一行的短代码定界符**（`{{</* note */>}}` … `{{</* /note */>}}`），保留其内部内容，避免代理拿到未解析的标记。
 - `(dict …)` 多行写法必须**显式闭合右括号**，否则整个模板解析失败、构建直接报错（`unexpected <with> in parenthesized pipeline` 之类的报错很容易被误读成函数用错）。

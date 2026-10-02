@@ -58,7 +58,12 @@
 - **章节首页 `_index.md`**：由归属父目录下的**字母序**决定，第 n 个目录用 `10 × n`
   （例如 `functions/` 下 cast=10、collections=20、compare=30…）；父目录自身的 `_index.md` 固定 `10`。
   ⚠ 不要把一个父目录的全域序号写进子目录首页（那会让其它子目录全部排在它前面）。
-- **叶子页**：在**自己所在目录内**按上游文件名顺序 `10、20、30…`，目录内不重复。
+- **叶子页**：在**自己所在目录内**按上游顺序递增，目录内不重复。
+  - 本站既有做法是**从 `20` 起**、步长 `10`（`20、30、40…`），目录内的第一个叶子页为 `20`；
+    这样 `_index.md` 的 `10` 永远排在所有叶子页前面。抽查 `methods/page`、`methods/time`、
+    `quick-reference/glossary` 与本次改写后的 `functions/*` 均一致，新页面请沿用。
+  - 需要把一页插进已有的两页之间时，**允许非整十数**（例：`functions/strings/Diff/index.md`
+    是页面包，要排在 `CountWords`=80 与 `FindRe`=90 之间，故用 `85`）。排序正确优先于编号整齐。
 - `.translation/normalize-section-weights.ps1` 可机械校正章节首页 weight（幂等）。
 
 ```toml

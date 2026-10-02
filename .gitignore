@@ -30,6 +30,9 @@ Desktop.ini
 .translation_tmp_verify*/
 hugo-docs-zh/.tmp*/
 
+# 代理误在工作区根执行 hugo 留下的「空站点」产物（会返回 exit=0 的假阳性，见 BRIEF 第五节）
+/out/
+
 # Playwright 测试的依赖与截图（不入库）
 .testing/node_modules/
 .testing/*.png

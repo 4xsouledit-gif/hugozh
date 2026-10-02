@@ -20,6 +20,23 @@
   --sidebar-width: 250px;
   --toc-width: 220px;
   --content-max: 760px;
+  /* 流式排版：小屏不挤、大屏不拖长行。正文行宽由 --content-max 兜底，
+     字号用 clamp 随视口微调，避免只在断点上跳变。 */
+  --step--1: clamp(0.82rem, 0.79rem + 0.14vw, 0.9rem);
+  --step-0: clamp(1rem, 0.97rem + 0.16vw, 1.08rem);
+  --step-1: clamp(1.12rem, 1.06rem + 0.28vw, 1.28rem);
+  --step-2: clamp(1.3rem, 1.2rem + 0.5vw, 1.6rem);
+  --step-3: clamp(1.6rem, 1.4rem + 1vw, 2.2rem);
+  --step-4: clamp(1.9rem, 1.5rem + 2vw, 3rem);
+  --space-1: 0.35rem;
+  --space-2: 0.6rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.25rem;
+  --space-6: 3.5rem;
+  --header-height: 3.25rem;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 6%);
+  --shadow-md: 0 6px 20px -8px rgb(0 0 0 / 18%);
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC",
     Roboto, Helvetica, Arial, sans-serif;
@@ -27,8 +44,16 @@
     "Liberation Mono", "Courier New", monospace;
 }
 
+/* 深色令牌同时挂在 :root[data-theme] 与系统偏好上：
+   手工切换（data-theme="dark"）优先，未选择时跟随系统。两处色值必须一起改。 */
+/* ---------- 深色令牌 ----------
+   三种情形都要覆盖：
+     1) 未做选择且系统偏好深色（media 查询）；
+     2) 手工选了深色（data-theme="dark"）；
+     3) 手工选了浅色（data-theme="light"）——此时即使系统是深色也必须回到浅色。
+   令牌集中在这里与上面 :root，改色只改这两处。 */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0d1117;
     --bg-soft: #161b22;
     --bg-inset: #1c2128;
@@ -42,6 +67,22 @@
     --brand: #ff6ab0;
     --brand-dark: #ff8ec4;
   }
+}
+
+/* 手工选了深色：与上面的系统深色同一套值（媒体查询之外也要生效） */
+:root[data-theme="dark"] {
+  --bg: #0d1117;
+  --bg-soft: #161b22;
+  --bg-inset: #1c2128;
+  --text: #e6edf3;
+  --text-soft: #9198a1;
+  --text-faint: #6e7681;
+  --border: #30363d;
+  --border-soft: #21262d;
+  --accent: #4493f8;
+  --accent-soft: #121d2f;
+  --brand: #ff6ab0;
+  --brand-dark: #ff8ec4;
 }
 
 *,

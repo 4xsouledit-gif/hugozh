@@ -4,3 +4,10 @@
 {{- else }}
 {{- errorf "找不到脚本 assets/js/scrollspy.js" }}
 {{- end }}
+{{- /* 交互层：搜索、主题切换、抽屉、进度、锚点、复制 */}}
+{{- with resources.Get "js/site.js" }}
+{{- $site := . | minify | fingerprint }}
+<script defer src="{{ $site.RelPermalink }}" integrity="{{ $site.Data.Integrity }}"></script>
+{{- else }}
+{{- errorf "找不到脚本 assets/js/site.js" }}
+{{- end }}

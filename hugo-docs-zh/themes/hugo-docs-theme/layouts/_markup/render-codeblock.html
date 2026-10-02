@@ -1,8 +1,10 @@
 {{- /* 代码块渲染钩子：
      1) 用 transform.HighlightCodeBlock 输出高亮结果（保留 Chroma 类名，配合 markup.highlight.noClasses=false）。
-     2) 把上游 ```go-html-template {file="layouts/x.html"} 的 file 属性渲染成文件名标题，
+     2) 统一包一层 .code-block 容器，头部放「文件名（若有）/ 语言标签 / 复制按钮位」。
+        复制按钮由 assets/js/site.js 在运行时注入（无 JS 时只是一块普通代码，不影响阅读）。
+     3) 上游 ```go-html-template {file="layouts/x.html"} 的 file 属性渲染成文件名标题，
         避免它作为非法 HTML 属性漏进输出。
-     3) 语言不被高亮器支持时回退为纯文本。
+     4) 语言不被高亮器支持时回退为纯文本。
      依据：https://gohugo.io/render-hooks/code-blocks/
            https://gohugo.io/functions/transform/highlightcodeblock/ */ -}}
 {{- $opts := .Options -}}
@@ -10,11 +12,12 @@
   {{- $opts = merge $opts (dict "type" "text") -}}
 {{- end -}}
 {{- $result := transform.HighlightCodeBlock . $opts -}}
-{{- with .Attributes.file -}}
-<figure class="code-block" data-file="{{ . }}">
-  <figcaption class="code-block-file">{{ . }}</figcaption>
+{{- $file := .Attributes.file -}}
+{{- $lang := .Type -}}
+<div class="code-block{{ with $file }} has-file{{ end }}">
+  <div class="code-block-head">
+    {{- with $file }}<span class="code-block-file">{{ . }}</span>{{ end }}
+    {{- if and $lang (ne $lang "text") }}<span class="code-lang">{{ $lang }}</span>{{ end }}
+  </div>
   {{ $result.Wrapped }}
-</figure>
-{{- else -}}
-{{ $result.Wrapped }}
-{{- end -}}
+</div>

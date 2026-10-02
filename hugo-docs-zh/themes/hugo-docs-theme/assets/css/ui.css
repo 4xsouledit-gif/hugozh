@@ -1,0 +1,779 @@
+/* ============================================================
+   UI 增强层：落地页、搜索、导航（抽屉 / 面包屑）、阅读体验。
+   与 main.css 的分工：main.css 是版式与既有组件，本文件只放本轮新增的界面部件。
+   全部使用 main.css 里的设计令牌，深色模式自动跟随，无需另写媒体查询。
+   ============================================================ */
+
+/* ---------- 通用：焦点可见与动效偏好 ---------- */
+
+:where(a, button, input, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 键盘用户与鼠标用户分开处理：鼠标点击不再留下难看的方框 */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* 屏幕阅读器专用文本 */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 顶部栏：搜索框、图标按钮、章节下拉、移动端触发 ---------- */
+
+.site-header-inner {
+  gap: 1rem;
+  min-height: var(--header-height);
+  flex-wrap: nowrap;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* 搜索触发按钮：在宽屏上长得像输入框，点击后打开搜索面板 */
+.search-trigger {
+  flex: 0 1 15rem;
+  min-width: 0;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.search-trigger kbd {
+  font: inherit;
+  font-size: 0.74rem;
+  padding: 0.05rem 0.32rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-faint);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* 「文档」下拉：列出全部一级章节，宽屏可用 */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.nav-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-dropdown[open] > summary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.nav-dropdown-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.4rem);
+  z-index: 40;
+  min-width: 26rem;
+  max-height: min(70vh, 34rem);
+  overflow-y: auto;
+  padding: 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-dropdown-panel h2 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.nav-dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.15rem 1rem;
+}
+
+.nav-dropdown-grid a {
+  display: block;
+  padding: 0.3rem 0.45rem;
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+.nav-dropdown-grid a:hover {
+  background: var(--bg-soft);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav-dropdown-grid .nav-count {
+  margin-left: 0.35rem;
+  color: var(--text-faint);
+  font-size: 0.82em;
+}
+
+/* 移动端汉堡按钮与关闭按钮 */
+.nav-toggle,
+.drawer-close {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .nav-toggle,
+  .drawer-close {
+    display: inline-flex;
+  }
+
+  .site-nav,
+  .nav-dropdown,
+  .search-trigger kbd {
+    display: none;
+  }
+
+  .search-trigger {
+    flex: 0 1 auto;
+  }
+
+  .search-trigger span {
+    display: none;
+  }
+}
+
+/* ---------- 移动端抽屉：侧栏在窄屏改为可开关的浮层 ---------- */
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(0 0 0 / 45%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+body.drawer-open .drawer-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 抽屉头部（标题 + 关闭按钮）只在窄屏出现。
+   ⚠ 这条必须留在下面那个媒体查询**之前**：同为单类选择器时后写者胜，
+   一旦写到媒体查询之后，会把窄屏的 display:flex 覆盖掉——现象是抽屉能打开、
+   但关闭按钮点不到（本轮实测踩到过）。 */
+.drawer-head {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 60;
+    width: min(20rem, 86vw);
+    max-height: none;
+    padding: 1rem 1.1rem 3rem;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    transform: translateX(-102%);
+    transition: transform 0.2s ease;
+  }
+
+  body.drawer-open .sidebar {
+    transform: translateX(0);
+    box-shadow: var(--shadow-md);
+  }
+
+  body.drawer-open {
+    overflow: hidden;
+  }
+
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  /* 抽屉头部已写明「文档目录」，侧栏里那行重复的小标题在窄屏隐藏 */
+  .sidebar-heading {
+    display: none;
+  }
+
+  .sidebar {
+    padding-top: 0.75rem;
+  }
+}
+
+.drawer-head strong {
+  font-size: 0.95rem;
+}
+
+/* ---------- 面包屑 ---------- */
+
+.breadcrumbs {
+  margin: 0 0 0.9rem;
+  font-size: var(--step--1);
+  color: var(--text-faint);
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs li + li::before {
+  content: "/";
+  margin-right: 0.3rem;
+  color: var(--border);
+}
+
+.breadcrumbs a {
+  color: var(--text-soft);
+}
+
+.breadcrumbs [aria-current="page"] {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ---------- 搜索结果面板 ---------- */
+
+.search-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: none;
+}
+
+.search-panel[open] {
+  display: block;
+}
+
+.search-panel-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 45%);
+}
+
+.search-dialog {
+  position: relative;
+  width: min(44rem, calc(100vw - 2rem));
+  margin: min(12vh, 6rem) auto 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--step-1);
+  outline: none;
+}
+
+.search-hint {
+  padding: 0.65rem 1rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+.search-results {
+  margin: 0;
+  padding: 0 0 0.4rem;
+  list-style: none;
+  max-height: min(52vh, 28rem);
+  overflow-y: auto;
+}
+
+.search-results li {
+  margin: 0;
+}
+
+.search-results a {
+  display: block;
+  padding: 0.55rem 1rem;
+  border-left: 3px solid transparent;
+  color: var(--text);
+}
+
+.search-results a:hover,
+.search-results a.is-active {
+  background: var(--bg-soft);
+  border-left-color: var(--brand);
+  text-decoration: none;
+}
+
+.search-result-title {
+  font-weight: 600;
+}
+
+.search-result-meta {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+
+/* 命中片段的加亮 */
+.search-results mark {
+  background: var(--accent-soft);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 0.1em;
+}
+
+.search-empty {
+  padding: 1.2rem 1rem;
+  color: var(--text-faint);
+  font-size: 0.92rem;
+}
+
+/* ---------- 阅读进度条 ---------- */
+
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  z-index: 30;
+  background: var(--brand);
+  transition: width 0.1s linear;
+}
+
+/* ---------- 标题锚点：悬停时出现「#」，点击可复制 ---------- */
+
+.doc-body :is(h2, h3, h4) {
+  scroll-margin-top: calc(var(--header-height) + 1rem);
+}
+
+.heading-anchor {
+  margin-left: 0.35rem;
+  color: var(--border);
+  font-weight: 400;
+  opacity: 0;
+  text-decoration: none;
+}
+
+:is(h2, h3, h4):hover .heading-anchor,
+.heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+.heading-anchor:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ---------- 代码块：复制按钮与语言标签 ---------- */
+
+.code-block {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+/* 只有文件名或语言标签时才需要头部占位；都没有则头部折叠为零高下的间距 */
+.code-block-head:empty {
+  display: none;
+}
+
+.code-block-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.35rem;
+}
+
+/* 文件名靠左、语言与复制按钮靠右 */
+.code-block-head .code-block-file {
+  margin: 0;
+}
+
+.code-block-head .code-lang {
+  margin-left: auto;
+}
+
+.code-lang {
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.copy-code {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--text-faint);
+  font: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.code-block:hover .copy-code,
+.copy-code:focus-visible,
+.copy-code.is-done {
+  opacity: 1;
+}
+
+.copy-code.is-done {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (hover: none) {
+  .copy-code {
+    opacity: 1;
+  }
+}
+
+/* ---------- 落地页 ---------- */
+
+.home {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.home .hero {
+  padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(1.25rem, 3vw, 2rem);
+  border-bottom: 1px solid var(--border-soft);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0.75rem;
+  font-size: var(--step-4);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.hero-title .hero-title-sub {
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--text-soft);
+  letter-spacing: 0;
+}
+
+.hero-lead {
+  max-width: 46rem;
+  margin: 0 0 1.35rem;
+  font-size: var(--step-1);
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.btn-primary {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: #fff;
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--text-faint);
+}
+
+.hero-stats li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.hero-stats strong {
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+/* 任务卡：按「你想做什么」分流，而不是按章节罗列 */
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: 0.85rem;
+  margin: 0 0 clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: calc(var(--radius) + 2px);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.task-card:hover {
+  border-color: var(--brand);
+  transform: translateY(-2px);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.task-card-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.task-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.task-card-more {
+  margin-top: auto;
+  padding-top: 0.35rem;
+  font-size: 0.84rem;
+  color: var(--accent);
+}
+
+.home-block {
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.home-block > h2 {
+  margin: 0 0 0.25rem;
+  font-size: var(--step-2);
+}
+
+.home-block-desc {
+  margin: 0 0 1rem;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
+/* 章节总览：两列紧凑列表，带页数 */
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapter-grid a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  color: var(--text);
+}
+
+.chapter-grid a:hover {
+  background: var(--bg-soft);
+  text-decoration: none;
+}
+
+.chapter-grid .chapter-name {
+  font-weight: 600;
+}
+
+.chapter-grid .chapter-desc {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.84rem;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+
+.chapter-grid .chapter-count {
+  flex: none;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+/* 常用入口：函数/命令/术语的水平胶囊 */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quick-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.quick-links a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.quick-links code {
+  font-size: 0.85em;
+}
+
+@media (max-width: 640px) {
+  .hero-stats {
+    gap: 0.4rem 1.1rem;
+  }
+
+  .search-dialog {
+    margin-top: 0.75rem;
+    width: calc(100vw - 1rem);
+  }
+}
+
+/* ---------- 返回顶部 ---------- */
+
+.to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  box-shadow: var(--shadow-md);
+  background: var(--bg);
+}
+
+@media (max-width: 860px) {
+  .to-top {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+}
+
+/* ---------- 打印：只保留正文 ---------- */
+
+@media print {
+  .read-progress,
+  .search-panel,
+  .drawer-backdrop,
+  .nav-toggle,
+  .header-actions,
+  .copy-code,
+  .heading-anchor {
+    display: none !important;
+  }
+}

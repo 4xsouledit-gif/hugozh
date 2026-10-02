@@ -1,16 +1,48 @@
 <header class="site-header">
   <div class="site-header-inner">
+    <button class="icon-btn nav-toggle" type="button" data-drawer-open aria-expanded="false" aria-controls="sidebar" aria-label="打开文档目录">
+      <span aria-hidden="true">☰</span>
+    </button>
+
     <a class="brand" href="{{ site.Home.RelPermalink }}">
       <span class="brand-mark">Hugo</span>
       <span class="brand-text">中文文档 · 社区翻译</span>
     </a>
-    <nav class="site-nav" aria-label="站点导航">
-      {{- range site.Menus.main }}
-      {{- $href := .URL }}
-      {{- with .Page }}{{ $href = .RelPermalink }}{{ end }}
-      {{- $external := strings.HasPrefix $href "http" }}
-      <a href="{{ if $external }}{{ $href }}{{ else }}{{ $href | relURL }}{{ end }}"{{ if $external }} target="_blank" rel="noopener"{{ end }}>{{ .Name }}</a>
+
+    {{- /* 搜索触发：宽屏长得像输入框，窄屏退化为图标；真实输入框在 baseof 的面板里 */}}
+    <button class="icon-btn search-trigger" type="button" data-search-open aria-label="搜索文档（快捷键 / 或 Ctrl+K）">
+      <span>搜索文档…</span>
+      <kbd>Ctrl/⌘ K</kbd>
+    </button>
+
+    <div class="header-actions">
+      <nav class="site-nav" aria-label="站点导航">
+        {{- range site.Menus.main }}
+        {{- $href := .URL }}
+        {{- with .Page }}{{ $href = .RelPermalink }}{{ end }}
+        {{- $external := strings.HasPrefix $href "http" }}
+        <a href="{{ if $external }}{{ $href }}{{ else }}{{ $href | relURL }}{{ end }}"{{ if $external }} target="_blank" rel="noopener"{{ end }}>{{ .Name }}</a>
+        {{- end }}
+      </nav>
+
+      {{- /* 全部章节下拉：省掉「回首页再找章节」这一步 */}}
+      {{- with site.Home.Sections.ByWeight }}
+      <details class="nav-dropdown">
+        <summary class="icon-btn" aria-label="全部章节">全部章节 ▾</summary>
+        <div class="nav-dropdown-panel">
+          <h2>全部章节</h2>
+          <div class="nav-dropdown-grid">
+            {{- range . }}
+            <a href="{{ .RelPermalink }}">{{ .LinkTitle }}<span class="nav-count">{{ len .Pages }}</span></a>
+            {{- end }}
+          </div>
+        </div>
+      </details>
       {{- end }}
-    </nav>
+
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="切换主题">
+        <span aria-hidden="true">◐</span><span data-theme-label class="visually-hidden">深色</span>
+      </button>
+    </div>
   </div>
 </header>

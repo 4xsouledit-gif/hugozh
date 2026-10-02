@@ -1,4 +1,9 @@
-<aside class="sidebar" aria-label="文档目录">
+<aside class="sidebar" id="sidebar" aria-label="文档目录">
+  {{- /* 抽屉头部只在窄屏出现（CSS 控制），提供明确的关闭动作 */}}
+  <div class="drawer-head">
+    <strong>文档目录</strong>
+    <button class="icon-btn drawer-close" type="button" data-drawer-close aria-label="关闭目录">✕</button>
+  </div>
   <nav>
     <p class="sidebar-heading">文档目录</p>
     {{- $page := . -}}

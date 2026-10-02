@@ -1,0 +1,29 @@
+{{- /* 面包屑：home → 各级 section → 当前页。
+       只显示 section 链，不显示 taxonomy（本站已禁用分类法）。
+       首页与 404 不渲染。 */ -}}
+{{- if and (not .IsHome) (ne .Kind "404") -}}
+{{- $chain := slice -}}
+{{- $p := . -}}
+{{- range seq 8 -}}
+  {{- if and $p (ne $p.Kind "home") -}}
+    {{- $chain = $chain | append $p -}}
+    {{- $p = $p.Parent -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt (len $chain) 0 }}
+<nav class="breadcrumbs" aria-label="面包屑">
+  <ol>
+    <li><a href="{{ site.Home.RelPermalink }}">首页</a></li>
+    {{- range $i, $item := (collections.Reverse $chain) }}
+    <li>
+      {{- if eq $i (sub (len $chain) 1) }}
+      <span aria-current="page">{{ $item.LinkTitle }}</span>
+      {{- else }}
+      <a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ol>
+</nav>
+{{- end -}}
+{{- end -}}

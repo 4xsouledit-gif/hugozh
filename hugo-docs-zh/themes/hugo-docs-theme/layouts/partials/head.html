@@ -97,6 +97,19 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
 
+  {{- /* 主题选择必须在首次绘制前置位，否则选过深色的用户会看到一瞬白闪。
+         这段脚本有意内联、且放在样式之前；只读写 localStorage 与 data-theme，不阻塞渲染。 */}}
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "dark" || t === "light") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   {{- /* 结构化数据 */}}
   {{ partial "schema.html" . }}
 
@@ -109,6 +122,11 @@
   {{- $r := . | minify | fingerprint }}
   <link rel="stylesheet" href="{{ $r.RelPermalink }}" integrity="{{ $r.Data.Integrity }}">
   {{- else }}{{ errorf "基础主题缺少 assets/css/syntax.css" }}{{ end }}
+  {{- /* UI 增强层：落地页、搜索、导航、阅读体验（本轮新增） */}}
+  {{- with resources.Get "css/ui.css" }}
+  {{- $r := . | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $r.RelPermalink }}" integrity="{{ $r.Data.Integrity }}">
+  {{- else }}{{ errorf "基础主题缺少 assets/css/ui.css" }}{{ end }}
   {{- $cjk := false }}
   {{- with site.Params.cjk }}{{ $cjk = .enabled | default false }}{{ end }}
   {{- if $cjk }}{{ with resources.Get "css/cjk.css" }}

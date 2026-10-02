@@ -54,6 +54,75 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   ogImageHeight = 630
   twitterHandle = ""      # 如 "@gohugoio"，用于 twitter:site
 
+# 首页落地页的「按任务分流」入口卡：想改内容时只动这里，不用碰模板。
+# 每张卡：title（一句话任务）+ desc（达成什么）+ path（主入口）+ more（次要入口，0–3 个）。
+[[params.home.cards]]
+  title = "我是第一次用 Hugo"
+  desc = "从装环境到浏览器里看到页面，15–20 分钟，每一步都有验证标准。"
+  path = "/getting-started/quick-start/"
+  more = ["/installation/", "/getting-started/directory-structure/"]
+[[params.home.cards]]
+  title = "我要安装 / 升级 Hugo"
+  desc = "发行版、extended 与标准版的区别，各平台安装方式，以及装完怎么确认版本。"
+  path = "/installation/"
+  more = ["/installation/windows/", "/installation/macos/", "/installation/linux/"]
+[[params.home.cards]]
+  title = "我要写内容"
+  desc = "前置元数据、页面包、图片与附件、分类法、菜单：内容组织与资源引用。"
+  path = "/content-management/"
+  more = ["/content-management/front-matter/", "/content-management/page-bundles/", "/content-management/taxonomies/"]
+[[params.home.cards]]
+  title = "我要改样式和模板"
+  desc = "模板从哪来、怎么找、上下文里有什么；渲染钩子改 Markdown 到 HTML 的转换。"
+  path = "/templates/introduction/"
+  more = ["/templates/lookup-order/", "/render-hooks/introduction/", "/hugo-pipes/introduction/"]
+[[params.home.cards]]
+  title = "我要查某个函数 / 方法"
+  desc = "313 个函数与 268 个方法，每页给出「什么时候用、怎么用、边界是什么」。"
+  path = "/functions/"
+  more = ["/methods/", "/quick-reference/functions/", "/quick-reference/glossary/"]
+[[params.home.cards]]
+  title = "我要把站点发上线"
+  desc = "发布与部署的区别、命令行部署，以及 11 个托管平台的完整步骤与要填的变量。"
+  path = "/host-and-deploy/"
+  more = ["/commands/hugo/", "/configuration/introduction/", "/tools/search/"]
+[[params.home.cards]]
+  title = "构建失败了，报错看不懂"
+  desc = "按症状分诊：命令找不到 / 没报错但结果不对 / 报错看不懂，各自怎么确认、怎么修。"
+  path = "/troubleshooting/"
+  more = ["/troubleshooting/faq/", "/troubleshooting/inspection/", "/troubleshooting/audit/"]
+[[params.home.cards]]
+  title = "我要把它交给 AI 代理"
+  desc = "给代理的机器可读出口与作业手册：每页 Markdown、页面清单、llms.txt 与技能包。"
+  path = "/skill/"
+  more = ["/llms.txt", "/pages.json", "/skill/skill-manifest.json"]
+
+# 首页「常用入口」：读者最常查的页，避免每次都要翻侧栏。
+[[params.home.quickLinks]]
+  label = "strings.Truncate"
+  path = "/functions/strings/truncate/"
+[[params.home.quickLinks]]
+  label = "collections.Where"
+  path = "/functions/collections/where/"
+[[params.home.quickLinks]]
+  label = "time.Format"
+  path = "/functions/time/format/"
+[[params.home.quickLinks]]
+  label = "css.Sass"
+  path = "/functions/css/sass/"
+[[params.home.quickLinks]]
+  label = "images.Filter"
+  path = "/functions/images/filter/"
+[[params.home.quickLinks]]
+  label = "hugo server"
+  path = "/commands/hugo-server/"
+[[params.home.quickLinks]]
+  label = "hugo new content"
+  path = "/commands/hugo-new-content/"
+[[params.home.quickLinks]]
+  label = "Glob 模式"
+  path = "/quick-reference/glob-patterns/"
+
 [sitemap]
   changefreq = "weekly"
   priority = 0.5
@@ -137,8 +206,17 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
   isHTML      = false
   notAlternative = true
 
+# 搜索索引：首页额外产出 /search.json，供客户端搜索在首次打开搜索框时按需拉取。
+# 用 application/json + jsonify 输出（不在 <script> 里，编码正确）。
+[outputFormats.searchindex]
+  mediaType   = 'application/json'
+  baseName    = 'search'
+  isPlainText = true
+  isHTML      = false
+  notAlternative = true
+
 [outputs]
-  home = ['html', 'rss', 'llms', 'md', 'pagesjson']
+  home = ['html', 'rss', 'llms', 'md', 'pagesjson', 'searchindex']
   section = ['html', 'rss', 'md']
   page = ['html', 'md']
 

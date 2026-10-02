@@ -3,16 +3,21 @@
 {{ partial "head.html" . }}
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
+  {{- /* 阅读进度：只长文档有意义，短页也会自然显示为满格 */}}
+  <div class="read-progress" role="presentation"></div>
   {{ partial "header.html" . }}
+  <div class="drawer-backdrop" aria-hidden="true"></div>
+  {{ partial "search-panel.html" . }}
   <div class="layout">
     {{ partial "sidebar.html" . }}
     <main id="main" class="content">
+      {{ partial "breadcrumbs.html" . }}
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "toc.html" . }}
   </div>
   {{ partial "footer.html" . }}
+  <button class="icon-btn to-top" type="button" data-to-top hidden aria-label="回到顶部">↑ 顶部</button>
   {{ partial "scripts.html" . }}
 </body>
 </html>
-

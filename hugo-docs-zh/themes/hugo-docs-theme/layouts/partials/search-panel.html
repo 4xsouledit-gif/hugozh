@@ -1,0 +1,17 @@
+{{- /* 搜索面板：DOM 常驻但默认隐藏（display:none），避免打开时布局跳动；
+       索引地址写在 data-index-url 上，由 site.js 在首次打开时按需拉取。 */ -}}
+<div class="search-panel" id="search-panel" data-index-url="{{ "search.json" | relURL }}" role="dialog" aria-modal="true" aria-label="搜索文档">
+  <div class="search-panel-backdrop"></div>
+  <div class="search-dialog">
+    <div class="search-field">
+      <span aria-hidden="true">🔍</span>
+      <input type="search" name="q" placeholder="搜索标题、摘要与章节…（中文直接输入即可）" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="搜索关键词">
+      <button class="icon-btn" type="button" data-search-close aria-label="关闭搜索">Esc</button>
+    </div>
+    <ul class="search-results"></ul>
+    <div class="search-hint">
+      ↑ ↓ 选择 · Enter 打开 · Esc 关闭 · 索引为 {{ len site.RegularPages }} 个页面，首次搜索时加载
+    </div>
+    <div class="search-empty" hidden>输入关键词开始搜索。</div>
+  </div>
+</div>

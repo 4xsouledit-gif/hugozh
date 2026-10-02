@@ -131,7 +131,12 @@ command = """\
 dir = ':cacheDir/images'
 ```
 
-这样本地构建与 Netlify 构建都会把处理过的图片缓存到 `.cache/hugo/images`。使用 YAML 配置时等价写法是 `caches.images.dir = ":cacheDir/images"`。
+`:cacheDir` 不是项目里的固定路径，而是「Hugo 当前的缓存目录」，图片会落在它下面的 `images/`。两侧的缓存目录并不相同：
+
+- **Netlify 构建机上**：没有设置 `HUGO_CACHEDIR` 时，Hugo 在 Netlify 上默认使用 `/opt/build/cache/hugo_cache/`（上游配置文档明确说明，凡以 `:cacheDir` 锚定的缓存在 Netlify 上都会保存到该目录并在下次构建时恢复），因此云端处理过的图片位于 `/opt/build/cache/hugo_cache/images`；
+- **本地**：未设置 `HUGO_CACHEDIR`、也未传 `--cacheDir` 时，用的是系统用户缓存目录（实测 v0.167.0 + Windows 为 `%LocalAppData%\hugo_cache`；上游文档说明 macOS 为 `$HOME/Library/Caches`，Linux 为 `$XDG_CACHE_HOME` 或 `$HOME/.cache`）。
+
+想确认当前值，运行 `hugo config` 查看 `cachedir` 一行即可。使用 YAML 配置时等价写法是 `caches.images.dir = ":cacheDir/images"`。
 
 ### 第 3 步：推送代码
 
@@ -192,7 +197,7 @@ dir = ':cacheDir/images'
 | 页面能打开但样式、图片丢失 | `--baseURL` 没生效（例如手工改成了固定域名），或站点地址与访问地址不符 | 保留 `--baseURL "${URL}"`；只有确实要固定域名时才写死 |
 | 预览部署里链接指向正式域名 | 配置里写死了 `baseURL` | 改回 `--baseURL "${URL}"`，让每次部署使用自己的地址 |
 | 找不到 `netlify.toml` 里的设置 | 文件不在仓库根目录，或文件名拼错 | 确认路径与文件名为 `netlify.toml`，并在仪表板里重新触发部署 |
-| 构建很慢，每次重新处理图片 | 缓存目录与 `[caches.images].dir` 不一致 | 两边统一指向 `:cacheDir/images` |
+| 构建很慢，每次重新处理图片 | Netlify 的构建缓存没命中：`HUGO_CACHEDIR` 被别处覆盖，或 `[caches.images].dir` 不再以 `:cacheDir` 开头 | 不要覆盖 `HUGO_CACHEDIR`（Netlify 上默认即 `/opt/build/cache/hugo_cache/`）；让 `[caches.images].dir` 保持 `:cacheDir/images` |
 
 更一般的症状分诊见[故障排查](/troubleshooting/)；上线前想先体检一遍站点，见[审计](/troubleshooting/audit/)。
 

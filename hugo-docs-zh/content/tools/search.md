@@ -95,7 +95,7 @@ next = ["/tools/front-ends/", "/configuration/output-formats/", "/configuration/
 
 静态网站也能有动态搜索功能吗？可以。对于静态网站，Hugo 提供了 Google 或其他搜索引擎嵌入式脚本之外的另一种选择：Hugo 允许你直接为内容文件建立索引，从而给访客提供自定义的搜索功能。
 
-思路是**让 Hugo 自己生成索引**。Hugo 内置了 `application/json` 输出格式，你不必安装任何构建期工具，只要在配置里定义一个衍生格式，再写一个模板即可。以下步骤在一个最小站点上实测通过（Hugo v0.167.0，Windows）。
+思路是**让 Hugo 自己生成索引**。Hugo 预定义了名为 `json` 的输出格式（媒体类型 `application/json`，见[输出格式](/configuration/output-formats/)与[输出](/configuration/outputs/)），你不必安装任何构建期工具，只要在配置里定义一个自定义格式，再写一个模板即可。以下步骤已在一个最小站点上实测通过（Hugo v0.167.0，Windows，2026-10-03 复测）。
 
 1. 在 `hugo.toml` 中定义输出格式，并把它加到首页的输出列表里：
 
@@ -156,16 +156,16 @@ next = ["/tools/front-ends/", "/configuration/output-formats/", "/configuration/
 - 在开发者工具的 Network 面板里能看到一次对 `search.json` 的请求，响应状态 200。
 
 > [!NOTE]
-> **实测（Hugo v0.167.0，本站数据）**：这套机制在本仓库的文档站上可以直接验证——本站首页配置了同类的自定义 JSON 输出，构建后会在 `public/pages.json` 生成全站索引：约 **482 KB、948 条记录**，每条含 `title`、`description`、`url`、`kind`、`section` 等字段。**这就是「先量一量索引有多大」的做法**：构建后直接看产物文件的大小与条目数（本站单语言，语言为 `zh-cn`，`defaultContentLanguage = 'zh-cn'`）。
+> **实测（2026-10-03，Hugo v0.167.0，本站单语言，语言为 `zh-cn`，`defaultContentLanguage = 'zh-cn'`）**：这套机制在本仓库的文档站上可以直接验证——本站首页配置了同类的自定义 JSON 输出，构建后会在 `public/pages.json` 生成全站索引：**485,089 字节、948 条记录**，每条含 `title`、`description`、`url`、`kind`、`section` 等字段。**这就是「先量一量索引有多大」的做法**：构建后直接看产物文件的大小与条目数。注意这个数字随页面数与正文字段变化，**量级比精确值更重要**——它决定浏览器要不要把整个索引下载下来。
 >
-> **实测（Hugo v0.167.0，另建的最小多语言站点）**：站点按语言分目录（`content/en` + `content/zh`），并在 `[languages]` 里为每种语言设置 `contentDir`、各语言 `weight`（未写 `defaultContentLanguage`）时，构建会为每种语言各生成一份索引，且**每份只含该语言的页面**：
+> **实测（2026-10-03，Hugo v0.167.0，Windows，另建的最小多语言站点）**：站点按语言分目录（`content/en` + `content/zh`），并在 `[languages]` 里为每种语言设置 `contentDir`、各语言 `weight`（未写 `defaultContentLanguage`）时，构建会为每种语言各生成一份索引，且**每份只含该语言的页面**（模板与上一步完全相同）：
 >
-> - `public/search.json` → `{"lang": "en", "rel": "/post-one/", "title": "English post one"}`
-> - `public/zh/search.json` → `{"lang": "zh", "rel": "/zh/post-one/", "title": "中文第一篇"}`
+> - `public/search.json` → `{"lang": "en", "title": "English post one", "permalink": "https://example.org/posts/post-one/", "summary": "English body.\n"}`
+> - `public/zh/search.json` → `{"lang": "zh", "title": "中文第一篇", "permalink": "https://example.org/zh/posts/post-one/", "summary": "中文正文。\n"}`
 >
 > 也就是说，多语言站点上 `$p.Language.Lang` 给出了正确的语言，索引也按语言分开存放；**搜索框要按当前语言拼接索引地址**（中文页请求 `/zh/search.json`），直接写死 `/search.json` 会让中文页读到英文索引。
 >
-> 但这里有一个真实的坑：**多语言站点如果内容没有按语言分开**（例如所有页面都放在根 `content/` 下、又没有用 `post.en.md` 这类语言后缀，或 `[languages]` 只声明了语言却没给各自的内容目录），构建出来就只有一份**混在一起**的索引，条目里也难以区分语言。此时要么先把内容按语言拆开，要么在客户端按链接前缀过滤。
+> 但这里有一个真实的坑（**实测，条件同上，只把每种语言的 `contentDir` 去掉、或都指向 `content`**）：**多语言站点如果没有为每种语言指定各自的内容目录**，索引并不会真的按语言各管一份——默认语言的 `public/search.json` 里会收进**全部**页面（其中来自另一种语言目录的条目，`lang` 字段也标成默认语言，本例是 `en`），而另一种语言的 `public/zh/search.json` 是**空数组**。此时要么按上一步为每种语言设置 `contentDir`，要么在客户端按链接前缀过滤。
 
 ## 第三方服务路线：你需要额外做什么
 

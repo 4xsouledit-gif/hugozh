@@ -74,7 +74,7 @@ hugo import jekyll ./my-jekyll-site ./my-hugo-site --logLevel debug
 
 **你应当看到什么**：
 
-1. 命令退出码为 0，目标目录里出现 `content/` 与 `hugo.toml` 之类的站点文件；
+1. 命令退出码为 0，目标目录里出现 `archetypes/`、`content/`、`data/`、`layouts/`、`static/`、`themes/` 目录，以及一份配置文件。**实测（Hugo v0.167.0，Windows，源站是只有 `_config.yml` 与 `_posts/` 的最小 Jekyll 项目）：配置文件是 `hugo.yaml`，不是 `hugo.toml`；导入的文章落在 `content/post/` 下**（目录名沿用 Jekyll 的 post 概念），`hugo.yaml` 里写入了从 Jekyll 配置转换来的 `baseURL`、`title` 等项；
 2. 新站点目录下执行构建，退出码为 0：
 
    ```bash
@@ -82,13 +82,15 @@ hugo import jekyll ./my-jekyll-site ./my-hugo-site --logLevel debug
    hugo --renderToMemory
    ```
 
+   **实测（Hugo v0.167.0，Windows，条件同上）**：刚导入的站点**没有主题、`layouts/` 里也没有任何模板**，所以构建虽然退出码为 0，却会为每种页面输出一条 `WARN  found no layout file for "html" for kind "…"`。**看到这类 WARN 不等于导入失败**——它只说明还没有模板可用。要看到真正的 HTML 页面，得先给站点装上主题；`hugo import jekyll` 结束时自己会打印一段添加 ananke 主题的提示，照着做即可（装完主题后文章地址形如 `/post/<文件名>/`）；
+
 3. 文章出现在内容清单里，数量与源站点的一篇文章数大致相符：
 
    ```bash
    hugo list all
    ```
 
-4. 打开构建产物里的任意两篇（例如 `public/posts/xxx/index.html`），**正文不是空的**，且标题、日期是原文章的值。
+4. 装上主题之后，打开构建产物里的任意两篇（`content/post/` 里的文章地址形如 `/post/<文件名>/`，对应产物是 `public/post/xxx/index.html`），**正文不是空的**，且标题、日期是原文章的值。若产物里仍然只有 `index.xml`、`sitemap.xml` 这类文件而没有 HTML 页面，说明主题（或 `layouts/`）还没就位，不是导入把内容弄丢了。
 
 以上四条任一不成立，先别继续往下搬——先拿三五篇定位问题，比全量导入后再排查便宜得多。
 
@@ -205,6 +207,7 @@ hugo import jekyll ./my-jekyll-site ./my-hugo-site --logLevel debug
 | --- | --- | --- |
 | `hugo import jekyll` 报目标目录非空 | 命令默认只写空目录 | 确认真要写入该目录后加 `--force`；更稳妥的做法是每次都导入到一个全新目录 |
 | 只给了一个路径参数，命令报错 | 它需要两个位置参数，顺序是「源目录 目标目录」 | 补全参数；先 `pwd` 确认两个路径都存在 |
+| 报错 `abort: jekyll root contains neither posts nor drafts`（实测：Hugo v0.167.0） | 源目录里既没有 `_posts/` 也没有 `_drafts/`——多半指到了导出目录（如 `_site/`）或某个子目录 | 让第一个参数指向 Jekyll 项目的根目录（含 `_posts/` 的那一层）；导入前先 `ls`（Windows 用 `dir`）确认 |
 | 迁移后文章全都跑到同一个目录 | 源系统没有目录层级信息，或文章都是页面包外的散文件 | 按[目录结构](/getting-started/directory-structure/)重建分区，再用 `weight` 与 `cascade` 组织，而不是逐篇手工移动 |
 | 构建报 `failed to extract shortcode` | 旧系统的短代码/宏被原样写进了正文，而新站点没有对应短代码 | 见[短代码](/shortcodes/)；批量替换成普通 Markdown，或为它补一个模板 |
 | 迁移后旧链接全部 404 | 新旧 URL 结构不同，且没有配置重定向 | 配置固定链接与 `aliases`，见 [URL 管理](/content-management/urls/) |

@@ -112,6 +112,8 @@ tasks:
 `oauth: pages.sr.ht/PAGES:RW` 授予构建任务发布页面的权限，`environment.site` 指定目标域名，`package` 任务构建并打包，`upload` 任务负责发布。
 
 > [!NOTE]
+> 清单里的 `packages: - hugo` 用的是 Alpine 仓库提供的 Hugo 包，示例**没有固定版本号**，因此构建机上的 Hugo 版本由该镜像仓库当时提供，可能与你的本地版本不同（本地 `hugo version` 与构建日志里的 `hugo version` 输出可能不一致）。**上游文档没有说明如何在这里锁定 Hugo 版本**；需要与本地保持一致时，可以照下面 Dart Sass 的做法，在 `package` 任务里自行下载指定版本的 Hugo，并把 `hugo version` 打印到日志里核对。
+>
 > 清单里的 `cd $site` 依赖仓库名与 `site` 一致。构建机会把仓库克隆到与你仓库同名的目录下，因此**仓库名必须是 `<YourUsername>.srht.site`**（或你的自定义域名）；改成别的名字，`cd` 就会失败。
 
 如果站点需要用 [Dart Sass](/functions/css/sass/) 把 Sass 编译成 CSS，请把 `DART_SASS_VERSION` 设为[最新版本号](https://github.com/sass/dart-sass/releases)，并在执行 Hugo 构建之前加入 Dart Sass 的安装步骤。注意 Alpine 系统要使用 `linux-x64-musl` 版本。
@@ -159,6 +161,7 @@ tasks:
 | 构建日志里 `cd: can't cd to ...` | 仓库名与 `environment.site` 不一致 | 把仓库重命名为 `<YourUsername>.srht.site`（或改 `site` 与之匹配） |
 | 构建失败，日志提示权限不足 | `.build.yml` 缺少 `oauth: pages.sr.ht/PAGES:RW` | 补上该行并重新推送触发构建 |
 | Sass 相关报错：找不到 `sass` | Sass 版本与平台不匹配（Alpine 需要 musl 版） | 用 `linux-x64-musl` 的下载地址，并确认 `export PATH` 在 `hugo build` 之前 |
+| 构建报模板或参数不存在 | 构建机上的 Hugo 版本与本地不同（`packages: - hugo` 未固定版本） | 在构建日志里看 `hugo version` 的实际输出；按上文 NOTE 的方式改为自行下载指定版本的 Hugo |
 | 网址 404 | `baseURL` 与 `site` 不一致，或构建产物为空 | 统一两处地址；在构建日志里确认 `public/index.html` 已生成并被打包 |
 | 页面能打开但样式、图片丢失 | `baseURL` 不是最终访问地址 | 把配置里的 `baseURL` 改成实际域名后重新构建、重新发布 |
 | 证书警告或 HTTPS 打不开 | 证书尚在自动签发中 | 稍等再试；若长时间未签发，检查域名解析是否已指向 SourceHut |

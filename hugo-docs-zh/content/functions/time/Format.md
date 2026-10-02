@@ -12,6 +12,17 @@ returnType = "string"
 aliases = ["dateFormat"]
 +++
 
+## 这一页解决什么问题
+
+页面上几乎不会直接输出 `2023-10-15T13:18:50-07:00` 这种原始时间值，你要的是 `2023-10-15`、`15 Oct 2023` 或本地化后的日期。`time.Format` 做的就是这一步：给它一段布局字符串（`LAYOUT`）和一个时间值（`INPUT`），返回格式化后的字符串。
+
+它同时承担两件事，初学时容易混：
+
+1. **格式化**——布局字符串怎么写，就怎么输出（见本页「布局字符串」一节）；
+2. **本地化**——`:date_medium` 这类标记的输出随站点语言与地区变化（见本页「本地化」一节）。
+
+`INPUT` 既可以是 `time.Time` 值，也可以是**能被解析的日期/时间字符串**；后者的解析是隐式发生的，也正是最容易踩坑的地方——解析失败会让构建失败（边界见文末实测表）。
+
 对 `time.Time` 值使用 `time.Format` 函数：
 
 ```go-html-template
@@ -44,6 +55,22 @@ aliases = ["dateFormat"]
 1. 日期/时间字符串中的时区偏移
 1. 项目配置中指定的时区
 1. `Etc/UTC` 时区
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 在模板里输出页面日期（`.Date`、`.Lastmod`、`.PublishDate`）、`now` 或任何 `time.Time` 值；
+- 展示给读者的日期需要随站点语言变化 → 用 `:date_*`、`:time_*` 标记；需要固定格式（RSS、`datetime` 属性、文件名）→ 用布局字符串；
+- 输入是字符串（front matter 里的自定义日期、`hugo.Data` 里的日期字符串）→ `time.Format` 会先解析再格式化。
+
+**别用**：
+
+- 只想把字符串原样输出 → 不要过 `time.Format`：解析失败时它会直接让**构建失败**（实测见文末）；
+- 还需要对时间做别的运算（比较、取年/月、算间隔）→ 先用 [`time.AsTime`](/functions/time/astime/) 转成 `time.Time` 值，`time.Format` 只负责最后一步输出；
+- 要用 Hugo 的**本地化标记**（`:date_long`、`:time_full` 等，见下文）→ 必须用 `time.Format`；`time.Time` 的 `.Format` 方法不认这些标记，会把 `:time_full` **原样打印成字符串** `":time_full"`（实测）；
+- 要打印时区**缩写**（`MST`、`PST`）→ 见文末实测：能否得到缩写取决于时间值本身带的是**具名时区**还是**数字偏移**，与用函数还是用方法基本无关；
+- 需要先把同一时刻换算到别的时区 → 先用 [`time.In`](/functions/time/in/) 再格式化。
 
 ## 布局字符串
 
@@ -131,5 +158,86 @@ AM/PM 标记|`"PM"`
 `:time_long`|`23:44:58 PST`
 `:time_medium`|`23:44:58`
 `:time_short`|`23:44`
+
+### 本地化标记的实测行为
+
+上游给出的两张表分别是 `locale = 'en-US'` 与 `locale = 'de-DE'` 站点的输出，**不要当成「本站会看到的结果」**。同样一段代码在不同语言键与地区下的实测结果（Hugo 0.167.0，单语言站点，输入为 `time.AsTime "2023-01-27T23:44:58-08:00"`）：
+
+| 配置 | `:date_long` | `:time_medium` |
+| --- | --- | --- |
+| `locale = 'zh-CN'` 加 `defaultContentLanguage = 'zh'` | `2023年1月27日` | `23:44:58` |
+| `locale = 'zh-CN'` 加 `defaultContentLanguage = 'zh-cn'` | `January 27, 2023` | `11:44:58 pm` |
+| `locale = 'zh-Hans'` 加 `defaultContentLanguage = 'zh-cn'` | `2023年1月27日` | —— |
+| `locale = 'de-DE'` 加 `defaultContentLanguage = 'zh-cn'` | `27. Januar 2023` | —— |
+
+结论：`locale` 一般是生效的（`de-DE` 正常输出德语），但 **`locale = 'zh-CN'` 与语言键 `zh-cn` 这个组合会回退成英文**；把语言键写成 `zh`，或把 `locale` 写成 `zh`、`zh-Hans`，实测都能得到中文。本站因此没有依赖标记，而是在中文叠加主题里显式指定 `dateFormat = "2006年1月2日"`（见 `themes/hugo-docs-theme-zh/hugo.toml`），用固定布局输出中文日期。
+
+还有一处与上游表格不同：上游把 `:time_full` 写成 `11:44:58 pm Pacific Standard Time`，实测 0.167.0 上同一时间的 `:time_full` 只输出 `11:44:58 pm `（末尾一个空格，不含时区名），中文配置下为 ` 23:44:58`。
+
+### 函数 `time.Format` 与 `time.Time` 的 `.Format` 方法：两处实测差异
+
+这两者容易混用，但行为并不等价。在 Hugo 0.167.0、`timeZone = 'America/Denver'` 的站点上实测：
+
+| 代码 | 实测输出 |
+| --- | --- |
+| `time.Format ":time_full" $t` | `11:44:58 pm `（本地化标记被识别） |
+| `$t.Format ":time_full"` | `:time_full`（**标记被原样打印**，方法不认 Hugo 的本地化标记） |
+
+时区缩写也常被误解。`MST` 能否输出成缩写，取决于**时间值本身带的是具名时区还是数字偏移**，与用函数还是方法无关：
+
+| 输入 | 站点配置 | `time.Format "… MST" $t` | `$t.Format "… MST"` |
+| --- | --- | --- | --- |
+| `time.AsTime "2023-01-27T23:44:58-08:00"`（带偏移） | `timeZone = 'America/Denver'` | `… 11:44 PM -0800` | `… 11:44 PM -0800` |
+| `time.AsTime "2023-01-27T23:44:58"`（不带偏移，落到配置时区） | `timeZone = 'America/Denver'` | `… 11:44 PM -0700` | `… 11:44 PM MST` |
+
+结论：**想让读者看到时区名，输入里就不要带数字偏移**（或先用 [`time.In`](/functions/time/in/) 换到目标时区再交给 `.Format`）；否则只能拿到 `-0800` 这类偏移量。跨版本、跨平台显示时区名本身就不稳定，给读者的页面建议直接省略 `MST`，机器可读的时间用 `2006-01-02T15:04:05Z07:00`。
+
+## 完整示例：给文章加一行时间
+
+```go-html-template {file="layouts/_partials/post-meta.html"}
+{{ $t := time.AsTime "2023-10-15T13:18:50-07:00" }}
+<p>{{ time.Format "2006-01-02 15:04" $t }}</p>
+<time datetime="{{ time.Format "2006-01-02T15:04:05Z07:00" $t }}">
+  {{ time.Format ":date_long" $t }}
+</time>
+```
+
+Hugo 渲染为（本站配置：`locale = 'zh-CN'`、`defaultContentLanguage = 'zh-cn'`、`timeZone = 'Asia/Shanghai'`）：
+
+```html
+<p>2023-10-15 13:18</p>
+<time datetime="2023-10-15T13:18:50-07:00">
+  October 15, 2023
+</time>
+```
+
+**你应当看到什么**：第一行由布局字符串拼出，与站点语言无关；`datetime` 属性是机器可读的 ISO 形式；`<time>` 里的可见文本走本地化标记，在本站当前配置下实测是英文 `October 15, 2023`——原因与规避办法见上一小节。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，单语言站点，Windows。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| `INPUT` 是不可解析的字符串（如 `"not a date"`） | —— | 是：`error calling Format: unable to parse date: not a date`，构建失败 |
+| `INPUT` 是空字符串 `""` | —— | 是：`error calling Format: unable to parse date:` |
+| `LAYOUT` 是空字符串 `""` | 空字符串 | 否 |
+| `INPUT` 是整数 | 当作 Unix 时间戳（秒）：`time.Format "2006" 42` → `1970` | 否 |
+| `INPUT` 是 `nil` | 零值时间：`time.Format "2006" nil` → `0001` | 否 |
+| `LAYOUT` 写成 `yyyy-MM-dd` | 原样输出 `yyyy-MM-dd`（Go 的布局不是占位符语法，必须用参考时间 `2006-01-02`） | 否 |
+| 布局里用 `MST` 打印时区缩写 | 看输入带不带具名时区：带数字偏移 → 输出偏移（实测 `-0800`）；不带偏移、落到配置的具名时区 → `time.Time` 的 `.Format` 输出缩写（实测 `MST`），`time.Format` 仍输出偏移。详见下文「函数与方法的实测差异」 | 否 |
+| 返回类型 | 始终是 `string` | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 报错看不懂 | `error calling Format: unable to parse date: xxx` | `INPUT` 不是 `time.Time` 值，也不能按内置格式解析（常见于 front matter 里的日期写法不规范） | 改用完整 ISO 形式（如 `2023-10-15T13:18:50-07:00`），或先用 [`time.AsTime`](/functions/time/astime/) 试解析 |
+| 没报错但结果不对 | 输出里出现 `yyyy`、`DD`、`mm` 这些字母 | 布局字符串写成了别的语言的格式串 | 改用 Go 参考时间 `Mon Jan 2 15:04:05 MST 2006` 的各组成部分 |
+| 没报错但结果不对 | 日期差一天，或小时数不对 | 输入字符串的时区偏移、配置的 `timeZone`、`Etc/UTC` 三者的优先级没算对 | 按本页开头的优先级顺序检查；要换算就用 [`time.In`](/functions/time/in/) |
+| 没报错但结果不对 | `:date_long` 等标记输出的不是中文 | Hugo 的本地化标记对部分语言会回退成英文 | 见上文实测表：改用固定布局（本站做法）或调整 `locale` |
+| 没报错但结果不对 | 同一页面在不同机器上日期显示不一致 | 用了依赖系统时区或系统地区的写法 | 显示给读者用固定布局；机器可读的用 `2006-01-02T15:04:05Z07:00` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`timeZone`]: /configuration/all/#timezone

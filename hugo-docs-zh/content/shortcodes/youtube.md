@@ -67,14 +67,35 @@ next = ["/shortcodes/vimeo/", "/shortcodes/x/"]
 {{</* youtube id=0RKpf3rK57I start=30 end=60 loading=lazy */>}}
 ```
 
-**实测**输出（只保留变化的部分）：
+**实测**输出（Hugo 0.167；`allow`、`referrerpolicy`、`style` 与默认一致，只为对照换行）：
+
+```html
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe
+    allow="…"
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+    src="https://www.youtube.com/embed/0RKpf3rK57I?autoplay=0&amp;controls=1&amp;end=60&amp;loop=0&amp;mute=0&amp;start=30"
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;"
+    title="YouTube video"></iframe>
+</div>
+```
+
+把 `autoplay`、`loop`、`class`、`title` 一起叠上去，就能看清参数之间的连带关系：
+
+```md
+{{</* youtube id=0RKpf3rK57I start=30 end=60 loading=lazy autoplay=true loop=true class="yt-class" title="yt title" */>}}
+```
+
+**实测**输出（同一版本）：
 
 ```html
 <div class="yt-class">
   <iframe
     allow="…"
     loading="lazy"
-    src="https://www.youtube.com/embed/0RKpf3rK57I?autoplay=1&amp;controls=0&amp;end=60&amp;loop=1&amp;mute=1&amp;playlist=0RKpf3rK57I&amp;start=30"
+    referrerpolicy="strict-origin-when-cross-origin"
+    src="https://www.youtube.com/embed/0RKpf3rK57I?autoplay=1&amp;controls=1&amp;end=60&amp;loop=1&amp;mute=1&amp;playlist=0RKpf3rK57I&amp;start=30"
     title="yt title"></iframe>
 </div>
 ```

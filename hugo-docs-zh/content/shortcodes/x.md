@@ -41,15 +41,25 @@ next = ["/shortcodes/instagram/", "/shortcodes/vimeo/"]
 {{</* x user="SanDiegoZoo" id="1453110110599868418" */>}}
 ```
 
-**你应当看到什么**：构建成功后，产物 `public/example/index.html` 里出现一段源自 X oEmbed 的 `blockquote.twitter-tweet` 结构（默认模式还会自动插入一段内联 `<style>`，让引用块带上蓝边）。帖子正文由 X 返回的 HTML 决定，因此**具体文字随帖子内容变化**，不要照抄本文的示例文字。
+**你应当看到什么**：构建成功后，产物 `public/example/index.html` 里出现一段源自 X oEmbed 的 HTML（典型形态是 `blockquote.twitter-tweet`）。这段 HTML 由 X 的接口返回，标签与文字都可能随帖子变化，不要照抄本文的示例文字。
+
+**实测（Hugo 0.167，对照二进制内嵌模板 `_shortcodes/x.html`）**：默认模式只把 oEmbed 返回的 `html` 字段原样输出，**不会**额外插入内联样式；那段带左侧蓝边的 `<style>`（`.twitter-tweet { border-left: 4px solid #2b7bb9; … }`）只在**简单模式**（`simple = true`）下由 `x_simple.html` 输出，并可用 `[services.x] disableInlineCSS` 关掉。
 
 ### 构建时会联网
 
 **实测（Hugo 0.167）**：`x` 短代码在构建时通过 `resources.GetRemote` 请求
 
 ```text
-https://publish.x.com/oembed?dnt=false&omit_script=true&url=https%3A%2F%2Fx.com%2FSanDiegoZoo%2Fstatus%2F1453110110599868418
+https://publish.x.com/oembed?dnt=false&url=https%3A%2F%2Fx.com%2FSanDiegoZoo%2Fstatus%2F1453110110599868418
 ```
+
+请求的 URL 随配置变化（三种都实测于 Hugo 0.167）：
+
+| 配置 | 请求的 URL |
+| --- | --- |
+| 默认 | `…/oembed?dnt=false&url=…` |
+| `[privacy.x] enableDNT = true` | `…/oembed?dnt=true&url=…` |
+| `[privacy.x] simple = true` | `…/oembed?dnt=false&omit_script=true&url=…`（简单模式多一个 `omit_script=true`） |
 
 拿不到数据时，Hugo **只打印一条 WARNING，不中断构建**，该位置输出空内容：
 
@@ -58,7 +68,7 @@ WARN  The "x" shortcode was unable to retrieve the remote data: … error callin
 ```
 
 > [!WARNING]
-> 「构建成功但页面上什么都没有」是这一页最典型的失败现象。日志里的 WARNING 不显眼，而且带 `文件:行:列`——排查时先看构建日志有没有 `shortcode-x-getremote` 相关的警告，再看网络。
+> 「构建成功但页面上什么都没有」是这一页最典型的失败现象。日志里的 WARNING 不显眼，而且带 `文件:行:列`——排查时先看构建日志有没有 `shortcode-x-getremote` 相关的警告，再看网络。**实测（Hugo 0.167）**：简单模式走的是另一个模板，日志 id 是 `shortcode-x-simple-getremote`，排查时别只搜前一个。
 
 ## 参数
 
@@ -118,8 +128,9 @@ disableInlineCSS = false
 
 | 配置 | 产物里的变化 |
 | --- | --- |
-| 默认 | 请求 `…/oembed?dnt=false&omit_script=true&…`，输出引用块 + 一段内联 `<style>` |
-| `simple = true` | 请求同样的 oEmbed 接口，但输出**不含 JavaScript** 的静态版本；模板里会读取 `services.x.disableInlineCSS`，为 `true` 时不输出那段内联样式 |
+| 默认 | 请求 `…/oembed?dnt=false&url=…`，把 oEmbed 返回的 `html` 原样输出，**不附加内联样式** |
+| `enableDNT = true` | 请求参数变成 `dnt=true`（产物本身不变） |
+| `simple = true` | 请求 `…/oembed?dnt=false&omit_script=true&url=…`，输出**不含 JavaScript** 的静态版本，并由 `x_simple.html` 插入一段内联 `<style>`；该模板会读取 `services.x.disableInlineCSS`，为 `true` 时不输出这段样式 |
 | `disable = true` | 短代码**什么都不输出**，构建不报错、不警告 |
 
 两种模式都要联网：简单模式省掉的是**访客浏览器**加载 X 脚本，不是构建时的请求。因此**断网环境里这个短代码无法使用**（会出现上面的 WARNING 与空输出）。

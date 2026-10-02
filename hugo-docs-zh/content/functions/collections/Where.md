@@ -12,6 +12,29 @@ returnType = "[]any"
 aliases = ["where"]
 +++
 
+## 这一页解决什么问题
+
+模板里最常见的一类需求是「从这个集合里挑出满足条件的那些」。Go 模板没有 `filter` 那样的语法糖，`where` 就是标准答案：传入一个切片、一个 key、一个运算符和一个值，它返回满足条件的元素（不满足的被丢掉，原集合不变）。
+
+典型场景：从全部页面里挑出某个 section 的文章、从 `hugo.Data` 读入的数据里挑出某个类型的条目、按页面参数筛出「相关文章」。
+
+**读懂本页的诀窍**：把 `KEY` 想成字段路径，`OPERATOR` 想成比较符，`VALUE` 想成比较对象。三者类型对不上时，`where` 通常**不报错，只是返回空结果**——所以「筛不出东西」几乎都能在类型上找到原因（见下文「完整示例」「返回值边界」「常见坑」）。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 条件能拆成「字段 · 运算符 · 值」三要素：`Section`、`Type`、`Params.*`、映射键都可以；
+- 需要把结果继续交给 `range`、`len`、`first`、`sort` 处理——`where` 返回的就是切片；
+- 想叠加多个条件：连续调用 `where`，或写成嵌套调用（见下文「嵌套比较」）。
+
+**别用**：
+
+- 条件算不出来（要比较两个字段的运算结果、先 `time.Format` 再比较、要看正则捕获组）→ 用 `range` 遍历加 `if` 筛选，下文「自定义日期」一节给出的正是这种写法；
+- 目的是集合减法（从 A 中排除 B）→ 用 [`collections.Complement`](/functions/collections/complement/)；
+- 想排序或限量 → `where` 只管筛选；排序用 [`collections.Sort`](/functions/collections/sort/)，取前几个用 [`collections.First`](/functions/collections/first/)；
+- 想判断「字段存在与否」的布尔语义 → 直接用 `nil` 比较（见下文「nil 比较」与「布尔值/未定义值比较」），不要用 `"eq" true` 去猜。
+
 ## 用法
 
 `where` 函数返回给定切片，并移除不满足比较条件的元素。比较条件由 `KEY`、`OPERATOR` 和 `VALUE` 三个参数构成：
@@ -427,6 +450,71 @@ content/
   <li><a href="/posts/post-1/">Post 2</a></li>
 </ul>
 ```
+
+## 完整示例：用 dict 切片跑通 where
+
+这个例子不依赖任何内容文件，复制进任意会渲染 HTML 的模板就能跑：
+
+```go-html-template {file="layouts/_partials/price-list.html"}
+{{ $books := slice
+     (dict "title" "A 书" "price" 42)
+     (dict "title" "B 书" "price" 42.67)
+     (dict "title" "C 书") }}
+<ul>
+  {{ range where $books "price" "ge" 40 }}
+    <li>{{ .title }}</li>
+  {{ end }}
+</ul>
+<p>匹配到 {{ len (where $books "price" "ge" 40) }} 本</p>
+<p>有 price 的：{{ len (where $books "price" "ne" nil) }} 本</p>
+<p>没有 price 的：{{ len (where $books "price" "eq" nil) }} 本</p>
+```
+
+Hugo 渲染为（`range` 循环本身会留下空行，这里省略）：
+
+```html
+<ul>
+  <li>A 书</li>
+  <li>B 书</li>
+</ul>
+<p>匹配到 2 本</p>
+<p>有 price 的：2 本</p>
+<p>没有 price 的：1 本</p>
+```
+
+**你应当看到什么**：列表里只有 A 书与 B 书两行。第三本书**没有** `price` 字段，`ge` 比较不会把它算进来；只有与 `nil` 比较时它才会被选中——这就是「字段不存在」在 `where` 里的语义。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，单语言站点（`locale = 'zh-CN'`），Windows。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 没有任何元素满足条件 | 空切片（`len` 为 0），在 `if`/`with` 里判为假 | 否 |
+| 输入是空切片 `slice` | 空切片 | 否 |
+| 比较双方类型不同（`"42"` 与 `42`） | 空结果 | 否 |
+| key 不存在，且与具体值比较 | 空结果（该元素被跳过） | 否 |
+| `like` 用在非字符串字段上 | 空结果（上游已说明） | 否 |
+| 输入不是切片（字符串、数字、`nil`） | —— | 是：`can't iterate over string`、`can't iterate over int`、`can't iterate over <nil>` |
+| 运算符拼错 | —— | 是：`error calling where: no such operator` |
+| 返回类型 | 页面集合得到 `page.Pages`；`dict` 切片得到 `[]map[string]interface {}`（签名里统一写作 `[]any`） | 否 |
+
+两栏对照着记：`"ne" nil` 选出「字段有值」的元素，`"eq" nil` 选出「字段没有定义」的元素。因此「字段未定义」的元素在用 `"ne" true` 这类布尔不等比较时**会**被带上，需要时按上游「布尔值/未定义值比较」一节的写法用 `complement` 减掉。
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 页面明明有这个参数，筛选结果却是空的 | `KEY` 写错：页面集合上除 `Section`、`Type`、`Date` 这些字段外，自定义参数要写 `Params.xxx`，且要与 front matter 里的键名一致 | 先打印一个元素的参数确认键名，例如 `{{ debug.Dump (index site.RegularPages 0).Params }}` |
+| 没报错但结果不对 | 数字比较筛不出任何页面 | 值类型不同：`42` 与 `"42"` 不相等（实测返回空结果） | 检查 front matter 里的数字是否被引号包成了字符串 |
+| 没报错但结果不对 | 明明有匹配的页面，`like` 却筛不出来 | 字段不是字符串（数字、布尔）时 `like` 返回空结果 | 字符串用 `like`，数字用 `ge`/`le`，布尔用 `eq` |
+| 没报错但结果不对 | 布尔不等比较把没定义该字段的页面也带进来了 | `"ne" true` 对「字段不存在」也成立 | 用 `"eq" nil` 单独取一次，再用 [`collections.Complement`](/functions/collections/complement/) 减掉 |
+| 没报错但结果不对 | 日期比较结果不对 | YAML/JSON，或加了引号的 TOML 日期都是字符串，无法与 `time.Time` 比较 | 日期用 TOML 且不加引号；否则用 `range` 加 `time.AsTime` 手动筛 |
+| 没报错但结果不对 | 按数组字段筛选时结果为空 | 与切片比较却用了 `eq`：上游要求值里有切片时改用成员或交集运算符 | 改用 `in`、`not in` 或 `intersect`（见本页「成员比较」「交集比较」） |
+| 报错看不懂 | `can't iterate over string` | `SLICE` 传了字符串（例如把 `.Params.tags` 当字符串用） | 用 `slice` 包一层，或改成 `in` 比较字符串 |
+| 报错看不懂 | `error calling where: no such operator` | 运算符拼错（例如写成了别的语言的写法） | 照抄本页「运算符」一节列出的十个运算符之一 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`MainSections`]: /methods/site/mainsections/
 [`collections.Complement`]: /functions/collections/complement/

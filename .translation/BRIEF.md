@@ -139,6 +139,7 @@ source = "https://gohugo.io/functions/strings/truncate/"
 | **教程 / 上手页** | `getting-started/*`、`installation/*` | **必须**：目标、前置、分步、每步验证标准、常见坑表、下一步 |
 | **流程型章节页** | `templates/*`、`render-hooks/*`、`hugo-pipes/*`、`host-and-deploy/*` | 每个小节要有「这段在解决什么问题」+ 可运行的最小示例 + 结果的样子 |
 | **参考页**（API） | `functions/*`、`methods/*`、`commands/*` | 忠实翻译为主；**补「什么时候用 / 什么时候别用」与一个完整可用示例**，并说明返回值边界（空、nil、类型不符时） |
+| **参考页的参考页** | 上游 `functions/*` 多为几行的自动生成骨架 | 至少补三段：**这一页解决什么问题 / 什么时候用与别用 / 一个能直接放进模板跑通的示例 + 它输出什么**；返回值边界（空、nil、类型不符）能测就写「实测」 |
 | **术语 / 速查** | `quick-reference/*` | 保持条目化，不扩写 |
 | **章节首页 `_index.md`** | 各章 | 必须有「读完本章你应该能够」+ 阅读顺序（范例见 `getting-started/_index.md`） |
 

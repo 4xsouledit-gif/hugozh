@@ -60,7 +60,11 @@ next = ["/shortcodes/youtube/", "/shortcodes/instagram/"]
 {{</* vimeo id=19899678 allowFullScreen=false loading=lazy */>}}
 ```
 
-**实测**：给出 `class` 后，`div` 与 `iframe` 上的内联样式会被移除，只留类名，方便完全交给自己的 CSS：
+**实测**：给出 `class` 后，`div` 与 `iframe` 上的内联样式会被移除，只留类名，方便完全交给自己的 CSS。下面这段产物由紧随其后的调用生成（`allowFullScreen=false` 时 `allow` 属性本身也会消失）：
+
+```md
+{{</* vimeo id=19899678 allowFullScreen=false loading=lazy class="my-class" title="vimeo title" */>}}
+```
 
 ```html
 <div class="my-class">

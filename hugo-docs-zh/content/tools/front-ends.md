@@ -92,7 +92,7 @@ hugo --renderToMemory
            type: rich-text
    ```
 
-   要点：`content[].path` 指向 `content/`，决定 CMS 里能看到哪些文件；`media.input` 指向存放图片的静态目录；`media.output` 是图片在站点上的公开路径。
+   要点：`content[].path` 指向 `content/`，决定 CMS 里能看到哪些文件；`media.input` 指向存放图片的静态目录；`media.output` 是图片在站点上的公开路径。**这份示例的字段名以 [Pages CMS 的配置文档](https://pagescms.org/docs/configuration/) 为准**——这类 CMS 的配置结构更新较快，本站只保证下面四条断言成立，不保证字段名长期不变。
 
 3. 用 GitHub 账号登录 Pages CMS，授权它访问该仓库，然后选择这个仓库。
 

@@ -257,7 +257,7 @@ git push
 
 | 症状 | 真因 | 怎么修 |
 | --- | --- | --- |
-| 日志里 `hugo: command not found` | 安装 Hugo 的那一段没执行，或 `PATH` 没导出到后续命令 | 确认日志里出现过 `Installing Hugo ...`；安装那一段所在的同一个多行命令块内必须 `export PATH`，跨块使用依赖前一步的 `PATH` 会丢失 |
+| 日志里 `hugo: command not found` | 安装 Hugo 的那一段没有成功（下载失败、版本号不存在），或 Amplify 根本没有执行这份 `amplify.yml` | 先在日志里搜 `Installing Hugo ...`：完全没有这一行，说明这段配置没被执行（确认 `amplify.yml` 在仓库根目录，且当前构建用的是它）；有这一行、但随后的 `Hugo:` 一行是 `not installed`，说明下载或解压失败，按同一段里 curl/tar 的报错处理 |
 | 构建报 Dart Sass 相关错误 | 站点用到 Sass，但 `DART_SASS_VERSION` 缺失或安装失败 | 检查日志里 `Dart Sass: ...` 一行；填上版本号，网络超时则重试构建 |
 | 构建报模板或参数不存在 | 线上 Hugo 版本与本地不同 | 把 `HUGO_VERSION` 改成 `hugo version` 显示的版本并重新推送 |
 | 构建成功，但网址 404 或只有默认页 | `artifacts.baseDirectory` 不是真正的发布目录 | 改成 `public`（或你配置的 `publishDir`），重新部署 |

@@ -320,7 +320,7 @@ Codeberg 提供三种[托管 runner](https://codeberg.org/actions/meta#available
 | 运行一直排队，最后超时 | runner 类型太小（`codeberg-tiny` 最长 2 分钟），或高峰排队 | 把 `runs-on` 改成 `codeberg-small`；对时间不敏感时用 `codeberg-small-lazy` |
 | 日志报 `hugo: command not found` | 安装 Hugo 的步骤失败，或 `FORGEJO_PATH` 没生效 | 检查日志中 `Installing Hugo ...` 与 `Hugo: ...` 两行；确认每步都把目录写进 `FORGEJO_PATH` |
 | 构建报模板或参数不存在 | 线上 Hugo 版本与本地不同 | 把 `HUGO_VERSION` 改成 `hugo version` 显示的版本 |
-| Deploy 步骤失败 | 部署目标地址不对（自定义域名缺 `server`），或工作流没有发布权限 | 按「Base URL」一节核对 `site` 与 `server`；确认 `oauth`/令牌权限包含 Pages 写权限 |
+| Deploy 步骤失败 | 部署目标地址不对（自定义域名缺 `server`），或令牌没有发布权限 | 按「Base URL」一节核对 `site` 与 `server`；确认仓库已启用 Actions，且 `actions/git-pages` 拿到的 `forgejo.token` 有写入 Pages 的权限（本页工作流没有 `oauth` 字段，SourceHut 的 `oauth` 写法不适用于这里） |
 | 站点能打开但样式、图片丢失 | `HUGO_BASEURL` 与实际访问地址不一致 | 统一两处地址：工作流的 `HUGO_BASEURL` 与项目配置的 `baseURL` |
 | 网址 404，但流水线是绿的 | 站点形态与地址形式不匹配（例如用了用户站点地址，仓库却不叫 `pages`） | 按「Base URL」表格确认仓库命名与地址形式 |
 | 图片每次重新处理 | 缓存路径与 `[caches.images].dir` 不一致 | 让 `HUGO_CACHEDIR`（或工作流缓存路径）与 `:cacheDir/images` 指向同一处 |

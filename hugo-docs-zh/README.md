@@ -404,6 +404,17 @@ pwsh -NoProfile -File .translation/audit-teach.ps1 -Section getting-started
 
 只读、幂等。教程章节（`getting-started` / `installation` / `troubleshooting`）按严格口径要求覆盖。
 
+### 现状与推进顺序
+
+教学层按「学习成本」排序推进，不追求一次覆盖全站：参考页（`functions/`、`methods/`、`quick-reference/glossary/` 共 700 余页）本身是查阅型内容，优先级最低。
+
+| 状态 | 章节 | 说明 |
+| --- | --- | --- |
+| 已完成 | `getting-started`、`installation`、`templates`、`render-hooks`、`hugo-pipes`、`troubleshooting`、`shortcodes`、`content-management`、`configuration`、`host-and-deploy`、`hugo-modules`、`tools`、`about`、`contribute`、`news`、`skill` | 逐页改写为教学版，并加 `[params.teach]` 教学块；全部章节首页已覆盖 |
+| 待推进 | `functions`（313 页）、`methods`（268 页）、`quick-reference/glossary`（159 条） | 上游多为自动生成的几行骨架；改写口径见 BRIEF 4.2.1 的「参考页」两行——补「这一页解决什么问题 / 什么时候用与别用 / 一个能跑通的完整示例 + 返回值边界」 |
+
+`functions/strings/truncate.md`、`functions/collections/where.md` 等页是参考页改写的范式，照它推进即可。改完一页跑一次 `audit-teach.ps1 -List` 就能看到该页是否已计入。
+
 ## 面向 AI 代理的输出（SEO / GEO）
 
 站点不只给人看，也给 AI 代理与答案引擎看。为此额外产出四类机器可读资源：

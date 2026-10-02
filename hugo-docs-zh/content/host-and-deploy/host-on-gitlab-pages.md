@@ -247,7 +247,9 @@ main "$@"
 dir = ':cacheDir/images'
 ```
 
-这样本地构建与流水线构建都会把处理过的图片缓存到 `.cache/hugo/images`，与 CI 配置里的缓存路径一致。使用 YAML 配置时等价写法是 `caches.images.dir = ":cacheDir/images"`。
+图片会落在**当前 `cacheDir`** 下的 `images/`。`.gitlab-ci.yml` 里的 `HUGO_CACHEDIR: ${CI_PROJECT_DIR}/.cache/hugo` 把流水线侧的缓存目录固定为项目下的 `.cache/hugo`，与 `cache.paths` 指向同一处，因此流水线上处理过的图片位于 `.cache/hugo/images`。
+
+**本地**未设置 `HUGO_CACHEDIR`、也未传 `--cacheDir` 时，用的是系统用户缓存目录（实测 v0.167.0 + Windows 为 `%LocalAppData%\hugo_cache`；上游文档说明 macOS 为 `$HOME/Library/Caches`，Linux 为 `$XDG_CACHE_HOME` 或 `$HOME/.cache`）。想确认当前值，运行 `hugo config` 查看 `cachedir` 一行即可。使用 YAML 配置时等价写法是 `caches.images.dir = ":cacheDir/images"`。
 
 ### 第 4 步：推送并观察流水线
 

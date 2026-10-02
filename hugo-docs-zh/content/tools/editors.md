@@ -71,7 +71,7 @@ go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
 > [!NOTE]
-> `gotmplfmt` 处理的是 **Go 模板文件**（`.html` 等模板），不会格式化 `content/` 下的 Markdown 正文。想让它按你的项目约定工作，需要在项目中提供一个配置文件（项目内或用户级配置文件，键为 `selectors`），具体键名与取值请以该项目的 README 为准——本节不做转述，以免与上游更新脱节。换句话说：**没有配置文件时的行为是「按默认规则处理」，不是「不处理」**，格式化前先用 `git diff` 确认结果符合预期。
+> `gotmplfmt` 处理的是 **Go 模板文件**（`.html` 等模板），不会格式化 `content/` 下的 Markdown 正文。想让它按你的项目约定工作，需要额外配置——**支持哪些配置项、放在哪里，请以该项目的 README 为准**，本站不转述，以免与上游更新脱节。换句话说：**没有配置时的行为是「按默认规则处理」，不是「不处理」**，格式化前先用 `git diff` 确认结果符合预期。
 
 ### 可选：短代码补全从哪来
 
@@ -90,7 +90,7 @@ Hugo 社区使用的编辑器相当分散，因此针对几款最流行的文本
 ### Visual Studio Code
 
 [gotmplfmt](https://marketplace.visualstudio.com/items?itemName=GoHugoIO.gotmplfmt)
-: 由 Hugo 作者开发并维护，这个扩展借助 [gotmplfmt](https://github.com/gohugoio/gotmplfmt) 命令行工具格式化模板。
+: 由 Hugo 作者开发并维护，这个扩展借助 [gotmplfmt](https://github.com/gohugoio/gotmplfmt) 命令行工具格式化 [templates](g)（模板）。
 
 [Front Matter](https://marketplace.visualstudio.com/items?itemName=eliostruyf.vscode-front-matter)
 : 这个扩展用于维护文章的元数据，例如创建日期、修改日期、slug、标题、SEO 检查等。
@@ -111,7 +111,7 @@ Hugo 社区使用的编辑器相当分散，因此针对几款最流行的文本
 : 这个扩展让项目开发更顺手。源码见其 [GitHub 仓库](https://github.com/akmittal/hugofy-vscode)。
 
 [Syntax Highlighting for Hugo Shortcodes](https://marketplace.visualstudio.com/items?itemName=kaellarkin.hugo-shortcode-syntax)
-: 这个扩展为短代码加上语法高亮，使各个片段在视觉上更容易辨认。
+: 这个扩展为 [shortcodes](g)（短代码）加上语法高亮，使各个片段在视觉上更容易辨认。
 
 ### JetBrains IDEs
 
@@ -124,7 +124,7 @@ Hugo 社区使用的编辑器相当分散，因此针对几款最流行的文本
 : 这个 Emacs 主模式支持用多种标记格式撰写博客，包括 Markdown、Org mode、AsciiDoc、reStructuredText、mmark 与 HTML。
 
 [ox-hugo.el](https://ox-hugo.scripter.co)
-: 这个原生 Org mode 导出器会导出带前置字段的 Blackfriday Markdown。它支持两种常见的 Org 博客工作流：把单个文件中的多棵 Org 子树导出为多篇文章，以及把单个 Org 文件导出为单篇文章。它还利用了 Org 的标签与属性继承特性。更多说明见 [Why ox-hugo?](https://ox-hugo.scripter.co/doc/why-ox-hugo/)。
+: 这个原生 Org mode 导出器会导出带 [front-matter](g)（前置元数据）的 Blackfriday Markdown。它支持两种常见的 Org 博客工作流：把单个文件中的多棵 Org 子树导出为多篇文章，以及把单个 Org 文件导出为单篇文章。它还利用了 Org 的标签与属性继承特性。更多说明见 [Why ox-hugo?](https://ox-hugo.scripter.co/doc/why-ox-hugo/)。
 
 ### Sublime Text
 

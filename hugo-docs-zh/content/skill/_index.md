@@ -27,71 +27,45 @@ next = ["/skill/SKILL.md", "/skill/references/gotchas.md", "/troubleshooting/"]
 
 它不是教程，而是**给代理用的作业手册**：当有人要求「给这个 Hugo 站加一个短代码」「把页面时间做成中文」「为什么构建失败了」，代理加载它之后应当直接知道该查什么、该避什么。
 
-## 安装
+## 安装：装到当前项目下
 
-### 先说清楚哪部分是通用的
+**位置是定死的：装进当前项目，不要装到用户级目录。** 这样技能跟着仓库走——同事克隆下来就有同一份作业手册，代理换环境、换机器也不会出现"我这儿有、他那儿没有"。一个项目一份，也不污染其它项目。
 
-技能包**就是一组 Markdown 文件，没有依赖、没有可执行代码**。所以「安装」的实质只有一件事：
+```text
+<当前项目>/.dsh/skills/hugo-static-site/
+```
 
-> **把 12 个文件按 `path` 落到「你的代理能读到技能的地方」，保证相对路径不变。**
+**怎么装、怎么让项目认得它，由你（代理）自己决定。** 你比我清楚本项目的加载约定：是扫描 `.dsh/skills/`、还是在项目配置里声明目录、还是需要写进项目的 profiles 补丁。请按本项目已有的做法来，不要引入本项目没有的机制。
 
-`~/.dsh/skills/…` 这类写法是**DSH 的约定，不是通用规范**。不同代理的加载方式各不相同（用户级目录、项目级目录、会话内挂载、插件注册……），所以本站只固定三件与环境无关的事，其余交给你的代理或你按它自己的惯例决定：
+### 物料
 
-| 与环境无关（本站固定） | 与环境相关（你按代理自己的规范决定） |
-| --- | --- |
-| `skill-manifest.json` 里的 `path`（含 `references/` 子目录）与 `sha256` | 文件放到哪个目录、用哪种注册方式 |
-| 目录名必须是 `hugo-static-site` | 用用户级还是项目级安装 |
-| 装完必须校验哈希，并让代理确认已加载 | 是否需要重启会话 / 重新扫描 |
+- **清单**：<https://hugozh.cn/skill/skill-manifest.json> —— 每个文件的 `path`、`bytes`、`sha256`，以及两个下载地址（`url` 站内镜像、`rawUrl` 仓库原文）；
+- **内容**：12 个 Markdown 文件，无依赖、无可执行代码、无绝对路径；除 `SKILL.md`、`README.md` 外都在 `references/` 下；
+- **源码**：仓库 <https://github.com/hencter/hugozh> 的 `.dsh/skills/hugo-static-site/`。
 
-### 一、通用方式：把清单交给你的代理
+### 验收（无论怎么装，这三条都得成立）
 
-> 读取 <https://hugozh.cn/skill/skill-manifest.json>，把 `files[]` 里的每个 `path` 与 `sha256` 记下来。按你自己的技能/规则加载约定决定安装位置（**如果没有约定，就装到当前用户目录的 `skills/hugo-static-site/`**），把每个文件从 `url` 取回后按 `path` 原样落盘，保持相对路径与目录名 `hugo-static-site` 不变。落盘后用 `sha256` 逐个校验，报告校验结果；再读一遍 `SKILL.md` 的第一节，确认你能正常读到它。
+1. **落在项目内**：`<当前项目>/.dsh/skills/hugo-static-site/` 存在，且 12 个文件齐全；
+2. **相对路径没走样**：`references/gotchas.md` 就在 `<该目录>/references/gotchas.md`，没有被拍平到根；
+3. **哈希对得上，且真的读到了**：逐个比对清单里的 `sha256`；再读一遍 `SKILL.md`，把第一条铁律复述给用户。
 
-这一段的写法有意留了余地：它**只规定可验证的结果**（相对路径、目录名、哈希一致、能被读到），不规定你用什么目录——那样才谈得上"适用于不同代理"。
+> 边界说明：清单里的 `sha256` 对应**发布字节**（UTF-8 无 BOM、LF 行尾），验证的是"与发布一致"，不验证"适合你的项目"；`git clone` 在部分平台（Windows）会改写行尾导致哈希对不上，需要精确匹配时按清单 `url` 逐文件取回。
 
-### 二、DSH 用户
-
-DSH 的约定是：技能目录在**会话启动时**扫描，装好后重开会话即可加载。
-
-**项目内**（推荐，随仓库走，也让同事拿到同样的作业手册）：
+### 如果手工装（供人看）
 
 ```bash
-mkdir -p .dsh/skills
 git clone --depth 1 https://github.com/hencter/hugozh.git /tmp/hugozh
+mkdir -p .dsh/skills
 cp -r /tmp/hugozh/.dsh/skills/hugo-static-site .dsh/skills/
 ```
 
-**用户目录**（全机器可用）：
+DSH 的技能目录在**会话启动时**扫描——装好后重开会话才加载得到；其它加载器有各自的 reload 规则，按本项目已有的做法处理。
 
-```bash
-mkdir -p ~/.dsh/skills
-git clone --depth 1 https://github.com/hencter/hugozh.git /tmp/hugozh
-cp -r /tmp/hugozh/.dsh/skills/hugo-static-site ~/.dsh/skills/
-```
+### 完全不用安装
 
-也可以让 DSH 直接指向技能包所在目录（`~/.dsh/profiles/<profile>/cordis.patch.yml`）：
+技能包就是 Markdown：直接读 [`SKILL.md`](/skill/SKILL.md) 与 [`references/gotchas.md`](/skill/references/gotchas.md)（其余文件同在 `/skill/` 下），或下载仓库 ZIP：<https://codeload.github.com/hencter/hugozh/zip/refs/heads/main>。**"读文档"和"装成技能"在内容上没有任何区别**，只是加载时机的差别。
 
-```yaml
-- id: skill-filesystem
-  name: "@deepseek-ai/dsh-skill-filesystem"
-  config:
-    customSkillDirs:
-      - <技能包所在目录>
-```
-
-### 三、校验安装结果（别只看命令退出码）
-
-三条都满足才算装好：
-
-1. **文件数与哈希对得上**：清单里是 **12 个文件**（`SKILL.md`、`README.md` 与 `references/` 下 10 个）。逐个比对 `sha256`，不要只看"下载成功"；
-2. **相对路径没走样**：`references/gotchas.md` 必须在 `<技能目录>/references/gotchas.md`，而不是被拍平到根目录；
-3. **代理真的能读到**：让它复述 `SKILL.md` 的第一条铁律（正文里但凡出现**未转义的短代码定界符**，就会让**整站**构建失败）。答不上来就说明没加载——此时重启会话或检查技能目录配置。
-
-> 顺带一提：上面那句话我原本写成了行内代码里的裸定界符，结果**这一页自己构建失败**了。这条铁律对行内代码与围栏代码块都不豁免；要展示短代码语法，必须写成 `{{</* name */>}}` 这种转义形式。这条经验本身也记录在 [`references/gotchas.md`](/skill/references/gotchas.md) 的 G1。
-
-> 用 `git clone` 装的话，`git` 会**转换行尾**。若你的平台是 Windows，克隆后哈希可能与清单不一致；这种情况下用清单里的 `url` 逐个取回（那才是「原样」），或直接以 `git clone` 的结果为准——差异只在 CRLF/LF，不影响技能内容。
->
-> 说清楚校验的边界：清单里的 `sha256` 对应的是**本站发布的字节**（UTF-8 无 BOM、LF 行尾）。它验证的是「你拿到的与发布的一致」，**不验证**「这个技能包适合你的项目」——后者得靠你或代理读内容判断。
+> 用 `git clone` 装的话，`git` 会**转换行尾**。若你的平台是 Windows，克隆后哈希可能与清单不一致；这种情况用清单里的 `url` 逐个取回（那才是「原样」）。差异只在 CRLF/LF，不影响技能内容。
 
 ### 四、完全不用代理也能读
 

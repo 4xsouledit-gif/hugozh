@@ -45,44 +45,43 @@ workflow prescribes; what cannot be generated (the trap catalogue, the workflow)
 
 ## Install
 
-The install contract is deliberately loader-agnostic. **Fixed, whatever loads the skill:**
+**Fixed: it installs into the current project, not a user-level directory.**
 
-1. the directory is named `hugo-static-site`;
-2. the internal relative paths are preserved — `references/gotchas.md` stays at
-   `<skill-dir>/references/gotchas.md`, never flattened to the root;
-3. after copying, every file's SHA-256 matches the manifest, and the loader can actually read
-   `SKILL.md` (ask it to restate the first iron rule: an unescaped shortcode delimiter anywhere in
-   content fails the **entire** build).
-
-**Where** those files go is a property of your loader, not of this skill. Two mechanical options
-that need no loader support at all:
-
-- **Copy into the project** — `<your project>/.dsh/skills/hugo-static-site/` (or any directory your
-  loader is configured to scan). Travels with the repository, so collaborators get the same manual;
-- **Copy into a user-level skills directory** — the conventional fallback when a loader has no
-  documented location of its own: `~/.dsh/skills/hugo-static-site/`.
-
-**If your loader is DSH specifically:** put the folder in a `skills` directory beside the profile
-data (`~/.dsh/skills/hugo-static-site/`, or `<project>/.dsh/skills/hugo-static-site/`), or point it
-at wherever you keep it by adding a patch entry to
-`~/.dsh/profiles/<profile>/cordis.patch.yml`:
-
-```yaml
-- id: skill-filesystem
-  name: "@deepseek-ai/dsh-skill-filesystem"
-  config:
-    customSkillDirs:
-      - <absolute path of the directory that contains hugo-static-site>
+```text
+<current project>/.dsh/skills/hugo-static-site/
 ```
 
-The skill catalog is built when a session starts, so restart DSH or open a new session — a freshly
-installed skill does not appear mid-session. Other loaders have their own reload rules; check
-theirs rather than assuming this one.
+Project scope is deliberate. The skill then travels with the repository — everyone who clones the
+project gets the same manual, and an agent working there cannot end up in the "I have it, you don't"
+state that a per-machine install produces. One project, one copy; nothing else on the machine is
+touched.
 
-**Fetching the files.** Either `git clone` the repository and copy the folder, or — when a loader
-has no filesystem access — fetch each file listed in the manifest from its `url` and write it to
-its `path`. Prefer the manifest route when hashes must match: `git` rewrites line endings on some
-platforms (notably Windows), so a clone can hash differently while the content is identical.
+**How** the files get there, and how the project is made to load them, is the agent's call. Loaders
+differ (scanning a skills directory, declaring a directory in project config, a per-project profile
+patch), and the agent working in the project knows its own convention better than this document
+does. Use whatever convention the project already has; do not introduce a mechanism it does not.
+
+**Fixed contract, whatever the mechanism:**
+
+1. the directory is `<current project>/.dsh/skills/hugo-static-site/` and holds all twelve files;
+2. internal relative paths are preserved — `references/gotchas.md` stays at
+   `<skill-dir>/references/gotchas.md`, never flattened to the root;
+3. every file's SHA-256 matches the manifest, and the loader can actually read `SKILL.md` (ask it to
+   restate the first iron rule: an unescaped shortcode delimiter anywhere in content fails the
+   **entire** build).
+
+**Materials.** The manifest at <https://hugozh.cn/skill/skill-manifest.json> lists each file's
+`path`, `bytes`, `sha256` plus two download locations (`url` site mirror, `rawUrl` repository).
+The source is `.dsh/skills/hugo-static-site/` in <https://github.com/hencter/hugozh>.
+
+**Manual route** (for a human, not a loader): clone the repository and copy the folder into
+`.dsh/skills/`. Note that `git` rewrites line endings on some platforms (notably Windows), so a
+clone can hash differently from the manifest while the content is identical; fetch per-file from
+the manifest `url` when an exact hash match is required.
+
+**Loader timing.** DSH builds its skill catalog when a session starts, so a freshly installed skill
+appears only in a new session. Other loaders have their own reload rules — follow the project's,
+not this one's.
 
 **No installation at all.** Read `SKILL.md` and follow it as plain documentation. Nothing here
 requires being loaded as a skill.

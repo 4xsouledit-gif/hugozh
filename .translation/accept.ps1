@@ -32,7 +32,10 @@ Write-Output ("HAHAHUGOSHORTCODE 命中: {0}" -f $lit.Count)
 Write-Output "`n══════ 6. 技能包镜像与站点保持一致 ══════"
 & (Join-Path $PSScriptRoot 'sync-skill-static.ps1') -Verify
 
-Write-Output "`n══════ 6. 规模 ══════"
+Write-Output "`n══════ 7. 教学层覆盖度 ══════"
+& (Join-Path $PSScriptRoot 'audit-teach.ps1') | Select-Object -Last 6
+
+Write-Output "`n══════ 8. 规模 ══════"
 $md = @(Get-ChildItem (Join-Path $root 'hugo-docs-zh\content') -Recurse -File -Filter '*.md')
 $html = @(Get-ChildItem (Join-Path $root 'hugo-docs-zh\public') -Recurse -File -Filter '*.html' -ErrorAction SilentlyContinue)
 Write-Output ("content .md: {0} 个；public .html: {1} 个" -f $md.Count, $html.Count)

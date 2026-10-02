@@ -346,17 +346,78 @@ hugo --minify --config hugo.toml,hugo.nogit.toml           # 没有 .git
 
 另注：若平台做的是**浅克隆**（`--depth 1`），构建不会失败，但所有页面的「最后更新」都会等于那一次提交的日期（信息失真，不影响构建）。
 
+## 教学层（本站在直译之外增加的一层）
+
+上游文档刻意克制：默认读者懂命令行、能自己补齐上下文、遇到报错会自己查。本站要补的正是这一层——**让没有 AI 辅助的普通读者也能照着做完**。做法是「正文增补 + 可选的前置元数据教学块」，不另起一套页面。
+
+### 数据契约：`[params.teach]`
+
+```toml
++++
+title = "快速开始"
+linkTitle = "快速开始"
+description = "手把手从零跑通第一个 Hugo 站点…"
+date = 2026-10-01
+weight = 10
+source = "https://gohugo.io/getting-started/quick-start/"
+
+[params.teach]
+difficulty = "入门"                 # 入门 / 进阶 / 参考
+time = "15–20 分钟"                 # 字符串；写成纯数字会被 TOML 解析成整数/Epoch
+prereq = ["…"]                      # 开始之前需要具备什么（支持行内 Markdown）
+outcomes = ["…"]                    # 读完之后能做到什么
+next = ["/installation/"]           # 接着读（站内根相对路径）
++++
+```
+
+> ⚠ **六个标量字段必须写在所有表头之前**。`[table]` 之后的裸键会归入该表：把 `source` 写在 `[params.teach]` 后面，它就变成 `params.teach.source`——页脚不再有原文链接，而 **Hugo 不会报错**。这与 README 前文提到的 `theme` 被吞进 `[frontmatter]` 是同一类坑。
+
+### 渲染：两个出口、一份数据
+
+| 出口 | 模板 | 位置 |
+| --- | --- | --- |
+| HTML 面板（给人看） | `themes/hugo-docs-theme/layouts/partials/teach-box.html` | `single.html` 中 `function-meta` 之后、`.doc-body` **之前** |
+| Markdown 引用块（给机器看） | `themes/hugo-docs-theme/layouts/partials/teach-md.html` | `single.md.md` 中摘要之后 |
+
+两个 partial 都读 `.Params.teach`，所以**人类与机器看到的是同一份事实**，不会分叉。面板位于 `.doc-body` 之外，只抽 `.doc-body` 的抓取器会漏掉它——这条已写进 `/llms.txt` 的抓取建议。样式在 `main.css` 的 `.teach` 一组，用主题既有的 `--bg-soft` / `--border-soft` / `--brand` 变量，深色模式自动生效。
+
+### 正文增补的口径（只增不删）
+
+| 页面角色 | 增补要求 |
+| --- | --- |
+| 教程 / 上手（`getting-started`、`installation`） | 目标、前置、分步、每步验证标准、常见坑表、下一步 |
+| 流程型章节（`templates`、`render-hooks`、`hugo-pipes`） | 每小节说明「在解决什么问题」+ 最小可运行示例 + 结果长什么样 |
+| 参考页（`functions`、`methods`、`commands`） | 忠实翻译为主，补「什么时候用 / 别用」与返回值边界 |
+| 术语 / 速查（`quick-reference`） | 保持条目化，不扩写 |
+
+三条硬要求：上游的技术细节一行都不能丢；上游没写、由本站实测得到的结论必须标「实测」；站内链接一律根相对**且全小写**（Hugo 输出 URL 小写，写驼峰会产生死链）。
+
+范例：`content/getting-started/quick-start.md`（Windows PowerShell 编码坑那一节就是「上游只给结论、本站给出原因与后果」的典型）。
+
+### 覆盖度审计
+
+```powershell
+pwsh -NoProfile -File .translation/audit-teach.ps1                  # 全站概览 + 按章节明细
+pwsh -NoProfile -File .translation/audit-teach.ps1 -Strict          # 教程章节缺教学块即失败
+pwsh -NoProfile -File .translation/audit-teach.ps1 -Section getting-started
+```
+
+只读、幂等。教程章节（`getting-started` / `installation` / `troubleshooting`）按严格口径要求覆盖。
+
 ## 面向 AI 代理的输出（SEO / GEO）
 
-站点不只给人看，也给 AI 代理与答案引擎看。为此额外产出三类机器可读资源：
+站点不只给人看，也给 AI 代理与答案引擎看。为此额外产出四类机器可读资源：
 
 | 资源 | 路径 | 说明 |
 | --- | --- | --- |
-| **LLM 入口文件** | `/llms.txt` | 站点摘要 + 分主题入口 + 机器可读资源清单 + 内容约定（约定见 <https://llmstxt.org/>） |
-| **每页 Markdown** | 任意页面 URL 后接 `index.md` | 例如 `/functions/strings/chomp/index.md`：头部给出官方原文、规范地址、最近更新、最后提交、**函数签名与返回类型**，随后是该页 Markdown 原文 |
+| **LLM 入口文件** | `/llms.txt` | 站点摘要 + 页面角色说明 + 分主题入口 + 机器可读资源清单 + 抓取建议 + 内容约定（约定见 <https://llmstxt.org/>） |
+| **每页 Markdown** | 任意页面 URL 后接 `index.md` | 例如 `/functions/strings/chomp/index.md`：头部给出官方原文、规范地址、最近更新、最后提交、**函数签名与返回类型**，随后是该页 Markdown 原文；有教学块的页面还会带上「教学信息」引用块 |
+| **全站页面清单** | `/pages.json` | 约 950 条，每条含 url / markdown / kind / title / description / section / sectionTitle / source / lastmod / **role** / difficulty / time / hasTeach / prereqCount / outcomeCount / hasSignature（约 460 KB，gzip 后约 50 KB） |
 | **发现链** | HTML `<head>` | `<link rel="alternate" type="text/markdown" href="…/index.md">`，代理无需猜路径 |
 
-配置（`hugo.toml`）与模板（`themes/hugo-docs-theme/layouts/{_default/single.md.md,_default/list.md.md,index.llms.txt}`）都基于官方 output format 机制：
+`pages.json` 里的 `role` 是「这一页该怎么用」的机器可读判断：`tutorial`（上手教程，按步骤执行）/ `guide`（流程指南，取示例）/ `reference`（查签名与边界）/ `query`（术语速查）/ `index`（章节首页）。`difficulty` / `time` / `hasTeach` 与 HTML 教学面板**同源**，代理据此决定是先读这一页还是直接查阅。
+
+配置（`hugo.toml`）与模板（`themes/hugo-docs-theme/layouts/{_default/single.md.md,_default/list.md.md,index.md.md,index.llms.txt,index.pagesjson.json}`）都基于官方 output format 机制：
 
 ```toml
 [mediaTypes.'text/markdown']
@@ -368,16 +429,25 @@ hugo --minify --config hugo.toml,hugo.nogit.toml           # 没有 .git
   isPlainText = true      # 用 text/template 解析，避免 Markdown 被 HTML 转义
   isHTML      = false
 
+[outputFormats.pagesjson]
+  mediaType   = 'application/json'
+  baseName    = 'pages'
+  isPlainText = true      # 纯 JSON 输出，不在 <script> 里，用 jsonify 是正确的
+  isHTML      = false
+  notAlternative = true
+
 [outputs]
-  home    = ['html', 'rss', 'llms']
+  home    = ['html', 'rss', 'llms', 'md', 'pagesjson']
   section = ['html', 'rss', 'md']
   page    = ['html', 'md']
 ```
 
 要点与坑：
 
-- 模板命名遵循 `[page kind].[output format].[suffix]`，因此是 `single.md.md` / `list.md.md` / `index.llms.txt`（依据：<https://gohugo.io/configuration/output-formats/#template-lookup-order>）。
+- 模板命名遵循 `[page kind].[output format].[suffix]`，因此是 `single.md.md` / `list.md.md` / `index.llms.txt` / `index.pagesjson.json`（依据：<https://gohugo.io/configuration/output-formats/#template-lookup-order>）。
 - `isPlainText = true` 是关键：否则 Markdown 正文会被 `html/template` 转义成实体。
 - 页面模板会**剥离独占一行的短代码定界符**（`{{</* note */>}}` … `{{</* /note */>}}`），保留其内部内容，避免代理拿到未解析的标记。
+- `(dict …)` 多行写法必须**显式闭合右括号**，否则整个模板解析失败、构建直接报错（`unexpected <with> in parenthesized pipeline` 之类的报错很容易被误读成函数用错）。
+- **人类出口与机器出口必须同源**：教学信息由 `teach-box.html`（HTML）与 `teach-md.html`（Markdown）两个 partial 读同一份 `.Params.teach`，改一处就两边都变。只在其中一个模板里加东西，人机看到的内容就会悄悄分叉。
 - 新增输出会让构建设置的「页面数」翻倍（1019 → 1967），这是正常的：它是「页面数 × 输出格式数」，不是内容变多。
 - `robots.txt` 显式允许主流 AI 抓取器（GPTBot、ClaudeBot、PerplexityBot、Google-Extended 等）并保留 `Sitemap:` 行。

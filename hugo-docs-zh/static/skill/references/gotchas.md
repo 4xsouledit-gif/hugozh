@@ -7,7 +7,7 @@ Each entry: what you see → what actually happened → what to do. Entries are 
 
 - **documented** — reproduces stated behaviour and names the page or command involved: G1,
   G3–G10, G14, G18–G20.
-- **observed** — reproduced on a working site, not stated in the docs: G11–G13, G15–G17, G21–G22.
+- **observed** — reproduced on a working site, not stated in the docs: G11–G13, G15–G17, G21–G24.
 - **not documented** — real but unstated; G2 says so in its own Status line.
 
 Where an entry disagrees with what your own build shows, trust the build: these are behaviours,
@@ -212,3 +212,58 @@ locale overlay theme:
 **Observed:** control test on one template — `locale = "de-DE"` produced `1. Oktober 2026` while
 `locale = "zh-CN"` produced `October 1, 2026`, so the configuration was right and the data is
 incomplete.
+
+## G23 — the file looks byte-perfect and Hugo still rejects it
+
+**Symptom.** A config file (or a front matter block) that reads correctly in an editor makes Hugo
+fail at load with a character that is plainly not in the text:
+
+```text
+failed to load config: "…/hugo.toml:1:1": unmarshal failed:
+toml: invalid character at start of key: U+00FF 'ÿ'
+```
+
+**Cause.** Encoding, not syntax. `echo "…" >> file` in **Windows PowerShell 5.1** (`powershell.exe`)
+writes UTF-16LE with a byte-order mark. The bytes at the start are `FF FE`; the TOML/JSON parser
+sees `ÿ` and stops. The upstream Hugo quick start warns only that "PowerShell and Windows
+PowerShell are different applications" — it never says why, which is why this costs hours.
+**PowerShell 7** (`pwsh`) writes UTF-8 and does not have the problem.
+
+**Fix.** Write files with a tool that controls encoding (an editor, or `Set-Content -Encoding utf8`
+in pwsh 7; never `>` / `>>` in 5.1). Then verify the **bytes**, not the rendered text:
+
+```powershell
+Format-Hex hugo.toml | Select-Object -First 1   # must not start with FF FE or EF BB BF
+```
+
+Same trap in reverse for **content** files: a UTF-8 BOM in Markdown is tolerated by Hugo but
+pollutes the first heading; keep content BOM-less.
+
+**Status:** observed (Windows PowerShell 5.1 on Windows 11, Hugo 0.167).
+
+## G24 — the Markdown export silently diverges from the HTML page
+
+**Symptom.** The site renders a metadata panel above the body, but the page's `.md` output (the
+machine-readable route) does not contain it — or contains it *and* the navigation around it.
+Agents then read a different document from the one humans read, and neither side notices.
+
+**Cause.** HTML and flow through different templates. Anything added only to a page-kind HTML
+template (`single.html`) or only to an output-format template (`single.md.md`) exists for one
+audience only.
+
+**Fix.** Keep the two templates reading the **same data source** (page params) through shared
+partials — one partial per rendering mode, both called from their template — and treat parity as
+part of the definition of done. Two checks that catch the common failures:
+
+- Regenerate `--renderToMemory` and read both artifacts for one page that has the feature
+  (`public/<path>/index.html` and `public/<path>/index.md`), rather than re-reading your source.
+- Notice where the two differ *deliberately*: Markdown should carry the facts and drop the
+  chrome (nav, sidebar, headings you already know).
+
+**Status:** observed (this site's teaching layer; the divergence was real before the shared-partial
+rule).
+
+**Documented counterpart.** Hugo's Markdown output format is configured with
+`isPlainText = true` so the body is parsed by `text/template` rather than `html/template`
+(<https://gohugo.io/configuration/output-formats/>) — without it, Markdown comes out
+HTML-escaped, which is the same class of silent divergence.

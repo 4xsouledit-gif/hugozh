@@ -124,7 +124,68 @@ source = "https://gohugo.io/functions/strings/truncate/"
 - 函数/方法的**签名与返回值**必须与原文一致；`→` 示例结果保持原样。
 - 拿不准的技术表述，宁可保留英文原词，也不要臆造中文说法。
 
-### 术语表（沿用本站既有译法）
+---
+
+## 四之二、教学层（本地化增补，与上游直译的区别所在）
+
+上游文档刻意克制：默认读者懂命令行、能自己补齐上下文、遇到报错会自己查。**本站要补的正是这一层**——让没有 AI 辅助的普通读者也能照着做完。做法是「**正文增补 + 可选的前置元数据教学块**」，而不是另起一套页面。
+
+### 4.2.1 什么时候增补
+
+按页面角色决定力度（**只增不删**：上游的技术细节、命令、签名、默认值一律保留）：
+
+| 页面角色 | 例子 | 增补要求 |
+| --- | --- | --- |
+| **教程 / 上手页** | `getting-started/*`、`installation/*` | **必须**：目标、前置、分步、每步验证标准、常见坑表、下一步 |
+| **流程型章节页** | `templates/*`、`render-hooks/*`、`hugo-pipes/*`、`host-and-deploy/*` | 每个小节要有「这段在解决什么问题」+ 可运行的最小示例 + 结果的样子 |
+| **参考页**（API） | `functions/*`、`methods/*`、`commands/*` | 忠实翻译为主；**补「什么时候用 / 什么时候别用」与一个完整可用示例**，并说明返回值边界（空、nil、类型不符时） |
+| **术语 / 速查** | `quick-reference/*` | 保持条目化，不扩写 |
+| **章节首页 `_index.md`** | 各章 | 必须有「读完本章你应该能够」+ 阅读顺序（范例见 `getting-started/_index.md`） |
+
+### 4.2.2 正文增补的写法
+
+- **解释「为什么」**：上游只写「不要用 Windows PowerShell」，本地化要写出**原因与后果**（实测：Windows PowerShell 5.1 的 `echo … >>` 会写 UTF-16LE+BOM，Hugo 报 `toml: invalid character at start of key: U+00FF`）。范例见 `getting-started/quick-start.md`。
+- **给验证标准**：每个关键步骤之后写「你应当看到什么」。**能被检验的断言才有教学价值**。
+- **给失败路径**：至少覆盖「命令找不到 / 没有报错但结果不对 / 报错看不懂」三类，并链接到 `/troubleshooting/`。
+- **标明实测与文档的分界**：上游没写、由本站实测得出的结论，写成「实测：……」；**不得把推断写成官方结论**。
+- **命令块保持原样**：语言标记、`{file=…}` 属性、转义写法都不动（见第一、三节）。
+- **中文读者视角**：Windows/macOS/Linux 三平台差异、国内网络环境（代理、镜像源、`GOPROXY`）该写就写。
+
+### 4.2.3 前置元数据的 `[params.teach]` 表（可选）
+
+教程/上手/流程型页面**建议**加，参考页可不加。
+
+> ⚠ **TOML 作用域铁律**：`[表头]` 之后的裸键会归入该表。所以**六个标量字段必须写在所有表头之前**，
+> 表头只能出现在 `+++` 块的尾部。把 `source` 写在 `[params.teach]` 之后，它就变成
+> `params.teach.source`——六字段契约断了，页脚也不再有原文链接（Hugo 不报错，只静默丢失）。
+> 正确顺序：`title / linkTitle / description / date / weight / source` → `[params.teach]` →
+> `[params.functions_and_methods]`。
+
+```toml
++++
+title = "中文标题"
+linkTitle = "侧栏短名"
+description = "一句话中文导语"
+date = 2026-10-02
+weight = 10
+source = "https://gohugo.io/getting-started/quick-start/"
+
+[params.teach]
+difficulty = "入门"          # 入门 / 进阶 / 参考
+time = "15–20 分钟"          # 字符串；不要写成纯数字（TOML 会解析成整数/Epoch）
+prereq = ["…", "…"]          # 读者开始前需要具备什么（支持 Markdown）
+outcomes = ["…", "…"]        # 读完之后能做到什么（支持 Markdown）
+next = ["/installation/", "/getting-started/basic-usage/"]  # 站内路径
++++
+```
+
+- 五个键**全部可选**，都缺就整块不渲染（旧页面因此不受影响）；
+- 渲染出口：HTML 由 `partials/teach-box.html` 输出正文开头的面板，Markdown 出口由 `partials/teach-md.html` 输出同源引用块——**两者读同一份数据，人类与 AI 不会看到分叉的事实**；
+- 条目句末**不要**再写分号/句号，模板会自己加列表符号；
+- 早期页面若写成顶层 `[teach]` 表，模板仍兼容；`readAfter` 是 `next` 的旧名，也仍兼容；
+- 只用 `write`/`edit` 工具改文件，**不要用 PowerShell 重定向写内容文件**（会引入 BOM/编码风险）。
+
+### 4.2.4 术语表（沿用本站既有译法）
 
 | 英文 | 译法 |
 | --- | --- |

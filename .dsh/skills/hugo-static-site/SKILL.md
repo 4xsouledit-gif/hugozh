@@ -16,7 +16,8 @@ Resource base for this skill is `<skill-directory>`: the trap catalogue at
 `<skill-directory>/references/seo.md`, version control and dates at
 `<skill-directory>/references/versioning.md` and `<skill-directory>/references/dates.md`, shortcode
 authoring at `<skill-directory>/references/shortcodes.md`, optional multilingual setup at
-`<skill-directory>/references/i18n.md`, and the command notes at `<skill-directory>/references/commands.md`. The command notes prescribe only the
+`<skill-directory>/references/i18n.md`, the human/machine documentation parity contract at
+`<skill-directory>/references/teaching-layer.md`, and the command notes at `<skill-directory>/references/commands.md`. The command notes prescribe only the
 flags this workflow relies on and point at `hugo gen doc` for the reference itself — they are not a
 transcription of it.
 
@@ -234,6 +235,26 @@ Full checklist: `references/dates.md`.
   now wrong — grep for the old path and migrate all of them in one pass (gotchas G15).
 - Deleting a page? Check inbound links first, then delete. With no shell available you cannot
   move files, so write the new path and leave the old one for the user to remove.
+- **Every scalar above the first `[table]` header.** A bare key written below a table silently
+  becomes part of it (G21); the failure is invisible until the field is missing from the output.
+
+## Human and machine documentation parity
+
+When one site serves both readers and agents, the two must not drift apart. The working pattern —
+used by the Hugo Chinese docs site this skill was distilled from — keeps a **single data source in
+page params**, rendered by one partial per output format and called from both templates:
+
+- the HTML page-kind template calls the panel partial; the Markdown output-format template calls
+  the Markdown partial; both read `.Params.<feature>`;
+- the facts a reader needs to judge a page (difficulty, time, prerequisites, outcomes, what to read
+  next) live in front matter, not in prose, so an agent consumes them without parsing HTML;
+- the machine-readable index (`pages.json` or equivalent) carries the same per-page role and the
+  same values, so an agent can decide *how to use* a page — follow it, or look something up —
+  without fetching it first.
+
+Treat parity as part of done, not a follow-up: silent divergence between `.html` and `.md` is G24,
+and `isPlainText = true` on the Markdown output format is the documented half of getting it right.
+Full contract, field schema and the audit script: `references/teaching-layer.md`.
 
 ## Site structure and navigation
 

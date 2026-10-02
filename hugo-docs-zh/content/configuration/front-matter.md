@@ -7,6 +7,32 @@ weight = 80
 source = "https://gohugo.io/configuration/front-matter/"
 +++
 
+## 这一页解决什么问题
+
+`[frontmatter]` 配置的是「Hugo 按什么顺序去前置元数据里找日期字段」：同一个 `Lastmod`，可以依次尝试 Git 提交时间、`lastmod`、`modified`、`date`……这一页就是给四个日期方法排优先级。
+
+**为什么会需要它**：默认顺序里 `lastmod` 的第一个来源是 `:git`，所以开启 `enableGitInfo` 后，页面的「最后更新」来自提交历史，而不是一个会过期的手写字段。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `lastmod` | 想让「最后更新」来自 Git（`':git'`）或文件时间（`:fileModTime`） | 列表里的字段名写错会被**静默跳过**（继续往后找）；把候选全部删掉 → 页面 `Lastmod` 落到零值 `0001-01-01` |
+| `date` / `publishDate` | 用自定义字段名承载日期（如 `myDate`） | 拼写不一致的字段不会被识别；把 `:filename` 提到前面会连带改变 slug 的推导行为 |
+| `expiryDate` | 需要「到期自动下线」的语义 | 字段名写错 → 过期页面照常发布 |
+| `:filename` | 文件名以日期开头（`2025-02-01-article.md`），希望日期与 slug 都从文件名推导 | 只有它最终生效时才推导 slug；更靠前的字段命中时，slug 不会由文件名生成 |
+| `:default` | 想追加自定义字段、同时保留默认回退链 | 漏写 `:default` 会**替换**默认序列，回退链变短 |
+
+**实测（Hugo 0.167，本站）**：本站 `hugo.toml` 把日期链改写为
+
+```toml
+[frontmatter]
+  lastmod = [':git', 'lastmod', 'date']
+  date = ['date', ':git']
+```
+
+也就是在默认链之前优先取 Git 信息（本站 `enableGitInfo = true`）；`hugo config` 的 `[frontmatter]` 段可以看到这两行。
+
 ## 日期
 
 `Page` 对象上有四个返回日期的方法：
@@ -108,3 +134,15 @@ lastmod = ['lastmod', ':fileModTime']
 确定 `date` 与 `publishDate` 时，Hugo 先尝试从文件名中提取值，失败则回退到默认的日期字段序列。
 
 确定 `lastmod` 时，Hugo 先查找前置元数据中的 `lastmod` 字段，失败则回退到文件的最后修改时间戳。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 页面上「最后更新」显示为 `0001-01-01` | 日期回退链全部落空（字段不存在、`enableGitInfo` 未开启、文件时间也不可用） | 补一个 `lastmod` / `date` 字段，或开启 `enableGitInfo`；模板侧应先用 `.Date.IsZero` 判空 |
+| 开了 `enableGitInfo`，`:git` 仍不起作用 | 站点不是 Git 仓库，或该文件从未被提交（未跟踪文件没有 Git 日期） | 用 `git log -- <文件>` 确认有提交记录，再重新构建 |
+| 自定义日期字段没被识别 | 字段名拼写或大小写与配置不一致 | 逐字核对 `[frontmatter]` 中对应列表里的名字 |
+| 改了 `[frontmatter]`，模板输出乱了 | 取值落到了零值或另一字段，而模板直接格式化 | 先判零值再格式化；参见 [`Date`](/methods/page/date/) 一类方法页 |
+| 报错看不懂 | 该分区基本不报错，问题通常表现为「日期不对」 | 见[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。

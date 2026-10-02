@@ -1,11 +1,62 @@
 +++
 title = "多语言"
 linkTitle = "多语言"
-description = "按语言组织内容与翻译表，生成多语言站点与语言切换入口。"
+description = "按语言组织内容与翻译表，生成多语言站点与语言切换入口；含配置位置、验证方法与常见坑。"
 date = 2026-10-01
 weight = 120
 source = "https://gohugo.io/content-management/multilingual/"
+
+[params.teach]
+difficulty = "进阶"
+time = "30–40 分钟"
+prereq = [
+  "有一个能构建的单语言站点，知道项目配置里哪些键是顶层标量、哪些是表。",
+  "读过[菜单](/content-management/menus/)与[页面包](/content-management/page-bundles/)。",
+]
+outcomes = [
+  "在项目配置里声明多种语言与默认语言，并决定默认语言是否带语言子目录；",
+  "用文件名后缀或目录两种方式组织译文，并让两种方式与配置保持一致；",
+  "用翻译表（i18n）本地化界面文案，用多语言配置本地化日期、数字与货币；",
+  "用 `hugo list all` 与产物目录验证每种语言都生成到了预期地址。",
+]
+next = ["/configuration/languages/", "/content-management/menus/", "/content-management/page-bundles/"]
+
 +++
+
+## 这一页解决什么问题
+
+多语言站点有三个独立的层次，混在一起就会乱：**内容**（译文文件放哪）、**界面文案**（翻译表 i18n）、**本地化格式**（日期、货币、数字）。它们各自的配置位置不同，验证方法也不同。本页逐层给出配置位置与验证手段。
+
+配置几乎全部集中在项目配置的 `[languages]` 区段与顶层标量键上：
+
+```toml
+[languages.en]
+weight = 1
+[languages.zh]
+weight = 2
+```
+
+**验证多语言是否搭起来了**，一步到位：
+
+```bash
+hugo
+```
+
+**你应当看到什么**（**实测：Hugo 0.167**）：构建输出的统计表会**按语言分列**（例如 `│ EN │ ZH │`），每种语言各有自己的页面数；产物目录里，非默认语言的内容出现在语言子目录下：
+
+```text
+public/multi/index.html        ← 默认语言（en）的页面
+public/zh/multi/index.html     ← 另一种语言（zh）的页面
+```
+
+再用 `hugo list all` 看地址最直观——同一个逻辑页面会有多行，`permalink` 分别带各自的语言前缀：
+
+```text
+content/multi.md     → https://example.org/multi/
+content/multi.zh.md  → https://example.org/zh/multi/
+```
+
+**你应当看到什么**（继续验证配置生效）：`hugo config` 的输出里能找到 `defaultcontentlanguage` 与完整的 `[languages]` 表。**默认语言是否带子目录由 `defaultContentLanguageInSubdir` 决定**：为 `false`（默认）时默认语言在根目录、其它语言在各自语言子目录下；为 `true` 时所有语言都在语言子目录下。
 
 ## 配置
 
@@ -356,3 +407,30 @@ hugo new content content/de/post/test.md
 ```
 
 生成命令的完整参数见 [基础用法](/getting-started/basic-usage/)。
+
+## 什么时候做多语言、什么时候别做
+
+**该做**：
+
+- 站点确实要维护两套以上语言的**内容**，且希望它们共享模板、样式与构建流程；
+- 需要在同一站点内提供语言切换入口与本地化的日期/数字格式。
+
+**别做**：
+
+- **只有零星几页是外语**——多语言配置会让 URL、菜单、`baseURL`、别名与 sitemap 全部多一层语言维度，维护成本远高于单独建一个站点；
+- **把「界面文案翻译」当成「内容翻译」**——翻译表（i18n）只管模板里的固定文案，正文译文仍要按文件名或目录组织；
+- **以为译文会自动生成**——Hugo 不会翻译内容；缺失的译文就是缺失的页面（除非按[缺失的翻译](#缺失的翻译)一节做了兜底）。
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 某种语言的页面根本没生成 | 文件名后缀与配置里的语言键不一致（配置写 `zh-cn`，文件写成 `index.zh.md`）；或该语言被 `disabled` / `disableLanguages` 停用 | 对照项目配置的 `[languages]` 键逐字核对后缀；用 `hugo list all` 看该语言是否有行 |
+| 没报错但结果不对 | 默认语言的地址与预期差一层 `/en/` | `defaultContentLanguageInSubdir` 的取值与预期不符 | 需要默认语言也进子目录就设为 `true`；否则保持默认 `false` |
+| 没报错但结果不对 | 语言切换链接指向错误语言或 404 | 模板里手写 URL 而不是用 `.Permalink`/`.RelPermalink`，或没用 `urls.RelLangURL`、`LanguagePrefix` | 按[多语言主题支持](#多语言主题支持)一节改用带语言前缀的写法 |
+| 没报错但结果不对 | 页面上的固定文案还是原文 | 没有对应的翻译表条目，或 `i18n` 目录文件名与语言键不匹配 | 按[界面文案的翻译表](#界面文案的翻译表)检查文件位置与键名；构建时用 `--printI18nWarnings` 列出缺失项 |
+| 没报错但结果不对 | 日期、数字格式还是英文 | 该语言的本地化数据不完整，`:date_*` 一类记号会回退为英文 | 显式指定格式（例如 `.Format "2006-01-02"`），不要依赖本地化记号 |
+| 没报错但结果不对 | 菜单某语言下缺项或串语言 | 菜单项没有按语言分别定义，也没用翻译表本地化 `name` | 见[菜单](#菜单)一节，按语言定义或用翻译表 |
+| 报错看不懂 | 构建报语言键相关的配置错误 | `defaultContentLanguage` 与已定义的 `[languages.*]` 键不匹配 | 让两者逐字一致；注意语言键大小写与层级 |
+
+更多排查入口见[故障排查](/troubleshooting/)。

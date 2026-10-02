@@ -7,6 +7,23 @@ weight = 90
 source = "https://gohugo.io/configuration/http-cache/"
 +++
 
+## 这一页解决什么问题
+
+`[HTTPCache]` 只对 `resources.GetRemote` 抓取的远程资源生效，决定两件事：**这些资源缓存不缓存**，以及**多久检查一次变化**（轮询）。
+
+**默认配置是最保守的一种**：HTTP 缓存排除 `**`（等于全部绕过），轮询 `disable = true`。所以默认情况下，`hugo server` 运行期间远程数据只会在服务器重启后更新——不知道这一点容易误以为 Hugo 坏了。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `cache.for.includes` / `excludes` | 想让远程资源走 HTTP 缓存（减少请求、复用 ETag 与 Last-Modified） | 只写了 `includes` 却没清空 `excludes`（默认 `['**']`）→ 缓存仍被全部排除，配置「看着写了」却不生效 |
+| `polls.disable` / `high` / `low` | 希望在 `hugo server` 运行期间自动重建变化的远程数据 | 保持默认 `disable = true` → 远程数据变了本地不刷新，只能重启服务器 |
+| `polls.for.includes` / `excludes` | 只想轮询部分资源 | 默认 `includes = ['**']` 会把所有资源纳入轮询，产生大量远程请求 |
+| `respectCacheControlNoStoreInRequest` / `...InResponse` | 服务器要求 `no-store` 时严格不使用缓存 | 忽略 `no-store` 会缓存本不该缓存的响应；两个键分别对应请求与响应标头，别只改一个 |
+
+**性能关系**（上游已说明）：启用轮询但禁用 HTTP 缓存时，只有文件缓存 TTL 到期后才会检查变化——`maxAge` 为 `10h` 而轮询间隔 `1s` 的配置非常低效。
+
 > 仅在通过 `resources.GetRemote` 函数获取远程资源时，这份配置才有意义。
 
 ## 分层缓存
@@ -125,3 +142,16 @@ glob 模式会与完整的远程 URL 进行匹配，路径分隔符是 `/`。使
 
 - 把远程 JSON 资源的响应缓存到[文件缓存](/configuration/caches/)中，并遵循服务器返回的 `ETag` 与 `Last-Modified` 标头。
 - 在监视时检测这些资源的变化，触发所有依赖它们的页面重新构建。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 为远程资源写了缓存配置，仍然每次都请求 | `cache.for.excludes` 默认是 `['**']`，排除优先 | 按本页示例设置 `includes`，并把 `excludes` 显式设为空数组 |
+| `hugo server` 期间远程数据变化不生效 | 轮询默认 `disable = true` | 按示例启用 `polls` 并设置 `low` / `high`；或重启服务器 |
+| 启用轮询后构建仍然很慢 | 轮询间隔与文件缓存 TTL 量级不匹配 | 参见[缓存配置](/configuration/caches/)调整 `maxAge`，让两者量级相当 |
+| 想对已知静态的远程资源跳过检查 | —— | 在 `polls.for.excludes` 中排除这些 URL 模式 |
+| 远程资源相关报错（403 / 被拒绝） | 这不是缓存问题，而是安全策略未放行该地址 | 见[配置安全](/configuration/security/)中的 `http.urls` |
+| 报错看不懂 | 该配置多数不报错，症状是「更新不生效」 | 见[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。

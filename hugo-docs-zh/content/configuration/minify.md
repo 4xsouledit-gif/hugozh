@@ -7,6 +7,22 @@ weight = 150
 source = "https://gohugo.io/configuration/minify/"
 +++
 
+## 这一页解决什么问题
+
+`[minify]` 决定发布时要不要压掉输出资源里的空白与冗余，以及压到什么程度。注意：**压缩默认就是开着的**（各 `disable*` 都是 `false`），所以这一页更多是回答「什么时候该关掉某一类」，而不是「怎么打开」。
+
+压缩出问题时的典型症状是：代码块缩进错乱、依赖注释的脚本失效、或者样式被压坏——都是「构建成功但页面不对」。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `disableHTML` | HTML 里含依赖空白的代码块，或有靠注释工作的第三方脚本 | 压缩后 `<pre>` 内容错位、脚本失效；多数情况用下面的 `keepComments` / `keepWhitespace` 局部解决更合适 |
+| `disableCSS` / `disableJS` | 样式或脚本行为异常，需要先排除压缩因素 | 关掉后产物变大，但问题若仍在，说明与压缩无关 |
+| `disableXML` | 希望 RSS / 站点地图保持可读 | 关闭压缩后 feed 体积增加 |
+| `minifyOutput` | 希望在渲染阶段就压缩，而不是写文件时压缩 | 不影响压缩内容本身，只改变内部处理时机；不确定时保持默认 `false` |
+| `[minify.tdewolff.*]` | 需要保留注释、空白、变量名等细节 | 键名或层级写错会**静默无效**，压缩行为与预期不符且没有任何提示 |
+
 `[minify]` 用于在发布阶段压缩输出资源。默认配置如下：
 
 ```toml
@@ -97,3 +113,15 @@ minifyOutput = true
 keepComments = true
 keepWhitespace = true
 ```
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 代码块或 `<pre>` 里的格式错乱 | HTML 压缩删掉了有意义的空白 | 设 `[minify.tdewolff.html] keepWhitespace = true`，或整体 `disableHTML = true` |
+| 依赖 HTML 注释的第三方脚本失效 | 注释默认被压缩器删除 | 设 `keepComments = true`；`keepSpecialComments` 保留的是另一类特殊注释 |
+| 配置写了却没有任何效果 | `[minify.tdewolff.*]` 的键名或层级写错；这些键直接透传给外部压缩器，Hugo 不校验 | 对照本页默认值逐键核对；用 `hugo config` 确认最终取值 |
+| 只在本地预览里看效果，无法确认压缩结果 | 预览输出与正式构建产物不保证一致 | 运行 `hugo build` 后直接查看 `public/` 下的文件 |
+| `precision` 改了却没变化 | `0` 表示「由压缩器自行取舍」，它不是一个精确位数 | 需要固定小数位数时显式给出正整数 |
+
+更多排查入口见[故障排查](/troubleshooting/)。

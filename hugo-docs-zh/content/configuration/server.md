@@ -5,7 +5,36 @@ description = "配置 Hugo 开发服务器的请求头与重定向规则。"
 date = 2026-10-01
 weight = 280
 source = "https://gohugo.io/configuration/server/"
+
+[params.teach]
+difficulty = "进阶"
+time = "10–15 分钟"
+prereq = [
+  "站点能正常构建，并知道 `config/` 目录可以按环境拆分配置（见[配置简介](/configuration/introduction/)）。",
+  "用过 `hugo server` 在本地预览，会打开浏览器开发者工具。",
+]
+outcomes = [
+  "把开发服务器专用配置放进 `config/development/`，不污染生产构建；",
+  "写出响应头与重定向规则，并在浏览器里确认它们生效；",
+  "在自定义重定向之后补回 404 规则，多语言站点把默认语言规则放在最后。",
+]
+next = ["/configuration/introduction/", "/troubleshooting/"]
 +++
+
+## 这一页解决什么问题
+
+`[server]` 只作用于 `hugo server`（本地开发服务器），用来在本地模拟线上行为：加响应头（尤其是 CSP）、写重定向、指定 404 页面。**它不影响正式构建**，所以推荐把它放进 `config/development/`，别混进生产配置。
+
+**你应当看到什么**：`hugo server` 之后，在浏览器开发者工具的 Network 面板里检查响应头与重定向跳转链；而 `hugo` 正式构建的产物里不会体现这些设置。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `[[headers]]` | 想在上线前验证 CSP、`X-Frame-Options` 等响应头 | `for` 的路径模式写错 → 响应头不生效，**没有任何提示**，本地看起来「CSP 没问题」 |
+| `[[redirects]]` | 本地调试重定向、单页应用（SPA）的 URL 重写 | 只有 `status = 200` 才触发 URL 重写；写成 301/302 会真的跳转，SPA 刷新后地址会变 |
+| `force` | 即使该路径下已存在内容也要强制重定向 | 置 `true` 会盖住真实存在的页面，本地表现与线上不一致 |
+| 404 规则 | 自定义了任何重定向之后 | 上游明确：一旦定义了其他重定向，就必须显式补上 404 规则，否则不存在的 URL 不再落到 `/404.html` |
 
 这些设置只作用于 Hugo 的开发服务器，因此推荐为开发环境单独建立一个配置目录，把服务器配置放在其中：
 
@@ -136,3 +165,15 @@ from   = '/**'
 to     = '/404.html'
 status = 404
 ```
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 加了 `headers` / `redirects`，本地毫无变化 | 写进了生产配置，或 `config/development/` 没有被读到（`hugo server` 默认环境是 `development`） | 用 `hugo config --environment development` 确认这些键是否生效 |
+| 不存在的 URL 不再落到 404 页面 | 定义了其他重定向后，没有显式补回 404 规则 | 按本页示例补 `from = '/**'`、`status = 404` 的规则 |
+| 多语言站点只有部分语言的 404 生效 | 默认语言的规则没有放在最后（上游明确要求） | 把默认语言的 `[[redirects]]` 移到数组末尾 |
+| SPA 刷新后地址变了 | 用了 301/302，而 URL 重写需要 `status = 200` | 改成 `status = 200`；确实需要跳转时才用 3xx |
+| 报错看不懂 | 这类配置基本不报错，症状是「行为与预期不符」 | 见[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。

@@ -7,6 +7,25 @@ weight = 170
 source = "https://gohugo.io/configuration/output-formats/"
 +++
 
+## 这一页解决什么问题
+
+输出格式（output format）定义「同一个页面还能产出哪些文件」：除了 `index.html`，还可以有 JSON、Atom、纯文本、`robots.txt` 等。这一页给出全部字段含义、如何新建格式，以及某个产物为什么叫这个名字、放在这个位置。
+
+**最容易踩的坑**：新建一个输出格式需要四步齐备（媒体类型 → 输出格式 → `outputs` → 模板）。少任何一步都不会提示「少了一步」，而是表现为「文件根本没生成」或「构建报找不到模板」。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `weight` | 调整输出格式的渲染次序 | 数值小者靠前（`html` 默认 `10`，其余默认 `0`）；次序变化会影响主输出格式的判定与别名重定向 |
+| `baseName` / `path` / `root` | 控制产物文件名与位置 | 两种格式解析到同一个文件系统路径 → 构建报路径冲突或互相覆盖（上游要求每种格式最终解析到唯一路径） |
+| `isPlainText` | 输出非 HTML（JSON、纯文本、Markdown） | 不设时用 `html/template` 解析模板 → 输出里的 `<`、`&` 被转义，JSON 结构被破坏 |
+| `mediaType` | 新建格式 | 与[媒体类型配置](/configuration/media-types/)中已定义的类型名不一致 → 构建报错 |
+| `permalinkable` | 希望 `.Permalink` / `.RelPermalink` 返回**当前**格式的地址 | 保持默认 `false` 时，`page.json.json` 里的 `.RelPermalink` 返回的是主输出格式（HTML）的地址 |
+| `noUgly` / `ugly` | 项目启用了 `uglyURLs`，但要给个别格式开例外 | 取值与站点级 `uglyURLs` 相互抵消 → 某些格式的 URL 形态与其它格式不一致 |
+| `notAlternative` | 不想让该格式出现在 `AlternativeOutputFormats` 里（如 `css`、`manifest`） | 忘了设 → `head` 里会多出指向该格式的 `rel="alternate"` 链接 |
+| `outputs` | 指定哪些页面种类渲染该格式 | 忘了加 → 模板写好了却没有产物（见[输出配置](/configuration/outputs/)） |
+
 同一个页面可以输出任意多种格式。你可以定义任意数量的输出格式，只要每种格式最终解析到唯一的文件系统路径即可。默认配置的表格形式如下：
 
 | 键名 | mediaType | weight | baseName | isHTML | isPlainText | noUgly | notAlternative | path | permalinkable | protocol | rel | root | ugly |
@@ -165,3 +184,17 @@ layouts/list.atom.atom
 | `html` | `layouts/section.html.html` |
 | `json` | `layouts/section.json.json` |
 | `rss` | `layouts/section.rss.xml` |
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 新建了输出格式，页面没有多出文件 | `[outputs]` 没有为对应页面种类加上该格式名 | 见本页「新建输出格式」第三步 |
+| 构建报「找不到模板」 | 缺 `[页面种类].[输出格式].[后缀]` 形式的模板 | 按本页「模板查找顺序」创建；Atom 的例子是 `layouts/list.atom.atom` |
+| JSON 输出被转义、结构异常 | 没有设 `isPlainText = true`，模板被 `html/template` 解析 | 设 `isPlainText = true`；**实测（Hugo 0.167，本站）**：本站自定义的 `md`、`pagesjson`、`llms` 输出格式都设了它 |
+| `page.json.json` 里的 `.RelPermalink` 指向 HTML 地址 | 该格式的 `permalinkable` 仍是默认 `false` | 需要返回当前格式地址时设为 `true` |
+| 两个格式的产物互相覆盖 | `baseName` / `path` / `root` 组合后解析到同一路径 | 上游要求每种格式解析到唯一路径；逐项核对这三个字段 |
+| `head` 里多出不需要的 `alternate` 链接 | 该格式的 `notAlternative` 为默认 `false`（`css`、`manifest` 等默认已设 `true`） | 为辅助类格式设 `notAlternative = true` |
+| 报错看不懂 | 多与媒体类型名或模板路径有关 | 见[媒体类型配置](/configuration/media-types/)与[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。

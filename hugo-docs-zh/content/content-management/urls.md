@@ -1,11 +1,61 @@
 +++
 title = "URL 管理"
 linkTitle = "URL 管理"
-description = "说明 Hugo 如何推导 URL，并用 slug、url、别名与永久链接定制地址。"
+description = "Hugo 如何推导 URL，以及用 slug、url、别名与永久链接定制地址；含覆盖优先级与验证方法。"
 date = 2026-10-01
 weight = 130
 source = "https://gohugo.io/content-management/urls/"
+
+[params.teach]
+difficulty = "进阶"
+time = "25–35 分钟"
+prereq = [
+  "知道 `content/` 的目录结构如何映射成 URL（见[内容组织](/content-management/organization/)）。",
+  "会改项目配置与前置元数据，能查看构建产物目录。",
+]
+outcomes = [
+  "说清 `url`、`permalinks`、`slug` 三者的覆盖优先级，并预判最终地址；",
+  "用 `slug` 把对外地址与文件名解耦，用 `permalinks` 给整个 section 统一 URL 结构；",
+  "用 `aliases` 在迁移内容后保住旧链接，并在客户端重定向与服务器端重定向之间做选择；",
+  "用 `hugo list all`、`--printPathWarnings` 与产物目录验证地址，而不是靠猜。",
+]
+next = ["/content-management/organization/", "/configuration/permalinks/", "/troubleshooting/"]
+
 +++
+
+## 这一页解决什么问题
+
+默认情况下，Hugo 渲染页面时生成的 URL 与文件在 `content` 目录中的路径一致。例如：
+
+```text
+content/posts/post-1.md -> https://example.org/posts/post-1/
+```
+
+通过 front matter 取值与项目配置，可以改变 URL 的结构与外观。
+
+Hugo 的 URL 推导有一条**固定的覆盖链**，理解它就等于理解了这一页。优先级从高到低：
+
+1. 前置元数据 `url`（覆盖整条路径，且不给后代页面继承）；
+2. 匹配到的 `permalinks` 模式；
+3. 从祖先页面继承下来的 `slug`（0.167.0 起，section / 分类法 / 术语页上的 `slug` 会作用到其下所有页面，包括页面资源）；
+4. 页面自身的 `slug`；
+5. 否则由目录结构与文件名推导。
+
+`slug` 与 `url` 同时设置时，`url` 胜出。
+
+**验证最终地址，一步到位**：
+
+```bash
+hugo list all
+```
+
+**你应当看到什么**：`permalink` 列就是每个页面的最终地址。改完 `slug`、`url` 或 `permalinks` 之后重新跑一次，对照这一列即可——**不要凭记忆推断 URL**。再看产物目录确认文件真的写到了那里：
+
+```bash
+ls -R public
+```
+
+**实测（Hugo 0.167）**：给 `content/posts/urls.md` 设 `slug = 'custom-slug'` 与 `aliases = ['/old-path/']`，构建结果里该页地址是 `/posts/custom-slug/`，同时**多出一个** `public/old-path/index.html`（别名重定向页）；模板里 `.Aliases` 读出 `[/old-path]`。
 
 ## 概述
 
@@ -341,3 +391,32 @@ hugo config
 ```
 
 出现地址不符预期时，先用 `hugo config` 确认最终生效的 `baseURL`、`permalinks`、`uglyURLs` 取值，再用 `--printPathWarnings` 检查是否有多个页面写出同一个文件。
+
+## 什么时候改 URL、什么时候别改
+
+**该改**：
+
+- 内容要迁移（换域名、改目录结构）——用 `aliases` 保住旧链接；
+- 对外地址需要稳定、不随文件名变化——用 `slug` 把两者解耦；
+- 整个 section 的 URL 结构需要统一（例如 `/blog/:year/:month/:slug/`）——用 `permalinks`。
+
+**别改**：
+
+- **只是想「让 URL 好看一点」就随手写 `url`**——它绕过目录结构、不参与 slug 继承，后续移动内容时极易与目录脱节；能用 `slug` 解决的不要用 `url`；
+- **上线后再改已有页面的 URL 却不加别名**——所有外链与书签立刻变死链；
+- **指望 URL 大小写不敏感**——部分服务器、CDN 与对象存储区分大小写，文件名里出现大写字母、空格或非 ASCII 字符会产生难以预期的链接；文件名一律用小写字母、数字与连字符。
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 设了 `slug`，URL 却还是文件名 | 该页有 `url` 字段（优先级更高），或被祖先页面的 `slug` 覆盖 | 用 `hugo list all` 的 `permalink` 列对照；按本页开头的覆盖链逐级排查 |
+| 没报错但结果不对 | 在 section 的 `_index.md` 里设了 `url`，子页面地址没变 | `url` **不会**向下继承；只有 `slug` 在 0.167.0 起会继承 | 需要整块统一改地址就用 `permalinks`，或给每个子页面设 `slug` |
+| 没报错但结果不对 | 两个页面写到了同一个文件 | 路径冲突（例如 `x.md` 与 `x/index.md`，或 `url` 与 `permalinks` 撞车） | 构建时加 `--printPathWarnings` 定位，改动其中之一 |
+| 没报错但结果不对 | 旧链接全部 404 | 迁移时没有写 `aliases`；或写了 `disableAliases = true` 却没让服务器处理重定向 | 补 `aliases`；用了 `disableAliases` 就必须同时生成服务器端重定向规则 |
+| 没报错但结果不对 | 别名页面不存在，但构建没报错 | 别名的输出格式不满足 `isHTML` 与 `permalinkable` 都为 `true` | 检查输出格式配置，见[输出格式](/configuration/output-formats/) |
+| 报错看不懂 | 构建报文件路径含非法字符 | `url` / `slug` 里含当前操作系统的保留字符（例如 Windows 上的冒号） | 去掉保留字符，或按本页说明用反斜杠转义冒号；跨平台部署时更应避免 |
+| 报错看不懂 | 多语言站点里地址少了语言前缀 | 多语言下不带前导斜杠的 `url` 会拼上语言前缀，带前导斜杠的则不会 | 按[开头的斜杠](#开头的斜杠)那张表选择写法 |
+| 报错看不懂 | 站内链接在本地正常、上线 404 | 链接里写了驼峰，而输出 URL 全小写 | 站内链接一律写小写根相对路径，构建后跑一遍链接检查 |
+
+更多排查入口见[故障排查](/troubleshooting/)。

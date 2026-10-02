@@ -7,6 +7,28 @@ weight = 120
 source = "https://gohugo.io/configuration/markup/"
 +++
 
+## 这一页解决什么问题
+
+`[markup]` 决定「Markdown 能写成什么样」：用哪个渲染器、启用哪些扩展、代码高亮怎么输出、目录收哪几级标题，以及要不要允许内联 HTML。日常改站点时，这是最常动的一类配置——它的共同特点是**改错后页面照样构建成功，只是内容少了一块或者多出一串字面符号**。
+
+**本站现状（实测，Hugo 0.167）**：本站 `hugo.toml` 中开启了 `renderer.unsafe = true`、`parser.attribute.block = true`、`parser.autoDefinitionTermID = true`，把 `highlight.noClasses` 设为 `false`（改用外部样式表），并把 `tableOfContents` 设为 `startLevel = 2`、`endLevel = 3`。下面各节的选项正是这些。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `defaultMarkdownHandler` | 确实需要 AsciiDoc / Org / Pandoc / reStructuredText 的独有能力 | 改了它却没安装对应渲染器、也没放行安全策略 → 构建失败，报错指向外部可执行文件；上游也建议除非有明确需要，否则保持 Goldmark |
+| `renderer.unsafe` | 内容里要保留原始 HTML（本站已开启） | 保持默认 `false` 时，Markdown 中的 HTML 被**替换为注释**：构建不报错，标签却消失了 |
+| `parser.attribute.block` | 需要在块级元素上写 `{.class}` 属性（本站已开启） | 不开时那一行会被当作普通段落文字，页面上多出可见的 `{.class}` |
+| `parser.wrapStandAloneImageWithinParagraph` | 用图片渲染钩子把独立图片包成 `figure` | 保持默认 `true` 时图片被 `<p>` 包裹，钩子里的 `IsBlock` 恒为假，`figure` 分支永不执行（无报错） |
+| `extensions.cjk` / `passthrough` / `extras` | 中日韩换行控制 / LaTeX 公式 / 删除线、上下标 | 未启用扩展时对应语法**按字面显示**（例如 `$$…$$` 原样输出），不报错 |
+| `renderHooks.image` / `renderHooks.link` 的 `useEmbedded` | 多语言单主机项目的资源地址解析 | `always` 会覆盖你自己写的钩子；`auto` / `fallback` 与自定义钩子的取舍见下文取值说明 |
+| `highlight.style` / `noClasses` | 换高亮配色，或改用外部样式表 | `noClasses = false` 时颜色来自外部 CSS，只改 `style` 而不重新生成样式表 → 颜色没变 |
+| `tableOfContents.startLevel` / `endLevel` | 目录里不想出现 `h1`，或不想收到 `h4` 以下 | 范围写反（`startLevel` 大于 `endLevel`）→ 目录为空 |
+| `extensions.extras.subscript` | 需要下标 | 上游明确：启用下标**必须同时禁用** `strikethrough`；忘了禁用会导致 `~~删除线~~` 不再生效 |
+
+**什么时候别用**：不要为了「支持更多写法」随手打开 `unsafe`——它意味着页面里的任意 HTML 都会被原样输出，只适合内容完全由你掌控的站点；也不要在一个站点里混用多个 Markdown 处理器，模板、短代码与渲染钩子的行为会分成两套。
+
 ## 默认处理器
 
 在默认配置下，Hugo 使用 [Goldmark](https://github.com/yuin/goldmark/) 把 Markdown 渲染为 HTML：
@@ -478,5 +500,20 @@ startLevel = 2
 `startLevel`|`int`|`2`|层级低于该值的标题会被排除在目录之外。例如要把 `h1` 元素排除，把该值设为 `2`。
 `endLevel`|`int`|`3`|层级高于该值的标题会被排除在目录之外。例如要把 `h4`、`h5`、`h6` 元素排除，把该值设为 `3`。
 `ordered`|`bool`|`false`|是否生成有序列表而非无序列表。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| Markdown 里写的 HTML 标签在页面上消失了 | `renderer.unsafe` 默认为 `false`，原始 HTML 被剥离并替换为注释 | 需要保留原始 HTML 时设为 `true`（本站已开启）；只对可信内容开启 |
+| 图片渲染钩子的 `figure` 分支从不执行 | `wrapStandAloneImageWithinParagraph` 仍是默认 `true`，`IsBlock` 恒为假 | 设为 `false`；详见[图片渲染钩子](/render-hooks/images/) |
+| 表格后独立一行的 `{.class}` 变成可见文字 | 没有开启 `parser.attribute.block` | 设为 `true`（本站已开启） |
+| `$$…$$` 公式原样显示 | Passthrough 扩展未启用，或分隔符没有配置 | 见[数学公式](/content-management/mathematics/)；本站启用的分隔符是 `\[…\]`、`$$…$$` 与 `\(…\)` |
+| 改了 `highlight.style`，页面配色没变化 | `noClasses = false` 时颜色来自外部样式表，改 `style` 不会自动重新生成 CSS | 重新运行 `hugo gen chromastyles`（见本页「高亮」一节） |
+| 目录里缺标题，或多出不该有的标题 | `tableOfContents.startLevel` / `endLevel` 范围不合适 | 默认是 2–3，即 `h1` 与 `h4` 以下都不进目录（本站即为该设置） |
+| 脚注编号在多个文档一起渲染时冲突 | 脚注 ID 相同 | 开启 `extensions.footnote.enableAutoIDPrefix`；注意上游说明该前缀对每个逻辑路径唯一，跨语言维度并不唯一 |
+| 报错看不懂，且指向外部程序 | 替代处理器（Pandoc、Asciidoctor 等）未安装或未被安全策略放行 | 见[配置安全](/configuration/security/)与[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [^1]: 详见 [相关提交说明](https://github.com/gohugoio/hugo-goldmark-extensions/commit/4d4fcd022fe45a9b51483df001c9e5f4e632d5a9)。

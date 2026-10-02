@@ -7,6 +7,20 @@ weight = 30
 source = "https://gohugo.io/configuration/build/"
 +++
 
+## 这一页解决什么问题
+
+`[build]` 分区管的是「构建过程本身」，而不是站点内容：缓存什么时候失效、`publishDir` 要不要清理、要不要产出 `hugo_stats.json` 给 CSS 摇树工具用。绝大多数站点不需要改这里；需要改的时候，**典型后果是构建变慢、产物缺文件，或者手工放进去的文件被误删**，所以每一项都先弄清楚它删什么、留什么。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `buildStats` | 用 Tailwind / PostCSS 做「未使用 CSS 清除」，需要一份产物里真实用到的 class / id / 标签清单 | 没开 → 摇树工具把手写类名当成未使用而删掉，页面样式大面积缺失；`disable*` 误设 → 统计项不全，同样误删样式 |
+| `cacheBusters` | 改了 PostCSS / Tailwind 配置文件后，CSS 没有重新生成 | `source` 正则没匹配到你的配置文件名 → 改了配置文件、产出的 CSS 还是旧的，**构建不报错** |
+| `cleanDestinationDir` | 经常删除或重命名内容，`public/` 里堆了访问不到的旧页面 | `enable = true` 但没配 `keepDirs` / `keepFiles` → `CNAME`、`_redirects` 等手工放进 `publishDir` 的文件被一起删除 |
+| `noJSConfigInAssets` | 不想让 `js.Build` 在 `assets/` 下写 `jsconfig.json` | 开启后编辑器失去跳转与智能提示（站点功能正常，只是开发体验下降） |
+| `useResourceCacheWhen` | Sass 转 CSS 的缓存行为不符合预期（例如改了被 `@import` 的文件却没重新编译） | 设为 `always` 而依赖来自网络 → 上游样式更新不会反映到产物里 |
+
 ## 默认配置
 
 `[build]` 分区用于控制全局构建行为，默认配置如下：
@@ -117,3 +131,15 @@ keepFiles = ['{**/,}.{git,gitignore,gitattributes}']
 | `enable` | `bool` | `false` | 是否在渲染站点前清理 `publishDir`。Hugo 会删除 `publishDir` 中所有没有对应静态文件的文件与目录，无论该静态文件来自 `staticDir`、模块挂载还是主题。这既会删除陈旧文件（如旧的渲染页面和已删除的静态资源），也会删除你自己放进 `publishDir` 的文件（如 `CNAME` 或 `_redirects`）。可以用 `keepDirs` 与 `keepFiles` 保留特定目录和文件。即使项目没有静态文件，该清理也会执行。可在单次构建时用 `--cleanDestinationDir` 命令行选项覆盖此设置。Hugo 0.167.0 及更高版本可用。 |
 | `keepDirs` | `[]string` | `['{**/,}.*']` | glob 切片，匹配相对于 `publishDir` 的目录，清理目标目录时予以保留。在多语言多主机项目中，模式相对于 `publishDir` 下各语言的子目录。匹配到的目录连同其下所有内容（包括子目录及其内容）一并保留。默认值匹配名称以点开头的目录，无论它出现在目录树的哪一层。你设置的值会替换默认值而不是追加，因此若想继续保留这些目录，请把默认模式一并写入。Hugo 0.167.0 及更高版本可用。 |
 | `keepFiles` | `[]string` | `['{**/,}.{git,gitignore,gitattributes}']` | glob 切片，匹配相对于 `publishDir` 的文件，清理目标目录时予以保留。在多语言多主机项目中，模式相对于 `publishDir` 下各语言的子目录。默认值匹配 `.git`、`.gitignore` 与 `.gitattributes` 文件，无论它出现在目录树的哪一层。你设置的值会替换默认值而不是追加，因此若想继续保留这些文件，请把默认模式一并写入。Hugo 0.167.0 及更高版本可用。 |
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 删掉的页面线上仍能访问 | Hugo 默认**不清空** `publishDir`：已存在的文件被覆盖，但不会删除 | 开启 `cleanDestinationDir`，同时用 `keepDirs` / `keepFiles` 保住需要保留的文件 |
+| `CNAME` / `_redirects` 在构建后消失 | `cleanDestinationDir` 把它们视为「没有对应静态文件」而删除 | 写进 `keepFiles`；注意你设置的值会**替换**默认值，要连默认模式一起写 |
+| 改了 Tailwind / PostCSS 配置，CSS 没更新 | 资源缓存未失效，`cacheBusters` 未覆盖该配置文件 | 检查 `source` 是否匹配到配置文件名，`target` 是否匹配到 `css` 等缓存键 |
+| `hugo_stats.json` 的实体只增不减 | 开发服务器的增量构建会追加新实体，旧值要等重启或正式构建才清掉 | 重启 `hugo server`，或跑一次 `hugo build`；生产用量建议把 `buildStats` 放进 `config/production` |
+| 构建报 `exec` 权限相关错误（Tailwind 场景） | 安全策略没放行需要调用的外部命令 | 参照本页 Tailwind 示例中的 `security.exec.allow`，详见[配置安全](/configuration/security/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。

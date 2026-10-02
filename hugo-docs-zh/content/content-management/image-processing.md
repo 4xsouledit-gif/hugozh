@@ -1,11 +1,60 @@
 +++
 title = "图像处理"
 linkTitle = "图像处理"
-description = "介绍图像资源处理方法、成像配置以及响应式图片的生成方式。"
+description = "图像资源处理方法、成像配置与响应式图片生成；含输出文件名规则、验证方法与常见坑。"
 date = 2026-10-01
 weight = 180
 source = "https://gohugo.io/content-management/image-processing/"
+
+[params.teach]
+difficulty = "进阶"
+time = "25–35 分钟"
+prereq = [
+  "读过[页面资源](/content-management/page-resources/)，知道 `.Resources` 与 `resources.Get` 的区别。",
+  "站点里至少有一张真实图片可以拿来试（不是占位文本文件）。",
+]
+outcomes = [
+  "把图片捕获为页面资源、全局资源或远程资源，并用 `.Resize` / `.Fill` / `.Process` 等生成新图片；",
+  "在产物目录里认出处理后的图片文件名，用构建统计确认处理确实发生了；",
+  "用 `[imaging]` 配置统一各格式的质量与缩放算法；",
+  "用一次处理 + `srcset` 生成响应式图片，避免在模板里重复处理。",
+]
+next = ["/content-management/page-resources/", "/methods/resource/", "/render-hooks/images/"]
+
 +++
+
+## 这一页解决什么问题
+
+Hugo 可以在构建过程中转换与分析图像。任何图片格式都能作为资源管理，但只有可处理的图像（processable image）才能用下文的方法转换；处理结果会写入缓存，以保证后续构建依旧很快。判断一张图片能否处理，用 `reflect.IsImageResourceProcessable` 函数。
+
+图像处理的坑几乎都不在「方法怎么调」，而在**结果去了哪里**：处理后的图片是新文件、名字带哈希，和源图不在同一个名字上。本页给出一条能自己验的路径：
+
+1. **先捕获资源**（页面资源 / 全局资源 / 远程资源）；
+2. **再调用方法**，拿到一个新的资源对象；
+3. **用新对象的 `.RelPermalink` 输出**——直接用源图地址是看不到处理结果的。
+
+**验证图像处理是否发生**，两步：
+
+```bash
+hugo
+```
+
+**你应当看到什么**（**实测：Hugo 0.167**）：构建统计里出现一行 `Processed images │ N`，N 就是本次真正处理的图片数量；产物目录里同时出现带哈希后缀的新文件，例如
+
+```text
+public/images/a_hu_c87d9bcee87f980.png      ← .Resize "1x" 的结果
+public/images/a_hu_952889bdd5894091.webp    ← .Process "webp q60" 的结果
+```
+
+命名规律是 **`原文件名_hu<哈希>.<扩展名>`**，发布位置沿用资源原本的目录（`assets/images/a.png` → `/images/…`）。同一张图用不同规格处理会得到**不同哈希的不同文件**，所以不要按固定文件名去引用处理结果，一定要用模板里拿到的 `.RelPermalink`。
+
+还可以先在模板里自查可处理性：
+
+```go-html-template
+{{ reflect.IsImageResourceProcessable (resources.Get "images/a.png") }}
+```
+
+**你应当看到什么**：输出 `true` 才说明这张图能转换。若为 `false`，后面所有 `.Resize` 一类调用都没有意义。
 
 ## 图像处理概览
 
@@ -88,6 +137,49 @@ Hugo 可以在构建过程中转换与分析图像。任何图片格式都能作
 `.Meta` 自 Hugo 0.155.3 起提供，可用 `reflect.IsImageResourceWithMeta` 先做判断，返回对象上可取日期、纬度、经度、方向（`.Date`、`.Lat`、`.Long`、`.Orientation`）等值；它取代了旧版的 `.Exif` 方法（自 0.155.0 起弃用）。规格字符串的常见写法有 `"600x"`（宽度固定、高度按比例）、`"x400"`（高度固定）与 `"600x400"`（目标尺寸）；`.Fill` 与 `.Crop` 还会用到锚点（anchor），它决定裁剪时保留图片的哪个部位。
 
 注意：图像转换不会保留元数据，要读取元数据必须对原始图像资源调用 `.Meta`。
+
+上表只列出最常用的方法，完整清单与各自的参数见 [Resource 方法](/methods/resource/)。
+
+**返回值边界**（判断「没图」还是「写错了」）：
+
+| 写法 | 资源不存在或不可处理时 | 会不会报错 |
+| --- | --- | --- |
+| `{{ with .Resources.Get "sunset.jpg" }}…{{ end }}` | 整块跳过 | 否 |
+| `{{ with .Resize "400x" }}…{{ end }}` | 整块跳过 | 否 |
+| `{{ .Resources.Get "sunset.jpg" }}` 后直接点 `.Width` | `nil` 上取字段 | 是（`nil pointer evaluating`） |
+| `{{ with .Colors }}` | 空切片，`with` 判假 | 否 |
+| `{{ with .Meta }}` / `{{ .Meta.Date }}` | 不可处理或没有元数据时取不到值 | 取决于是否链式取值 |
+| 远程资源 `resources.GetRemote` 失败 | 用 `try` 区分 `.Err` 与 `.Value`；不处理会得到 `nil` | 否（可由 `errorf` 主动抛错） |
+
+## 什么时候用图像处理、什么时候别用
+
+**该用**：
+
+- 同一张原图要输出多个尺寸（响应式 `srcset`）；
+- 需要统一转格式（例如全部转 WebP/AVIF）或压缩质量；
+- 需要按固定版式裁剪（封面图统一 `16:9`）。
+
+**别用**：
+
+- **源图远大于实际发布尺寸**——构建时的内存与时间随图像尺寸增长，一张 4032×2268 的图远比 1920×1080 昂贵；应在构建前先把源图缩小，而不是交给 Hugo 每次构建去缩；
+- **只需要原样输出的图片**——直接放进 `static/` 或作为普通资源引用即可，不需要经过处理管线；
+- **想用处理方法来「加水印/合成」复杂图像**——Hugo 的图像滤镜能力有限（缩放、裁剪、旋转、格式转换与基础滤镜）；复杂合成请在外部完成；
+- **以为处理结果会保留元数据**——转换不保留元数据，要读元数据必须对原图调用 `.Meta`。
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 页面上的图还是原图大小，处理像没生效 | 输出用了源对象的地址，而不是方法返回的新对象 | 把 `.Resize`/`.Fill` 的结果赋给变量或放进 `with`，用**它的** `.RelPermalink` |
+| 没报错但结果不对 | 处理后的图片 404 | 按「源图名 + 尺寸」猜文件名；实际名字带哈希且随规格变化 | 一律用模板返回的 `.RelPermalink`，不要手写处理结果的路径 |
+| 没报错但结果不对 | `Processed images` 一直是 0 | 图片不是可处理资源（例如把占位文本当成图片文件），或模板根本没调用处理方法 | 用 `reflect.IsImageResourceProcessable` 自查；确认模板真的调用了处理方法 |
+| 报错看不懂 | `failed to load image config: … invalid format: invalid checksum` | 文件扩展名说是图片，内容却不是合法图片 | 换一张真实图片；确认资源文件没有被截断或写错编码 |
+| 报错看不懂 | 模板里 `nil pointer evaluating` 出现在 `.Width`、`.RelPermalink` | 资源没取到就继续链式取值 | 用 `with` 包一层，或先 `errorf` 显式报错 |
+| 没报错但结果不对 | 构建一次比一次慢、磁盘占用增大 | 改了处理方法或删了图片后，缓存里留下不再使用的处理结果 | 构建时加 `hugo build --gc` 做垃圾回收 |
+| 没报错但结果不对 | 转成 JPEG 后透明区域变成奇怪的颜色 | 透明格式转不支持透明的格式时用 `[imaging] bgColor` 填充 | 设置合适的 `bgColor`（默认 `#ffffff`） |
+| 没报错但结果不对 | 缩放后画质明显变差或锯齿 | `resampleFilter` 用了 `box`（默认，快但画质一般） | 换成 `lanczos`、`catmullRom` 等，代价是构建变慢 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 ## 性能：缓存、回收与资源占用
 

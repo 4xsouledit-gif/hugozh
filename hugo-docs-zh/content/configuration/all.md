@@ -7,6 +7,29 @@ weight = 20
 source = "https://gohugo.io/configuration/all/"
 +++
 
+## 这一页解决什么问题
+
+这一页是**查键用**的索引，不是教程：它回答「这个键叫什么、什么类型、默认值是多少、详细说明在哪一页」。具体怎么配、配错了会怎样，见[配置](/configuration/)章节首页与各分类页面。
+
+**怎么用它**：先用浏览器页内搜索找到键名，再跳到对应分类页面读细节；拿到结论后，**务必用 `hugo config` 核对本项目里实际生效的值**——下表标注的默认值会随 Hugo 版本变化。
+
+## 什么时候需要这些设置
+
+下表挑出最常被改动、也最容易改错的顶层键（完整清单见下文各表）：
+
+| 键 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `baseURL` | 部署到真实域名之前必须改（默认是 `https://example.org/`） | 忘记改 → 站内绝对链接、RSS、站点地图、Open Graph 全都指向示例域名，**构建不报错** |
+| `title` / `locale` / `timeZone` | 建站初期就该定下 | `timeZone` 不设时，无时区日期的解析时区不确定；`locale` 影响日期、数字、货币的本地化 |
+| `disableKinds` | 站点不使用分类法，想排除自动生成的空页面 | 种类名写错（例如写成 `taxonomies`）→ 没有效果，站点里照旧出现空的 `/tags/` 这类页面 |
+| `enableGitInfo` | 想让「最后更新」来自 Git 提交（配合 `[frontmatter]`） | 开启但站点不是 Git 仓库、或文件尚未提交 → 日期回退链落空，`Lastmod` 可能落到零值 |
+| `buildDrafts` / `buildFuture` / `buildExpired` | 本地预览草稿、未来或已过期内容 | 在生产配置里误开 → 未完成或已下线的内容被发布出去 |
+| `publishDir` | 需要把产物输出到别的目录（如 `docs/`） | 与部署脚本的约定不一致 → 部署了旧产物或空目录 |
+| `theme` | 使用主题（多个主题时从左到右优先） | 把它写在某个 `[表头]` 之后 → 变成 `<表名>.theme` 被静默忽略，报「找不到布局文件」 |
+| `hasCJKLanguage` | 中文站点统计字数与摘要（本站已开启） | 不开时中文的 `WordCount` 与摘要长度按「空格分词」计算，结果明显偏小 |
+| `enableRobotsTXT` | 需要生成 `robots.txt` | 不开启时没有 `robots.txt`，但站点地图仍会生成，搜索引擎可能找不到地图 |
+| `ignoreLogs` / `panicOnWarning` / `printPathWarnings` | 想让构建暴露隐藏问题（CI 常用） | `panicOnWarning` 开启后，原本只是警告的问题会让构建失败——先清掉存量警告再打开 |
+
 本页是 Hugo 顶层配置键的索引，不是教程：它把项目配置中的每一个顶层键按名称字母序列出，并标注类型、默认值与一句话说明。请注意，这里的默认值只是上游文档在当前版本下的标注，**精确默认值会随 Hugo 版本变化**，请用 [`hugo config`](/commands/hugo-config/) 或 [`hugo config mounts`](/commands/hugo-config-mounts/) 核对你自己项目中实际生效的值。
 
 每个顶层键要么是**通用设置**，即单个值，例如 `baseURL` 或 `title`；要么是**配置分类**，即把相关嵌套设置归为一组，例如 `markup`、`menus` 或 `params`。分类键的详情请见本站 `configuration` 章节下的对应页面（`/configuration/…`），没有单独页面的分类也在下表说明其用途。配置文件的基本写法与合并策略见[配置 Hugo](/configuration/)。
@@ -158,6 +181,20 @@ hugo config | grep cachedir
 ## 本地化设置
 
 `menus`、`params` 等设置可以针对每种语言分别定义，见[语言配置](/configuration/languages/)。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 表里查到的默认值和实际不符 | 默认值随 Hugo 版本变化，文档标注可能滞后 | 用 `hugo config` 看本项目实际生效的值 |
+| 改了顶层键却完全没生效 | 键写在了某个 `[表头]` 之后，被 TOML 归入该表（例如 `theme` 变成 `frontmatter.theme`） | 把所有裸键移到第一个表头之前 |
+| 站点链接指向 `example.org` | `baseURL` 还是默认值 | 改成真实域名，并保留结尾斜杠 |
+| 中文摘要与字数明显偏少 | `hasCJKLanguage` 未开启 | 设为 `true` |
+| 出现空的 `/tags/`、`/categories/` 页面 | 没有使用分类法，却没有禁用对应页面类型 | `disableKinds = ['taxonomy','term']`（本站即如此） |
+| 日期显示 `0001-01-01` | `enableGitInfo` 未开启，或没有可用的日期字段，回退链全部落空 | 见[前置元数据配置](/configuration/front-matter/) |
+| 报错看不懂 | 顶层键的错误多来自拼写或类型不符 | 见[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 ## 相关页面
 

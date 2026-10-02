@@ -7,6 +7,24 @@ weight = 260
 source = "https://gohugo.io/configuration/security/"
 +++
 
+## 这一页解决什么问题
+
+Hugo 用**允许列表（allowlist）**限制构建过程中能做的事情：能不能调用外部命令、能不能读某个环境变量、能不能请求某个 URL、Node.js 工具能读写哪些路径。默认收得很紧——**构建一旦碰到未放行的功能就失败**，并给出明确错误。
+
+这一页要读的重点不是「怎么全部放开」，而是**报错说某个操作被拒绝时，该动哪个键**。放宽任何一条都等于削弱这道防线，`http.urls` 与 `exec.allow` 尤其如此。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `exec.allow` | 使用 `css.TailwindCSS`、`css.Sass`、`js.Build` 等需要外部可执行文件的函数 | 忘了放行 → 构建失败，报错里会出现被拒绝的程序名；放行过宽（如 `.*`）→ 构建期任何程序都可能被调用 |
+| `funcs.getenv` | 模板里用 `os.Getenv` 读自定义环境变量（默认只允许 `^HUGO_` 与 `^CI$`） | 读不到其它变量 → 模板取到空值，**不报错** |
+| `http.urls` / `http.methods` | 用 `resources.GetRemote` 抓取远程资源 | 未放行的地址 → 构建失败；反过来，**一旦自定义 `http.urls`，默认那套「拒绝解析到回环/私有地址」的校验就关闭了**（上游明确） |
+| `http.proxyFromEnvironment` | 需要通过 `HTTP_PROXY` / `HTTPS_PROXY` 走代理（国内网络环境常见） | 开启后 Hugo 连接的是代理而不是目标地址，`http.urls` 的地址校验不再适用 |
+| `allowContent` | 想允许或拒绝某种内容格式被原样渲染 | 默认拒绝 `text/html` 与 `text/org`，因为它们会被原样渲染、可能执行任意 JavaScript；改动前先确认内容可信 |
+| `enableInlineShortcodes` | 需要在内容里直接写内联短代码 | 开启后内容作者可以在页面中执行短代码，属于信任边界的扩大 |
+| `node.permissions.*` | 使用 Tailwind 等 Node.js 工具 | `allowWrite` 默认为空（不允许写文件）；放行写权限等于允许构建过程改动文件系统 |
+
 ## 默认配置
 
 Hugo 内置的安全策略通过允许列表（allowlist）来配置，用于限制对 `os/exec`、远程通信等操作的访问。默认情况下访问是受限的：如果某次构建试图使用允许列表中未包含的功能，构建就会失败，并给出详细的错误信息。
@@ -102,3 +120,16 @@ urls = ['^https://example\.org/']
 - [配置](/configuration/)
 - [内容格式](/content-management/content-formats/)
 - [短代码](/shortcodes/)
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 构建失败，提示某个可执行文件被拒绝 | 该程序不在 `exec.allow` 中 | 按报错里的程序名加一条精确正则（例如 `^tailwindcss$`），不要直接写 `.*` |
+| 模板里读环境变量总是空 | `os.Getenv` 只放行 `funcs.getenv` 匹配到的变量名（默认 `^HUGO_`、`^CI$`） | 给变量名加 `HUGO_` 前缀，或显式放行；这两条都可先用 `hugo config` 核对 |
+| `resources.GetRemote` 报 URL 被拒绝 | 该地址不在 `http.urls` 允许列表内 | 加一条精确规则；注意自定义后原有的私网地址校验会关闭 |
+| 想彻底关掉某项功能 | —— | 把对应允许列表设为字符串 `none`（上游说明），例如 `HUGO_SECURITY_HTTP_URLS=none` |
+| 否定规则看起来没生效 | 拒绝规则优先于允许规则；完全由否定规则组成的列表会隐式允许其余内容，空列表则拒绝一切 | 检查 `! ` 前缀与列表组成 |
+| 报错看不懂 | 报错会点名被拒绝的操作，但不会替你决定该放宽哪一条 | 见[故障排查](/troubleshooting/)；放宽前先评估信任边界 |
+
+更多排查入口见[故障排查](/troubleshooting/)。

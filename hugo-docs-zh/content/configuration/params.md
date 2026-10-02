@@ -7,6 +7,23 @@ weight = 200
 source = "https://gohugo.io/configuration/params/"
 +++
 
+## 这一页解决什么问题
+
+`[params]` 是放**自定义数据**的地方：任何不属于 Hugo 内置配置项的键值对都可以写在这里。它们不改变构建行为，只交给模板读取——站点副标题、联系方式、主题开关都属于这一类。
+
+需要分清一件事：`params` 里的键 Hugo **既不认识也不校验**，写错了不会报错，只会让模板取到空值。这就是本页最常见的「改了没反应」。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| 顶层 `[params]` | 模板需要站点级自定义数据（副标题、版权、社交链接） | 键名与模板中对不上 → 取到空字符串；继续在空值上取字段还会报 `nil pointer` |
+| 嵌套表 `[params.contact]` | 一组相关的数据打包存放 | 层级写错（`[params.contact] email` 与 `[params] contact.email` 含义不同）→ 模板取不到 |
+| kebab-case 键名 | 想沿用现有的命名习惯 | 模板无法链式访问（`-` 被当作减号），只能用 `index` 读取；上游建议在配置阶段就避开 |
+| `[languages.<lang>.params]` | 多语言站点各语言文案不同 | 只写在顶层 → 所有语言共用一份，另一种语言会显示错误文案 |
+
+**边界**：`params` 是映射，取不到的键返回空值而不是报错；判断「本来就没有」还是「写错了」，先用 `hugo config` 看生效值。
+
 ## 用途
 
 `params` 区段用于存放自定义参数：任何不属于 Hugo 内置配置项的键值对都可以写在 `[params]` 下。这些参数不会改变 Hugo 的构建行为，只是把数据交给模板使用，因此很适合放置站点副标题、联系方式、第三方服务 ID 一类的内容。
@@ -119,3 +136,15 @@ font = '#222222'
 | 模块/主题 | 建议加命名空间，如 `[params.modules.myModule]` |
 
 相关阅读：[配置站点](/configuration/)、[目录结构](/getting-started/directory-structure/)。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 模板里读到的是空 | 参数名（含大小写）与配置不一致，或写在了 `[params]` 之外的层级 | 用 `hugo config` 查看生效的 `params`，逐字核对键名 |
+| 报 `nil pointer evaluating` 一类错误 | 在一个取不到的 `nil` 值上继续链式取字段（例如 `contact` 不存在却访问 `.Site.Params.contact.email`） | 先用 `with` 判空，或用 `index` 提供兜底；见[模板简介](/templates/introduction/) |
+| 多语言站点的文案串了 | 参数写在顶层，而各语言另有 `[languages.<lang>.params]` | 需要按语言区分就写到语言键下；要统一就只写顶层 |
+| kebab-case 的键取不到 | `-` 在模板里被当作减号，不能用于链式访问 | 改用 camelCase / snake_case，或用 `index` 读取 |
+| 报错看不懂 | `params` 不做校验，多数情况不会报错 | 见[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。

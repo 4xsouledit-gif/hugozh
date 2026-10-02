@@ -1,11 +1,35 @@
 +++
 title = "配置简介"
 linkTitle = "配置简介"
-description = "介绍配置文件、配置目录、环境变量与合并策略。"
+description = "配置文件与配置目录怎么选、Hugo 按什么顺序读取与合并、环境变量怎么用；含验证方法与「改了没生效」的排查路径。"
 date = 2026-10-01
 weight = 10
 source = "https://gohugo.io/configuration/introduction/"
+
+[params.teach]
+difficulty = "入门"
+time = "15–20 分钟"
+prereq = [
+  "有一个能构建的站点（在站点根目录运行 `hugo`，退出码为 0）。",
+  "会用文本编辑器打开 `hugo.toml`；不需要写模板。",
+]
+outcomes = [
+  "说清「单个配置文件」与「`config/` 目录」两种组织方式分别适合什么场景；",
+  "按环境拆分配置，并用 `hugo build --environment staging` 验证覆盖是否生效；",
+  "用 `hugo config` 判断某个键最终取值，并识破「在错误目录里执行」的假象；",
+  "说出 `_merge` 三个取值的效果，以及放宽合并的安全代价。",
+]
+next = ["/configuration/all/", "/configuration/markup/", "/troubleshooting/"]
 +++
+
+## 这一页解决什么问题
+
+这一页回答四个具体问题：配置**写在哪**（单个文件还是 `config/` 目录）、Hugo **从哪读**、同名键**谁覆盖谁**、以及怎么**确认改对了**。它是整个配置章节的起点；某个具体键的含义，再去[所有设置](/configuration/all/)里查。
+
+只想改一两个键？读完「合理的默认值」与「配置文件」两节就能动手。要按环境（本地 / 预发 / 生产）区分配置，再往下读「配置目录」；配置来自主题或模块、需要判断合并行为时，读「合并配置设置」。
+
+> [!TIP]
+> 配置改完只有两种结局：生效，或者**静默不生效**（不报错）。所以每改一处，都用本页末尾的 `hugo config` 对照一次，别攒到最后一起查。
 
 ## 常规设置与配置分区
 
@@ -74,6 +98,20 @@ Hugo 按列出的顺序加载文件，后一个文件会递归覆盖前面文件
 
 > 各文件格式的规范参见 TOML、YAML 与 JSON 的官方文档。
 
+### 什么时候需要多份配置文件
+
+- **同一份配置按用途拆开、长期共存**（`params` 一份、菜单一份）→ 用下面的配置目录，不要用 `--config`。
+- **某次构建要用另一套配置**（临时换 `baseURL`、只渲染一部分内容）→ 用 `hugo build --config other.toml`。
+- **叠加覆盖**（公共一份 + 覆盖一份）→ 用逗号组合，记住**右侧赢**。
+
+### 改错了会看到什么现象
+
+| 现象 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 站点标题、样式全部变回默认（像换了个站点） | `--config` 指向的文件名拼错了。**实测（Hugo 0.167）**：`hugo config --config nope.toml` 不报「找不到配置文件」，而是直接输出一份默认配置（`baseurl = 'https://example.org/'`、无主题）；随后构建才因为找不到主题提供的短代码而失败 | 核对文件名与相对路径；在站点根目录下执行，并用 `hugo config` 确认第一行 `baseurl` 是不是你的地址 |
+| 覆盖没生效，页面用的还是公共值 | 逗号组合的顺序反了（把被覆盖的文件写在了后面） | 调整为「先公共、后覆盖」：`hugo build --config base.toml,override.toml` |
+| 改了 `hugo.yaml` 却毫无变化 | 项目根同时存在 `hugo.toml`；取用时 `toml` 优先于 `yaml` | 每个项目只保留一份配置文件 |
+
 ## 配置目录
 
 除了单一的项目配置文件，还可以按环境、配置分区和语言把配置拆分开。Hugo 先加载 `_default` 目录，再加载当前环境对应的目录，因此冲突的键以环境专属值为准。例如：
@@ -89,6 +127,16 @@ my-project/
     └── production/
         └── params.toml
 ```
+
+### 什么时候需要拆到配置目录
+
+- **同一个键在不同环境取值不同**（`baseURL`、统计代码 ID、`minify`）→ 拆目录，而不是构建前手改文件；
+- **配置变长、多人协作** → 按分区拆成 `params.toml`、`menus.toml` 等，各自的改动互不冲突；
+- **多语言站点** → 用 `menus.en.toml` / `menus.de.toml` 这类语言后缀。
+
+**环境怎么选**：`hugo server` 默认 `development`，`hugo`（构建）默认 `production`，也可以用 `--environment` 或 `HUGO_ENVIRONMENT` 明确指定。当前处于哪个环境，`hugo config` 的输出里有 `environment` 这一行。
+
+**改错了会看到什么现象**：把公共值写进 `config/production/`，本地 `hugo server` 就看不到它——因为 server 读的是 `development`，没有该目录时只用 `_default`；症状是「上线才对、本地一直不对」（或反过来）。**实测（Hugo 0.167）**：`hugo config --environment staging` 输出中的 `environment` 会变成 `staging`，这是判断环境有没有选对的最快方式。
 
 配置分区包括 `build`、`caches`、`contentTypes`、`deployment`、`frontmatter`、`httpCache`、`imaging`、`languages`、`markup`、`mediaTypes`、`menus`、`minify`、`module`、`outputFormats`、`outputs`、`pagination`、`params`、`permalinks`、`privacy`、`related`、`security`、`segments`、`server`、`services`、`sitemap`、`taxonomies` 等。
 
@@ -295,6 +343,14 @@ theme = ['theme-a','theme-b']
 
 > 把 `_merge` 设为 `shallow` 或 `deep` 会消除这层保护，无论它是直接作用于 `markup`、`security` 这类安全敏感的键，还是写在配置根级以改变所有键的默认行为。只有在完全信任项目中所有主题和模块时，才为这些键使用宽松的 `_merge` 值。
 
+### 改错了会看到什么现象
+
+| 现象 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 主题升级后，站点行为变了但自己的配置没动过 | 主题自带的配置被合并了进来（`_merge` 被放宽到 `shallow` 或 `deep`） | 用 `hugo config` 对照实际生效值，确认哪些键来自主题；不需要合并就把 `_merge` 收回 `none` |
+| 换了主题，自己的 `params` 反而丢了 | 在配置根级写了 `_merge = 'none'`，这会禁用所有分区的合并 | 只在确实需要的分区上写 `_merge`，不要写在根级 |
+| 合并「看起来生效了」，但列表项被整段替换 | 合并只对**映射（map）**类型有效；切片（slice）类型无法合并，例如 `menus`、`outputs` 中按页面种类划分的格式列表 | 把需要保留的条目在项目配置里写全，不要指望与主题合并 |
+
 ## 环境变量
 
 也可以用操作系统环境变量来配置：
@@ -353,3 +409,22 @@ hugo config | grep [key]
 ```bash
 hugo config mounts
 ```
+
+**你应当看到什么**：`hugo config` 输出的是一份**合并之后**的完整配置，键名全部小写（`baseurl`、`enablegitinfo`、`publishdir`）。判断某个设置有没有生效，看这里比看源文件可靠。
+
+- 输出里搜不到你写的键 → 这个键没有生效：文件位置不对、被后面的来源覆盖、或者被某个 `[表头]` 吞掉了。
+- 输出的 `baseurl` 是 `https://example.org/`、且没有 `theme` → **实测（Hugo 0.167）**：你很可能不在站点根目录，或 `--config` 指向了不存在的文件。这两种情况下 Hugo **不报错**，只是默默地用全套默认值。
+- 想查某个键却总是搜不到：键名是小写的，大小写敏感的搜索（例如 `grep baseURL`）匹配不到任何内容；`hugo config | grep -i baseurl` 才可靠。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 配置改了，构建成功但毫无变化 | 改的文件不是实际读取的那份；或键被放进了某个 `[表头]` 之后 | 用 `hugo config` 确认生效值；把所有裸键移到第一个表头之前 |
+| 本地预览正常，生产构建不同 | 值写在 `config/development/` 而不是 `config/_default/` | 公共值放 `_default`，环境目录只留差异 |
+| `hugo config` 的输出像一份陌生站点的配置 | 当前目录不是站点根目录，或 `--config` 文件名写错；**Hugo 不会为此报错** | 先 `cd` 到含 `hugo.toml` 的目录；核对 `--config` 的路径 |
+| 搜索配置键总是搜不到 | `hugo config` 输出的键名是小写的 | 用小写搜索，或忽略大小写 |
+| 构建报 TOML/YAML 语法错误 | 配置文件格式写坏（缺引号、缩进不一致、多余逗号） | 按报错给出的文件与行号修；对照本页的最小示例 |
+| 报错看不懂、且指向主题或模块 | 报错来自合并后的配置，不是你的文件 | 用 `hugo config` 定位该键来自哪一层 |
+
+更多排查入口见[故障排查](/troubleshooting/)。

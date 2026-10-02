@@ -1,11 +1,56 @@
 +++
 title = "原型"
 linkTitle = "原型"
-description = "用 archetype 为新建内容预置前置元数据与正文骨架。"
+description = "用 archetype 为新建内容预置前置元数据与正文骨架；含查找顺序、配置位置与创建时的验证方法。"
 date = 2026-10-01
 weight = 70
 source = "https://gohugo.io/content-management/archetypes/"
+
+[params.teach]
+difficulty = "入门"
+time = "10–15 分钟"
+prereq = [
+  "用过 `hugo new content` 创建过至少一个内容文件。",
+  "知道 `content/`、`layouts/`、`archetypes/` 三个目录各自负责什么。",
+]
+outcomes = [
+  "为某个内容类型写一个专属原型，并验证 `hugo new content` 真的用了它；",
+  "说清原型的查找顺序，知道主题里的原型什么时候会被用到；",
+  "用原型预置正文骨架，甚至为叶子包预置整个目录结构；",
+  "解释「改了原型但旧页面没变」这类现象。",
+]
+next = ["/commands/hugo-new-content/", "/content-management/front-matter/", "/content-management/page-bundles/"]
+
 +++
+
+## 这一页解决什么问题
+
+一份内容文件由前置元数据（front matter）与正文标记组成，正文通常是 Markdown，也可以是 Hugo 支持的其他内容格式；前置元数据可以是 TOML、YAML 或 JSON。原型（archetype）是创建新内容时使用的模板，`hugo new content` 命令会以某个原型为依据，在 `content` 目录下生成新文件。Hugo 内置的默认原型相当于：
+
+```toml
+title = '{{ replace .File.ContentBaseName `-` ` ` | title }}'
+date = '{{ .Date }}'
+draft = true
+```
+
+原型最大的特点是**只在创建文件的那一刻生效**。它不参与构建，也不回填已有文件——这是「我改了原型，已发布的页面却没变化」的根本原因。这一页把「放在哪、按什么顺序找、怎么确认用对了」讲清。
+
+**验证原型是否生效**：直接创建文件并看结果（**实测：Hugo 0.167**）。
+
+```bash
+hugo new content posts/hello-world.md
+```
+
+**你应当看到什么**：终端输出 `Content "…/content/posts/hello-world.md" created`，新文件里是原型求值后的内容——用内置默认原型会得到：
+
+```toml
++++
+title = 'Hello World'
+draft = true
++++
+```
+
+注意 `title` 来自 `{{ replace .File.ContentBaseName ... }}`：文件名 `hello-world` 的连字符被换成空格、再首字母大写。**如果新文件里还是 `{{ … }}` 字面量，说明放在 `content/` 或 `static/` 里的文件被当成了原型，或者你根本没在用原型**（例如手工新建文件）。原型必须放在站点根的 `archetypes/` 目录下。
 
 ## 原型是什么
 
@@ -140,6 +185,34 @@ hugo new content --kind tutorials articles/something.md
 ```
 
 第一条命令使用 `archetypes/articles.md`，第二条虽然目标仍在 articles 目录下，却使用 `archetypes/tutorials.md`——内容的位置与所用的原型由此解耦。
+
+## 什么时候用原型、什么时候别用
+
+**该用**：
+
+- 一个内容类型下的所有页面都需要同一批前置元数据（`draft`、默认标签、作者等）；
+- 希望新页面自带固定结构（「简述 / 签名 / 示例 / 备注」这类骨架），提醒作者别漏内容；
+- 需要为叶子包一次性建好目录与占位文件（例如画廊的 `images/`）。
+
+**别用**：
+
+- **想靠原型修改已有页面**——原型只在创建时读一次，改它不会回填旧文件；要统一改动已有页面请用 `cascade`（见[前置元数据](/content-management/front-matter/)）或直接批量改文件；
+- **想在每次构建时生成内容**——原型不参与构建；动态生成页面应该用[内容适配器](/content-management/content-adapters/)；
+- **把每次构建都要重算的模板动作写进正文**——正文里的模板动作只在创建那一刻求值一次，构建时不会重新计算；这类逻辑应放在 `layouts/` 的模板里。
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 改了原型，已有页面没有任何变化 | 原型只在 `hugo new content` 创建文件时读取一次 | 属预期行为；批量修改已有文件请用 `cascade` 或直接改文件 |
+| 没报错但结果不对 | 新建的文件里 `title` 是 `{{ replace … }}` 字面量 | 那个文件不是用 `hugo new content` 建的，或原型根本不在 `archetypes/` 下 | 用 `hugo new content <路径>` 重建；确认原型位于**站点根**的 `archetypes/` |
+| 没报错但结果不对 | 叶子包原型里的子目录没有建出来 | 原型中的子目录必须至少包含一个文件（例如 `.gitkeep`） | 往每个子目录里放一个占位文件，名字与内容无所谓 |
+| 没报错但结果不对 | 用了 `posts.md`，结果套的是 `default.md` | 内容类型与原型文件名不匹配：类型由顶层目录名或 `--kind` 决定 | 检查目标路径的顶层目录名，或显式加 `--kind`；对照[查找顺序](#查找顺序)逐条核对 |
+| 没报错但结果不对 | 主题里的原型突然被项目原型覆盖了 | 项目根目录的 `archetypes/` 优先于主题与模块 | 这是设计如此；要保留主题的行为就别在项目里放同名文件 |
+| 报错看不懂 | `hugo new content` 报文件已存在 | 目标路径上已有同名文件（常见于重复执行命令） | 换个路径，或先删除/改名已有文件；不要指望命令覆盖 |
+| 报错看不懂 | 原型里的模板动作报错，指向原型文件 | 原型中的模板语法写错（引号、管道、函数名） | 原型是 Go 模板，报错行号指向原型文件本身；先把它简化为最小可用版本再逐步加回 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 ## 延伸阅读
 

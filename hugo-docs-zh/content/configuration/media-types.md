@@ -7,6 +7,20 @@ weight = 130
 source = "https://gohugo.io/configuration/media-types/"
 +++
 
+## 这一页解决什么问题
+
+媒体类型（media type，旧称 MIME 类型）是「文件格式」的两段式名称，例如 `text/html`。Hugo 预置了常见格式与后缀的对应关系，[输出格式](/configuration/output-formats/)再引用媒体类型来决定产物文件的扩展名与模板后缀。
+
+只有两种场景需要动它：**改某个媒体类型的后缀**（此时必须同时重新定义引用它的输出格式），以及**新建媒体类型**（例如 Atom，或 Netlify 那种没有后缀的 `_redirects`）。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `suffixes` | 想改主后缀（数组第一位就是主后缀） | 改了默认媒体类型的后缀，却没重新定义引用它的输出格式 → 产物扩展名与模板查找用的后缀不一致，模板「找不到」（上游明确指出必须同时重定义） |
+| 新建 `mediaTypes.<类型>` | 接入新格式（Atom、自定义文本格式） | 媒体类型名与引用处不一致 → 引用它的输出格式解析失败，构建报错 |
+| `delimiter = ''` | 需要生成无后缀文件（如 `_redirects`） | 只清空后缀却没清空分隔符 → 文件名里多出分隔符，不符合平台约定 |
+
 媒体类型（media type，旧称 MIME 类型）是标识文件格式的两段式名称，例如 HTML 内容的媒体类型是 `text/html`。在 Hugo 中，已配置的媒体类型有多种用途，其中之一是定义[输出格式](/configuration/output-formats/)。下文给出 `mediaTypes` 区段的键名与默认值，并说明如何修改、新建媒体类型，以及如何注册没有后缀的媒体类型。
 
 ## 键名与默认值
@@ -131,3 +145,14 @@ isPlainText    = true
 mediatype      = 'text/netlify'
 notAlternative = true
 ```
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 改了后缀，产物扩展名却没变 | 只改了 `mediaTypes`，没有重新定义使用它的输出格式 | 像本页示例那样同时写 `[outputFormats.html]` 并设 `mediaType = 'text/html'` |
+| 自定义模板不被使用 | 模板文件名用了非主后缀；主后缀是 `suffixes` 的第一项 | 用主后缀命名模板，例如 RSS 用 `xml` |
+| 生成的文件名与平台约定不符 | 清了后缀却没有把 `delimiter` 也设为空 | 两者都留空：`delimiter = ''`，并在输出格式里用 `baseName` 指定文件名 |
+| 构建报「找不到类型」一类错误 | 媒体类型名与引用处不一致（大小写、斜杠、拼写） | 用 `hugo config` 确认 `[mediatypes]` 中的键名，再核对输出格式的 `mediaType` |
+
+更多排查入口见[故障排查](/troubleshooting/)。

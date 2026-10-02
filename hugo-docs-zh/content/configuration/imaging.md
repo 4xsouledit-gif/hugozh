@@ -7,6 +7,26 @@ weight = 100
 source = "https://gohugo.io/configuration/imaging/"
 +++
 
+## 这一页解决什么问题
+
+`[imaging]` 决定 Hugo 处理图片时使用的默认参数：裁剪焦点（`anchor`）、缩放算法（`resampleFilter`），以及各格式的编码质量（`quality`、`compression`、`hint`、`method`）。
+
+**最容易踩的坑**：改了这些默认值**不会自动重做已经处理过的图片**——旧结果还在资源缓存里，需要 `--ignoreCache` 或清理缓存才会重新生成（见[缓存配置](/configuration/caches/)）。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `anchor` | 裁剪时希望保留画面重点（默认 `smart` 自动判断） | 改成固定锚点后，同一张图在不同尺寸下的构图会明显变化 |
+| `resampleFilter` | 在画质与构建耗时之间取舍（默认 `box` 最快） | 换用 `lanczos` 等高质量滤波器 → 图片更锐利但构建更慢；改完必须重新生成图片 |
+| `jpeg.quality` / `webp.quality` / `avif.quality` | 控制体积与画质的平衡 | 质量值不能跨格式直接比较（上游明确：AVIF 的 `60` 观感接近 JPEG 的 `75`）；调得过低会出现明显色块 |
+| `avif.encoderSpeed` | AVIF 构建太慢或文件太大 | 取值 `1`–`10`，越小文件越小、构建越慢；上游提示小于 `5` 可能显著延长构建时间 |
+| `webp.method` | WebP 压缩率与速度的取舍 | 取值 `0`–`6`，越小编码越快 |
+| `meta.sources` / `meta.fields` | 用 `Meta` 方法读取图片元数据 | 默认排除 XMP（为性能）；不显式加入就取不到该类字段 |
+| `exif.excludeFields` / `includeFields` | 提取或屏蔽特定 Exif 字段 | 正则写错 → 字段**静默**缺失或多出，不报错 |
+
+**什么时候别用**：不要为了单张图片的问题去改全局 `imaging` 默认值——处理规格（`.Resize`、`.Fit` 等调用参数）可以就地指定，影响面更小。
+
 处理图像时的默认设置如下：
 
 ```toml
@@ -170,3 +190,16 @@ useSharpYuv = false
 > 为提升性能并减小缓存体积，Hugo 默认排除以下字段：`ColorSpace`、`Contrast`、`Exif`、`ExposureBias`、`ExposureMode`、`ExposureProgram`、`Flash`、`GPS`、`JPEG`、`Metering`、`Resolution`、`Saturation`、`Sensing`、`Sharp`、`WhiteBalance`。
 
 相关处理方法见[图像处理](/content-management/image-processing/)。
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 改了 `quality` / `anchor`，页面上的图没变化 | 已处理过的图片命中了资源缓存 | 用 `hugo --ignoreCache` 构建对照，或清理 `resources/_gen` 与缓存目录 |
+| 构建时间突然变长 | `avif.encoderSpeed` 小于 `5`，或换用了高质量的 `resampleFilter` | 调回较大值或较快的滤波器；AVIF 只用在确实需要的图上 |
+| 图片出现明显色块或糊 | `quality` 设得过低，或编码策略与质量值搭配不当 | 逐档对比一次；质量值不要跨格式照搬 |
+| 读不到某些元数据字段 | `meta.sources` 默认只含 `exif` 与 `iptc`（排除 XMP），`meta.fields` 另有默认排除集合 | 显式扩展 `sources` / `fields`；见[图像处理](/content-management/image-processing/)中的 `Meta` 方法 |
+| 动画图转成 AVIF 后不动了 | 上游明确：把动画图像编码为 AVIF 会得到单帧静态图 | 这是已知行为；改用 GIF 或保留原格式 |
+| 报错看不懂 | 该分区多数不报错，症状是「图片效果或元数据不对」 | 见[故障排查](/troubleshooting/) |
+
+更多排查入口见[故障排查](/troubleshooting/)。

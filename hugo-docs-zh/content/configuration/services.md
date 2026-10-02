@@ -7,6 +7,21 @@ weight = 290
 source = "https://gohugo.io/configuration/services/"
 +++
 
+## 这一页解决什么问题
+
+`[services]` 给 Hugo 的**内嵌模板**（Disqus 评论、Google Analytics、RSS、`x` 短代码）提供参数：不填就不会启用对应功能。这一页列清有哪些键、在模板里怎么读，以及「填了却没生效」通常卡在哪。
+
+## 什么时候需要这些设置
+
+| 设置 | 什么时候需要 | 改错了会看到什么现象 |
+| --- | --- | --- |
+| `disqus.shortname` | 使用 Hugo 内嵌的 Disqus 评论模板 | shortname 写错 → 评论区空白或指向别人的站点，页面本身不报错 |
+| `googleAnalytics.id` | 使用内嵌的 Google Analytics 4 模板 | ID 写错 → 统计后台收不到数据；值必须原样照抄（`G-XXXXXXXXXX`） |
+| `rss.limit` | feed 条目过多，需要限量（默认 `-1` 表示不限） | 设成 `0` → feed 里没有条目；条目极多又不设限 → feed 体积失控 |
+| `x.disableInlineCSS` | 打算自己为 `x` 短代码提供样式 | 开启后不再输出内联 CSS，忘记补样式 → 嵌入内容没有样式 |
+
+**什么时候别用**：站点用的是**主题自带的**评论或统计实现时，在这里填写不会起作用——模板根本不读这些值，症状是「配置写了、页面上什么都没出现」。先确认主题是否调用了 Hugo 的内嵌模板。
+
 Hugo 提供内嵌模板来简化站点与内容的创建，其中一些模板是可配置的。例如，内嵌的 Google Analytics 模板需要一个 Google 跟踪 ID。
 
 `[services]` 下的键都位于 `[services.disqus]`、`[services.googleAnalytics]`、`[services.rss]`、`[services.x]` 等子表中。
@@ -62,3 +77,14 @@ Hugo 提供内嵌模板来简化站点与内容的创建，其中一些模板是
   [services.x]
     disableInlineCSS = false
 ```
+
+## 常见坑
+
+| 症状 | 真因 | 怎么修 |
+| --- | --- | --- |
+| 填了 ID 或 shortname，页面上依然没有统计/评论区 | 主题没有调用 Hugo 内嵌模板，这些键只对内嵌模板生效 | 查主题是否调用了 `google_analytics.html` 一类内嵌模板；否则改到主题自己的参数位置 |
+| 模板里读到的值是空 | 子表名写错（例如写成 `[services.google]`），Hugo 不报错，只当作未设置 | 对照本页字段表核对子表名与键名；用 `hugo config` 确认 |
+| `rss.limit` 设为正数但 feed 条目没变少 | 该限制按 feed 模板读取的页面集合生效；改的是别的输出格式或另有分页逻辑 | 先用 `hugo build` 后检查 `public/` 下的 feed；确认该 limit 是当前 feed 使用的值 |
+| 报错看不懂 | 这类错误通常来自内嵌模板渲染，而不是配置本身 | 到[故障排查](/troubleshooting/)按现象查；必要时在模板里打印 `.Site.Config.Services` 确认取值 |
+
+更多排查入口见[故障排查](/troubleshooting/)。

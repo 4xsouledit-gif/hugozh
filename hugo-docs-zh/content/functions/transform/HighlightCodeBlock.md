@@ -13,6 +13,26 @@ returnType = "highlight.HighlightResult"
 
 `transform.HighlightCodeBlock` 函数使用 [`alecthomas/chroma`][] 包，为代码块渲染钩子（render hook）上下文中收到的代码生成带语法高亮的 HTML。该函数只在代码块渲染钩子内有意义。
 
+## 这一页解决什么问题
+
+你写了一个[代码块渲染钩子](/render-hooks/code-blocks/)（`layouts/_markup/render-codeblock.html`），想完全接管代码块的 HTML：加标题栏、加复制按钮、改外层结构。这时代码和语言名由 Hugo 以**上下文**的形式交给你，`transform.HighlightCodeBlock` 负责把它高亮——**它只在代码块渲染钩子里有意义**，在普通模板里调用没有可用的上下文。
+
+它的返回值不是字符串，而是一个 `HighlightResult` 对象，取内容要用两个方法之一：`.Wrapped`（带 `<div><pre><code>` 包裹）或 `.Inner`（只有高亮后的片段，外层自己写）。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 自定义代码块渲染钩子，需要自己控制外层结构；
+- 想在默认高亮结果上改选项（用 `merge .Options (dict …)` 保留作者在围栏属性里写的选项）；
+- 想在语言不被支持时退回纯文本（配合 [`transform.CanHighlight`](/functions/transform/canhighlight/)）。
+
+**别用**：
+
+- 普通模板里高亮一段字符串 → 用 [`transform.Highlight`](/functions/transform/highlight/)；`HighlightCodeBlock` 需要渲染钩子上下文；
+- 只想要默认高亮输出 → 什么都不用做，Hugo 默认就会高亮围栏代码块；
+- 想渲染 Markdown 字符串 → 用 [`transform.Markdownify`](/functions/transform/markdownify/)。
+
 ## 参数
 
 CONTEXT
@@ -133,6 +153,57 @@ OPTIONS
 `type`
 : （0.162.0 新增）
 : （`string`）覆盖从代码块上下文收到的语言。
+
+## 完整示例：在渲染钩子里取 .Wrapped 与 .Inner
+
+在 `layouts/_markup/render-codeblock.html` 里这样写（示例同时输出两者，便于对照）：
+
+```go-html-template {file="layouts/_markup/render-codeblock.html"}
+{{ $opts := merge .Options (dict "lineNos" false) }}
+{{ $result := transform.HighlightCodeBlock . $opts }}
+<!--WRAPPED-->{{ $result.Wrapped }}<!--INNER-->{{ $result.Inner }}
+```
+
+内容文件里放一个围栏代码块：
+
+````md {file="content/_index.md"}
+```python
+x = 1
+```
+````
+
+Hugo 渲染出（HTML 中）的实际结果为（`Wrapped` 与 `Inner` 以注释标记分隔）：
+
+```html
+<!--WRAPPED--><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span></span></span></code></pre></div><!--INNER--><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span></span></span>
+```
+
+**你应当看到什么**：`.Wrapped` 自带 `<div class="highlight"><pre><code …>` 三层包裹；`.Inner` 只有高亮后的 `<span>` 片段——所以「自己写外层」时用 `.Inner`，其余情况用 `.Wrapped`。`merge .Options (dict "lineNos" false)` 保留了作者在围栏属性里写的选项。
+
+**语言不被支持时**：实测同一个钩子处理 ` ```klingon ` 代码块，`.Wrapped` 得到 `<pre tabindex="0"><code class="language-klingon" data-lang="klingon">nuqneH</code></pre>`，`.Inner` 只有 `nuqneH`（没有高亮、也没有 `highlight` 包裹）。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，单语言站点（`locale = 'zh-CN'`），Windows，默认高亮配置，代码块渲染钩子中调用。
+
+| 情况 | `.Wrapped` | `.Inner` | 是否报错 |
+| --- | --- | --- | --- |
+| 语言受支持（`python`） | `<div class="highlight"><pre …><code class="language-python" …>…</code></pre></div>` | 只有高亮后的 `<span>` 片段 | 否 |
+| 语言不受支持（`klingon`） | `<pre tabindex="0"><code class="language-klingon" …>nuqneH</code></pre>` | `nuqneH`（纯文本） | 否 |
+| 传 `merge .Options (dict "lineNos" false)` | 选项生效，输出与默认一致（默认本就无行号） | 同上 | 否 |
+| 在**非**渲染钩子处调用 | —— | —— | 上游未说明；本函数的用途就是渲染钩子，别处没有代码块上下文 |
+| 返回类型 | `highlight.HighlightResult`（实测字段为方法 `.Wrapped`、`.Inner`，均为 `template.HTML`） | | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 构建失败/输出为空 | 在普通局部模板里调用没有效果 | 该函数只在代码块渲染钩子内有上下文 | 把逻辑放进 `layouts/_markup/render-codeblock.html` |
+| 没报错但结果不对 | 自定义外层时出现「套了两层」 | 用了 `.Wrapped`（已含 `<div><pre><code>`） | 自定义包裹时改用 `.Inner` |
+| 没报错但结果不对 | 钩子里丢掉作者写的围栏属性 | 没有把 `.Options` 合并进自己的选项 | 用 `merge .Options (dict …)`，自己的选项写在后面以覆盖 |
+| 没报错但结果不对 | 不支持的语言没有高亮也没有提示 | 高亮器静默退回纯文本（实测） | 用 [`transform.CanHighlight`](/functions/transform/canhighlight/) 判断后自行加提示或改 `type` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`alecthomas/chroma`]: https://github.com/alecthomas/chroma
 [`css.ChromaStyles`]: /functions/css/chromastyles/

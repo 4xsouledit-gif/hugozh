@@ -11,6 +11,25 @@ signatures = ["transform.ToMath INPUT [OPTIONS]"]
 returnType = "template.HTML"
 +++
 
+## 这一页解决什么问题
+
+内容里要放数学公式。常见的做法是引入 MathJax/KaTeX 的客户端 JavaScript，让浏览器在页面上现场渲染——代价是额外的脚本、闪烁（FOUC）和 SEO 上的空白。`transform.ToMath` 在**构建时**就把 LaTeX 渲染成 HTML/MathML，产物是静态标记，不需要客户端脚本。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 站点里有零散的公式，想构建期渲染、产物静态化；
+- 配合 Goldmark 的[透传扩展][]和[透传渲染钩子][]，把 `\( \)`、`\[ \]` 里的 LaTeX 交给它（上游完整示例给了四步做法）；
+- 想自定义渲染选项（`displayMode`、`output`、`macros`、`throwOnError`）。
+
+**别用**：
+
+- 公式很少、且站点已经在用 MathJax → 不必迁移；两套方案不要混用；
+- 想把公式当**图片**交给 `alt`/RSS → 本函数输出的是 HTML 标记，不是图片；
+- 只想要行内等宽代码 → 用 Markdown 行内代码；
+- 想渲染化学式以外的特殊排版排版系统 → 只支持 LaTeX（含 `mhchem` 扩展）。
+
 Hugo 使用 [KaTeX][] 显示引擎的内嵌实例把数学标记渲染为 HTML。你不需要安装 KaTeX 显示引擎。
 
 ```go-html-template
@@ -172,6 +191,51 @@ $$C_p[\ce{H2O(l)}] = \pu{75.3 J // mol K}$$
 ```
 
 $$C_p[\ce{H2O(l)}] = \pu{75.3 J // mol K}$$
+
+## 完整示例：构建期渲染一个行内公式
+
+```go-html-template {file="layouts/_partials/math.html"}
+{{ transform.ToMath "x" }}
+{{ transform.ToMath "E = mc^2" (dict "displayMode" true) }}
+```
+
+Hugo 渲染为（默认 `output = mathml`，两行输出之间只差一个 `display="block"` 属性）：
+
+```html
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span>
+<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mi>m</mi><msup><mi>c</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">E = mc^2</annotation></semantics></math></span>
+```
+
+**你应当看到什么**：默认输出是 **MathML**（纯标记，不需要 CSS）；`displayMode = true` 只是给 `<math>` 加上 `display="block"`。换成 `output = "html"` 时，输出变成 `<span class="katex-html" aria-hidden="true">…` 这类依赖 KaTeX 样式表的标记——**必须**在 `<head>` 里引入 KaTeX CSS（上游已给出 CDN 链接）。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，单语言站点（`locale = 'zh-CN'`），Windows。
+
+| 调用 | 结果 | 是否报错 |
+| --- | --- | --- |
+| `transform.ToMath "x"` | `<span class="katex"><math …><mrow><mi>x</mi></mrow>…` | 否 |
+| `(dict "displayMode" true)` | 同上，`<math>` 增加 `display="block"` | 否 |
+| `(dict "output" "html")` | `<span class="katex"><span class="katex-html" aria-hidden="true">…`（需要 KaTeX CSS） | 否 |
+| 空字符串 `""` | 仍然输出完整的空公式结构（`<mrow></mrow>`） | 否 |
+| 非法 LaTeX（如 `"\\frac{1}{"`） | —— | 是：`error calling ToMath: KaTeX parse error: Unexpected end of input in a macro argument, expected '}' at end of input: \frac{1}{` |
+| 同一非法输入 + `(dict "throwOnError" false)` | 渲染为错误提示：`<span class="katex-error" title="ParseError: …" style="color:#cc0000">\frac{1}{</span>` | 否 |
+| 返回类型 | `template.HTML` | 否 |
+
+> [!TIP]
+> 在模板里想「拿到错误而不是让构建失败」，用上游示例推荐的写法：`{{ with try (transform.ToMath .Inner $opts) }}`，再检查 `.Err`。
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 构建失败 | `KaTeX parse error: …` 让整站构建中断 | `throwOnError` 默认 `true` | 修好 LaTeX；或设 `throwOnError = false`；或在模板里用 `try` 捕获（见上游示例） |
+| 没报错但结果不对 | 用 `output = "html"` 时公式显示异常 | 该模式依赖 KaTeX 样式表 | 按上游 Step 3 在 `head` 里引入 KaTeX CSS |
+| 没报错但结果不对 | 列表页里公式正常、详情页里样式缺失（或反之） | 条件引入 CSS 时只识别当前页面（上游 NOTE 已说明） | 用上游给出的 `.Page.Store.Get "hasMath"` 加 `.IsNode` 的写法 |
+| 没报错但结果不对 | 行内 `$...$` 不生效 | 透传扩展需要配置定界符，默认不含 `$...$` | 按上游 Step 1 配置 `markup.goldmark.extensions.passthrough` |
+| 报错看不懂 | 错误里出现 `\frac`、`\ce` 等命令名 | KaTeX 不认识该命令或参数不完整 | 对照 KaTeX 支持的命令；化学式需要 `\ce`/`\pu`（0.144.0 起支持） |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [KaTeX]: https://katex.org/
 [MathML]: https://developer.mozilla.org/en-US/docs/Web/MathML

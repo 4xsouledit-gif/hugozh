@@ -26,6 +26,26 @@ returnType = "resource.Resource"
 
 若 `@import` 语句带有媒体查询、特性查询或级联层（cascade layer）赋值，该函数会把导入的内容包进对应的 `@media`、`@supports` 或 `@layer` 规则中。
 
+## 这一页解决什么问题
+
+项目里的 CSS 往往不是一个文件：基础样式、组件样式分开放，靠 `@import` 串起来；上线前还想压缩、补浏览器前缀。`css.Build` 用内嵌的 esbuild 一次做完这些事——递归内联 `@import`、按目标浏览器转换语法与补前缀、生成 source map、压缩——并返回一个资源（Resource），照常接进 `<link>` 或继续 `fingerprint`。
+
+它和另外两个「CSS 管道」的分工是本站最常被问到的：`css.Build` 处理**纯 CSS**，[`css.Sass`](/functions/css/sass/) 编译 **Sass/SCSS**，[`css.PostCSS`](/functions/css/postcss/) 交给 **PostCSS 插件**。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 把多个 CSS 文件合并成一个（处理 `@import`）；
+- 需要按目标浏览器降级语法、补厂商前缀，或压缩 CSS；
+- 想用 `vars` 选项往 CSS 里注入值（配合 `@import 'hugo:vars'`）。
+
+**别用**：
+
+- 写的是 Sass/SCSS → 用 [`css.Sass`](/functions/css/sass/)；Tailwind CSS v4 → 用 [`css.TailwindCSS`](/functions/css/tailwindcss/)；
+- 依赖 PostCSS 生态插件 → 用 [`css.PostCSS`](/functions/css/postcss/)；
+- 只是把 `assets/` 里的 CSS 原样发布 → 直接 `resources.Get` 加 `.RelPermalink` 即可，不必多一道构建。
+
 ## 用法
 
 下例中，Hugo 把 `@import` 语句引用的本地文件打包成一份资源，并以内容内联的方式发布。
@@ -398,6 +418,128 @@ assets/
 ```css {file="/assets/css/main.css"}
 @import "bootstrap/dist/css/bootstrap-grid.css";
 ```
+
+## 完整示例：把三个 CSS 文件合并成一个
+
+目录与文件（同上游示例）：
+
+```tree
+assets/
+└── css/
+    ├── components/
+    │   ├── a.css
+    │   └── b.css
+    └── main.css
+```
+
+```css {file="assets/css/main.css"}
+@import url('https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css');
+
+@import './components/a.css';
+@import './components/b.css';
+
+.c {color: blue; }
+```
+
+```css {file="assets/css/components/a.css"}
+.a { color: red; }
+```
+
+```css {file="assets/css/components/b.css"}
+.b { color: green; }
+```
+
+```go-html-template {file="layouts/_partials/css.html"}
+{{ with resources.Get "css/main.css" | css.Build }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+```
+
+在本机（Hugo 0.167.0 extended，Windows）实测：`.RelPermalink` 为 `/css/main.css`，产物 `public/css/main.css` 为（注释里的绝对路径随机器变化，这里省略为 `…`）：
+
+```css
+@import "https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css";
+
+/* ns-hugo-imp:…/assets/css/components/a.css */
+.a {
+  color: red;
+}
+
+/* ns-hugo-imp:…/assets/css/components/b.css */
+.b {
+  color: green;
+}
+
+/* <stdin> */
+.c {
+  color: blue;
+}
+```
+
+**你应当看到什么**：两个本地 `@import` 被就地展开（顺序保持），而**外部 URL 的 `@import` 原样保留**——这是 esbuild 的行为；`/* ns-hugo-imp:… */` 与 `/* <stdin> */` 是它添加的来源注释，未压缩时会出现（**实测**），压缩后消失。
+
+加上 `minify` 选项：
+
+```go-html-template
+{{ with resources.Get "css/main.css" | css.Build (dict "minify" true) }}{{ .Content }}{{ end }}
+```
+
+实测 `.Content` 的原始值（一行，无注释）：
+
+```css
+@import"https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css";.a{color:red}.b{color:green}.c{color:#00f}
+```
+
+再用 `vars` 注入值，样式表里写 `@import 'hugo:vars';`：
+
+```go-html-template
+{{ $vars := dict "ol-li-after" ("6" | css.Quoted) "font-family" "Arial" }}
+{{ with resources.Get "css/vars.css" | css.Build (dict "vars" $vars) }}{{ .Content }}{{ end }}
+```
+
+实测 `.Content` 的原始值：
+
+```css
+/* ns-hugo-vars:hugo:vars */
+:root {
+  --font-family: Arial;
+  --ol-li-after: "6";
+}
+
+/* <stdin> */
+.el {
+  content: var(--ol-li-after);
+  font-family: var(--font-family);
+}
+```
+
+**你应当看到什么**：`vars` 会被展开成 `:root` 里的自定义属性；其中 `("6" | css.Quoted)` 带上了引号，而 `"Arial"` 没有——引号由 [`css.Quoted`](/functions/css/quoted/) 控制。设置 `"targetPath" "css/styles.css"` 后，实测 `.RelPermalink` 变为 `/css/styles.css`。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点。未压缩输出中的 `ns-hugo-imp` 注释含本机绝对路径，已省略。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 正常构建 | 返回资源；未设 `targetPath` 时 `.RelPermalink` 为 `/css/main.css`（原路径，扩展名改为 `.css`） | 否 |
+| `"minify" true` | 内容被压缩（`color: blue` 变为 `color:#00f`） | 否 |
+| `"targetPath" "css/styles.css"` | `.RelPermalink` 为 `/css/styles.css` | 否 |
+| 直传字符串 `{{ "body{}" \| css.Build }}` | —— | 是：`error calling Build: type string not supported in Resource transformations` |
+| 直传 `nil`（`resources.Get` 未命中且没加 `with` 守卫） | —— | 是：`error calling Build: type <nil> not supported in Resource transformations` |
+| 不给资源 `{{ css.Build }}` | —— | 是：`error calling Build: no Resource provided in transformation` |
+| 文件不存在但用 `with` 守卫 | 整段不渲染，构建继续 | 否 |
+| 选项名拼错 | 上游未说明；本站未逐项实测 | —— |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 报错看不懂 | `type <nil> not supported in Resource transformations` | `resources.Get` 没找到文件，返回 `nil` 后仍直接送进 `css.Build` | 用 `{{ with resources.Get "css/main.css" }}…{{ end }}` 守卫，或先核对路径大小写 |
+| 没报错但结果不对 | 产物里少了几段样式 | 被内联的 `@import` 路径不在 `assets` 目录下（或写成了绝对 URL，会被保留而不内联） | 路径改为相对/裸路径，文件放进 `assets`；必要时用 `externals` 选项控制 |
+| 没报错但结果不对 | 线上 CSS 里出现奇怪的 `ns-hugo-imp` 注释 | 没有开启 `minify`，esbuild 保留了来源注释 | 需要干净产物时开 `"minify" true` 或用 `minify` 函数再处理一次 |
+| 没报错但结果不对 | `vars` 的值带上了不该有的引号 | 类型推断与预期不符 | 用 [`css.Quoted`](/functions/css/quoted/)、[`css.Unquoted`](/functions/css/unquoted/) 显式指定 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`css.Quoted`]: /functions/css/quoted/
 [`evanw/esbuild`]: https://github.com/evanw/esbuild

@@ -11,6 +11,23 @@ signatures = ["js.Batch [ID]"]
 returnType = "js.Batcher"
 +++
 
+## 这一页解决什么问题
+
+一个页面往往要挂好几段 JS，每段还可能有多个实例：同一个地图组件在页面上放三次，只有坐标不同。`js.Build` 一次只处理一个文件，做不了「按组打包 + 全局代码分割 + 把每个实例的参数交给一个 runner 统一初始化」。`js.Batch` 提供的正是这套机制：先在模板里注册「组 / 脚本 / 实例 / runner」，再统一构建；同一组的脚本会合成模块并做代码分割，runner 则拿到该组所有实例的数据。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 同一组件在一页出现多次、参数不同，需要统一初始化（上游的 React/Leaflet 示例就是这种场景）；
+- 需要全局代码分割：多个入口共享的模块只发布一次。
+
+**别用**：
+
+- 只有一个 JS 入口 → 用 [`js.Build`](/functions/js/build/)，不必引入 batch 的复杂度；
+- 要用 Babel 的 preset/插件链 → 用 [`js.Babel`](/functions/js/babel/)；
+- 只是把 `assets/js/x.js` 原样发布 → 直接 `resources.Get` 加 `.RelPermalink`。
+
 > [!NOTE]
 > `js.Batch` 函数由 [`evanw/esbuild`][] 包提供支持，为打包、转换与压缩提供了成熟且高性能的基础。
 
@@ -392,6 +409,113 @@ import './lib1.js';
 
 console.log('entrypoints-workaround.js');
 ```
+
+## 完整示例：一个脚本、两个实例、一个 runner
+
+```js {file="assets/js/card.js"}
+export default function Card(params) { return params.title; }
+```
+
+```js {file="assets/js/runner.js"}
+export default function Run(group) {
+  console.log("group:" + group.id);
+  for (const script of group.scripts) {
+    for (const instance of script.instances) {
+      console.log(script.id + "/" + instance.id, instance.params.title);
+    }
+  }
+}
+```
+
+```go-html-template {file="layouts/_partials/batch.html"}
+{{ with js.Batch "js/mybatch" }}
+  {{ with .Group "g" }}
+    {{ with .Script "card" }}{{ .SetOptions (dict "resource" (resources.Get "js/card.js")) }}{{ end }}
+    {{ with .Instance "card" "0" }}{{ .SetOptions (dict "params" (dict "title" "First")) }}{{ end }}
+    {{ with .Instance "card" "1" }}{{ .SetOptions (dict "params" (dict "title" "Second")) }}{{ end }}
+    {{ with .Runner "run" }}{{ .SetOptions (dict "resource" (resources.Get "js/runner.js")) }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with (js.Batch "js/mybatch") }}
+  {{ with .Build }}
+    {{ range $group, $resources := .Groups }}
+      {{ range $resources }}
+        <script src="{{ .RelPermalink }}" type="module"></script>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+```
+
+在本机（Hugo 0.167.0 extended，Windows）实测：`Groups` 的键是组 ID（`g`），值是该组的资源切片；构建产出
+
+```text
+/js/mybatch/g_run_runner.js
+/js/mybatch/g.js
+/js/mybatch/chunk-2KN6OLE4.js
+```
+
+（最后一个是共享分块，文件名里的哈希随内容变化。）
+
+产物 `g.js` 末尾（实测，注释里的绝对路径已省略）就是 runner 的调用现场：
+
+```js
+// ns-hugo-imp-func:__hu_v/js/g_card.js
+var g_card_exports = {};
+__export(g_card_exports, {
+  default: () => Card
+});
+function Card(params) {
+  return params.title;
+}
+
+// ns-hugo-imp-func:/g.js
+var group = { id: "g", scripts: [] };
+group.scripts.push({ "id": "card", "binding": g_card_exports, "instances": [{ "id": "0", "params": { "title": "First" } }, { "id": "1", "params": { "title": "Second" } }] });
+Run(group);
+```
+
+**你应当看到什么**：runner 不需要你手动调用——产物里自动以 `group` 为参数调用它；`instances[].params` 正是模板里 `Instance` 设置的值，`binding` 指向脚本的导出（这里是 `Card`）。同一组的脚本合并在一个文件里，共享模块被拆成 chunk。
+
+`Config` 里的 `params` 通过 `@params/config` 命名空间提供给脚本（实测：脚本里 `console.log(config.color)` 被注入为字面量）：
+
+```go-html-template
+{{ with .Config }}{{ .SetOptions (dict "format" "esm" "params" (dict "color" "red")) }}{{ end }}
+```
+
+```js
+// ns-hugo-params:@params/config
+var color = "red";
+```
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 一个组、一个脚本 | `Groups` 键为组 ID，产出 `/js/mybatch/g1.js` | 否 |
+| 脚本 + runner | 同组产出 runner 与脚本两个文件，并生成共享 chunk（实测三个文件） | 否 |
+| `Config` 的 `params` | 脚本里可用 `@params/config` 读到注入值 | 否 |
+| 不传 ID `{{ js.Batch }}` | —— | 是：`wrong number of args for Batch: want 1 got 0`（签名写作 `[ID]`，但**实测必填**） |
+| `Group`/`Script`/`Runner` 的 ID 含 `/` | —— | 是：`error calling Group: id must not contain forward slashes` |
+| 脚本没设 `resource` | —— | 是：`error calling SetOptions: resource not set` |
+| `Config` 设 `"format" "iife"` | —— | 是：`error calling Build: failed to build JS batch "b": only esm format is currently supported` |
+| 对同一个 `OptionsSetter` 连续调用两次 `SetOptions` | 不报错（**实测**）；上游仍建议用 `with` 包裹，因为 setter 只在首次取得 | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 页面里看不到任何脚本效果 | 只注册了批次，没有把 `.Build` 的 `Groups` 输出成 `<script>` | 按本页示例遍历 `.Groups` 输出资源；并发场景用 [`templates.Defer`](/functions/templates/defer/) 包住 |
+| 没报错但结果不对 | runner 没被调用 | runner 的导出名与 `export` 选项不匹配（runner 默认 `default`） | runner 用 `export default function Run(group) {…}`，或显式设置 `export` |
+| 没报错但结果不对 | 实例参数读不到 | `.Instance` 的第一个参数不是脚本 `ID` | 写成 `.Instance "脚本ID" "实例ID"` |
+| 报错看不懂 | `only esm format is currently supported` | `Config` 里把 `format` 设成了非 `esm` | 保持 `esm`（代码分割只支持这一种输出格式） |
+| 报错看不懂 | `id must not contain forward slashes` | 组 / 脚本 / runner 的 ID 里带了 `/` | ID 只用普通标识符；目录层级由 `js.Batch` 的批次 ID 提供 |
+| 报错看不懂 | `resource not set` | `SetOptions` 的 dict 里漏了 `resource` | 补上 `"resource" (resources.Get "js/xxx.js")` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [JavaScript 导入]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
 [`Resource.Get`]: /methods/page/resources/#get

@@ -11,7 +11,31 @@ signatures = ["resources.GetRemote URL [OPTIONS]"]
 returnType = "resource.Resource"
 +++
 
-（0.141.0 新增）返回资源上的 `Err` 方法已在 v0.141.0 中移除。请改用 [`try`](/functions/go-template/try/) 语句，如下面的[错误处理](#错误处理)示例所示。
+## 这一页解决什么问题
+
+站点要在**构建时**引用外部内容：一个远端 JSON/CSV 数据源、别人的 RSS feed、一张远程图片。你希望在构建期把它抓下来、缓存到磁盘，然后用和本地资源一样的方式处理（`transform.Unmarshal`、图片缩放、`.RelPermalink`）。
+
+`resources.GetRemote` 做的就是这件事：发一次 HTTP 请求，把响应变成一个资源对象。
+
+> [!IMPORTANT]
+> 本页的示例**需要联网**，本次文档整理环境无法访问外网，因此文中所有输出都标注了来源：来自上游文档的写「上游说明」，没有可靠来源的一律写「上游未给出输出」。**不要**把本页的片段当作已验证输出的示例。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 构建期抓取外部数据并缓存（避免每次构建都访问远端）；
+- 抓取远程图片并按本地资源的方式处理（缩放、转格式）；
+- 需要带请求头、POST 数据、超时控制的抓取。
+
+**别用**：
+
+- 页面里只是要放一个外链 → 直接写 URL，不必抓取；
+- 需要浏览器端实时请求的数据 → 那是前端 JavaScript 的事，构建期抓取只会得到一份静态快照；
+- 构建必须完全离线可复现 → 远程抓取会引入网络依赖；若必须用，请按下文用 `try` 兜住错误，并在缓存/CI 上做文章；
+- 想解析 JSON/YAML/CSV 的**内容** → 抓回来之后交给 [`transform.Unmarshal`](/functions/transform/unmarshal/)，`GetRemote` 本身不解析。
+
+**（0.141.0 新增）** 返回资源上的 `Err` 方法已在 v0.141.0 中移除。请改用 [`try`](/functions/go-template/try/) 语句，如下面的[错误处理](#错误处理)示例所示。
 
 ```go-html-template
 {{ $url := "https://example.org/images/a.jpg" }}
@@ -25,6 +49,8 @@ returnType = "resource.Resource"
   {{ end }}
 {{ end }}
 ```
+
+（上游未给出输出。）
 
 如上所示，当你用 [`Permalink`][]、[`RelPermalink`][] 或 [`Publish`][] 方法发布远程资源时，Hugo 会把生成的文件放在 [`publishDir`][] 的根目录下，文件名取 URL 的基名。为保证缓存键唯一，Hugo 会在原文件名后附加一个哈希值。
 
@@ -55,7 +81,7 @@ returnType = "resource.Resource"
 ## 选项示例
 
 > [!NOTE]
-> 为简洁起见，下面的示例省略了[错误处理](#错误处理)。
+> 为简洁起见，下面的示例省略了[错误处理](#错误处理)。以上示例均来自上游文档，本次未能实测输出。
 
 包含一个请求头：
 
@@ -149,85 +175,64 @@ returnType = "resource.Resource"
 >
 > `{{ $data = .Content | transform.Unmarshal }}`
 
-## 错误处理
+## 完整示例：抓取远端 JSON 并处理错误
 
-用 [`try`][] 语句捕获 HTTP 请求错误。如果你不自行处理错误，Hugo 会让构建失败。
+下面这段来自上游文档，是「抓取 + 错误处理」的标准骨架。**本次未能实测**（环境无法访问外网），因此不给出输出：
 
-> [!NOTE]
-> Hugo 不把状态码为 404 的 HTTP 响应视为错误。这种情况下 `resources.GetRemote` 返回 `nil`。
-
-```go-html-template
-{{ $url := "https://broken-example.org/images/a.jpg" }}
+```go-html-template {file="layouts/_partials/remote-books.html"}
+{{ $data := dict }}
+{{ $url := "https://example.org/books.json" }}
 {{ with try (resources.GetRemote $url) }}
   {{ with .Err }}
-    {{ errorf "%s" . }}
+    {{ warnf "抓取失败：%s" . }}
   {{ else with .Value }}
-    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="">
+    {{ $data = . | transform.Unmarshal }}
+    <p>共 {{ len $data.books }} 本</p>
   {{ else }}
-    {{ errorf "Unable to get remote resource %q" $url }}
+    {{ warnf "没有取到远程资源 %q" $url }}
   {{ end }}
 {{ end }}
 ```
 
-要把错误记录为警告而不是错误：
+**你应当看到什么**（根据上游说明推断，非实测）：请求成功时进入 `else with .Value` 分支，把响应交给 `transform.Unmarshal`；HTTP 404 时 `GetRemote` 返回 `nil`，落到最后的 `else`；其它错误进入 `.Err` 分支，由 `warnf` 记录而不中断构建。
 
-```go-html-template
-{{ $url := "https://broken-example.org/images/a.jpg" }}
-{{ with try (resources.GetRemote $url) }}
-  {{ with .Err }}
-    {{ warnf "%s" . }}
-  {{ else with .Value }}
-    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="">
-  {{ else }}
-    {{ warnf "Unable to get remote resource %q" $url }}
-  {{ end }}
-{{ end }}
-```
+## 返回值边界（来源标注）
 
-## HTTP 响应
+> [!WARNING]
+> 本节的结论**来自上游文档**（见括号标注），除最后一行外均未在本环境实测——远程抓取需要联网。
 
-`resources.GetRemote` 函数返回的资源上的 [`Data`][] 方法会返回 HTTP 响应中的信息。
+| 情况 | 结果 | 来源 |
+| --- | --- | --- |
+| HTTP 200 | 资源对象（可按资源处理、可发布） | 上游说明 |
+| HTTP 404 | `nil`（上游明确：404 不视为错误） | 上游说明 |
+| 其它 HTTP 错误、连接失败 | 抛出错误；若不用 `try`／`errorf` 处理，**构建失败** | 上游说明 |
+| 媒体类型不在允许列表（如可执行文件） | 抛错，报错文本形如 `ERROR error calling resources.GetRemote: failed to resolve media type...` | 上游给出的示例文本 |
+| 未指定 `timeout` | 请求 2 分钟后超时 | 上游说明 |
+| 服务器返回错误 Content-Type | 资源本身仍可用，但 `transform.Unmarshal` 可能失败；改用 `.Content \| transform.Unmarshal` | 上游说明 |
+| 缓存 | 资源缓存到磁盘；缓存键默认由 URL 与选项推导，可用 `key` 覆盖 | 上游说明 |
+| 返回类型 | `resource.Resource`，或 `nil` | 上游说明 |
 
-## 缓存
-
-`resources.GetRemote` 返回的资源会缓存到磁盘上。详见[配置文件缓存][]。
-
-默认情况下，Hugo 从传给函数的参数推导缓存键。可以通过在选项映射中设置 `key` 来覆盖缓存键。用这种方式可以更细致地控制 Hugo 重新抓取远程资源的频率。
-
-```go-html-template
-{{ $url := "https://example.org/images/a.jpg" }}
-{{ $cacheKey := print $url (now.Format "2006-01-02") }}
-{{ $opts := dict "key" $cacheKey }}
-{{ $resource := resources.GetRemote $url $opts }}
-```
-
-## 安全性
-
-为防止恶意意图，`resources.GetRemote` 函数会检查服务器响应，包括：
-
-- 响应头中的 [Content-Type][]
-- 文件扩展名（如果有）
-- 内容本身
-
-如果 Hugo 无法把媒体类型解析到其[允许列表][]中的某个条目，函数会抛出错误：
+实测（仅限本环境的策略层面）：在无法访问外网的环境里调用会直接失败，报错形如
 
 ```text
-ERROR error calling resources.GetRemote: failed to resolve media type...
+error calling GetRemote: Get "https://example.org/": dial tcp …: access denied: "…" is not whitelisted in policy "security.http.urls"
 ```
 
-例如，尝试下载可执行文件时就会看到上面的错误。
+这是**本地网络/安全策略**导致的结果，不是 `resources.GetRemote` 的通用行为，仅供参考排查思路：构建机上抓不到远端时，先确认是不是网络或 Hugo 的 `security.http.urls` 限制。
 
-尽管允许列表已包含常见媒体类型的条目，你仍可能遇到 Hugo 无法解析某个你确知安全的文件媒体类型的情况。这时请编辑项目配置，把该媒体类型加入允许列表。例如：
+## 常见坑
 
-```toml
-[security.http]
-mediaTypes = ['^application/vnd\.api\+json$']
-```
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 报错看不懂 | `failed to resolve media type...` | 响应类型不在允许列表（例如下载可执行文件） | 仅抓取需要的类型；确知安全时在 `[security.http]` 的 `mediaTypes` 里追加正则 |
+| 报错看不懂 | 构建因一次网络抖动失败 | 没处理 HTTP 错误，Hugo 默认让构建失败 | 用 `try` + `warnf` 把错误降级为警告 |
+| 没报错但结果不对 | 明明 404 却「成功」了 | 上游设计如此：404 返回 `nil`，不是错误 | 用 `else`／`with` 判断 `nil`，别只看 `.Err` |
+| 没报错但结果不对 | 远端数据更新了，页面还是旧的 | 命中了磁盘缓存 | 用 `key` 选项控制缓存键（例如带上日期），或清理缓存目录 |
+| 没报错但结果不对 | `transform.Unmarshal` 报解析失败 | 服务器 Content-Type 不对，Hugo 没按 JSON 处理 | 传 `.Content` 而不是资源本身给 `transform.Unmarshal` |
+| 构建很慢 | 每次构建都卡很久 | 远端慢且没设 `timeout` | 加 `"timeout" "10s"` 之类的选项 |
+| 报错看不懂 | 页面上原样出现 `{{ resources.GetRemote … }}` | 把模板函数写进了内容 Markdown | 该逻辑要放在模板里 |
 
-注意上面的条目：
-
-- 是对允许列表的**追加**，而不会**替换**允许列表
-- 是一个正则表达式数组
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [Content-Type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type
 [`Data.Headers`]: /methods/resource/data/#headers

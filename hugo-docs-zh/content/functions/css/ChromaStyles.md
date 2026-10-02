@@ -11,6 +11,24 @@ signatures = ["css.ChromaStyles OPTIONS"]
 returnType = "resource.Resource"
 +++
 
+## 这一页解决什么问题
+
+把 `markup.highlight.noClasses` 设为 `false` 后，代码高亮输出的是 CSS 类（`.chroma .k` 之类），页面上必须再引用一份配套的样式表，否则代码块没有任何颜色。过去这份样式表要用 `hugo gen chromastyles` 命令行生成成静态文件；从 0.165.0 起，`css.ChromaStyles` 可以在模板里直接把它生成成资源——样式跟着站点配置走，换主题色只要改配置。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 想让高亮样式跟随 `markup.highlight.style` 配置自动变化；
+- 需要明/暗两套样式（`mode` + `modeSelector`），或需要去掉注释前缀（`omitClassComments`）；
+- 想把这份样式表并进主 CSS（配合 [`css.Build`](/functions/css/build/)，见上游「完整示例」）。
+
+**别用**：
+
+- `noClasses` 仍为 `true`（内联样式输出）→ 根本不需要这份样式表；
+- 只是想让已有 CSS 走构建管道 → 用 [`css.Build`](/functions/css/build/)；
+- 只想临时看一眼某个内置配色 → 直接改 `markup.highlight.style`，不必自己写管道。
+
 **（0.165.0 新增）**
 
 `css.ChromaStyles` 函数以 `Resource` 对象的形式返回语法高亮器使用的 CSS 样式表。当 `noClasses` 选项为 `false` 时需要这份样式表：它既可以在项目配置中作为[全局默认值][global default]设置，也可以在使用下列任一功能时单独指定：
@@ -287,6 +305,72 @@ style = 'github'
   }
   ```
   ````
+
+## 完整示例：生成并引用高亮样式表
+
+```go-html-template {file="layouts/_partials/highlight.html"}
+{{ $opts := dict "targetPath" "css/highlight.css" }}
+{{ with css.ChromaStyles $opts }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+```
+
+在本机（Hugo 0.167.0 extended，Windows，配置里未设置 `markup.highlight.style`）实测：`.RelPermalink` 为 `/css/highlight.css`，产物开头几行为（默认样式为 monokai 配色，底色 `#272822`）：
+
+```css
+/* Background */ .bg { color:#f8f8f2;background-color:#272822; }
+/* PreWrapper */ .chroma { color:#f8f8f2;background-color:#272822;-webkit-text-size-adjust:none; }
+/* Error */ .chroma .err { color:#960050;background-color:#1e0010 }
+/* LineLink */ .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+```
+
+**你应当看到什么**：一份以 `.chroma` 为根的完整样式表（本机 3742 字节），每行前的 `/* 注释 */` 说明该规则对应的元素类型。
+
+开启 `modeSelector` 后，选择器会被加上模式类前缀（实测）：
+
+```go-html-template
+{{ $opts := dict "mode" "dark" "modeSelector" true "targetPath" "css/hl-dark.css" }}
+{{ with css.ChromaStyles $opts }}{{ .RelPermalink }}{{ end }}
+```
+
+```css
+/* Background */ .dark .bg { color:#f8f8f2;background-color:#272822; }
+/* PreWrapper */ .dark .chroma { color:#f8f8f2;background-color:#272822;-webkit-text-size-adjust:none; }
+```
+
+开启 `omitClassComments` 后注释消失（实测同一份样式表从 3742 字节变为 2375 字节）：
+
+```css
+.bg { color:#f8f8f2;background-color:#272822; }
+.chroma { color:#f8f8f2;background-color:#272822;-webkit-text-size-adjust:none; }
+```
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 只给 `targetPath` | 资源；`.RelPermalink` 按 `targetPath`；用默认样式、选择器无模式前缀 | 否 |
+| `"mode" "dark"` + `"modeSelector" true` | 选择器加 `.dark ` 前缀（实测） | 否 |
+| `"omitClassComments" true` | 去掉 `/* 注释 */`（实测 3742 → 2375 字节） | 否 |
+| 缺少 `targetPath` | —— | 是：`error calling ChromaStyles: targetPath cannot be empty` |
+| `style` 不存在（如 `nope`） | —— | 是：`error calling ChromaStyles: invalid style: nope` |
+| `mode` 非法（如 `nope`） | —— | 是：`error calling ChromaStyles: invalid mode: nope` |
+| 传字符串而不是选项映射 | —— | 是：`error calling ChromaStyles: invalid character 'x' looking for beginning of value` |
+| 完全不传参数 | —— | 是：`wrong number of args for ChromaStyles: want 1 got 0` |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 代码块没有任何颜色 | 生成了样式表但页面没引用，或 `noClasses` 与样式表类型不匹配 | 按本页示例输出 `<link rel="stylesheet" href="{{ .RelPermalink }}">` |
+| 没报错但结果不对 | 切到暗色主题后样式不生效 | 生成暗色样式表时没开 `modeSelector`，选择器没有 `.dark` 前缀 | 设 `"modeSelector" true`（默认前缀类名为 `dark`，可用 `classDark` 改） |
+| 没报错但结果不对 | 产物里有一大堆用不上的规则 | 这是样式表的完整输出，函数不做按需裁剪 | 需要精简就用 [`css.Build`](/functions/css/build/) 打包并按需处理 |
+| 报错看不懂 | `targetPath cannot be empty` | 唯一必填选项没传 | 至少传 `dict "targetPath" "css/highlight.css"` |
+| 报错看不懂 | `invalid style: xxx` | `style` 名拼错 | 用 [语法高亮样式](/quick-reference/syntax-highlighting-styles/) 里列出的名字 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`css.Build`]: /functions/css/build/
 [`highlight`]: /shortcodes/highlight/

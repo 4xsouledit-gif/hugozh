@@ -12,6 +12,27 @@ returnType = "template.HTML"
 aliases = ["highlight"]
 +++
 
+## 这一页解决什么问题
+
+模板里有一段**字符串形式的代码**（来自数据文件、短代码参数、`.Content` 的片段，或你自己拼的示例），要在页面上以带语法高亮、带等宽字体的代码块呈现。Hugo 内置的 Chroma 高亮器就是干这个的，`transform.Highlight` 是它的模板入口。
+
+`highlight` 与 `transform.Highlight` 是同一个函数：前者是别名（注意它在全局命名空间里，写法是 `{{ highlight ... }}`）。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 代码来自变量/数据文件，不是页面里的围栏代码块；
+- 需要控制行号、配色、行内高亮等选项；
+- 想在短代码里包装高亮逻辑。
+
+**别用**：
+
+- 页面 **Markdown 里的围栏代码块** → Hugo 会自动高亮，不需要手动调用（想要自定义渲染才写[代码块渲染钩子](/render-hooks/code-blocks/)，那里面用 [`transform.HighlightCodeBlock`](/functions/transform/highlightcodeblock/)）；
+- 想先确认语言认不认识 → 用 [`transform.CanHighlight`](/functions/transform/canhighlight/)；
+- 想把 Markdown 渲染成 HTML → 用 [`transform.Markdownify`](/functions/transform/markdownify/)；
+- 需要「高亮 + 文件名标题 + 复制按钮」这类结构 → 用渲染钩子或短代码包装，而不是每次手写一堆选项。
+
 `transform.Highlight` 函数使用 [`alecthomas/chroma`][] 包，根据传入的代码、[语言][]与[选项](#选项)生成带语法高亮的 HTML。
 
 ## 参数
@@ -113,6 +134,54 @@ aliases = ["highlight"]
 `wrapperClass`
 : （0.140.2 新增）
 : （`string`）高亮代码最外层元素使用的类或类名列表。默认 `highlight`。
+
+## 完整示例：高亮一段字符串代码
+
+```go-html-template {file="layouts/_partials/hl.html"}
+{{ $code := "x = 1" }}
+{{ transform.Highlight $code "python" }}
+```
+
+Hugo 渲染为（默认 `noClasses = true`，样式内联；为便于阅读这里按原样给出，未换行）：
+
+```html
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span></span></span></code></pre></div>
+```
+
+**你应当看到什么**：外层是 `<div class="highlight">`（类名可用 `wrapperClass` 改），里面是 `<pre><code class="language-python" data-lang="python">`，关键字与数字被包进带内联颜色的 `<span>`。**默认输出自带颜色**（`noClasses` 默认 `true`），不需要额外 CSS；反过来，想用自己的 CSS 就要设 `noClasses = false` 并用 `hugo gen chromastyles` 生成样式表。
+
+**语言不认识时不会报错**：实测 `transform.Highlight "x = 1" "klingon"` 退化为
+
+```html
+<pre tabindex="0"><code class="language-klingon" data-lang="klingon">x = 1</code></pre>
+```
+
+——没有 `<div class="highlight">` 包裹、也没有任何颜色，只是普通的 `<pre><code>`。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，单语言站点（`locale = 'zh-CN'`），Windows，默认高亮配置（`style = monokai`、`noClasses = true`）。
+
+| 调用 | 结果 | 是否报错 |
+| --- | --- | --- |
+| `transform.Highlight "x = 1" "python"` | `<div class="highlight">…<code class="language-python" data-lang="python">…` | 否 |
+| 语言名不认识（`"klingon"`） | 退化为 `<pre tabindex="0"><code class="language-klingon" …>`，无高亮、无外层 `div` | 否 |
+| 空代码（`""`） | 仍输出完整包裹，`<code>` 内容为空 | 否 |
+| 用 OPTIONS 代替 LANG（`(dict "type" "python")`） | 与显式传 `"python"` 相同 | 否 |
+| 字符串形式的选项（`"lineNos=false, style=github"`） | 生效，输出改用对应配色 | 否 |
+| 返回类型 | `template.HTML`（不会再被 HTML 转义） | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | 页面上代码是黑白的，没有高亮 | 语言名拼错（实测会静默退化为纯 `<pre><code>`） | 用 [`transform.CanHighlight`](/functions/transform/canhighlight/) 先判断，必要时退回 `text` |
+| 没报错但结果不对 | 想用自己的配色，但样式没生效 | `noClasses` 默认 `true`，颜色是内联的 | 设 `noClasses = false` 并用 [`hugo gen chromastyles`](/commands/hugo-gen-chromastyles/) 生成 CSS |
+| 没报错但结果不对 | 行号没有出现 | `lineNos` 默认 `false` | 传 `lineNos=table`（或 `true`、`inline`） |
+| 没报错但结果不对 | 输出里出现 `{{` 字面量 | 代码字符串本身含模板定界符，而它经过了模板解析 | 用短代码或数据文件传入，别把代码直接写进模板 |
+| 报错看不懂 | 选项名拼错后无任何提示 | 未知选项被忽略（实测） | 对照本页「选项」一节核对键名 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`alecthomas/chroma`]: https://github.com/alecthomas/chroma
 [`css.ChromaStyles`]: /functions/css/chromastyles/

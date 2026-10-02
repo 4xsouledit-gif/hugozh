@@ -20,6 +20,26 @@ returnType = "resource.Resource"
 > [!NOTE]
 > 这个函数要配合 Tailwind CSS v4.0 及更高版本使用；它们需要相对[现代的浏览器][modern browser]才能正确渲染。
 
+## 这一页解决什么问题
+
+Tailwind CSS v4 的工作方式是「模板里写工具类，CLI 扫描模板、只把用到的类编译成 CSS」。`css.TailwindCSS` 把这条 CLI 集成进 Hugo 的构建管道：调用你安装的 Tailwind CLI 处理入口 CSS，返回生成的资源。因为它要**扫描模板里实际出现的类名**，所以比 [`css.Build`](/functions/css/build/) / [`css.Sass`](/functions/css/sass/) 多两项准备：开启 `build.buildStats`，并把生成的 `hugo_stats.json` 挂载给 Tailwind。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 项目用 Tailwind CSS **v4.0 及以上**（上游限定；本站实测 v4.3.3）；
+- 需要精确控制扫描范围（`.gitignore`、`@source` 指令）。
+
+**别用**：
+
+- 用 Tailwind v3 或依赖旧 `tailwind.config.js` 的流程 → 上游只支持 v4+，本站未实测 v3；
+- 处理的是普通 CSS → 用 [`css.Build`](/functions/css/build/)；
+- 不想引入 npm 工具链 → 用 [`css.Build`](/functions/css/build/) 或 [`css.Sass`](/functions/css/sass/)。
+
+> [!NOTE]
+> **实测**：这个函数要求把 `tailwindcss` 加入 `security.exec.allow`（默认白名单里没有它），否则构建报 `access denied: "tailwindcss" is not whitelisted in policy "security.exec.allow"`。下面的「准备」第 2 步已经包含该配置。另外，自 v0.161.0 起不再支持 Tailwind 独立二进制，必须通过 npm 安装 CLI。
+
 ## 准备
 
 第 1 步
@@ -144,6 +164,71 @@ returnType = "resource.Resource"
 
 - 在 `css.Build` 的选项里把 `tailwindcss` 标为外部依赖，可以避免它在这一步被处理，从而留到下一步由 Tailwind CSS CLI 正确处理。
 - Tailwind CSS 这一步把 `disableInlineImports` 设为 `true`，因为导入已由 `css.Build` 处理。
+
+## 完整示例：从模板扫描出用到的工具类
+
+按上面「准备」的步骤装好 Tailwind CSS v4 CLI、写好项目配置，再准备入口文件与模板：
+
+```css {file="assets/css/main.css"}
+@import "tailwindcss";
+@source "hugo_stats.json";
+```
+
+```go-html-template {file="layouts/index.html"}
+<div class="text-red-500 font-bold">x</div>
+{{ with resources.Get "css/main.css" }}
+  {{ $opts := dict "minify" (not hugo.IsDevelopment) }}
+  {{ with . | css.TailwindCSS $opts }}{{ .RelPermalink }}{{ end }}
+{{ end }}
+```
+
+在本机（Hugo 0.167.0 extended，Windows，Tailwind CSS v4.3.3，删除 `public/` 与 `hugo_stats.json` 后单次构建）实测：
+
+- 生产环境（`minify` 为 `true`）：退出码 0，`.RelPermalink` 为 `/css/main.css`，产物 4625 字节，其中 `@layer utilities` 一节为：
+
+```css
+@layer utilities{.font-bold{--tw-font-weight:var(--font-weight-bold);font-weight:var(--font-weight-bold)}.text-red-500{color:var(--color-red-500)}}
+```
+
+- 开发环境（`hugo --environment development`，`minify` 为 `false`）：产物 5183 字节，同一节展开为：
+
+```css
+@layer utilities {
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
+  .text-red-500 {
+    color: var(--color-red-500);
+  }
+}
+```
+
+**你应当看到什么**：模板里**只出现了一次**的 `text-red-500` 和 `font-bold` 都出现在产物的 `utilities` 层里——这就是「扫描模板、按需生成」的效果。文件头是 `/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */`，版本号随你安装的 CLI 变化（实测）。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows；Tailwind CSS v4.3.3 通过 npm 装在项目根；项目配置按上文「准备」第 2 步（含 `build.buildStats`、`hugo_stats.json` 挂载与 `security.exec.allow`）。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 正常处理 | 资源；`.RelPermalink` 为 `/css/main.css`；`minify` 为真时单行压缩，为假时逐行展开 | 否 |
+| 未安装 Tailwind CLI | —— | 是：`TAILWINDCSS: failed to transform …`（Hugo 找不到 `tailwindcss` 可执行文件） |
+| 未把 `tailwindcss` 加入 `security.exec.allow` | —— | 是：`access denied: "tailwindcss" is not whitelisted in policy "security.exec.allow"` |
+| 模板里的类没有进产物 | 说明 `@source "hugo_stats.json"` 缺失，或 `hugo_stats.json` 被 `.gitignore` 忽略 | 否（不报错，只是少样式） |
+| `minify` 与 `optimize` | 上游说明二者可分别开启；本站只实测了 `minify` 的两种取值 | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 报错看不懂 | `access denied: "tailwindcss" is not whitelisted in policy "security.exec.allow"` | 默认白名单不含 `tailwindcss`（**实测**） | 在项目配置加 `[security.exec] allow = ['^(dart-)?sass$', '^go$', '^git$', '^node$', '^postcss$', '^tailwindcss$']` |
+| 报错看不懂 | 提示找不到 `tailwindcss` | CLI 没装，或没装在项目根 | `npm install --save-dev tailwindcss @tailwindcss/cli` |
+| 没报错但结果不对 | 产物里只有基础样式，没有你在模板里写的类 | 没开启 `build.buildStats`、没挂载 `hugo_stats.json`，或入口文件少了 `@source "hugo_stats.json";` | 按「准备」第 2、3 步补齐配置 |
+| 没报错但结果不对 | 类名明明用了却没生成 | `hugo_stats.json` 被 `.gitignore` 忽略，Tailwind 不会读它 | 在入口文件显式 `@source "hugo_stats.json";` |
+| 没报错但结果不对 | 产物不完整、少了一部分类 | 模板在渲染后才产出类名，扫描时还没出现 | 上游做法是用 `templates.Defer` 把处理推迟到所有站点渲染完成之后（见「准备」第 5 步） |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [modern browser]: https://tailwindcss.com/docs/compatibility#browser-support
 [standalone binary]: https://github.com/tailwindlabs/tailwindcss/releases/latest

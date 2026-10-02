@@ -12,6 +12,29 @@ returnType = "any"
 aliases = ["unmarshal"]
 +++
 
+## 这一页解决什么问题
+
+模板要读结构化数据：`assets/` 下的 JSON、页面包里的 CSV、`hugo.Data` 之外的数据文件、远程 API 的响应。这些数据以**文本或资源**的形式存在，Go 模板不能直接访问字段——需要先解析成映射或切片。`transform.Unmarshal` 就是这一步：把 CSV、JSON、TOML、YAML、XML 文本变成可 `range`、可 `.field` 的数据结构。
+
+`unmarshal` 与 `transform.Unmarshal` 是同一个函数：前者是别名。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 解析 `assets/` 全局资源、页面资源、远程资源的文本内容；
+- 解析字符串形式的配置片段或 API 响应；
+- CSV 表格数据（记得选 `targetType` 是 `slice` 还是 `map`）。
+
+**别用**：
+
+- 数据本来就在 `data/` 目录或内容前置元数据里 → 用 `hugo.Data` / `.Params`，Hugo 已解析好；
+- 想把数据**写成**某种格式 → 用 [`transform.Remarshal`](/functions/transform/remarshal/) 或 [`encoding.Jsonify`](/functions/encoding/jsonify/)；
+- 想把 Markdown 转成 HTML → 用 [`transform.Markdownify`](/functions/transform/markdownify/)；
+- 远程资源返回了错误的内容类型（如 `application/octet-stream`）→ 按上游 NOTE 传 `.Content` 而不是资源本身。
+
+## 说明
+
 输入可以是字符串或资源。
 
 ## 选项
@@ -368,6 +391,59 @@ Hugo 渲染出的结果是：
   <li>Les Misérables (fr) 9780451419439</li>
 </ul>
 ```
+
+## 完整示例：解析 YAML 字符串与 CSV
+
+```go-html-template {file="layouts/_partials/parse.html"}
+{{ $s := "title: Les Misérables\nauthor: Victor Hugo" }}
+{{ $book := transform.Unmarshal $s }}
+<p>{{ $book.title }}</p>
+<p>{{ $book.author }}</p>
+{{ $csv := "name,type\nSpot,dog\nRover,dog" }}
+{{ $rows := transform.Unmarshal (dict "targetType" "map") $csv }}
+<p>{{ len $rows }}</p>
+<p>{{ (index $rows 1).name }}</p>
+```
+
+Hugo 渲染为（变量赋值行本身会留下空行，这里省略）：
+
+```html
+<p>Les Misérables</p>
+<p>Victor Hugo</p>
+<p>2</p>
+<p>Rover</p>
+```
+
+**你应当看到什么**：YAML 字符串解析成映射后可以直接用 `.title`；CSV 用 `targetType = "map"` 时**第一行被当作表头**（所以 3 行文本得到 2 条记录，实测），之后按列名访问 `.name`——这与默认的 `slice` 模式不同（默认连表头也算一行，返回 `[][]string`）。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，单语言站点（`locale = 'zh-CN'`），Windows。下表类型用 `printf "%T"` 测得。
+
+| 输入 | 结果 | 是否报错 |
+| --- | --- | --- |
+| YAML 字符串 `"title: T"` | `map[string]interface {}` | 否 |
+| JSON 字符串 `"{\"a\":1}"` | `map[string]interface {}`，`.a` → `1` | 否 |
+| TOML 字符串 `"a = 1"` | `map[string]interface {}` | 否 |
+| CSV（默认 `slice`）`"a,b\n1,2\n3,4"` | `[][]string`，`len` → `3`（含表头行） | 否 |
+| CSV（`targetType = "map"`）`"a,b\n1,2"` | `[]map[string]string` → `[map[a:1 b:2]]`，第一行当表头 | 否 |
+| 用 `format` 选项指定格式 | 与不带选项时一致（用于无扩展名或格式有歧义的输入） | 否 |
+| 非法 YAML（如 `"not: valid: yaml: ["`） | —— | 是：`error calling Unmarshal: [1:6] mapping value is not allowed in this context` |
+| 非法 JSON（如 `"{\"a\":1"`） | —— | 是：`error calling Unmarshal: "_stream.json:1:1": unmarshal failed: unexpected end of JSON input` |
+| 返回类型 | `any`（实际为映射或切片，取决于格式） | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 没报错但结果不对 | CSV 数据比预期多/少一行 | `slice` 模式把表头也算一行，`map` 模式把第一行当表头 | 明确选择 `targetType`，并按需跳过表头 |
+| 没报错但结果不对 | XML 里访问 `$data.rss.channel.title` 取不到 | 解析 XML 时**不包含根节点**（上游已说明） | 直接用 `$data.channel.title` |
+| 没报错但结果不对 | XML 里带属性的节点取不到文本 | 属性/文本被放进带 `#text`、`-lang` 这类非法标识符的键里 | 用 [`index`](/functions/collections/indexfunction/) 访问（见上游「处理 XML」一节） |
+| 报错看不懂 | `unmarshal failed: unexpected end of JSON input` | 输入不是合法 JSON（被截断、或根本不是 JSON） | 用 `debug.Dump` 检查输入来源；必要时指定 `format` |
+| 报错看不懂 | `mapping value is not allowed in this context` | YAML 格式错误（缩进、冒号后缺空格等） | 先在本机用 YAML 校验工具验证数据文件 |
+| 没报错但结果不对 | 远程资源解析失败但状态是 200 | 服务器返回了错误的 Content-Type（上游 NOTE） | 传 `.Content` 而不是资源本身 |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [Content-Type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type
 [`index`]: /functions/collections/indexfunction/

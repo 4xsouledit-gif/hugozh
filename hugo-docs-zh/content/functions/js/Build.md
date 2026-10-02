@@ -11,6 +11,23 @@ signatures = ["js.Build [OPTIONS] RESOURCE"]
 returnType = "resource.Resource"
 +++
 
+## 这一页解决什么问题
+
+`assets/` 里的 JavaScript 很少是一个能直接跑的裸文件：它 `import` 别的模块，可能是 TypeScript 或 JSX，上线前还想摇树、压缩、留一份 source map。`js.Build` 用内嵌的 esbuild 一次做完这些事，返回可发布的资源，照常接进 `<script>` 或继续 `fingerprint`。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 打包多模块 JS/TS/JSX，包含 `node_modules` 依赖；
+- 需要摇树、压缩、source map，或把模板数据通过 `@params` 注入脚本。
+
+**别用**：
+
+- 只是把 `assets/js/x.js` 原样发布 → 直接 `resources.Get` 加 `.RelPermalink`；
+- 要用 Babel 的 preset/插件链转译 → 用 [`js.Babel`](/functions/js/babel/)；
+- 需要按「组」批量打包、代码分割，或把实例参数交给 runner → 用 [`js.Batch`](/functions/js/batch/)。
+
 > [!NOTE]
 > `js.Build` 函数由 [`evanw/esbuild`][] 包提供支持，为打包、转换与压缩提供了成熟且高性能的基础。
 
@@ -255,6 +272,120 @@ Hugo 默认会生成一份 `assets/jsconfig.json` 文件，用于映射这些导
 {{ $built := resources.Get "scripts/main.js" | js.Build $opts }}
 <script src="{{ $built.RelPermalink }}" defer></script>
 ```
+
+## 完整示例：打包一个多模块入口
+
+```js {file="assets/js/lib/greet.js"}
+export function greet(name) { return `Hello, ${name}!`; }
+```
+
+```js {file="assets/js/app.js"}
+import { greet } from './lib/greet.js';
+
+console.log(greet('Hugo'));
+```
+
+```go-html-template {file="layouts/_partials/js.html"}
+{{ with resources.Get "js/app.js" | js.Build }}
+  <script src="{{ .RelPermalink }}"></script>
+{{ end }}
+```
+
+在本机（Hugo 0.167.0 extended，Windows）实测：`.RelPermalink` 为 `/js/app.js`，产物 `public/js/app.js` 为（`ns-hugo-imp` 注释里的绝对路径随机器变化，此处省略为 `…`）：
+
+```js
+(() => {
+  // ns-hugo-imp:…/assets/js/lib/greet.js
+  function greet(name) {
+    return `Hello, ${name}!`;
+  }
+
+  // <stdin>
+  console.log(greet("Hugo"));
+})();
+```
+
+**你应当看到什么**：默认输出格式是 `iife`（自执行函数），`import` 指向的本地模块被**内联进同一个文件**——浏览器只需加载一个 `.js`。
+
+加 `"minify" true` 后，实测同一入口变成一行：
+
+```js
+(()=>{function o(e){return`Hello, ${e}!`}console.log(o("Hugo"));})();
+```
+
+TypeScript 会被自动转译（`assets/js/ts/main.ts` 内容为 `const n: number = 42;` 与 `console.log(n);`）：
+
+```js
+(() => {
+  // <stdin>
+  var n = 42;
+  console.log(n);
+})();
+```
+
+**你应当看到什么**：类型标注消失，产物路径从 `.ts` 变成 `/js/ts/main.js`（实测）。
+
+用 `params` 把模板数据注入脚本（脚本里写 `import * as params from '@params';`，内容为 `console.log(params.api);`）：
+
+```go-html-template
+{{ with resources.Get "js/params.js" | js.Build (dict "params" (dict "api" "https://example.org/api")) }}{{ .RelPermalink }}{{ end }}
+```
+
+实测产物：
+
+```js
+(() => {
+  // ns-hugo-params:<stdin>
+  var api = "https://example.org/api";
+
+  // <stdin>
+  console.log(api);
+})();
+```
+
+用 `externals` 与 `defines` 处理 npm 依赖与环境常量（上游示例），实测关键片段：
+
+```js
+  var import_client = __require("react-dom/client");
+  if (true) {
+    console.log(import_client.createRoot);
+  }
+```
+
+**你应当看到什么**：`react-dom` 被保留为外部引用（`__require(...)`，不会被打进产物），而模板里 `defines` 定义的 `process.env.NODE_ENV` 被替换成字面量 `"development"`——判断式因此简化成 `if (true)`。
+
+另外实测：`"targetPath" "main.js"`（或用位置参数 `js.Build "main.js"`）会把产物发布到 `/main.js`；`"sourceMap" "linked"` 会额外发布 `public/js/app.js.map`。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended，Windows，最小站点。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 正常打包 | 资源；未设 `targetPath` 时沿用源路径（`.ts` 源会得到 `.js` 产物） | 否 |
+| `"minify" true` | 内容压缩成一行 | 否 |
+| `"targetPath" "main.js"` / 位置参数 `js.Build "main.js"` | 产物发布到 `/main.js` | 否 |
+| `"sourceMap" "linked"` | 额外发布 `/js/app.js.map` | 否 |
+| `"format" "esm"` | 构建成功、产物照常发布 | 否 |
+| 直传字符串 `{{ "console.log(1)" \| js.Build }}` | —— | 是：`error calling Build: type string not supported in Resource transformations` |
+| 直传 `nil` | —— | 是：`error calling Build: type <nil> not supported in Resource transformations` |
+| 不给资源 `{{ js.Build }}` | —— | 是：`error calling Build: no Resource provided in transformation` |
+| JS 语法错误 | —— | 是：`JSBUILD: failed to transform "/js/bad.js" (text/javascript): "…bad.js:1:6": Expected identifier but found "="` |
+| `import` 解析不到 | —— | 是：`Could not resolve "./nope.js"` |
+| `"format"` 取值非法 | —— | 是：`unsupported script output format: "nope"` |
+| 文件不存在但用 `with` 守卫 | 整段不渲染 | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 报错看不懂 | `Could not resolve "./nope.js"` | 相对路径写错，或目标文件不在 `assets` 里 | 核对相对路径与文件名后缀；`assets` 之外的包要靠 `node_modules` 解析 |
+| 报错看不懂 | `type <nil> not supported in Resource transformations` | `resources.Get` 没命中却直接送进 `js.Build` | 用 `{{ with resources.Get "js/app.js" }}…{{ end }}` 守卫 |
+| 没报错但结果不对 | 浏览器报 `require is not defined` | `externals` 里的包没有在页面上另行加载 | 对外部依赖用 `<script>` 先加载，或去掉 `externals` 让它打进产物 |
+| 没报错但结果不对 | 改了 JS 但页面没变 | 资源缓存或文件名未带指纹 | 加 `--ignoreCache`，生产环境配合 `fingerprint` |
+| 没报错但结果不对 | `@params` 引入的值是 `undefined` | 忘了通过 `params` 选项传入 | 在 `js.Build` 的选项里加 `"params" (dict …)` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [`esbuild`]: https://esbuild.github.io/
 [`evanw/esbuild`]: https://github.com/evanw/esbuild

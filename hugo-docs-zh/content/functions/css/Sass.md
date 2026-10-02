@@ -24,6 +24,26 @@ after deprecation.
 
 Sass 有两种语法形式：[SCSS][] 与[缩进语法][indented]。Hugo 两者都支持。
 
+## 这一页解决什么问题
+
+浏览器只认 CSS——写 `.scss`/`.sass` 就必须先把它编译掉。`css.Sass` 就是这条编译管道：把 `assets/` 下的 Sass 资源转译为 CSS 资源，再照常接进 `<link>`、或继续 `fingerprint`。Hugo 的 extended / extended-deploy 版本内置 LibSass（也是默认的 `transpiler`），安装 Dart Sass 后可以改用 Sass 语言的最新特性。
+
+## 什么时候用，什么时候别用
+
+**该用**：
+
+- 项目本身就用 SCSS/Sass（变量、嵌套、mixin、`@use`）；
+- 想用 `vars` 选项把站点配置注入成 Sass 变量（配合 `@import 'hugo:vars'` 或 `@use 'hugo:vars'`）。
+
+**别用**：
+
+- 处理的是**纯 CSS**、只做合并/压缩/补前缀 → 用 [`css.Build`](/functions/css/build/)；
+- Tailwind CSS v4 → 用 [`css.TailwindCSS`](/functions/css/tailwindcss/)；
+- 需要 PostCSS 插件 → 用 [`css.PostCSS`](/functions/css/postcss/)。
+
+> [!WARNING]
+> 上游已提示：内置 LibSass 自 [v0.153.0][] 起弃用。但**实测** Hugo 0.167.0 extended 上默认仍走 LibSass，不安装 Dart Sass 也能编译；只是使用 `@use`、`vars` 的 Dart Sass 语法时会失败（见文末边界表）。
+
 ## 选项
 
 `css.Sass` 函数接受一个选项映射。
@@ -330,6 +350,87 @@ Windows  | Scoop    | [scoop.sh][]       | `scoop install sass`
 - [Render][]
 - [SourceHut][]
 - [Vercel][]
+
+## 完整示例：编译一个 SCSS 文件
+
+```go-html-template {file="layouts/_partials/css.html"}
+{{ with resources.Get "sass/main.scss" | css.Sass }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+```
+
+```scss {file="assets/sass/main.scss"}
+$color: #333;
+body { color: $color; }
+```
+
+在本机（Hugo 0.167.0 extended，Windows，未安装 Dart Sass，走默认的 LibSass）实测：`.RelPermalink` 为 `/sass/main.css`，产物 `public/sass/main.css` 为：
+
+```css
+body {
+  color: #333; }
+```
+
+**你应当看到什么**：变量 `$color` 被替换成 `#333`。默认 `outputStyle` 是 LibSass 的 `nested`，所以花括号收在最后一条声明那一行——这是**实测**结果，不是排印错误。换 `"outputStyle" "expanded"` 会得到逐行展开的常规格式，换 `"compressed"` 得到压缩结果 `body{color:#333}`（均实测）。
+
+用 `vars` 注入值（LibSass 路径写 `@import 'hugo:vars';`）：
+
+```go-html-template
+{{ $vars := dict "ol-li-after" ("6" | css.Quoted) }}
+{{ $opts := dict "vars" $vars "outputStyle" "expanded" }}
+{{ with resources.Get "sass/main.scss" | css.Sass $opts }}{{ .RelPermalink }}{{ end }}
+```
+
+```scss {file="assets/sass/main.scss"}
+@import 'hugo:vars';
+
+body {
+  content: $ol-li-after;
+}
+```
+
+实测产物：
+
+```css
+body {
+  content: "6";
+}
+```
+
+**你应当看到什么**：变量命名空间里的 `$ol-li-after` 可用，值带引号（由 [`css.Quoted`](/functions/css/quoted/) 决定）。设置 `"targetPath" "css/my.css"` 后，实测 `.RelPermalink` 变为 `/css/my.css`。
+
+> [!NOTE]
+> 上游示例使用 `"transpiler" "dartsass"` 与 `@use "hugo:vars" as h;`。本机未安装 Dart Sass，**该分支未能实测**：把 `transpiler` 设为 `dartsass` 会构建失败，错误为 `TOCSS-DART: failed to transform … You need to install Dart Sass`。要照抄上游示例，请先安装 Dart Sass 并重新运行 `hugo env` 确认。
+
+## 返回值边界（实测）
+
+测量条件：Hugo 0.167.0 extended（内置 LibSass，未安装 Dart Sass），Windows，最小站点。
+
+| 情况 | 结果 | 是否报错 |
+| --- | --- | --- |
+| 默认编译 | 资源；`.RelPermalink` 为 `/sass/main.css`；`outputStyle` 为 `nested` | 否 |
+| `"outputStyle" "expanded"` | 逐行展开 | 否 |
+| `"outputStyle" "compressed"` | `body{color:#333}` | 否 |
+| `"targetPath" "css/my.css"` | `.RelPermalink` 为 `/css/my.css` | 否 |
+| `"transpiler" "dartsass"`（未安装 Dart Sass） | —— | 是：`TOCSS-DART: failed to transform "/sass/main.scss" (text/x-scss). You need to install Dart Sass, see https://gohugo.io//functions/css/sass/#dart-sass: this feature is not available in your current Hugo version` |
+| SCSS 语法错误（`body { color: ; }`） | —— | 是：`TOCSS: failed to transform "/sass/bad.scss" (text/x-scss): "…bad.scss:1:13": style declaration must contain a value` |
+| LibSass 下用 `@use "hugo:vars" as h;` | —— | 是：`TOCSS: …: Invalid CSS after "body { content: h": expected expression (e.g. 1px, bold), was ".$ol-li-after; }"` |
+| LibSass 下直接写 `$var` 但没引入 `hugo:vars` | —— | 是：`TOCSS: …: Undefined variable: "$ol-li-after"` |
+| 直传字符串 `{{ "body{}" \| css.Sass }}` | —— | 是：`error calling Sass: type string not supported in Resource transformations` |
+| 直传 `nil` | —— | 是：`error calling Sass: type <nil> not supported in Resource transformations` |
+| 文件不存在但用 `with` 守卫 | 整段不渲染 | 否 |
+
+## 常见坑
+
+| 类别 | 症状 | 真因 | 怎么修 |
+| --- | --- | --- | --- |
+| 报错看不懂 | `TOCSS-DART: … You need to install Dart Sass` | 设置了 `"transpiler" "dartsass"` 但系统 PATH 里没有 Dart Sass | 安装 Dart Sass（`choco install sass` / `scoop install sass` / Homebrew），或去掉该选项改用内置 LibSass |
+| 报错看不懂 | `Invalid CSS after "body { content: h": expected expression …` | 在 LibSass 下用了 Dart Sass 的 `@use` 语法 | LibSass 用 `@import 'hugo:vars';`，Dart Sass 才用 `@use 'hugo:vars' as h;` |
+| 报错看不懂 | `Undefined variable: "$xxx"` | 样式表里没引入 `hugo:vars` 命名空间 | 在文件顶部加 `@import 'hugo:vars';`（或 Dart Sass 的 `@use`） |
+| 没报错但结果不对 | 改了 `.scss` 但产物没变 | 资源缓存 | 构建时加 `--ignoreCache`，或清理 `resources/_gen` |
+| 没报错但结果不对 | 产物格式与预期不符（花括号挤在最后一行） | LibSass 的 `nested` 是默认输出格式 | 显式设置 `"outputStyle" "expanded"` 或 `"compressed"` |
+
+更多排查入口见[故障排查](/troubleshooting/)。
 
 [^1]: 2023 年，Sass 团队弃用 Embedded Dart Sass，转而推荐 Dart Sass。
 

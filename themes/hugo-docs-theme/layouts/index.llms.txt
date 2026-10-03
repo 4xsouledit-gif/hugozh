@@ -36,7 +36,10 @@
 - 全站页面清单（XML）：{{ site.BaseURL }}sitemap.xml
 - 订阅源：{{ site.BaseURL }}index.xml
 - 技能包（供 AI 编码代理使用的 Hugo 作业手册）：{{ site.BaseURL }}skill/
-- 技能包清单（含每个文件的 sha256）：{{ site.BaseURL }}skill/skill-manifest.json
+- 技能包正文（Markdown）：{{ site.BaseURL }}skill/SKILL.md
+- 技能包安装提示词（纯文本，复制给代理即可）：{{ site.BaseURL }}skill/INSTALL-PROMPT.txt
+- 技能包踩坑清单（G1–G28，Markdown）：{{ site.BaseURL }}skill/references/gotchas.md
+- 技能包清单（含每个文件的 sha256，13 个文件）：{{ site.BaseURL }}skill/skill-manifest.json
 
 ## 页面角色（决定「怎么用这一页」）
 
@@ -61,6 +64,10 @@
   教学面板是 `<section class="teach">`，同样位于 `.doc-body` 之外。
 - 建立全站映射只需一次请求：取 `pages.json`（约 950 条，未压缩约 460 KB，gzip 后约 50 KB），
   不要逐页猜路径。
+- 技能包下的文件是**静态 Markdown / 纯文本**，直接 GET 即可，不要按 HTML 解析：
+  响应头是 `Content-Type: text/markdown; charset=utf-8`（`.txt` 为 `text/plain`、
+  清单为 `application/json`），没有 `Content-Disposition: attachment`，因此浏览器会内联显示原文。
+  想一次拿全 13 个文件与其哈希，读 `skill/skill-manifest.json` 的 `files[]`。
 - 引用建议格式：`标题（Hugo 中文文档）· 更新于 YYYY-MM-DD · 官方原文 <gohugo.io 链接>`。
 
 ## 内容约定（便于切分与引用）

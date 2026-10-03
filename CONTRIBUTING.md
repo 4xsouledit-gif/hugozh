@@ -18,7 +18,6 @@
 ## 新增页面
 
 ```bash
-cd hugo-docs-zh
 hugo new content <章节>/<页面>.md
 ```
 
@@ -27,7 +26,6 @@ hugo new content <章节>/<页面>.md
 ## 提交前请自检
 
 ```bash
-cd hugo-docs-zh
 hugo --cleanDestinationDir --ignoreCache \
      --printPathWarnings --printUnusedTemplates --printI18nWarnings
 ```

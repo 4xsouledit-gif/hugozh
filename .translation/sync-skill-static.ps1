@@ -10,7 +10,7 @@ param([switch]$Verify)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $src = Join-Path $root '.dsh\skills\hugo-static-site'
-$dst = Join-Path $root 'hugo-docs-zh\static\skill'
+$dst = Join-Path $root 'static\skill'
 $verifyOnly = $PSBoundParameters.ContainsKey('Verify')
 
 if (-not (Test-Path $src)) { Write-Output "找不到技能包目录: $src"; exit 2 }

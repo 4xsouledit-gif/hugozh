@@ -130,9 +130,9 @@ theme = 'my-theme'
 
 | 层 | 位置 | 管什么 |
 | --- | --- | --- |
-| 项目约束层 | `hugo-docs-zh/layouts/` | 只放跨主题共用的骨架约束（基础模板与必须提供的局部模板名） |
-| 基础主题 | `hugo-docs-zh/themes/hugo-docs-theme/` | 版式：页面模板、局部模板、`main.css`、代码高亮配色、脚本 |
-| 中文叠加层 | `hugo-docs-zh/themes/hugo-docs-theme-zh/` | 只做中文排版（CJK 字体栈、行距、断行），带一个开关参数 |
+| 项目约束层 | `layouts/` | 只放跨主题共用的骨架约束（基础模板与必须提供的局部模板名） |
+| 基础主题 | `themes/hugo-docs-theme/` | 版式：页面模板、局部模板、`main.css`、代码高亮配色、脚本 |
+| 中文叠加层 | `themes/hugo-docs-theme-zh/` | 只做中文排版（CJK 字体栈、行距、断行），带一个开关参数 |
 
 组合方式是配置里的一行：
 

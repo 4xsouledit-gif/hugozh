@@ -1,6 +1,6 @@
 {{- /* /llms.txt —— 给 AI 代理/答案引擎的入口文件（output format: llms，text/plain）。
        结构遵循 llms.txt 约定：标题 + 摘要 + 分主题入口 + 机器可读资源 + 内容约定。
-       依据：https://llmstxt.org/ （站点侧实现说明见 hugo-docs-zh/README.md） */ -}}
+       依据：https://llmstxt.org/ （站点侧实现说明见仓库根目录的 README.md） */ -}}
 # {{ site.Title }}
 
 > {{ site.Params.description }}

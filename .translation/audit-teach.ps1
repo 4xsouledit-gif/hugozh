@@ -16,7 +16,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$zhRoot = Join-Path $root 'hugo-docs-zh\content'
+$zhRoot = Join-Path $root 'content'
 
 # 「教程 / 上手」性质章节：教学块覆盖按严格口径要求
 $tutorialSections = @('getting-started', 'installation', 'troubleshooting')

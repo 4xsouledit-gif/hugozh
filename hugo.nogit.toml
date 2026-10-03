@@ -6,11 +6,11 @@
 #    failed to create page from pageMetaSource : "content/_index.md:1:1":
 #    failed to load Git data: fatal: not a git repository ...
 #
-#  用法（在 hugo-docs-zh/ 下二选一）：
+#  用法（在仓库根目录下二选一）：
 #    有 .git   hugo --minify
 #    无 .git   hugo --minify --config hugo.toml,hugo.nogit.toml
 #  平台构建命令可写成（POSIX sh）：
-#    cd hugo-docs-zh && if [ -d .git ]; then hugo --minify; else hugo --minify --config hugo.toml,hugo.nogit.toml; fi
+#    if [ -d .git ]; then hugo --minify; else hugo --minify --config hugo.toml,hugo.nogit.toml; fi
 # ============================================================
 
 enableGitInfo = false

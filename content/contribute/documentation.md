@@ -151,7 +151,7 @@ illegal state in content; shortcode token missing end delim
 
 ### 先把文档站点跑起来
 
-在改之前先确认「改之前就是好的」。**在站点目录**（`hugo-docs-zh/`，不是仓库根目录）执行：
+在改之前先确认「改之前就是好的」。**在仓库根目录**执行（站点源码就在这一层：`hugo.toml`、`content/`、`themes/`）：
 
 ```bash
 hugo --ignoreCache --renderToMemory --quiet
@@ -161,12 +161,14 @@ echo $?      # Windows PowerShell 用 $LASTEXITCODE
 **你应当看到什么**：**退出码 0**，终端没有任何输出（`--quiet` 会压掉常规信息，但报错与警告仍会显示）。这一步很关键：
 
 > [!WARNING]
-> **必须在 `hugo-docs-zh/` 目录下执行。** 在仓库根目录跑 `hugo` 不会构建本站，而是构建一个与本站无关的极小站点，**同样返回退出码 0**——这是假阳性，不能作为自检证据。**实测**（条件：Hugo v0.167.0，工作区根目录，2026-10-03）：在根目录执行 `hugo --renderToMemory`，退出码为 0，但输出的是 `Pages │ 4` 这样与本站规模完全不符的统计，并带两条 `found no layout file for "html" for kind …` 警告。
+> **必须在仓库根目录执行。** 在任何**子目录**里跑 `hugo` 都构不出本站：Hugo 会另建一个极小站点，而且**同样返回退出码 0**——这是假阳性，不能作为自检证据。**实测**（条件：Hugo v0.167.0，2026-10-04）：在 `.translation/` 里执行 `hugo --renderToMemory`，退出码为 0，但输出的是 `Pages │ 4` 这样与本站规模完全不符的统计，并带两条 `found no layout file for "html" for kind …` 警告。
+>
+> 所以**不要只看退出码**：本站正常构建是 **1966 个页面**（约 950 个内容文件 × 输出格式数），数量对不上就说明构建目录不对。
 
 想在浏览器里看效果，用 `hugo server`，然后打开终端提示的地址（默认 `http://localhost:1313/`）。页脚显示的「最后更新」来自 Git 提交时间（本站开启了 `enableGitInfo`），所以刚提交过的页面日期会变成这次提交的时间——这是预期行为，不是你改坏了。
 
 > [!NOTE]
-> 本站开启了 Git 信息联动：**如果构建目录里没有 `.git`**，Hugo 会整站构建失败并报 `failed to load Git data: fatal: not a git repository`，而不是降级。在无 Git 的环境里构建，请改用 `hugo --config hugo.toml,hugo.nogit.toml`（`hugo-docs-zh/` 下已提供该兜底配置）。
+> 本站开启了 Git 信息联动：**如果构建目录里没有 `.git`**，Hugo 会整站构建失败并报 `failed to load Git data: fatal: not a git repository`，而不是降级。在无 Git 的环境里构建，请改用 `hugo --config hugo.toml,hugo.nogit.toml`（仓库根目录下的 `hugo.nogit.toml` 就是这份兜底配置）。
 
 ### 完整流程
 
@@ -204,7 +206,7 @@ echo $?      # Windows PowerShell 用 $LASTEXITCODE
 
 | 命令 | 通过的样子 | 它能查出什么 |
 | --- | --- | --- |
-| `cd hugo-docs-zh; hugo --ignoreCache --renderToMemory --quiet` | 退出码 0 | 短代码、前置元数据、模板语法类问题 |
+| `hugo --ignoreCache --renderToMemory --quiet` | 退出码 0 | 短代码、前置元数据、模板语法类问题 |
 | `pwsh -NoProfile -File .translation/audit-links-case.ps1` | 末行「全部站内链接大小写与存在性均正确 ✓」（需先构建出 `public/`） | 站内链接写成了驼峰，或指向了不存在的页面 |
 | `pwsh -NoProfile -File .translation/audit-teach.ps1` | 输出按章节统计的表；新增页面应出现在教学块计数里 | 教学层缺字段 |
 
@@ -242,12 +244,12 @@ echo $?      # Windows PowerShell 用 $LASTEXITCODE
 
 | 症状 | 真因 | 怎么修 |
 | --- | --- | --- |
-| 改了文件，本地预览没变化 | 改的不是当前渲染的那一份（例如改了 `hugoDocs/` 只读克隆），或服务器没重启到该目录 | 确认路径在 `hugo-docs-zh/content/` 下；`hugo server` 是从站点目录启动的 |
+| 改了文件，本地预览没变化 | 改的不是当前渲染的那一份（例如改了 `hugoDocs/` 只读克隆），或服务器没重启到该目录 | 确认路径在 `content/` 下；`hugo server` 是从仓库根目录启动的 |
 | 构建报 `failed to extract shortcode: template for shortcode "…" not found` | 正文里有未转义的短代码定界符，或照抄了上游的短代码调用 | 改成纯 Markdown 或转义写法，见[转义与短代码](#转义与短代码) |
 | 构建报 `illegal state in content; shortcode token missing end delim`，且指向的页面看不出问题 | 正文里出现了 Hugo 的短代码占位符前缀字面串 | 用零宽字符打断该字面串；报错归因到别的页面是已知现象 |
 | 页面正常，但正文顶部少了「英文原文：…」 | `source` 被写到了 `[params.teach]` 等表头之后 | 把六个标量字段整体上移到所有表头之前 |
 | 站点某些链接线上 404，本地看着正常 | 站内链接写成了驼峰（Hugo 输出 URL 全小写） | 跑 `.translation/audit-links-case.ps1`，按「应为」一列改 |
-| 在仓库根目录跑 `hugo` 也返回 0，就以为通过了 | 根目录不是站点根，构建出的站点规模与本站完全不符 | 一律在 `hugo-docs-zh/` 下执行，见[先把文档站点跑起来](#先把文档站点跑起来)；用输出的 `Pages` 数量与本站规模对一下 |
+| 在子目录里跑 `hugo` 也返回 0，就以为通过了 | 子目录不是站点根，构建出的站点规模与本站完全不符（实测 `Pages │ 4`） | 一律在仓库根目录执行，见[先把文档站点跑起来](#先把文档站点跑起来)；用输出的 `Pages` 数量与本站规模对一下（本站 1966 页） |
 | 无 Git 环境下构建报 `fatal: not a git repository` | 本站开启了 Git 信息联动，缺 `.git` 会整站失败 | 加 `--config hugo.toml,hugo.nogit.toml` |
 | 提交信息被维护者要求重写 | 摘要没有用 `content` / `theme` / `config` / `all` / `misc` 开头，或没写祈使句 | 按[完整流程](#完整流程)第 6 步的格式改；用 `git commit --amend` 修正 |
 

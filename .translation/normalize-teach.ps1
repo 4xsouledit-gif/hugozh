@@ -20,7 +20,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$contentRoot = Join-Path $root 'hugo-docs-zh\content'
+$contentRoot = Join-Path $root 'content'
 $backupRoot = Join-Path $root '.translation\.teach-migration-backup'
 $scalarKeys = @('title', 'linkTitle', 'description', 'date', 'weight', 'source', 'aliases', 'draft', 'publishDate', 'expiryDate', 'lastmod', 'noindex')
 $teachKeys = @('difficulty', 'time', 'prereq', 'outcomes', 'readAfter', 'next')

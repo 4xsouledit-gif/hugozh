@@ -30,7 +30,7 @@ const result = await page.evaluate(async () => {
 });
 
 console.log(JSON.stringify(result, null, 1));
-await page.locator('.footer-mark').screenshot({ path: 'footer-mark.png' }).catch(e => console.log('截图失败', e.message));
+await page.locator('.footer-mark').screenshot({ path: '.testing/footer-mark.png' }).catch(e => console.log('截图失败', e.message));
 console.log('HTTP 失败请求:', failed.length ? failed : '无');
 await browser.close();
 process.exit(failed.length || !result.footerLogo?.naturalWidth ? 1 : 0);

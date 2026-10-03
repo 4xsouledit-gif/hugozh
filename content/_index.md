@@ -41,10 +41,10 @@ date = 2026-10-01
 
 ## 构建本站源码
 
-本站是一个自包含的 Hugo 项目：**无需外部主题、无需联网**即可构建（要求 Hugo 0.147+，标准版即可）。完整说明见仓库中的 [README](https://github.com/hencter/hugozh/blob/main/hugo-docs-zh/README.md)。
+本站是一个自包含的 Hugo 项目：**无需外部主题、无需联网**即可构建（要求 Hugo 0.147+，标准版即可）。完整说明见仓库中的 [README](https://github.com/hencter/hugozh/blob/main/README.md)。
 
 ```bash
-# 在 hugo-docs-zh 目录下执行
+# 在仓库根目录执行
 hugo server          # 本地预览，默认 http://localhost:1313/
 hugo server -D       # 连同草稿一起预览
 hugo                 # 生成静态站点到 public/

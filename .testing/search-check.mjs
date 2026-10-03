@@ -7,12 +7,12 @@
  * 打分逻辑与 themes/hugo-docs-theme/assets/js/site.js 的 norm()/score() 保持一致。
  * 两处若有一处改动，这里会立刻失败 —— 这就是它存在的意义。
  *
- * 用法：node .testing/search-check.mjs [站点目录，默认 hugo-docs-zh]
+ * 用法：node .testing/search-check.mjs [站点目录，默认仓库根]
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const siteDir = process.argv[2] || "hugo-docs-zh";
+const siteDir = process.argv[2] || ".";
 const indexPath = join(siteDir, "public", "search.json");
 
 const norm = (s) => (s || "").toLowerCase().replace(/\s+/g, "");

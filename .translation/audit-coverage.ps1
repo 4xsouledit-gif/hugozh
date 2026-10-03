@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $enRoot = Join-Path $root 'hugoDocs\content\en'
-$zhRoot = Join-Path $root 'hugo-docs-zh\content'
+$zhRoot = Join-Path $root 'content'
 
 $sections = @('functions', 'methods', 'news', 'quick-reference\glossary')
 $totalMissing = 0

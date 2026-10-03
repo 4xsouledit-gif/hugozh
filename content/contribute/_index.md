@@ -38,7 +38,7 @@ next = ["/contribute/development/", "/contribute/documentation/", "/contribute/t
 | Hugo 社区主题目录 | 上游[主题仓库](https://github.com/gohugoio/hugoThemesSiteBuilder) | 见[参与主题](/contribute/themes/) |
 
 > [!NOTE]
-> 工作区里的 `hugoDocs/` 是上游英文仓库的**只读克隆**，只用来对照原文，**不要**修改它、也不要把它当成可以提交的分支。所有本站的改动都落在 `hugo-docs-zh/` 下。
+> 工作区里的 `hugoDocs/` 是上游英文仓库的**只读克隆**，只用来对照原文，**不要**修改它、也不要把它当成可以提交的分支。所有本站的改动都落在仓库根目录下。
 
 ## 三种参与方式
 
@@ -76,28 +76,28 @@ Hugo 是一个由社区驱动的开源项目，任何人都可以参与其中。
 
 - 本站是 **Hugo 官方文档的社区简体中文翻译站（非官方）**，站点地址 <https://hugozh.cn/>，源码仓库 <https://github.com/hencter/hugozh>；上游原文仓库是 <https://github.com/gohugoio/hugoDocs>，上游文档站点是 <https://gohugo.io/>。
 - 规模与结构（依据仓库根目录的 `README.md`）：全站 **948 个 Markdown 文件**、20 个一级章节目录，其中 19 章与上游 1:1 对应，另有 1 章是本站原创的「技能包」。
-- 站点配置在 `hugo-docs-zh/hugo.toml`，`baseURL` 已指向线上域名；内容在 `hugo-docs-zh/content/`，版式在 `hugo-docs-zh/themes/` 的两个主题里。
+- 站点配置在仓库根目录的 `hugo.toml`，`baseURL` 已指向线上域名；内容在 `content/`，版式在 `themes/` 的两个主题里。
 
 ### 本站欢迎什么样的改动
 
 - **译文修正**：错译、漏译、术语不一致、中文语病。译文以对上游英文原文的翻译为准，技术细节（命令、参数、默认值、签名、表格、代码块、外链）**一行都不能丢**。
 - **教学层增补**：补「这一页解决什么问题」「你应当看到什么」的验证标准、常见坑（症状 → 真因 → 怎么修）。这是本站与上游直译最大的区别，也是最缺人手的地方。
-- **本站模板与样式**：`hugo-docs-zh/layouts/` 与两个主题里的模板、CSS。
+- **本站模板与样式**：仓库根目录的 `layouts/` 与两个主题里的模板、CSS。
 - **上游那条线**：改英文原文请提到上游文档仓库；改 Hugo 源码请提到上游项目仓库。两条线的流程见本章后两页。
 
 ### 与上游的三点不同
 
-1. **正文语法与上游不完全一样**。本站只有两个短代码：`note` 与 `quick-reference`。上游的 `code-toggle`、`new-in`、`include` 等在本站不存在，照抄会让**整站构建失败**（不是单页失败），改写方法见[参与文档](/contribute/documentation/)。
+1. **正文语法与上游不完全一样**。本站自带五个短代码：`note`、`banner`、`quick-reference`、`demo`、`wrap`；Hugo **内置**的 `figure`、`details`、`highlight`、`param`、`ref`、`relref`、`qr`、`youtube`、`vimeo`、`instagram` 也能直接用（`/shortcodes/` 章节里都在用）。上游文档主题**自定义**的 `code-toggle`、`new-in`、`include` 等在本站不存在，照抄会让**整站构建失败**（不是单页失败），改写方法见[参与文档](/contribute/documentation/)。
 2. **前置元数据是本站自己的六字段契约**：`title` / `linkTitle` / `description` / `date` / `weight` / `source`，缺一不可，且**必须写在任何表头之前**。
 3. **验收标准写成了可执行的脚本**，见下一节。上游没有对应工具。
 
 ### 验收标准（跑得出结果的那种）
 
-所有命令都在**仓库根目录**（即工作区根目录，`hugo-docs-zh/` 的上一级）执行：
+所有命令都在**仓库根目录**执行：
 
 | 检查 | 命令 | 通过的样子 |
 | --- | --- | --- |
-| 站点能构建 | `cd hugo-docs-zh; hugo --ignoreCache --renderToMemory --quiet` | 退出码 0，终端没有 `ERROR` |
+| 站点能构建 | `hugo --ignoreCache --renderToMemory --quiet` | 退出码 0，终端没有 `ERROR` |
 | 教学层覆盖 | `pwsh -NoProfile -File .translation/audit-teach.ps1` | 输出一张按章节统计的表；教程章节（`getting-started` / `installation` / `troubleshooting`）应为全绿 |
 | 站内链接（区分大小写） | `pwsh -NoProfile -File .translation/audit-links-case.ps1` | 末行「全部站内链接大小写与存在性均正确 ✓」；该脚本需要先构建出 `public/` |
 | 一键验收 | `pwsh -NoProfile -File .translation/accept.ps1` | 依次跑覆盖率、权重归一、严格构建、链接检查与铁律扫描，构建那一步打印 `build exit=0` |

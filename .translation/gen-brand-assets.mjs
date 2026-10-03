@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(here, '..');
-const SITE = path.join(ROOT, 'hugo-docs-zh');
+const SITE = ROOT;
 const STATIC = path.join(SITE, 'static');
 const IMAGES = path.join(STATIC, 'images');
 fs.mkdirSync(IMAGES, { recursive: true });

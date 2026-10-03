@@ -4,8 +4,8 @@
 # 用法：pwsh -File .translation/audit-links-case.ps1
 $ErrorActionPreference = 'Continue'
 $root = Split-Path -Parent $PSScriptRoot
-$pub = Join-Path $root 'hugo-docs-zh\public'
-if (-not (Test-Path $pub)) { Write-Output "没有 public/，先构建：cd hugo-docs-zh; hugo"; exit 2 }
+$pub = Join-Path $root 'public'
+if (-not (Test-Path $pub)) { Write-Output "没有 public/，先构建：hugo"; exit 2 }
 
 # 1) 已发布路径的「精确大小写」集合：目录（含 index.html）与文件
 $dirs = [System.Collections.Generic.HashSet[string]]::new()

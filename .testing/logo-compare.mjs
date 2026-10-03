@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(here, '..');
-const SITE = path.join(ROOT, 'hugo-docs-zh', 'static');
+const SITE = path.join(ROOT, 'static');
 
 const official = fs.readFileSync(path.join(SITE, 'images', 'hugo-logo-wide.svg'), 'utf8');
 const ours = fs.readFileSync(path.join(SITE, 'favicon.svg'), 'utf8');

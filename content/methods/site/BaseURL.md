@@ -15,7 +15,7 @@ returnType = "string"
 
 `BaseURL` 把配置里 `baseURL` 的值原样交回模板，回答的是「本站发布在哪个地址」。它**不**负责把某个路径变成可用链接——这两件事在 base URL 带子路径（如 `https://example.org/docs/`）时会分道扬镳。
 
-本站（`hugo-docs-zh`）的 `baseURL` 就是带子路径的写法，所以这个区别值得记住：`.Site.BaseURL` 只是回显配置，拼链接是 `absURL` / `relURL` 的职责。
+本站的 `baseURL` 就是带子路径的写法，所以这个区别值得记住：`.Site.BaseURL` 只是回显配置，拼链接是 `absURL` / `relURL` 的职责。
 
 ## 什么时候用，什么时候别用
 

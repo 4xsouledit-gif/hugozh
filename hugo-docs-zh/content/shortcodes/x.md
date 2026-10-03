@@ -70,6 +70,25 @@ WARN  The "x" shortcode was unable to retrieve the remote data: … error callin
 > [!WARNING]
 > 「构建成功但页面上什么都没有」是这一页最典型的失败现象。日志里的 WARNING 不显眼，而且带 `文件:行:列`——排查时先看构建日志有没有 `shortcode-x-getremote` 相关的警告，再看网络。**实测（Hugo 0.167）**：简单模式走的是另一个模板，日志 id 是 `shortcode-x-simple-getremote`，排查时别只搜前一个。
 
+### 本站为什么没有放「实际渲染效果」
+
+本章其余各页都放了真实调用，这一页是**唯一的例外**，原因正是本节自己写的那一条：`x` 短代码在构建时要向 `publish.x.com` 请求 oEmbed 数据。
+
+本站的构建契约是「不依赖网络、断网也能构建」。一旦正文里出现真实的 `{{</* x … */>}}` 调用，两件事会同时发生：
+
+- **构建时多一次外部请求**（结果会缓存进 `resources/`）；
+- **拿不到数据时只打印 WARNING**，该位置输出空内容——而本站的严格构建带 `--panicOnWarning`，这条警告会直接把构建判为失败。
+
+实测（Hugo 0.167.0，Windows，最小站点）：放一个真实调用后，普通构建 `hugo` 退出码为 **0**，日志里出现
+
+```text
+WARN  The "x" shortcode was unable to retrieve the remote data: … error calling GetRemote: … See "content/example.md:7:1"
+```
+
+同一条命令加上 `--panicOnWarning` 后退出码变为 **2**。所以在「必须断网可构建」的站点里，这个短代码只适合放进**单独允许联网的构建**，或者改用「纯链接 + 官方嵌入代码」的静态写法。
+
+想在自己站点上看真实产物：放一个调用，执行 `hugo --ignoreCache`，然后到 `public/` 里按内容文件的路径打开 `index.html`——有网时那里是一段来自 oEmbed 的 `blockquote.twitter-tweet`；无网时那一处什么都没有，只有日志里那行警告。
+
 ## 参数
 
 | 参数名 | 类型 | 说明 |

@@ -107,6 +107,23 @@ next = ["/shortcodes/vimeo/", "/shortcodes/x/"]
 >
 > 另外，**`class` 会禁用内联样式**这一点与「用类名做渐进增强」的习惯相反：这里类名不是叠加，而是替换。
 
+### 本站实际渲染效果
+
+下面两个播放器都是本站构建时由 `youtube` 短代码生成的 `iframe`——**真实嵌入，不是截图**：
+
+{{< demo label="只给视频 ID：最简写法" >}}
+{{< youtube 0RKpf3rK57I >}}
+{{< /demo >}}
+
+{{< demo label="命名参数：id、start、end、loading 与 title" >}}
+{{< youtube id=0RKpf3rK57I start=30 end=60 loading=lazy title="示例：从第 30 秒播放到第 60 秒" >}}
+{{< /demo >}}
+
+上面第二个播放器点了播放后应当**从第 30 秒开始**，到第 60 秒停止——这就是参数变成 URL 查询参数之后的实际效果。两个 `iframe` 的 `title` 也不一样，屏幕阅读器读的就是它。
+
+> [!NOTE]
+> 播放器要访问 `youtube.com` 才能显示画面。本站没有对嵌入做额外处理，`src` 就是上文实测里那个 `https://www.youtube.com/embed/…`；网络不可达时你看到的是一个空的 16:9 区域，页面其余部分不受影响，**构建也不受影响**（`youtube` 是构建时不联网的短代码）。
+
 ## 参数
 
 | 参数名 | 类型 | 说明 |

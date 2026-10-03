@@ -76,6 +76,23 @@ next = ["/shortcodes/youtube/", "/shortcodes/instagram/"]
 > [!CAUTION]
 > 去掉内联样式的**代价**是：撑高与铺满都没了。若你的样式表里没有为这类容器写 `position` / `padding-bottom` / `height`，加上 `class` 后视频会塌成一条细缝或按原始尺寸溢出。要用 `class`，就配套写 CSS。
 
+### 本站实际渲染效果
+
+下面两个播放器都是本站构建时由 `vimeo` 短代码生成的 `iframe`——**真实嵌入，不是截图**：
+
+{{< demo label="只给视频 ID：最简写法" >}}
+{{< vimeo 19899678 >}}
+{{< /demo >}}
+
+{{< demo label="命名参数：loading 与 title" >}}
+{{< vimeo id=19899678 loading=lazy title="示例：Vimeo 嵌入" >}}
+{{< /demo >}}
+
+两个播放器在窄屏上都会被外层 `div` 按 16:9 撑住、`iframe` 铺满，所以不会变形——这就是上文说的「你不必自己写容器样式」。
+
+> [!NOTE]
+> 播放器要访问 `vimeo.com` 才能显示画面，网络不可达时你看到的是空的 16:9 区域；**构建不受影响**，`vimeo` 短代码只在构建时拼 HTML，不发起请求。
+
 ## 参数
 
 | 参数名 | 类型 | 说明 |

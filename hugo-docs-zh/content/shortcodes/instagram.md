@@ -51,6 +51,17 @@ next = ["/shortcodes/x/", "/shortcodes/vimeo/"]
 
 在浏览器里打开这一页时，是这段脚本把 `blockquote` 换成真正的帖子卡片。**构建时不会访问 Instagram**，所以断网也能构建成功；只有访客打开页面时才会请求 Instagram。
 
+### 本站实际渲染效果
+
+下面这个框就是 `instagram` 短代码在本站构建时生成的**原始产物**：一个 `blockquote`，`data-instgrm-permalink` 指向那条帖子，其后跟着那段 `embed.js`。
+
+{{< demo label="只给帖子 ID：CxOWiQNP2MO" >}}
+{{< instagram CxOWiQNP2MO >}}
+{{< /demo >}}
+
+> [!NOTE]
+> 你看到的**不是**加载完成后的帖子卡片，而是 Hugo 生成的 HTML（以及随后的 `embed.js`）：本站在这一页与上游文档站一样，把脚本交给读者浏览器去执行。如果浏览器访问不到 `instagram.com`（离线、被网络策略拦截），这里就会停在上面这种占位卡片上；**构建过程本身不访问 Instagram**，断网也能构建成功。
+
 ## 参数
 
 | 参数名 | 类型 | 说明 |

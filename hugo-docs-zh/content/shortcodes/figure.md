@@ -71,6 +71,24 @@ Hugo 渲染出这样的 HTML：
 </figure>
 ```
 
+### 本站实际渲染效果
+
+上游例子里的那张照片本站没有，下面把 `src` 换成本站自己的全局资源，其余写法与上游一致——**调用是真的，展开是真的**，页面上看到的图片就是 `figure` 渲染出来的：
+
+{{< demo label="src、alt、width、caption 与 attr 一起给" >}}
+{{< figure src="images/examples/hugo-icon.png" alt="Hugo 中文文档站的示例图标" caption="示例图标" attr="本站 assets 下的全局资源" width=160 >}}
+{{< /demo >}}
+
+`src` 写的是**相对**路径 `images/examples/hugo-icon.png`：`figure` 先在页面资源里找，找不到再到全局资源（`assets/`）里找，找到后把发布地址写进 `src`。所以这里应当出现图片本身，而不是一个坏掉的图标。
+
+同时给了 `caption` 与 `attr`，所以两段文字被**直接拼接**成了一句（`示例图标本站 assets 下的全局资源`）——这就是上文提到的那个实测坑，本例故意保留原样，方便你对照。
+
+只给 `src` 与 `alt` 时，输出会少掉整个 `<figcaption>`：
+
+{{< demo label="只给 src 与 alt：没有图注" >}}
+{{< figure src="images/examples/hugo-icon.png" alt="只给 src 与 alt" width=96 >}}
+{{< /demo >}}
+
 ## 参数
 
 `src`

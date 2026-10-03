@@ -64,6 +64,29 @@ Hugo 渲染出这样的 HTML：
 {{</* /details */>}}
 ```
 
+### 本站实际渲染效果
+
+上面两段写法本站都真的用了一次：下面第一个默认折叠，点一下摘要才展开；第二个给了 `open=true`，载入时就是展开的。**这两个框不是截图，是页面上的真元素。**
+
+{{< demo label="默认折叠：点摘要才展开" >}}
+{{< details summary="查看细节" >}}
+这是一个 **粗体** 词。
+{{< /details >}}
+{{< /demo >}}
+
+{{< demo label="open=true：载入即展开" >}}
+{{< details summary="查看细节（载入即展开的）" open=true >}}
+这是一个 **粗体** 词。
+{{< /details >}}
+{{< /demo >}}
+
+`name` 是原生 HTML 的手风琴分组属性：下面两项用的是同一个 `name`，展开其中一项，另一项会自动收起——写「常见问题」清单就用它：
+
+{{< demo label="name 相同 → 互斥展开" >}}
+{{< details summary="第一项" name="shortcodes-details-demo" >}}第一项的内容。{{< /details >}}
+{{< details summary="第二项" name="shortcodes-details-demo" >}}第二项的内容。{{< /details >}}
+{{< /demo >}}
+
 ### 实测：参数写错会怎样
 
 | 调用 | 结果 |

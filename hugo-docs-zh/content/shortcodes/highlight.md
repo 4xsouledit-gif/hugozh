@@ -109,6 +109,30 @@ This is some {{</* highlight go "hl_inline=true" */>}}fmt.Println("inline"){{</*
 This is some {{</* hl */>}}fmt.Println("inline"){{</* /hl */>}} code.
 ```
 
+### 本站实际渲染效果
+
+下面两段是真的用 `highlight` 短代码渲染出来的，可以直接和上文「你应当看到什么」的描述对照：
+
+{{< demo label="块级：linenos=inline、hl_lines=3" >}}
+{{< highlight go "linenos=inline, hl_lines=3" >}}
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("hello")
+}
+{{< /highlight >}}
+{{< /demo >}}
+
+同一个短代码加上 `hl_inline=true`，就变成能嵌在句子中间的行内高亮：
+
+{{< demo label="行内：hl_inline=true" >}}
+<p>This is some {{< highlight go "hl_inline=true" >}}fmt.Println("inline"){{< /highlight >}} code.</p>
+{{< /demo >}}
+
+对照点：上面是 `<div class="highlight">` 包着的块级代码，下面是 `<code class="code-inline language-go">`，只多了一个词法分析器的类名。配色与本站围栏代码块完全一致——`markup.highlight.noClasses = false`，样式来自 `assets/css/syntax.css`。
+
 ## 选项
 
 短代码的 `OPTIONS` 参数与围栏代码块的选项一一对应：`anchorLineNos`、`codeFences`、`guessSyntax`、`hl_Lines`、`hl_inline`、`lineAnchors`、`lineNoStart`、`lineNos`、`lineNumbersInTable`、`noClasses`、`style`、`tabWidth`、`wrapperClass`。各选项的含义、类型与默认值见[语法高亮](/content-management/syntax-highlighting/)，那里同时给出了生成外部样式表的 `hugo gen chromastyles` 命令。

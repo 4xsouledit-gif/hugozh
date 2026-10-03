@@ -90,7 +90,7 @@ next = ["/shortcodes/ref/", "/render-hooks/links/"]
 
 与 `ref` 同理：`relref` 的输出要落在 Markdown 链接的**目标地址位置**上，而目标地址由 Markdown 渲染器解析，所以短代码必须在 Markdown 渲染**之前**完成，也就是用 `%` 定界符。
 
-**实测（Hugo 0.167）**：`[Link]({{%/* relref "/books/book-1" */%}})` 渲染为 `<a href="/books/book-1/">Link</a>`；改用标准记法时 `href` 解析为空。短代码单独成行时两种记法都能用，但 Markdown 记法的输出会被渲染器自动包成链接，标准记法输出纯文本。
+**实测（Hugo 0.167）**：`[Link]({{%/* relref "/books/book-1" */%}})` 渲染为 `<a href="/books/book-1/">Link</a>`；改用标准记法时，上游文档说 `href` 会被解析成空值——但本站复现不出来，两种记法都得到了填好地址的链接（原因与更正见 [`ref`](/shortcodes/ref/) 一页）。短代码单独成行时两种记法都能用，但 Markdown 记法的输出会被渲染器自动包成链接，标准记法输出纯文本（`relref` 给的是根相对地址，不会被自动链接，两者都不产生链接）。
 
 ## ref 与 relref 的差别
 
@@ -105,6 +105,21 @@ next = ["/shortcodes/ref/", "/render-hooks/links/"]
 
 > [!TIP]
 > **怎么选**：正文里给人点的站内链接用 `relref`（换域名不用改）；要放进 **RSS、sitemap、邮件、第三方摘要**这类离开本站的上下文，用 `ref`——那里的地址必须是绝对地址。
+
+### 本站实际渲染效果
+
+同一个地址，两个短代码输出什么，一眼可见（都是本站的真实输出）：
+
+{{< demo label="relref：给 HTML 链接填地址" >}}
+<p><a href="{{< relref "/shortcodes/figure/" >}}">看看 figure 那一页</a>——地址不带域名，换域名不用改。</p>
+{{< /demo >}}
+
+单独成行时：
+
+- `relref` 的输出：{{< relref "/shortcodes/figure/" >}}
+- `ref` 的输出：{{< ref "/shortcodes/figure/" >}}
+
+`relref` 给的是根相对地址，因此即便用 Markdown 记法单独成行，也不会被 Markdown 渲染器自动包成链接（自动链接只认 `http`/`https` 开头的裸网址）；`ref` 给的是完整网址，单独成行时会被自动包成链接。两个值分别贴进浏览器地址栏，打开的是同一页。
 
 ## 错误处理
 

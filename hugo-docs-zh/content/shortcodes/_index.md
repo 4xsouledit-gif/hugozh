@@ -54,10 +54,15 @@ next = ["/shortcodes/figure/", "/shortcodes/highlight/", "/templates/shortcode/"
 
 调用短代码时用一对定界符包裹短代码名，定界符决定了**短代码展开与 Markdown 渲染的先后顺序**：
 
-| 写法 | 示例 | 处理时机 | 内部内容 |
+| 写法 | 示例 | 处理时机 | 短代码的**输出**会怎样 |
 | --- | --- | --- | --- |
-| 标准写法（standard notation） | `{{</* name */>}}` | 在 Markdown 渲染**之后**执行 | `.Inner` 是**未渲染**的原始文本 |
-| Markdown 写法（Markdown notation） | `{{%/* name */%}}` | 在 Markdown 渲染**之前**执行 | `.Inner` 是**已渲染**的 HTML |
+| 标准写法（standard notation） | `{{</* name */>}}` | 在 Markdown 渲染**之后**执行 | 直接落进页面，不再经过 Markdown |
+| Markdown 写法（Markdown notation） | `{{%/* name */%}}` | 在 Markdown 渲染**之前**执行 | 会被 Markdown 渲染器**再处理一遍** |
+
+> [!IMPORTANT]
+> **实测更正（Hugo 0.167.0，Windows，最小站点）**：很多资料（本站此前也这么写）把这条差别说成「Markdown 记法下 `.Inner` 是**已渲染**的 HTML」。实测**不成立**：两种记法下 `.Inner` 拿到的都是**未渲染的原文**——把 `.Inner` 包进 `<pre>` 打印出来，两种记法显示的都是 `We design the **best** widgets in the world.`。
+>
+> 真正的差别在**输出**上：Markdown 记法下，短代码输出之后还会再经过一遍 Markdown 渲染器，于是「把 `.Inner` 原样输出」的模板看起来就像内部 Markdown 被渲染了；标准记法下输出直接落进页面，内部 Markdown 永远是字面量。下一节「跑一遍」把两种记法的真实产物并排放着，可以自己对照。
 
 三种情况下这一差别不会显现，用哪种记法都一样：短代码**没有内部内容**（自闭合写法）；短代码只把参数当字符串用（如 `qr`、`youtube`）；短代码模板自己会把内部内容交给 Markdown 渲染（如内置的 `details`，模板里写的是 `.Inner | .Page.RenderString`）。
 
@@ -119,6 +124,30 @@ next = ["/shortcodes/figure/", "/shortcodes/highlight/", "/templates/shortcode/"
 
 同一个模板、同一段内容，只换了记法：上面是标题与粗体都成了 HTML，下面是**原样的 Markdown 字符**。原因就是顺序——Markdown 记法下内部内容先过 Markdown 渲染器，标准记法下 `.Inner` 原样交给模板，没人再帮它渲染。
 
+#### 本站把这段跑了一遍（真实产物）
+
+本站主题里就有这个 `wrap` 短代码（`themes/hugo-docs-theme/layouts/_shortcodes/wrap.html`，模板与上面一字不差，只用于本页教学），所以下面两段可以**照着上面的写法真实调用出来**，而不是只给代码块里的示意：
+
+Markdown 记法——内部内容会过一遍 Markdown 渲染器：
+
+{{% wrap %}}
+### 小标题
+
+这是 **粗体** 文本。
+{{% /wrap %}}
+
+标准记法——内部内容原样输出，星号还是星号：
+
+{{< wrap >}}
+### 小标题
+
+这是 **粗体** 文本。
+{{< /wrap >}}
+
+对照上文「你应当看到什么」里的产物，两段完全一致：**Markdown 记法那一段产出的是真正的 `<h3>` 元素**，标准记法那一段的 `### 小标题` 只是四个字符——查看页面源代码即可确认。
+
+**实测（Hugo 0.167.0，最小站点）**：真正的标题会进 `.TableOfContents`——把这两段放进一个内容页，右栏目录里只出现 Markdown 记法那一个标题，标准记法那个进不去。本章这一页是**章节首页**，本站模板不给章节首页渲染右栏目录（`partials/toc.html` 判的是 `.IsPage`），所以这里看不到目录上的差别；换到 `figure`、`details` 这类内容页就能看到。
+
 > [!TIP]
 > **怎么选**：短代码要处理内部 Markdown（标题、粗体、列表、链接），就用 Markdown 记法 `{{%/* */%}}`；内部是纯文本、代码或已经写好的 HTML，两种都行，用标准记法 `{{</* */>}}` 更符合直觉。**不要**在标准记法下同时给模板加 `RenderString` 又用 Markdown 记法调用，那会把内容渲染两遍。
 
@@ -168,7 +197,44 @@ next = ["/shortcodes/figure/", "/shortcodes/highlight/", "/templates/shortcode/"
 
 除此之外，模板中同样能访问站点与页面数据、站点参数以及各类模板函数。
 
+## 这一章的「实际渲染效果」是怎么做的
+
+本章每一页都有一节叫「本站实际渲染效果」。里面的内容不是截图，也不只是把产物再贴一遍，而是**真的在页面上调用一次那个短代码**——图片是真的、代码是真高亮的、折叠是真能点开的、二维码是真能扫的、播放器是真能播放的。
+
+用的也是短代码，两个，都放在主题里：
+
+| 短代码 | 模板 | 作用 |
+| --- | --- | --- |
+| `demo` | `themes/hugo-docs-theme/layouts/_shortcodes/demo.html` | 画一个带标签的方框，把框内的短代码产物展示出来 |
+| `wrap` | `themes/hugo-docs-theme/layouts/_shortcodes/wrap.html` | 只把内部内容包进一个 `div`，用来观察两种记法的差别（见上一节） |
+
+调用长这样（`demo` 用标准记法，框内放真正的短代码调用）：
+
+```md
+{{</* demo label="带 caption 的 figure" */>}}
+{{</* figure src="images/examples/hugo-icon.png" alt="示例" caption="图注" */>}}
+{{</* /demo */>}}
+```
+
+写出来的效果就是下面这个框——**这个框本身就是 `demo` 的输出**，里面的图片是 `figure` 的真实产物：
+
+{{< demo label="框内的短代码会先渲染，再交给 demo 展示" >}}
+{{< figure src="images/examples/hugo-icon.png" alt="示例图标" caption="框内放什么，就展示什么" width=120 >}}
+{{< /demo >}}
+
+三条写作约束，都是实测踩出来的：
+
+- **框内只放短代码调用或现成的 HTML，不放 Markdown 正文。** 理由就是上一节的实测更正：`.Inner` 在两种记法下都是原文，而框内是块级 HTML（`<div class="demo-stage">`），里面的 Markdown 会被原始 HTML 块吞掉；
+- **`demo` 用标准记法调用**：框内的子短代码会先渲染、再交给 `demo`，所以嵌套是安全的；
+- **要展示「Markdown 记法的效果」时不要套 `demo`**——Markdown 记法的输出还要再过一遍 Markdown 渲染器，套进 HTML 块里就失效了。上一节那两个 `wrap` 调用就是直接写在正文里的。
+
+这也是本站对「不能只展现代码」的具体做法：文档给出的写法，读者能在同一页上看到它跑出来的样子，并且可以点、可以播、可以扫、可以折叠。
+
 ## 本节 12 页怎么读
+
+每页的「示例」之后都有一节「本站实际渲染效果」——写法在上、真实产物在下，两段对照着看。只想快速上手的话，建议先看 `figure` 与 `highlight`（最常用的两个），再看 `ref` / `relref`（会牵涉上面的记法问题），最后看 `param` 与四个社交嵌入页。
+
+另外：`x` 一页是唯一**没有**活例的——它构建时要联网，与本站「断网可构建」的约定冲突，该页写明了原因与实测证据。
 
 | 页 | 什么时候翻它 |
 | --- | --- |

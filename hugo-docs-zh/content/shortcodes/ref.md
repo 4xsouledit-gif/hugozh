@@ -97,12 +97,45 @@ next = ["/shortcodes/relref/", "/render-hooks/links/"]
 | 写法 | 渲染结果 |
 | --- | --- |
 | `[Link A]({{%/* ref "/books/book-1" */%}})` | `<a href="https://example.org/books/book-1/">Link A</a>`（正常） |
-| `[Link B]({{</* ref "/books/book-1" */>}})` | `href` 为空（解析失败） |
+| `[Link B]({{</* ref "/books/book-1" */>}})` | `<a href="https://example.org/books/book-1/">Link B</a>`（**本站实测同样正常**，见下方更正） |
 | `[Link D]({{%/* relref "/books/book-1" */%}})` | `<a href="/books/book-1/">Link D</a>`（正常，相对地址） |
 
 - 用 Markdown 记法（A、D）→ 链接正常；
-- 用标准记法（B）→ `href` 解析为空，因为地址是 Markdown 渲染完之后才填进去的，渲染器已经错过它了；
+- 用标准记法（B）→ 上游文档说 `href` 会被解析成空值；**这一点本站复现不出来**，见下方更正；
 - 短代码**单独成行**时（不在链接里），两种记法都能用。但结果略有差别：Markdown 记法的输出会被 Markdown 渲染器当成裸网址，自动包成链接；标准记法输出的是纯文本。
+
+> [!IMPORTANT]
+> **实测更正（Hugo 0.167.0，Windows，最小站点）**：上表里「标准记法 → `href` 为空」这一行在本站复现不出来。`[文字]({{</* ref "…" */>}})` 用标准记法调用时同样得到 `href` 已填好的链接——Hugo 是在 Markdown 渲染**之后**才把短代码占位符替换成输出，落在地址位上的占位符被一并替换，链接照样成立。
+>
+> **但仍然请按上游的要求使用 Markdown 记法**，理由有两条：一是上游文档明确规定链接目标地址要用 Markdown 记法；二是「先解析出链接、再填入地址」依赖占位符替换这一实现细节——短代码若输出 HTML 标签，标签会被直接塞进 `href`，跨版本不保证稳定。
+>
+> 与记法有关、且能稳定复现的差别只有一个：短代码**单独成行**时，Markdown 记法的输出会被 Markdown 渲染器当成裸网址自动包成链接，标准记法输出的是纯文本（下面一节有活的对照）。
+
+### 本站实际渲染效果
+
+下面三处都是本站页面里的**真实调用**，构建时展开：
+
+{{< demo label="ref 的典型用途：给 HTML 链接填地址" >}}
+<p><a href="{{< ref "/shortcodes/figure/" >}}">看看 figure 那一页</a>——地址由 ref 短代码生成，带完整域名。</p>
+{{< /demo >}}
+
+填进 Markdown 链接时两种记法都能用（本站这一页两种都写了，你可以把鼠标悬停在链接上看地址）：
+
+- Markdown 记法：[看看 figure 那一页]({{% ref "/shortcodes/figure/" %}})
+- 标准记法：[看看 figure 那一页]({{< ref "/shortcodes/figure/" >}})
+
+**单独成行**时才看得出记法的差别——下面两处调用写法不同，请对照它们能不能点：
+
+Markdown 记法（输出被 Markdown 渲染器自动包成链接）：
+
+{{% ref "/shortcodes/figure/" %}}
+
+标准记法（输出是纯文本，不可点）：
+
+{{< ref "/shortcodes/figure/" >}}
+
+> [!TIP]
+> 悬停在上面第一个地址上，状态栏显示的是 `https://hugozh.cn/shortcodes/figure/`——这正是 `ref` 与 `relref` 的分界：`ref` 给的是绝对地址。
 
 ## 错误处理
 

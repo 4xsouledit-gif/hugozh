@@ -63,6 +63,24 @@ ERROR Param "color" not found: "…/content/example.md:8:1"
 
 报错里的 `文件:行:列` 指向调用位置，照着补参数或改键名即可。
 
+### 本站实际渲染效果
+
+本站的 `hugo.toml` 里有 `[params] version`、`description`、`tagline` 等键，而这一页的前置元数据里也有 `description`。三个调用放在一起，正好把「先页面、后站点」的查找顺序演示出来：
+
+{{< demo label="站点参数：params.version" >}}
+<p>本站版本号：{{< param version >}}</p>
+{{< /demo >}}
+
+{{< demo label="同名键：本页的 description 压过站点 params.description" >}}
+<p>本页 description：{{< param description >}}</p>
+{{< /demo >}}
+
+{{< demo label="本页没有 tagline，于是回退到站点参数" >}}
+<p>本站 tagline：{{< param tagline >}}</p>
+{{< /demo >}}
+
+三处输出都**没有经过 Markdown 渲染**——`param` 只是把取到的值原样贴进 HTML，这就是下面「实测补充」里「值是 Markdown 时星号不会变粗体」那一行的由来。
+
 ## 读取嵌套参数
 
 把标识符（identifier）串起来即可读取嵌套值：

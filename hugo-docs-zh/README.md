@@ -204,19 +204,55 @@ theme = ["hugo-docs-theme-zh", "hugo-docs-theme"]
 - **代码高亮**：`hugo.toml` 中 `markup.highlight.noClasses = false`，即输出 Chroma 类名而非内联样式，配色由 `assets/css/syntax.css` 决定。
 - **资源管道**：`head.html` / `scripts.html` 用 `minify | fingerprint` 处理 CSS 与 JS，指纹文件名带 SRI 完整性校验；中文层的 `cjk.css` 由 `[params.cjk] enabled` 控制是否加载。
 - **顶部导航**：`partials/header.html` 读取 `hugo.toml` 的 `[[menus.main]]`，目前为 首页 / 入门 / 内容管理 / 命令 / Hugo 官网；左侧目录则始终列出全部 16 章。
+- **文档页里的真实示例**：短代码章节与渲染钩子章节把「真实产物」直接渲染在正文里（见下节「短代码」）。`main.css` 为此新增两组规则：`.doc-body .demo*`（演示框：标签条 + 舞台 + 说明），以及 `.doc-body figure` / `figcaption` / `iframe` / `details` —— 内置短代码展开出的元素**没有本站的类名**，只能按标签选，所以这组规则全部限定在 `.doc-body` 内，避免影响界面层。
 
 ## 短代码
 
-本站自带一个提示框短代码，模板在 `themes/hugo-docs-theme/layouts/_shortcodes/note.html`：
+### 内置短代码：文档里的写法，页面上能直接看到结果
 
-```md
-{{</* note type="warning" title="标题" */}}
-正文，支持 Markdown。
-{{</* /note */}}
-```
+Hugo 自带的一批短代码**不需要站点提供模板**就能调用。`/shortcodes/` 章节现在用它们做**真实演示**：每页的「示例」给出写法，紧随其后的「本站实际渲染效果」就在同一页上把结果渲染出来——图片是真的、折叠是真能点开的、二维码是真能扫的、播放器是真能播放的。
 
-- 参数：`type` = `note`（默认）| `tip` | `warning` | `danger`，`title` 可选；
-- 采用**标准记法**（`{{< >}}`），所以模板里对 `.Inner` 调用了 `markdownify`——标准记法下 `.Inner` 是未渲染的 Markdown 原文，而 Markdown 记法（`{{% %}}`）下 `.Inner` 已是 HTML，两种记法不能用同一句模板；
+| 短代码 | 本站演示页 | 说明 |
+| --- | --- | --- |
+| `figure` | `/shortcodes/figure/` | 插图与图注；演示图用全局资源 `assets/images/examples/hugo-icon.png` |
+| `details` | `/shortcodes/details/` | 折叠块，含 `open` 与 `name`（手风琴互斥） |
+| `highlight` | `/shortcodes/highlight/` | 块级高亮与行内高亮（`hl_inline=true`） |
+| `param` | `/shortcodes/param/` | 页面参数 → 站点参数的查找顺序 |
+| `ref` / `relref` | `/shortcodes/ref/`、`/shortcodes/relref/` | 站内绝对 / 相对地址，含「单独成行」时自动链接的差别 |
+| `qr` | `/shortcodes/qr/` | 构建时本地生成二维码 PNG（写入发布目录根） |
+| `youtube` / `vimeo` / `instagram` | 各自页面 | 真实嵌入；只有访客浏览器才访问平台 |
+
+> ⚠ **`x` 是唯一不在正文里调用的内置短代码**：它在构建时通过 `resources.GetRemote` 请求 `publish.x.com`，与本站「不依赖网络、断网也能构建」的约定冲突——拿不到数据时只打 WARNING，而本站的严格构建带 `--panicOnWarning`，这条警告会直接把构建判为失败。该页写明了原因与实测证据（普通构建退出码 0、加 `--panicOnWarning` 后为 2）。
+
+### 本站自带的短代码
+
+主题里有五个模板，都在 `themes/hugo-docs-theme/layouts/_shortcodes/`：
+
+| 文件 | 用途 |
+| --- | --- |
+| `note.html` | 提示框：`{{</* note type="warning" title="标题" */>}}正文{{</* /note */>}}`；`type` = `note`（默认）/ `tip` / `warning` / `danger` |
+| `banner.html` | 用图片管道在构建时拼贴首页横幅 |
+| `quick-reference.html` | 速查页：`{{</* quick-reference section="functions" */>}}` 按命名空间列出页面 |
+| `demo.html` | **示例演示框**：`{{</* demo label="…" note="…" */>}}…{{</* /demo */>}}`，把框内短代码的真实产物展示出来 |
+| `wrap.html` | 只把内部内容包进 `<div>`，专用于演示两种记法的差别 |
+
+`demo` 的三条写作约束，都是实测踩出来的：
+
+- 框内**只放短代码调用或现成 HTML**，不放 Markdown 正文——框内是块级 HTML 容器（`<div class="demo-stage">`），里面的 Markdown 会被原始 HTML 块吞掉；
+- 用**标准记法**调用：框内的子短代码先渲染、再交给 `demo`，所以嵌套是安全的；
+- 要展示「Markdown 记法的效果」时**不要**套 `demo`——Markdown 记法的输出还要再过一遍 Markdown 渲染器，套进 HTML 块里就失效了；那种演示直接用 `wrap` 写在正文里（见 `/shortcodes/` 的「跑一遍」）。
+
+### 记法与 `.Inner`（实测更正）
+
+本站此前沿用了「Markdown 记法下 `.Inner` 已经是渲染好的 HTML」的说法，**实测不成立**（Hugo 0.167.0，Windows，最小站点）：
+
+- 两种记法下 `.Inner` 都是**未渲染的原文**——把 `.Inner` 包进 `<pre>` 打印，`{{< >}}` 与 `{{% %}}` 的产物逐字相同；
+- 真正的区别在**输出**：Markdown 记法的输出之后还会过一遍 Markdown 渲染器，标准记法不会。所以「看起来被渲染了」是输出层的事，不是 `.Inner` 的事；
+- 由此推出的写法：标准记法下必须自己调 `markdownify` / `RenderString`，Markdown 记法下**不要**再调（会渲染两遍）；
+- 站内活证据：`/shortcodes/` 的「跑一遍」一节用真实的 `wrap` 调用把两种记法的产物并排放在页面上，`/methods/shortcode/inner/` 一页也已更正。
+
+其余约定：
+
 - 新增短代码：在 `layouts/_shortcodes/` 放一个与调用名同名的 `.html`（子目录即命名空间，如 `media/audio.html` → `{{</* media/audio */>}}`），主题里的同名文件可被项目覆盖；
 - 常用方法（`.Get`/`.Params`/`.IsNamedParams`/`.Inner`/`.InnerDeindent`/`.Parent`/`.Ordinal`/`.Page`…）、嵌套与渲染顺序、与 render hook 的分工，见 skill 的 `references/shortcodes.md`；
 - 验证：`hugo --ignoreCache --printUnusedTemplates` 会列出没人调用的模板；调用未闭合或模板不存在都会让整站构建失败。
@@ -404,9 +440,14 @@ node .testing/search-check.mjs    # 10 条查询向量 + 4 项排序
 
 # 4) 侧栏激活态回归
 node .testing/sidebar-check.mjs   # 6 个层级 + 点击跳转后保持高亮
+
+# 5) 文档页里的「真实示例」回归
+node .testing/demo-check.mjs      # 演示框、二维码、折叠交互、两种记法、渲染钩子产物、窄屏不溢出
 ```
 
 `ui-check.mjs` 会断言「窄屏不横向溢出」「搜索框不超出视口」这类**会被真实用户看到**的问题，而不只是「DOM 里有没有这个类」。它还会收集控制台错误——本轮就是靠它发现 `hugo.OS` 字段不存在导致的模板报错。
+
+`demo-check.mjs` 专门盯文档页里那些**真元素**：演示框有没有真的渲染出来、`figure` 的图有没有真的加载（看 `naturalWidth`，不是看有没有 `<img>`）、`details` 点了会不会展开、二维码是不是真图、iframe 指向的平台对不对、`{{% wrap %}}` 那一段有没有落出真标题、窄屏会不会被二维码/播放器撑破。第三方嵌入（YouTube / Vimeo / Instagram）在断网环境必然产生网络错误，脚本已把那类错误排除，只保留页面级 JS 报错。
 
 ### 本轮踩到的两个 CSS/模板坑（已修，留档）
 

@@ -6,6 +6,7 @@
   "scripts": {
     "brand": "node .translation/gen-brand-assets.mjs",
     "test:sidebar": "node .testing/sidebar-check.mjs",
+    "test:demo": "node .testing/demo-check.mjs",
     "test:brand": "node .testing/brand-check.mjs"
   },
   "devDependencies": {

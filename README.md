@@ -76,7 +76,7 @@ baseURL = "https://hugozh.cn/"
 
 ## 远端仓库
 
-公开仓库：**<https://github.com/hencter/hugozh>**（`main` 分支与 `v1.0.0` / `v1.1.0` 标签已推送）。
+公开仓库：**<https://github.com/hencter/hugozh>**（`main` 分支与 `v1.0.0` / `v1.1.0` / `v1.2.0` 标签已推送）。
 
 ```bash
 git clone https://github.com/hencter/hugozh.git

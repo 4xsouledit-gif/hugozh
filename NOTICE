@@ -27,7 +27,7 @@ Hugo 中文布道站 / Hugo Chinese Documentation & Advocacy
 
   * Hugo 主题（版式基础层 hugo-docs-theme、中文排版叠加层 hugo-docs-theme-zh）；
   * 项目的布局约束、配置、构建与校验流程；
-  * AI 技能包 hugo-static-site（位于 .dsh/skills/）。
+  * AI 技能包 hugo-static-site（位于 .agents/skills/）。
   Copyright (c) 2026 本项目贡献者
 
 第三方标识 / Third-party marks

@@ -8,8 +8,10 @@ hugo_stats.json
 hugoDocs/
 
 # ── DSH 本地状态 ──
+.agents/sessions/
 .dsh/sessions/
 .dsh-write-probe.txt
+.agents-write-probe.txt
 
 # ── 编辑器与系统 ──
 .DS_Store

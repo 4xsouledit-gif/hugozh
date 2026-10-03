@@ -1,11 +1,11 @@
 {
   "name": "hugo-static-site",
   "description": "A DSH skill for building, updating, and verifying Hugo static sites.",
-  "source": "https://github.com/hencter/hugozh/tree/main/.dsh/skills/hugo-static-site",
-  "rawBase": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site",
+  "source": "https://github.com/hencter/hugozh/tree/main/.agents/skills/hugo-static-site",
+  "rawBase": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site",
   "install": {
-    "dsh_project": "<项目>/.dsh/skills/hugo-static-site/",
-    "dsh_user": "~/.dsh/skills/hugo-static-site/",
+    "project": "<项目>/.agents/skills/hugo-static-site/",
+    "user": "~/.agents/skills/hugo-static-site/",
     "note": "目录名必须是 hugo-static-site；技能目录在会话启动时扫描，装好后重开会话即可加载。"
   },
   "files": [
@@ -14,91 +14,91 @@
       "bytes": 1618,
       "sha256": "b65b125e500c8017ad75f65c2d66305bd9a55ce4df4ee412149d24bd50aaba40",
       "url": "https://hugozh.cn/skill/INSTALL-PROMPT.txt",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/INSTALL-PROMPT.txt"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/INSTALL-PROMPT.txt"
     },
     {
       "path": "README.md",
       "bytes": 6201,
       "sha256": "485a5077f8316835e7905636ed5d22e20fa363f4ac8366d5d21d6cd7d199dc4c",
       "url": "https://hugozh.cn/skill/README.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/README.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/README.md"
     },
     {
       "path": "references/commands.md",
       "bytes": 3547,
       "sha256": "ae3f1759af3c1b8e2b36af9736efbde8adce3b183acf9a96b4fc7e3ecae3f2bc",
       "url": "https://hugozh.cn/skill/references/commands.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/commands.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/commands.md"
     },
     {
       "path": "references/dates.md",
       "bytes": 3604,
       "sha256": "6f83af235b7363f66c2f6fbe2109729a9a1038238d3bb380eeae0d43b6064797",
       "url": "https://hugozh.cn/skill/references/dates.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/dates.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/dates.md"
     },
     {
       "path": "references/gotchas.md",
       "bytes": 18562,
       "sha256": "7a8a48c943695655ee26626e6e4f7e51757b2ee934b0a0bba1c42dced67ef7a7",
       "url": "https://hugozh.cn/skill/references/gotchas.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/gotchas.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/gotchas.md"
     },
     {
       "path": "references/i18n.md",
       "bytes": 5738,
       "sha256": "3aef068dc498457c7da04e6d60887c934df01928796c5570bc737ba6efd12538",
       "url": "https://hugozh.cn/skill/references/i18n.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/i18n.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/i18n.md"
     },
     {
       "path": "references/seo.md",
       "bytes": 4715,
       "sha256": "a3b8b68b88cc8fad79151ec8af81f9e4966e4b83e4a25b584f778e625de76128",
       "url": "https://hugozh.cn/skill/references/seo.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/seo.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/seo.md"
     },
     {
       "path": "references/shortcodes.md",
       "bytes": 8738,
       "sha256": "5db138296b608b87aa77ae026ed8cd4ef824b448b0b822d817c6b8c1f3a051d6",
       "url": "https://hugozh.cn/skill/references/shortcodes.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/shortcodes.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/shortcodes.md"
     },
     {
       "path": "references/site-structure.md",
       "bytes": 6181,
       "sha256": "74cb9a0f734f15c6ebf1833ca4d1283b32d5b67d0d59669360d164fa348fadcb",
       "url": "https://hugozh.cn/skill/references/site-structure.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/site-structure.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/site-structure.md"
     },
     {
       "path": "references/teaching-layer.md",
       "bytes": 5533,
       "sha256": "63f5d731d5c700b1695f950b372b3212613491eaa1f27c64fc4b397a4de60d1b",
       "url": "https://hugozh.cn/skill/references/teaching-layer.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/teaching-layer.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/teaching-layer.md"
     },
     {
       "path": "references/versioning.md",
       "bytes": 2505,
       "sha256": "1b39e0ef4d0a28bf1660fdb6289b8a8d20fbd26d2da5192ed5df3b7b65e240e1",
       "url": "https://hugozh.cn/skill/references/versioning.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/versioning.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/versioning.md"
     },
     {
       "path": "references/versions.md",
       "bytes": 2991,
       "sha256": "f1d16d57008c26c6be12871ff49f669389840e8193f64aa376415eb9363ea7dc",
       "url": "https://hugozh.cn/skill/references/versions.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/versions.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/versions.md"
     },
     {
       "path": "SKILL.md",
       "bytes": 21978,
       "sha256": "80c072fd213fbb8327029a5c77413bb6e58e2f41b165481810386d9d0f78a5e3",
       "url": "https://hugozh.cn/skill/SKILL.md",
-      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/SKILL.md"
+      "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/SKILL.md"
     }
   ]
 }

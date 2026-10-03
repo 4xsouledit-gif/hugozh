@@ -5,7 +5,7 @@
 | | |
 | --- | --- |
 | 站点 | <https://hugozh.cn/> —— 20 个一级章节、948 个 Markdown 文件（上游 19 章 1:1 翻译 + 1 个原创「技能包」章节） |
-| 技能包 | [`.dsh/skills/hugo-static-site/`](.dsh/skills/hugo-static-site/) —— MIT 许可，可单独取用；站内也有介绍页 <https://hugozh.cn/skill/> |
+| 技能包 | [`.agents/skills/hugo-static-site/`](.agents/skills/hugo-static-site/) —— MIT 许可，可单独取用；站内也有介绍页 <https://hugozh.cn/skill/> |
 | 许可 | 译文 [Apache-2.0](LICENSE-APACHE)（演绎自上游文档）· 代码与技能包 [MIT](LICENSE) · 署名见 [NOTICE](NOTICE) |
 | 远端仓库 | <https://github.com/hencter/hugozh>（`main` 分支与 `v1.0.0` / `v1.1.0` / `v1.2.0` 标签已推送） |
 
@@ -67,12 +67,12 @@ hugozh/                                   ← 仓库根 = 站点根
 │   ├── hugo-docs-theme/                 # 基础层：页面模板、partials、_markup 渲染钩子、
 │   │                                    #        _shortcodes（note/banner/quick-reference/demo/wrap）、CSS/JS
 │   └── hugo-docs-theme-zh/              # 中文叠加层：只做 CJK 排版（cjk.css + 开关参数）
-├── .dsh/skills/hugo-static-site/        # 面向 AI 代理的技能包（SKILL.md + 10 篇 references）
+├── .agents/skills/hugo-static-site/        # 面向 AI 代理的技能包（SKILL.md + 10 篇 references）
 ├── .translation/                        # 翻译作业手册、审计脚本、品牌资产生成
 ├── .testing/                            # Playwright 回归（ui / search / sidebar / demo-check）
 └── package.json                         # 仅用于品牌资产生成与回归测试的 Node 依赖
 
-（`.git`、`node_modules/`、`public/`、`resources/` 等未列出；`.dsh/`、`.translation/`、`.testing/`
+（`.git`、`node_modules/`、`public/`、`resources/` 等未列出；`.agents/`、`.translation/`、`.testing/`
   是点开头的工具目录，既不出现在 Hugo 的构建里，也不影响站点结构。）
 ```
 
@@ -256,7 +256,7 @@ Hugo 自带的一批短代码**不需要站点提供模板**就能调用。`/sho
 
 ## 版本控制与日期
 
-站点源码由 Git 管理（仓库根就是站点根；`.dsh/skills/`、`.translation/`、`.testing/` 也在同一仓库内）。产出物不入库：
+站点源码由 Git 管理（仓库根就是站点根；`.agents/skills/`、`.translation/`、`.testing/` 也在同一仓库内）。产出物不入库：
 
 ```gitignore
 public/
@@ -584,13 +584,14 @@ hugo --source <临时目录> --ignoreCache
 
 `hugo-static-site` 是给 AI 编码代理用的作业手册：铁律（哪些改动会让**整站**构建失败）、G1–G28 症状→真因→修法、SEO 清单、短代码撰写（含「在文档页里展示短代码真实产物」的写法）、日期与多语言、版本控制与 Git 联动日期。**不是代码，是 Markdown**，不用 DSH 也能当文档读。
 
-源码在 [`.dsh/skills/hugo-static-site/`](.dsh/skills/hugo-static-site/)（SKILL.md + 10 篇 references + 安装提示词），站内介绍页在 <https://hugozh.cn/skill/>，机器可读清单是 `/skill/skill-manifest.json`。安装三选一：
+源码在 [`.agents/skills/hugo-static-site/`](.agents/skills/hugo-static-site/)（SKILL.md + 10 篇 references + 安装提示词），站内介绍页在 <https://hugozh.cn/skill/>，机器可读清单是 `/skill/skill-manifest.json`。装到哪儿由你所用代理的约定决定，两种常见落法：
 
 ```text
-1) <你的项目>/.dsh/skills/hugo-static-site/     # 随项目走
-2) ~/.dsh/skills/hugo-static-site/              # 全机器可用
-3) 在 ~/.dsh/profiles/<profile>/cordis.patch.yml 里给 skill-filesystem 指定 customSkillDirs
+1) <你的项目>/.agents/skills/hugo-static-site/   # 随项目走
+2) ~/.agents/skills/hugo-static-site/            # 全机器可用
 ```
+
+技能包自带的 INSTALL-PROMPT 刻意**不写死任何产品路径**：不同代理的技能目录与加载机制不同，装到哪儿、怎么加载交给代理按自己的约定判断（详见站内 `/skill/` 一页）。
 
 改了技能包之后跑 `pwsh -File .translation/sync-skill-static.ps1` 同步到 `static/skill/` 并重新生成清单；加 `-Verify` 只校验镜像与源是否一致（CI/验收用）。
 

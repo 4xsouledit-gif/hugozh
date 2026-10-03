@@ -24,7 +24,7 @@
 - `themes/`（两个主题的模板、样式与脚本）
 - `layouts/`（跨主题的骨架约束）
 - `hugo.toml`、`archetypes/`
-- `.dsh/skills/hugo-static-site/`（Hugo 静态站点技能包）
+- `.agents/skills/hugo-static-site/`（Hugo 静态站点技能包）
 - 仓库级文档：`README.md`、`CONTRIBUTING.md`
 
 ```text

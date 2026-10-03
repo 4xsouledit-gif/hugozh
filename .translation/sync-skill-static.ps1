@@ -9,7 +9,7 @@ param([switch]$Verify)
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$src = Join-Path $root '.dsh\skills\hugo-static-site'
+$src = Join-Path $root '.agents\skills\hugo-static-site'
 $dst = Join-Path $root 'static\skill'
 $verifyOnly = $PSBoundParameters.ContainsKey('Verify')
 
@@ -62,7 +62,7 @@ foreach ($f in $srcFiles) {
     bytes  = $f.Length
     sha256 = (Get-FileHash $f.FullName -Algorithm SHA256).Hash.ToLower()
     url    = ("https://hugozh.cn/skill/" + ($rel -replace '\\', '/'))
-    rawUrl = ("https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/" + ($rel -replace '\\', '/'))
+    rawUrl = ("https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/" + ($rel -replace '\\', '/'))
   }
 }
 
@@ -74,11 +74,11 @@ if (Test-Path (Join-Path $dst 'README.md')) {
 $manifest = [pscustomobject]@{
   name        = 'hugo-static-site'
   description = 'A DSH skill for building, updating, and verifying Hugo static sites.'
-  source      = 'https://github.com/hencter/hugozh/tree/main/.dsh/skills/hugo-static-site'
-  rawBase     = 'https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site'
+  source      = 'https://github.com/hencter/hugozh/tree/main/.agents/skills/hugo-static-site'
+  rawBase     = 'https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site'
   install     = [pscustomobject]@{
-    dsh_project = '<项目>/.dsh/skills/hugo-static-site/'
-    dsh_user    = '~/.dsh/skills/hugo-static-site/'
+    project     = '<项目>/.agents/skills/hugo-static-site/'
+    user        = '~/.agents/skills/hugo-static-site/'
     note        = '目录名必须是 hugo-static-site；技能目录在会话启动时扫描，装好后重开会话即可加载。'
   }
   files       = $files

@@ -423,6 +423,35 @@ ERROR failed to extract shortcode: template for shortcode "year" not found
 
 那就是模板文件的位置或名字不对：确认它在 `layouts/_shortcodes/year.html`（不是 `layouts/shortcodes/`，也不是 `year.html.html`）。
 
+## 本站自己的短代码（直接可看的活例）
+
+本站主题里有五个自定义短代码模板，都在 `themes/hugo-docs-theme/layouts/_shortcodes/`：`note`、`banner`、`quick-reference`、`demo`、`wrap`。它们都是普通模板，可以当作上面那些写法的现成范例来读。其中 `note` 在本站正文里到处都在用，下面就是一个**真实调用**（不是代码块里的示意）：
+
+{{< note type="tip" title="这段方框是 note 短代码的产物" >}}
+正文支持 **Markdown**、`行内代码`、[站内链接](/shortcodes/) 与列表：
+
+- 第一项
+- 第二项
+{{< /note >}}
+
+它的调用写的是（标准记法，因此模板里对 `.Inner` 调用了 `markdownify`）：
+
+```md
+{{</* note type="tip" title="这段方框是 note 短代码的产物" */>}}
+正文支持 **Markdown**、`行内代码`、[站内链接](/shortcodes/) 与列表：
+
+- 第一项
+- 第二项
+{{</* /note */>}}
+```
+
+另外两个模板值得一读：
+
+- `demo.html`——文档页用来展示「真实渲染结果」的方框，本站短代码章节的每一页都在用；
+- `wrap.html`——只把内部内容包进一个 `<div>`，用来观察两种记法的差别，见[短代码章节的「跑一遍」](/shortcodes/#跑一遍同一段内容两种记法)。
+
+读模板比读说明快：这几个文件都不到 30 行，注释里写了每个参数的作用。
+
 ## 检测短代码是否被使用
 
 `HasShortcode` 方法可以检查某个短代码是否在页面上被调用过。例如有一个自定义的 `audio` 短代码：

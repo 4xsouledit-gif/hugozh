@@ -15,7 +15,12 @@ returnType = "template.HTML"
 
 带结束标签的短代码（`{{</* card */>}}…{{</* /card */>}}`）需要把「标签之间的那一段内容」取出来再加工——包一层 `<div>`、加标题、决定是否按 Markdown 渲染。`Inner` 返回的就是这段内容。
 
-它最容易让人困惑的地方是：**同一段内容，用 `{{</* */>}}` 调用时是「原始 Markdown 文本」，用 `{{%/* */%}}` 调用时已经是「渲染好的 HTML」**。把这一点搞反，页面就会显示一堆 `**星号**`，或者出现双重转义。这一页把两种记法下的取值、以及要不要 `TrimSpace`/`RenderString` 讲清楚。
+它最容易让人困惑的地方是：**同一段内容，用 `{{</* */>}}` 调用和用 `{{%/* */%}}` 调用，`.Inner` 拿到的都是「原始 Markdown 文本」；差别在于 Markdown 记法下短代码的**输出**还会被 Markdown 渲染器再处理一遍**。把这一点想成「Markdown 记法下 `.Inner` 已经是 HTML」，页面就会显示一堆 `**星号**`，或者出现双重转义。这一页把两种记法下的取值、以及要不要 `TrimSpace`/`RenderString` 讲清楚，实测依据见文末「返回值边界」。
+
+> [!IMPORTANT]
+> **实测更正（Hugo 0.167.0，Windows，最小站点）**：`.Inner` 在两种记法下都是**未渲染的原文**。测法很简单——模板写成 `<pre>[{{ .Inner }}]</pre>`，两种记法各调用一次，产出的 `<pre>` 里显示的都是同一行原始 Markdown（`We design the **best** widgets in the world.`）。
+>
+> 那为什么 Markdown 记法「看起来」渲染了？因为博客/文档里常见的模板都是把 `.Inner` 直接输出，而 Markdown 记法的输出之后还会过一遍 Markdown 渲染器。**只有输出这一层被渲染，`.Inner` 本身始终是原文**。这一点直接影响下面的写法选择：Markdown 记法下不要再套 `RenderString`（会渲染两遍），标准记法下则必须套。
 
 ## 什么时候用，什么时候别用
 
@@ -186,7 +191,7 @@ Hugo 渲染为：
 
 **你应当看到什么**：`**best**` 变成了 `<strong>best</strong>`，说明 `Inner` 返回的是 **Markdown 原文**，需要 `RenderString` 才会变成 HTML。这一步很容易验证——把 `.Page.RenderString` 去掉，页面里就会原样显示 `**best**`（上游「示例」一节的渲染结果正是如此）。
 
-改用 Markdown 记法后，情况反过来：
+改用 Markdown 记法后，情况看起来反过来：
 
 ```md {file="content/services.md"}
 {{%/* card title="Product Design" */%}}
@@ -194,13 +199,15 @@ We design the **best** widgets in the world.
 {{%/* /card */%}}
 ```
 
-此时 `.Inner` 已经是渲染好的 HTML。实测在 `layouts/_shortcodes/sccardmd.html` 中直接输出 `.Inner` 得到：
+此时**页面上的输出**是渲染过的 HTML。实测在 `layouts/_shortcodes/sccardmd.html` 中直接输出 `.Inner` 得到：
 
 ```html
 <p>We design the <strong>best</strong> widgets in the world.</p>
 ```
 
-所以 [Markdown 记法][]下**不要**再套 `RenderString`。上游「另一种记法」一节还给出了配套的缩进/空行写法，以及需要 `unsafe = true` 的原因。
+注意这里有个容易误读的地方：`<p>` 与 `<strong>` **不是 `.Inner` 的内容**，而是「短代码输出之后再过一遍 Markdown 渲染器」的结果。对照证据见文末「返回值边界」表——同一个模板换成 `<pre>` 包住 `.Inner`，两种记法显示的都是原始 Markdown。
+
+所以 [Markdown 记法][]下**不要**再套 `RenderString`（那会把内容渲染两遍）；标准记法下**必须**套（否则星号就是星号）。上游「另一种记法」一节还给出了配套的缩进/空行写法，以及需要 `unsafe = true` 的原因。本站短代码章节的「[跑一遍：同一段内容，两种记法](/shortcodes/#跑一遍同一段内容两种记法)」一节把这两种记法的真实产物并排放在页面上，可以直接看。
 
 自闭合调用没有内部内容，实测 `.Inner` 为空字符串、不报错：
 
@@ -216,7 +223,7 @@ We design the **best** widgets in the world.
 | `{{</* */>}}` 记法 + 结束标签 | **原始 Markdown 文本**，含开头/结尾换行（实测 `\nWe design the **best** widgets…\n`） | 否 |
 | 同上，经过 `strings.TrimSpace` | 去掉首尾空白后的 Markdown | 否 |
 | 同上，再经过 `.Page.RenderString` | 渲染后的 HTML（实测 `<strong>best</strong>`） | 否 |
-| `{{%/* */%}}` 记法 | **已经渲染好的 HTML**（实测 `<p>We design the <strong>best</strong> widgets in the world.</p>`） | 否 |
+| `{{%/* */%}}` 记法 | `.Inner` 同样是**原始 Markdown 文本**（实测：把 `.Inner` 包进 `<pre>` 打印，两种记法逐字相同）；区别在**输出**——Markdown 记法下短代码输出之后还会过一遍 Markdown 渲染器，所以「把 `.Inner` 原样输出」的模板得到 `<p>We design the <strong>best</strong> widgets in the world.</p>` | 否 |
 | 自闭合写法（在 `>` 之前加 `/`） | 空字符串 | 否 |
 | 有开始标签但没有结束标签 | —— | 是：`failed to extract shortcode: shortcode "x" must be closed or self-closed` |
 | 返回类型 | `template.HTML`（所以直接输出不会被转义） | 否 |

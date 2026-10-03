@@ -90,6 +90,26 @@ func main() {
 
 **你应当看到什么**：行号 3（`import "fmt"`）与 6–8 行会带上强调样式，行号显示在代码左侧（`linenos=inline`），配色是 `emacs`。**选项值有两种写法**：`hl_lines` 在项目配置里是空格分隔的字符串（`hl_Lines = "2-4 7"`），在围栏里既可以写 `[3,"6-8"]` 数组，也可以写 `"3 6-8"` 字符串，两者等价。
 
+### 本站实际渲染效果
+
+下面这一块是**同一段围栏在本站真的渲染出来的样子**（三项选项一起写）——写法在上、产物就在眼前，不是把产物再贴一遍：
+
+```go {linenos=inline hl_lines=[3,"6-8"] style=emacs}
+package main
+
+import "fmt"
+
+func main() {
+    for i := 0; i < 3; i++ {
+        fmt.Println("Value of i:", i)
+    }
+}
+```
+
+**对照上面的「你应当看到什么」**：行号确实在代码左侧（`linenos=inline`），第 3 行与第 6–8 行确实带上了强调底色（`hl_lines`）——这两项在本站是一眼可见的。
+
+**但「配色是 `emacs`」这一句在本站看不出差别**，这是本站配置决定的，值得单独说清楚：`hugo.toml` 里设了 `[markup.highlight] noClasses = false`，即输出 Chroma 的**类名**而不是内联样式，颜色统一由 `assets/css/syntax.css` 决定。此时 `style=…` 选项只影响内联样式，因此换任何风格名都不会改变这一块的颜色。要让 `style` 生效，有两条路：把 `noClasses` 改成 `true`（回到内联样式），或者用 `hugo gen chromastyles` 生成目标风格的样式表替换现有配色——**后者才是本站这类「类名输出」站点该走的路**。
+
 ## 配置项
 
 高亮行为由配置文件的 `[markup.highlight]` 区段控制，键名即围栏选项名，可参考[配置 Hugo](/configuration/)：

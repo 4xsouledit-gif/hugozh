@@ -675,6 +675,111 @@ a:hover {
   border-left-color: #c53030;
 }
 
+/* ---------- 短代码：正文里的 HTML 元素（figure / details / 嵌入产物） ----------
+   内置短代码展开出的元素没有本站的类名，只能按标签选；全部限定在 .doc-body 内，
+   避免影响界面层。figcaption 是内置 figure 短代码在给了 caption/attr/title 时才输出的。 */
+
+.doc-body figure {
+  margin: 1.5rem 0;
+}
+
+.doc-body figcaption {
+  margin-top: 0.5rem;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+}
+
+.doc-body figcaption p {
+  margin: 0.2rem 0;
+}
+
+.doc-body figcaption h4 {
+  margin: 0 0 0.2rem;
+  font-size: 0.98rem;
+}
+
+.doc-body iframe {
+  max-width: 100%;
+  border: 0;
+}
+
+.doc-body details {
+  margin: 1.2rem 0;
+  padding: 0.6rem 0.95rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.doc-body summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.doc-body details[open] > summary {
+  margin-bottom: 0.6rem;
+}
+
+.doc-body details > :last-child {
+  margin-bottom: 0;
+}
+
+/* 社交嵌入的容器由内置短代码用行内样式撑成 16:9，这里只兜住宽度 */
+
+.doc-body .instagram-media {
+  margin: 1.5rem auto !important;
+}
+
+/* ---------- 短代码：示例演示框（layouts/_shortcodes/demo.html） ----------
+   文档页既要给「写法」，也要给「渲染出来是什么样」。写法放在前面的代码块里，
+   渲染结果放进 .demo 框内。选择器带 .doc-body 是为了压过上面的 .doc-body figure 规则。 */
+
+.doc-body .demo {
+  margin: 1.5rem 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  overflow: hidden;
+}
+
+.doc-body .demo-label {
+  display: block;
+  padding: 0.4rem 0.95rem;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg-inset);
+  color: var(--text-faint);
+  font-size: 0.82rem;
+}
+
+.doc-body .demo-stage {
+  padding: 1rem 1.1rem;
+  background: var(--bg);
+}
+
+.doc-body .demo-stage > figure,
+.doc-body .demo-stage > .highlight,
+.doc-body .demo-stage > details,
+.doc-body .demo-stage > pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.doc-body .demo-stage > :first-child {
+  margin-top: 0;
+}
+
+.doc-body .demo-stage > :last-child {
+  margin-bottom: 0;
+}
+
+.doc-body .demo-note {
+  margin: 0;
+  padding: 0.5rem 0.95rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-soft);
+  font-size: 0.85rem;
+}
+
 /* ---------- 教学层面板（partials/teach-box.html，数据来自前置元数据的 [teach]） ---------- */
 
 .teach {

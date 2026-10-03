@@ -1,0 +1,23 @@
+{{- /* 示例演示框：把短代码的真实渲染结果直接展示在文档页上。
+     写法：demo 成对调用，框内放短代码调用；可用 label / note 两个命名参数加标签与说明。
+
+     为什么用它：文档页既要给出「写法」，也要给出「渲染出来是什么样」。
+     写法放在 demo 之前的围栏代码块里（按铁律写成转义形式），
+     渲染结果放进 demo 里——框内直接写真正的调用，构建时展开，读者看到的就是成品。
+
+     框内请只放短代码调用或现成的 HTML，不要放 Markdown 正文：
+     实测（Hugo 0.167）两种记法下 .Inner 拿到的都是「未渲染的原文」，
+     而框内包着块级 HTML（.demo-stage 这个 div），Markdown 会被原始 HTML 块吞掉；
+     需要 Markdown 正文的场合，直接写在页面里，不要套 demo。
+     依据：https://gohugo.io/templates/shortcode/#rendering-order */ -}}
+{{- $label := .Get "label" | default "实际渲染效果" -}}
+{{- $note := .Get "note" -}}
+<figure class="demo">
+  <figcaption class="demo-label">{{ $label }}</figcaption>
+  <div class="demo-stage">
+    {{- .Inner | safeHTML -}}
+  </div>
+  {{- with $note }}
+  <p class="demo-note">{{ . | markdownify }}</p>
+  {{- end }}
+</figure>

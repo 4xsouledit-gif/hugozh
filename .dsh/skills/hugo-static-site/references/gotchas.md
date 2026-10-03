@@ -309,3 +309,70 @@ reported on a clean build is a genuine candidate. Never delete a template whose 
 point at.
 
 **Status:** observed (Hugo 0.167.0; the warning vanished when G25 was fixed).
+
+## G27 — `.Inner` is raw Markdown under *both* notations
+
+**Symptom.** A shortcode template that outputs `{{ .Inner }}` behaves differently depending on the
+delimiters, and the usual explanation ("Markdown notation hands you rendered HTML") does not match
+what a dump of `.Inner` shows. Related confusion: a Markdown-notation call whose output is wrapped
+in a `<div>` appears *not* to render its inner Markdown, while the same content outside the wrapper
+renders fine.
+
+**Cause.** The Markdown renderer runs on the shortcode's **output**, after the template, for
+`{{% %}}` calls. `.Inner` itself is the raw inner text either way.
+
+**Evidence (minimal site, template `<pre>[{{ .Inner }}]</pre>`).** Both calls
+
+```text
+{{% dump %}}
+We design the **best** widgets in the world.
+{{% /dump %}}
+```
+
+```text
+{{< dump >}}
+We design the **best** widgets in the world.
+{{< /dump >}}
+```
+
+produce `<pre>[ We design the **best** widgets in the world. ]</pre>` — byte-identical. Only when the
+template emits `.Inner` *outside* an HTML block does the Markdown-notation version end up rendered,
+because the page's renderer then sees it.
+
+**Consequence.** The familiar rule is still correct but for a different reason: Markdown notation →
+do **not** also call `RenderString` (double rendering); standard notation → you **must**. And a
+block-level wrapper is a trap: `<div class="stage">{{ .Inner }}</div>` starts a raw HTML block, so
+the inner Markdown is swallowed unless a blank line ends the block first. That is why a "show the
+live result" wrapper shortcode can only be used around shortcode calls or finished HTML, never
+around Markdown prose.
+
+**Fix.** Choose by what the *output* needs, not by what you believe `.Inner` contains; keep wrapper
+templates free of Markdown, and give a Markdown-notation template a blank line after its opening
+tag when the inner content must be rendered.
+
+**Status:** observed (Hugo 0.167.0, Windows, minimal site; `<pre>` dump plus two live notations on a
+documentation page).
+
+## G28 — a remote-fetching shortcode breaks an offline, warning-strict build
+
+**Symptom.** `hugo` exits 0 and the page silently has a hole where the shortcode was; the same
+command with `--panicOnWarning` exits 2.
+
+```text
+WARN  The "x" shortcode was unable to retrieve the remote data: … error calling GetRemote: … See "content/example.md:7:1"
+```
+
+**Cause.** Hugo's `x` shortcode (and the removed `gist`) resolve their markup at build time through
+`resources.GetRemote`. No network — or a host that fails the default `[security.http]` policy —
+turns that into a warning, not an error, and the location renders empty. Nothing in the page or the
+exit code of a plain build reveals the loss.
+
+**Fix.** Treat "builds offline" as a design decision and check it against the content: if the site
+promises an offline build, do not call remote-fetching shortcodes from content — document them, or
+gate them behind a separate, network-enabled build. Note that the default policy also rejects
+non-public address ranges, so a hostname resolving to a private IP fails even with working
+connectivity; the warning text names the policy and the offending IP, which is often what saves the
+next person an hour.
+
+**Status:** observed (Hugo 0.167.0, Windows; a real `{{< x … >}}` call: plain build exit 0,
+`--panicOnWarning` exit 2).

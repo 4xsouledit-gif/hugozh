@@ -14,7 +14,7 @@ prereq = [
 ]
 outcomes = [
   "把这个技能包装进 DSH 或任意 AI 编码代理，让它「加载后就知道该查什么、该避什么」；",
-  "不用任何工具也能直接读：把 `references/` 当文档看，其中 G1–G24 逐条是「症状 → 真因 → 修法」；",
+  "不用任何工具也能直接读：把 `references/` 当文档看，其中 G1–G28 逐条是「症状 → 真因 → 修法」；",
   "分清技能包里的断言哪些是「官方文档明文」、哪些是「实测观察」，知道该信到什么程度；",
   "自己写一条新的踩坑记录投稿：附最小复现与 `hugo version`，这比结论本身更有价值。",
 ]
@@ -103,9 +103,9 @@ references/gotchas.md 等不得拍平或改名；哈希必须逐文件校验。�
 | --- | --- |
 | `SKILL.md` | 铁律与工作流：什么会让**整站**构建失败、无 shell 时怎么降级、快速迭代循环 |
 | `INSTALL-PROMPT.txt` | 上一节那段可复制的安装提示词（纯文本，便于直接粘贴或让代理按 URL 取用） |
-| `references/gotchas.md` | **G1–G26** 逐条「症状 → 真因 → 修法」，并标注 documented / observed / not documented |
+| `references/gotchas.md` | **G1–G28** 逐条「症状 → 真因 → 修法」，并标注 documented / observed / not documented |
 | `references/seo.md` | 逐标签清单、结构化数据的 `jsonify` 陷阱、robots/sitemap、性能 |
-| `references/shortcodes.md` | 短代码撰写：两种记法与渲染顺序、方法清单、嵌套、与 render hook 的分工 |
+| `references/shortcodes.md` | 短代码撰写：两种记法与渲染顺序、`.Inner` 的真实取值、内置短代码清单、「在文档页里展示真实产物」的演示框写法、与 render hook 的分工 |
 | `references/dates.md` | 三个日期字段与回退链、时区、本地化格式与相对时间 |
 | `references/i18n.md` | **可选**：多语言结构、切换器、字符串表与占位符 |
 | `references/versioning.md` | Git 该跟踪什么、`enableGitInfo`、提交驱动的「最后更新」 |

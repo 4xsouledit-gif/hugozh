@@ -2,6 +2,11 @@
 # 用法：
 #   pwsh -File .translation/sync-skill-static.ps1            # 同步 + 生成清单
 #   pwsh -File .translation/sync-skill-static.ps1 -Verify    # 只校验镜像与源是否一致（CI/验收用）
+#
+# 注意：必须显式声明 param，否则 `-File x.ps1 -Verify` 的参数会落进 $args，
+# $PSBoundParameters 里什么都没有，-Verify 会被静默忽略、脚本照常做整轮同步。
+param([switch]$Verify)
+
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $src = Join-Path $root '.dsh\skills\hugo-static-site'

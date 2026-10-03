@@ -8,10 +8,13 @@
 
 ## 一、会让整站构建失败的三条（违反即返工）
 
-### 1. 上游短代码调用**不能照抄**
+### 1. 上游短代码调用要分清「Hugo 内置」与「上游自定义」
 
-本站只有**主题自带的三个短代码**——`note`、`banner`、`quick-reference`（模板在 `themes/hugo-docs-theme/layouts/_shortcodes/`）——上游那些短代码在本站不存在，照抄会报
-`failed to extract shortcode: template for shortcode "…" not found`，**整个站点**构建失败。必须改写：
+**Hugo 内置短代码**（随二进制发布，不需要站点提供模板）在任何站点都能调用，本站也能：`figure`、`details`、`highlight`、`param`、`ref`、`relref`、`qr`、`youtube`、`vimeo`、`instagram`、`x` 等（`gist` 已于 0.156.0 移除）。`content/shortcodes/` 章节已经在正文里**真实调用**了其中十个，把渲染结果直接展示在文档页上——这是本站的既定做法，不要把它们当成「上游专有短代码」改写掉。
+
+**唯一例外是 `x`**：它构建时要向 `publish.x.com` 请求 oEmbed 数据，与本站「不依赖网络、断网也能构建」的约定冲突（失败只打 WARNING，而严格构建带 `--panicOnWarning`，会直接失败），因此不在正文里调用，只在 `/shortcodes/x/` 一页说明原因。
+
+**上游文档主题自定义的短代码**本站没有，照抄会报 `failed to extract shortcode: template for shortcode "…" not found`，**整个站点**构建失败。必须改写：
 
 | 上游写法 | 本站改写 |
 | --- | --- |
@@ -26,8 +29,18 @@
 | `{{< img src="…" alt="…" >}}`（上游自定义） | 转成 Markdown 图片 `![alt](src)`；需要尺寸/类名时用原生 `<img>` |
 | 任何其它 `{{< … >}}` / `{{% … %}}` 调用 | **一律改成纯 Markdown**，绝不留调用 |
 
-**例外**：本站自有的 `note` 短代码可以用（标准记法）：
+**例外**：本站自有的短代码可以用（标准记法）：
 `{{< note type="warning" title="标题" >}}正文支持 Markdown{{< /note >}}`
+
+**要展示「示例跑出来是什么样」时**，用本站的 `demo` 短代码把真实调用包起来（框内**只放短代码调用或现成 HTML**，不要放 Markdown 正文——框内是块级 HTML 容器，Markdown 会被原始 HTML 块吞掉）：
+
+```md
+{{< demo label="带 caption 的 figure" >}}
+{{< figure src="images/examples/hugo-icon.png" alt="示例" caption="图注" width=160 >}}
+{{< /demo >}}
+```
+
+展示的对象本身是 Markdown 构造（链接、表格、代码块、引用块）时，**不要套 `demo`**，直接写在正文里，并说明它由哪个渲染钩子/默认行为产生。`
 
 ### 2. 展示短代码写法时必须转义
 

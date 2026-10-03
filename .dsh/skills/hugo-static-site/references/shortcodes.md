@@ -44,11 +44,69 @@ Documented at <https://gohugo.io/templates/shortcode/#rendering-order>:
 
 Consequences worth saying out loud:
 
-- Markdown notation: `.Inner` is raw Markdown and its headings reach `.TableOfContents`.
-- Standard notation: `.Inner` is unrendered text — pipe it through `markdownify` — and its headings
-  never reach the table of contents.
+- `.Inner` is the **raw** inner text under *both* notations; the difference is what happens to the
+  shortcode's **output** afterwards (G27 has the `<pre>` dump that proves it).
+- Markdown notation: the output is rendered by the page's Markdown renderer, so an inner heading
+  reaches `.TableOfContents`; a template that emits `.Inner` at the top level therefore looks like
+  it rendered the Markdown.
+- Standard notation: the output is inserted as-is — pipe `.Inner` through `markdownify` /
+  `RenderString` yourself, and inner headings never reach the table of contents.
+- A **block-level wrapper defeats the post-render**: `<div class="stage">{{ .Inner }}</div>` opens a
+  raw HTML block, so inner Markdown inside it stays literal unless a blank line ends the block
+  first. This is the constraint that decides whether a "show the live result" wrapper can hold
+  Markdown at all.
 - A standard-notation call earlier in the document still runs *after* a Markdown-notation call later
   in it.
+
+## Built-in shortcodes need no site template
+
+`figure`, `details`, `highlight`, `param`, `ref`, `relref`, `qr`, `youtube`, `vimeo`, `instagram`
+and `x` ship **inside the Hugo binary** as embedded templates. They resolve in any project with no
+`layouts/_shortcodes/` entry, so G1's `template for shortcode "…" not found` is *not* what you get
+for them — it fires for names the site never defined (upstream's custom `code-toggle`, `new-in`,
+`include`, … are the usual suspects when translating someone else's docs).
+
+Two of them are not free:
+
+- **`x`** resolves its markup at build time with `resources.GetRemote`. Offline — or behind a host
+  that fails the default `security.http` policy — it warns and renders nothing; a warning-strict
+  build (`--panicOnWarning`) fails outright (G28).
+- **`qr`** encodes locally at build time and publishes a `qr_<hash>.png` into the publish directory
+  root, so it stays offline-safe; the hash changes with the payload, so never hand-write the URL.
+
+`gist` was deprecated in 0.143.0 and **removed** in 0.156.0: content still calling it fails the
+build.
+
+## Showing a shortcode's real output in the documentation
+
+Code fences teach the syntax; a reader still has to build the site to see the result. A wrapper
+shortcode closes that loop — the docs page carries the live artifact next to the escaped call.
+Verified pattern (`layouts/_shortcodes/demo.html`):
+
+```go-html-template
+{{- $label := .Get "label" | default "实际渲染效果" -}}
+<figure class="demo">
+  <figcaption class="demo-label">{{ $label }}</figcaption>
+  <div class="demo-stage">{{ .Inner | safeHTML }}</div>
+</figure>
+```
+
+Invariants, all forced by G27:
+
+1. **Call it with standard notation** and put only shortcode calls or finished HTML inside. Nested
+   shortcodes render first, so the parent receives their output as `.Inner` — safe. Markdown prose
+   inside is *not* rendered (the wrapper is a block-level HTML element).
+2. **Do not wrap a Markdown-notation demonstration in it** — that output still needs the page's
+   Markdown renderer, which the wrapper blocks. Write those calls directly in the page body.
+3. The escaped source (`{{</* … */>}}`) goes in a fence immediately above the wrapper, so the reader
+   sees call and result side by side. Never leave that call unescaped.
+4. Style the stage so the live artifact cannot be mistaken for a code sample — its own border and a
+   label, not another fence.
+
+The same idea covers render hooks: for constructs a hook intercepts (links, code blocks,
+blockquotes), put the real Markdown in the body and describe which hook produced the HTML. Where the
+site has **no** hook for a construct, say so — "this is Hugo's default rendering" is itself the
+useful fact.
 
 ## Methods
 

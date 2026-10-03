@@ -39,8 +39,8 @@
     },
     {
       "path": "references/gotchas.md",
-      "bytes": 15219,
-      "sha256": "17c4b50b1bd60fd76296eeaeb71f2dec152c8dad95df2be072100bed6fe66cf2",
+      "bytes": 18562,
+      "sha256": "7a8a48c943695655ee26626e6e4f7e51757b2ee934b0a0bba1c42dced67ef7a7",
       "url": "https://hugozh.cn/skill/references/gotchas.md",
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/gotchas.md"
     },
@@ -60,8 +60,8 @@
     },
     {
       "path": "references/shortcodes.md",
-      "bytes": 5338,
-      "sha256": "bbd63890cd6c1e4c73a81be3e601b9b293689a8d9e8ca2795a83147985fa1c93",
+      "bytes": 8738,
+      "sha256": "5db138296b608b87aa77ae026ed8cd4ef824b448b0b822d817c6b8c1f3a051d6",
       "url": "https://hugozh.cn/skill/references/shortcodes.md",
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.dsh/skills/hugo-static-site/references/shortcodes.md"
     },

@@ -88,6 +88,32 @@ next = ["/render-hooks/code-blocks/", "/render-hooks/introduction/", "/troublesh
 - `.Anchor` 是普通字符串，直接放进 `id="{{ .Anchor }}"` 即可；CJK 标题的锚点会保留汉字本身，实测本站 `## 警示块` 生成的 `id` 就是 `警示块`，`## 使用要点` 生成 `使用要点`。
 - `.Text` 是已经渲染过的 `template.HTML`，直接输出；**不要**对它做转义。
 
+### 本站实际渲染效果
+
+下面两个标题是**真的写在正文里**的 Markdown 标题，不是代码块里的示意——它们就在这一页上被渲染成了 HTML 标题元素。本站的渲染钩子只有 `render-link.html`、`render-codeblock.html`、`render-blockquote.html` 三个（`themes/hugo-docs-theme/layouts/_markup/` 是本站唯一的 `_markup` 目录），**没有** `render-heading.html`，所以下面这两个标题的标签名、层级和 `id` 全是 Hugo 默认行为。
+
+演示刻意写成 `####`：本站右栏目录只收 `h2`–`h3`（`[markup.tableOfContents] startLevel = 2 endLevel = 3`），用 `####` 不会把读者目录搅乱。
+
+#### 实测标题：中文、标点与空格
+
+#### Heading with ASCII Punctuation!
+
+实测（Hugo 0.167.0 extended，本站：站点构建（`hugo --ignoreCache`）后读 `public/render-hooks/headings/index.html`）产物里这几个标题的标签是：
+
+```html
+<h3 id="本站实际渲染效果">本站实际渲染效果</h3>
+<h4 id="实测标题中文标点与空格">实测标题：中文、标点与空格</h4>
+<h4 id="heading-with-ascii-punctuation">Heading with ASCII Punctuation!</h4>
+```
+
+对照点：
+
+- **层级来自井号个数**：两个 `####` 输出 `<h4>`；本页上面那些 `##` 输出的是 `<h2 id="示例">`、`<h2 id="使用要点">`（同样从产物里核对到）。
+- **`id` 由 Goldmark 从标题文字推导，且不等于标题原文**：全角冒号 `：`、顿号 `、`、叹号 `!` 都被去掉，ASCII 大写转小写、空格转连字符；中文本身**原样保留**，没有转成拼音或十六进制编码。
+- **没有钩子，就没有任何模板能改它**：`Anchor`、`Level`、`Text` 这些字段只是钩子模板的上下文；本站没有标题钩子，所以标题的 `id`、层级都没人经手。你在产物里看到的这段 HTML，正是自己写 `render-heading.html` 之后要负责重新生成的东西。
+- **右上角的 `#` 与渲染钩子无关**：它是**前端脚本**注入的，HTML 里本来没有。`themes/hugo-docs-theme/assets/js/site.js` 里的 `initHeadingAnchors()` 选取 `.doc-body h2[id], .doc-body h3[id], .doc-body h4[id]`，再给每个元素 `appendChild` 一个 `<a href="#那个id">#</a>`。上面两个默认渲染的 `####` 标题同样带 `#` 按钮——这恰好证明按钮跟钩子没有关系，因为本页根本没有标题钩子。
+  两者的区别在于：脚本注入的锚点只存在于浏览器里，看源码或抓取 HTML 都看不到；而本页「示例」模板里的 `<a href="#{{ .Anchor }}">#</a>` 是**构建时**写进 HTML 的，产物里就有。
+
 ## 使用要点
 
 `Anchor` 通常由标题文本推导而来，因此标题文本一改动，旧锚点就会失效，指向旧链接的读者会落到错误的位置。示例用 `id="{{ .Anchor }}"` 把锚点原样输出到标题元素上，标题钩子因此也是统一改写锚点命名规则的地方。

@@ -103,6 +103,27 @@ next = ["/render-hooks/images/", "/render-hooks/introduction/", "/troubleshootin
 - `.Text` 也可以为空（例如 `[](/posts/post-1)`），此时 `{{ with .Text }}` 不输出内容，`<a>` 内为空——链接仍然可点，但可访问性很差，属于内容问题而非模板问题；
 - `template.HTML` 类型的 `.Text` 里已经包含 Markdown 渲染后的标签（例如 `<em>`），所以**不要**再套 `htmlEscape`，否则页面上会显示出标签本身。
 
+### 本站实际渲染效果
+
+下面这三条链接是**本站页面上真实渲染出来的**，就在这一段正文里，不是代码块里的示意，也不是从构建产物里截下来的字符串：
+
+[看看 figure 那一页](/shortcodes/figure/)——站内链接。
+
+[Hugo 官网](https://gohugo.io/)——站外链接。
+
+[带 title 的链接](/shortcodes/figure/ "图注文字")——站内链接 + 链接标题。
+
+这三条走的是**本站自己的**钩子，也就是上文「示例」里那份模板的**真身**：`themes/hugo-docs-theme/layouts/_markup/render-link.html`。
+
+逐条对账（实测：Hugo 0.167.0，站点构建（`hugo --ignoreCache`）后读 `public/render-hooks/links/index.html`）：
+
+1. **第一条是站内链接，`.Title` 为空。** 页面里它的 `<a>` 只有 `href="/shortcodes/figure/"`，没有 `title`，也没有 `target`、`rel`——因为钩子里那个站外判断（`{{ if or (hasPrefix $dest "http://") (hasPrefix $dest "https://") }}`）不成立：根相对地址不以 `http://` 或 `https://` 开头。
+2. **第二条是站外链接，多出两个属性。** 构建产物里它是 `<a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo 官网</a>`：`target="_blank"` 与 `rel="noopener"` 就来自上面那个判断——判据是**目标地址是否以 `http://` 或 `https://` 开头**，与域名、与是不是本站都无关。
+3. **第三条带链接标题，仍然没有 `target`、`rel`。** Markdown 里双引号写的 `"图注文字"` 会被解析成链接标题，也就是钩子上下文里的 `.Title`，于是钩子里那句 `{{ with .Title }} title="{{ . }}"{{ end }}` 输出了 `title="图注文字"`。它同样是站内链接，所以后面那个站外判断不成立。**这正好说明「有 title」和「是站外链接」是两件独立的事**：`.Title` 只决定要不要 `title` 属性，站外判断只决定要不要 `target`、`rel`。
+4. **站内链接为什么没有那两个属性。** 一句话：本站钩子把「站外」定义为「带 `http://` 或 `https://` 协议前缀」，根相对的 `/shortcodes/figure/` 不在其中。所以判断不成立、两段都不输出。反过来说，本站的钩子**不做解析、不加尾斜杠、也不补语言前缀**——站内地址怎么写，输出就怎么写；地址对不对要在产物里核对（见下文「验证与常见坑」）。
+
+还要分清两件事：**「示例」一节里的两份模板是「怎么写钩子」的示范**（上游给的简化写法，其中一份把站外链接的 `rel` 写成 `external`），而上面这三条链接用的是本站主题自带的那份钩子——它除了给站外链接补 `target` / `rel`，还负责把上游文档里的 `[术语](g)` 写法指到本站术语表（见模板顶部注释与 `partials/glossary-index.html`）。**本站生效的是自定义钩子，内建链接渲染钩子没有参与**，这一点下一节「内建钩子」里有更完整的说明。
+
 ## 什么时候用，什么时候别用
 
 **该用**：

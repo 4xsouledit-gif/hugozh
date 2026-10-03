@@ -223,6 +223,42 @@ layouts/
 
 对照官方示例可以看到两处本地化取舍：**标签文本用映射表而不是 i18n**（单语言站点更省事），**输出结构用 `<aside>` 而不是 `<blockquote>`**（提示框在语义上不是引用）。要做成多语言站点时，仍建议回到 i18n 方案。
 
+### 本站实际渲染效果
+
+**先声明一句：下面这几个提示块是「演示用」的**——它们是拿来让你看渲染效果的样本，**不是本页对读者的提示**，里面的文字也不构成任何操作建议。
+
+下面几个引用块是**在本页正文里真实渲染出来的**，走的就是**本站自己的**钩子 `themes/hugo-docs-theme/layouts/_markup/render-blockquote.html`（本文前面「本站主题的实际实现」一节贴出的那份模板）：
+
+> [!NOTE]
+> 演示用提示块：这里是说明（note）的内容。
+
+> [!TIP]
+> 演示用提示块：这里是提示（tip）的内容。
+
+> [!WARNING]
+> 演示用提示块：这里是注意（warning）的内容。
+
+> [!CAUTION]
+> 演示用提示块：这里是警告（caution）的内容。
+
+> [!IMPORTANT]
+> 演示用提示块：这里是重要（important）的内容。
+
+作为对照，下面是一个**普通引用块**（不带 `[!…]` 标记）：
+
+> 这是一个普通引用块。它没有 `[!…]` 标记，钩子把它当 `regular` 处理。
+
+**逐条对账**（实测：Hugo 0.167.0，站点构建（`hugo --ignoreCache`）后读 `public/render-hooks/blockquotes/index.html`）：
+
+1. **上面五个提示块都是黄色／彩色边框的 `.callout`，不是引用块的样子。** 因为五个都带 `[!…]` 标记，钩子上下文里的 `.Type` 是 `alert`，模板里那句 `{{ if eq .Type "alert" }}` 成立，于是走它下面那条分支，输出 `<aside class="callout callout-…">` 而不是 `<blockquote>`。
+2. **标签文字（「说明」「提示」「注意」「警告」「重要」）由模板里的标题表达式生成：** `{{ with .AlertTitle }}{{ . }}{{ else }}{{ or (index $labels .AlertType) (.AlertType | title) }}{{ end }}`。其中 `$labels` 是模板顶部那张映射表（`dict "note" "说明" "tip" "提示" …`），键是 `.AlertType` 的小写形式，值是中文标签。本例五个提示块都没写扩展标题，所以 `.AlertTitle` 为空，落进 `else`，由映射表给出中文——**中文标签就是「类型 → 中文」这一步查出来的**。
+3. **`.callout-…` 上的类名是英文小写类型**，例如第一个是 `callout-note`、第四个是 `callout-caution`（模板里写成 `class="callout callout-{{ .AlertType }}"`）。所以配色由 CSS 按 `.callout-*` 决定，而不是由标签文字决定。
+4. **每个提示块的正文来自 `.Text`，且不含第一行。** `[!NOTE]` 那一行不在 `.Text` 里（这正是上文「基本语法」一节的要点），模板用 `<div class="callout-body">{{ .Text }}</div>` 把剩下的内容放进去——所以这里既需要映射表补标题，也不会出现「`[!NOTE]` 原样显示在框里」的情况。
+5. **五个类型本站全都支持，没有缺项。** `$labels`（模板顶部那张映射表）里 `note`、`tip`、`important`、`warning`、`caution` 五个键齐全，因此五个演示块都有中文标签，不会退化成 `title` 函数兜底的首字母大写英文（`Note`、`Tip`……）。**实测**：这五个提示块的 `<p class="callout-title">` 里依次是「说明」「提示」「注意」「警告」「重要」。
+6. **最后那个普通引用块走的是另一条分支。** 它没有 `[!…]` 标记，`.Type` 是 `regular`，`{{ if eq .Type "alert" }}` 不成立，落到 `else` 分支的 `<blockquote>{{ .Text }}</blockquote>`——所以你看到的是浏览器默认的引用块样式，而不是 `.callout` 的彩色框。
+
+对照上游那份官方示例模板（本文「示例」一节）可以看出差异：官方示例查 i18n 文件（`{{ or (i18n .AlertType) (title .AlertType) }}`），本站直接查模板里的映射表；官方示例输出 `<blockquote class="alert alert-…">`，本站输出 `<aside class="callout callout-…">`。两种写法的**判定顺序是一样的**：先看 `.Type` 是不是 `alert`，再看 `.AlertTitle` 有没有值，最后才回退到标签表。
+
 ## 什么时候用，什么时候别用
 
 **该用**：

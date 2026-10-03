@@ -116,6 +116,41 @@ next = ["/render-hooks/passthrough/", "/render-hooks/introduction/", "/content-m
 - **表体为空时**，`range .TBody` 什么都不输出，但模板仍然会写出 `<tbody></tbody>`；这在 HTML 里是合法的，目录与样式不受影响。
 - **确有必要拼接属性时**，必须像示例那样通过 `safeHTMLAttr` 处理，否则引号会被转义成 `&#34;`（见[简介的三种值类型](/render-hooks/introduction/#钩子模板输出的三种值类型)）。
 
+### 本站实际渲染效果
+
+下面这张表是**真的用 Markdown 表格语法写在正文里**的，不是代码块里的示意；本站没有表格渲染钩子（`themes/hugo-docs-theme/layouts/_markup/` 下只有 `render-link.html`、`render-codeblock.html`、`render-blockquote.html`），所以它是 Goldmark 默认渲染的结果：
+
+| 钩子文件 | 本站是否存在 | `layouts/_markup/` 里已有的同类 |
+| :--- | :---: | ---: |
+| `render-heading.html` | 否 | `render-link.html` |
+| `render-image.html` | 否 | `render-codeblock.html` |
+| `render-table.html` | 否 | `render-blockquote.html` |
+
+实测（Hugo 0.167.0 extended，本站：站点构建（`hugo --ignoreCache`）后读 `public/render-hooks/tables/index.html`）产物里这张表的开头几行是（为便于阅读，缩进简化为两个空格；标签、属性与产物逐字一致）：
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">钩子文件</th>
+      <th style="text-align: center">本站是否存在</th>
+      <th style="text-align: right"><code>layouts/_markup/</code> 里已有的同类</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code>render-heading.html</code></td>
+      ...
+```
+
+对照点：
+
+- **结构是 `<table>` → `<thead>` → `<tr>` → `<th>`，再接 `<tbody>` → `<tr>` → `<td>`**：没有 `class`、没有外层容器，表头与表体各成一段——与本页「示例」模板要复现的结构一一对应。
+- **对齐标记落在单元格的内联样式上**：`:---`／`:---:`／`---:` 分别输出 `style="text-align: left"`／`style="text-align: center"`／`style="text-align: right"`，加在对应的 `<th>`／`<td>` 上，而不是加在 `<table>` 上。这与本页「示例」模板里 `printf " style=%q" (printf "text-align: %s" .)` 的写法完全一致——模板里那一句就是在复现默认行为。
+- **`Alignment` 只在有钩子时才有人读**：本站没有钩子，这些对齐样式是 Goldmark 自己按分隔行算出来的，任何模板都没有参与。
+- **行内代码照常渲染**：单元格里写成行内代码的 `render-heading.html` 输出为 `<code>render-heading.html</code>`。也就是说单元格内容是**已经渲染过的 HTML**，这正是上面「表格单元格」里 `.Text` 的类型是 `template.HTML`、不该再转义的原因。
+- **「单元格级别」的钩子还谈不上**：上面「表格单元格」讲的 `Alignment`／`Text` 是 `render-table.html` 的上下文；本站没有这个文件，所以不存在单元格级别的渲染，单元格内容全部按默认行为渲染。
+
 ## 使用要点
 
 模板对 `THead` 与 `TBody` 各做一次外层遍历得到行，再对每一行做一次内层遍历得到单元格，因此表头与表体的结构完全由模板决定：可以给表头行加 `scope` 属性、给表格外层加 `class`，或者按列拆分渲染。

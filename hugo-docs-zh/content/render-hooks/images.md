@@ -134,6 +134,24 @@ wrapStandAloneImageWithinParagraph = false
 - `.Title` 为空时同理，`title` 与 `figcaption` 都不会输出。这正是 `.Title` 可选的正确定义。
 - `.Destination` 是 `string`，必须套 `safeURL` 才能安全地放进 `src`；漏掉它在多数地址上看不出差别，但地址里带 `&` 等字符时会出问题。
 
+### 本站实际渲染效果
+
+下面这张图是**真的用 Markdown 图片语法写在正文里**的，不是代码块里的示意——它就是这一页上渲染出来的那张图（鼠标停在图上，浏览器会弹出 `title` 的提示文字）：
+
+![示例图标](/images/examples/hugo-icon.png "这是 title")
+
+本站主题没有图片渲染钩子（`themes/hugo-docs-theme/layouts/_markup/` 下只有 `render-link.html`、`render-codeblock.html`、`render-blockquote.html`，那也是本站唯一的 `_markup` 目录），所以上面这行走的是 Goldmark 默认渲染。实测（Hugo 0.167.0 extended，本站：站点构建（`hugo --ignoreCache`）后读 `public/render-hooks/images/index.html`）产物里这段的 HTML 是：
+
+```html
+<p><img src="/images/examples/hugo-icon.png" alt="示例图标" title="这是 title"></p>
+```
+
+逐条对照：
+
+- **`<img>` 上的三个属性正好来自 Markdown 的三部分**：`src` ← 目标地址、`alt` ← 描述、`title` ← `"这是 title"`。本站没有钩子，谁也不会再来改这三个值；本页「示例」里的模板正是要替这段输出负责。
+- **图片被包在 `<p>` 里**，这一点最能说明配置与钩子的关系：本站 `hugo.toml` **没有**设置 `wrapStandAloneImageWithinParagraph`，即保持默认 `true`。所以这张四周没有相邻文字的图片依然被 `<p>` 包着——如果本站真写了钩子，它拿到的 `IsBlock` 会是**假**，`figure` 分支根本走不到（见上面的「为什么 `IsBlock` 会是假」）。
+- **本站要 `figure` 结构时走的是短代码**：[`figure` 短代码](/shortcodes/figure/) 直接输出 `<figure>` + `<figcaption>`，不用图片渲染钩子，也就绕开了 `IsBlock` 这个坑。
+
 ## 什么时候用，什么时候别用
 
 **该用**：

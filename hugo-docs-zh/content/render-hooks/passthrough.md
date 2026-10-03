@@ -147,6 +147,30 @@ layouts/
       └── render-passthrough-inline.html
 ```
 
+### 本站实际渲染效果
+
+下面这一行里有一个**真的写在正文里**的行内公式（不是代码块里的示意）：勾股定理 \(a^2+b^2=c^2\) 就是这种形状。
+
+再下面是**真的写在正文里**的块级公式，它单独成段：
+
+$$\int_0^1 x^2\,dx = \frac{1}{3}$$
+
+本站 `hugo.toml` 开着 Passthrough 扩展（`enable = true`，`block = [['\[','\]'],['$$','$$']]`、`inline = [['\(','\)']]`），但**没有加载任何数学渲染器**：`themes/hugo-docs-theme/layouts/_markup/` 下没有 `render-passthrough.html`，主题里也搜不到 KaTeX／MathJax 的 `<script>` 或 `<link>`。所以你此刻在页面上看到的就是**原样的 TeX 文本**——定界符一个字符都没少。
+
+实测（Hugo 0.167.0 extended，本站：站点构建（`hugo --ignoreCache`）后读 `public/render-hooks/passthrough/index.html`）这两段在产物里的形态是：
+
+```html
+<p>下面这一行里……勾股定理 \(a^2+b^2=c^2\) 就是这种形状。</p>
+<p>再下面是<strong>真的写在正文里</strong>的块级公式，它单独成段：</p>
+$$\int_0^1 x^2\,dx = \frac{1}{3}$$<p>本站 <code>hugo.toml</code> 开着……
+```
+
+三条结论要分开看：
+
+- **这是「Passthrough 扩展生效」的证据**：`_` 在普通 Markdown 里是强调的定界符，`\` 是转义符——但被定界符包住之后，Goldmark 把整段当原始文本透传，下标 `_0`、`\,`、`\frac` 连同反斜杠一个字符都没被改写。
+- **这也是「没有渲染器」的证据**：行内公式仍然躺在 `<p>` 里，块级公式是**裸的文本节点**——它外面没有 `<p>`，紧跟其后的才是下一段的段落标签。产物里找不到任何指向 KaTeX／MathJax 的 `<script src>` 或 `<link href …>`（本页出现的 `katex` 字样全部来自正文说明与代码示例本身）。要真正显示成公式，得由站点自己引入 MathJax／KaTeX：构建时渲染见上面的「示例」，客户端渲染则是在 `head` 里挂脚本。
+- **别把「没被 Markdown 破坏」当成「已经渲染成公式」**：内容完好只是透传的功劳，页面上仍是 TeX 源码。要不要往前走一步（引入渲染器、承担依赖与构建时间），是站点自己的取舍，见本页「什么时候用，什么时候别用」。
+
 ## 什么时候用，什么时候别用
 
 **该用**：

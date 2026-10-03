@@ -171,17 +171,61 @@ layouts/
   {{- $opts = merge $opts (dict "type" "text") -}}
 {{- end -}}
 {{- $result := transform.HighlightCodeBlock . $opts -}}
-{{- with .Attributes.file -}}
-<figure class="code-block" data-file="{{ . }}">
-  <figcaption class="code-block-file">{{ . }}</figcaption>
+{{- $file := .Attributes.file -}}
+{{- $lang := .Type -}}
+<div class="code-block{{ with $file }} has-file{{ end }}">
+  <div class="code-block-head">
+    {{- with $file }}<span class="code-block-file">{{ . }}</span>{{ end }}
+    {{- if and $lang (ne $lang "text") }}<span class="code-lang">{{ $lang }}</span>{{ end }}
+  </div>
   {{ $result.Wrapped }}
-</figure>
-{{- else -}}
-{{ $result.Wrapped }}
-{{- end -}}
+</div>
 ```
 
-对照默认实现可以看出：**钩子的自由度就在于「谁来包裹、包裹成什么」**。默认是 `<div>`，这里换成了 `<figure>` 加一个 `<figcaption>`，代码本身仍然交给同一个高亮器渲染。
+对照默认实现可以看出：**钩子的自由度就在于「谁来包裹、包裹成什么」**。不写钩子时输出的是高亮器自己的包裹元素，这里在它外面再套一层 `.code-block` 容器与头部（文件名 + 语言标签 + 复制按钮位），代码本身仍然交给同一个高亮器渲染。
+
+### 本站实际渲染效果
+
+下面三个代码块是**在本文正文里真的构建出来的**，不是把构建产物再贴一遍；你看到的外框、文件名、右上角语言标签和悬停才出现的复制按钮，都是本站代码块渲染钩子的输出。写法在上、产物在下，对照着看。
+
+带语言标记的围栏（```` ```go ````）：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("hello")
+}
+```
+
+**你看到的结构**：最外层是 `<div class="code-block">`（模板里那层容器；有文件名时还会追加 `has-file` 类），里面先是一个 `<div class="code-block-head">`，头部里放了 `<span class="code-lang">go</span>`（模板里的判断是 `{{ if and $lang (ne $lang "text") }}`），再是 `$result.Wrapped` 输出的 `<div class="highlight"><pre …><code …>`。**复制按钮不在这一层 HTML 里**：按钮由 `themes/hugo-docs-theme/assets/js/site.js` 的 `initCodeCopy()` 在浏览器里注入，文案是「复制」（复制成功后短暂变成「已复制」），所以关掉 JavaScript 时它不存在，代码本身照常可读。
+
+带 `{file="…"}` 属性的围栏：
+
+```html {file="layouts/example.html"}
+<div class="code-block">{{ .Title }}</div>
+```
+
+**文件名从哪来**：`{file="layouts/example.html"}` 写在信息字符串的花括号里，属于**通用属性**（不是高亮选项），因此进的是钩子上下文里的 `.Attributes`，不是 `.Options`。模板里 `{{ $file := .Attributes.file }}` 把它取出来，容器据此加上 `has-file` 类，头部用 `{{ with $file }}<span class="code-block-file">{{ . }}</span>{{ end }}` 输出文件名。注意**语言标签仍然在**：本例代码语言是 `html`，模板对 `$lang` 的判断并不因为文件名而跳过，所以照样输出 `html`——文件名靠左、语言标签靠右（`.code-block-head .code-lang { margin-left: auto }`，`assets/css/ui.css`）。
+
+不带语言标记的围栏：
+
+```
+这一块没有语言标记（起始围栏后面什么都没有）。
+本站钩子把它的 Type 当成空处理，
+于是头部里既没有文件名，也没有语言标签。
+```
+
+**差别在哪，一行行说**：
+
+- 头部是空的。`$file` 不存在、`$lang` 是空串，模板里 `{{ with $file }}` 与 `{{ if and $lang … }}` 两个判断都不成立，`<div class="code-block-head">` 里什么都没有；
+- 空头部不占位置：`assets/css/ui.css` 里 `.code-block-head:empty { display: none }`，所以你看不到多余的一条空白；
+- 代码没有语法着色，按纯文本输出。**实测（Hugo 0.167.0）**：三种围栏的产物分别读自 `public/render-hooks/code-blocks/index.html`，不带语言那一块的输出是 `<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">…` ——没有 Chroma 的 `kn`、`nx` 之类的记号类名（对比上面 `go` 那一块的 `<span class="kn">package</span>`）。
+- 模板里 `{{ if not (transform.CanHighlight .Type) }}` 正是为「高亮器不认识这个语言」准备的兜底：判真时把选项并成 `dict "type" "text"`（拿不准某个语言名是否被支持，可以在模板里先用 `transform.CanHighlight` 问一声）。**空 `Type` 具体走哪一支属于实现细节**，本页不把「它一定命中兜底」写成结论：上面的产物只证明最终输出是 `language-text`、没有记号类名，兜底与否用上面的纯文本结果核对即可。
+
+**和 Hugo 默认输出的差别**：不写钩子时，Hugo 直接输出高亮结果本身，外层是 `transform.HighlightCodeBlock` 的默认包裹元素 `<div class="highlight"><pre …><code …>`，通用属性（如 `file`）会被加到那个外层元素上，**没有文件名标题、没有语言标签、没有复制按钮**。本站钩子做的事就是在原先的包裹外面再套一层 `.code-block`：多出头部（文件名 + 语言标签）与复制按钮位，**代码部分仍然是同一个高亮器、同一份选项**——模板开头就把 `.Options` 原样接过去，所以 `lineNos`、`tabWidth` 这类高亮选项在本站与默认输出里的作用完全一致。**实测（Hugo 0.167.0）**：本站产物里 `file` 既出现在头部（`<span class="code-block-file">`），也**同时保留了默认行为**——它仍作为属性留在内层 `<div class="highlight" file="layouts/example.html">` 上；这两件事并不冲突，一处是钩子自己加的题注，一处是高亮器对通用属性的默认处理。
 
 ## 什么时候用，什么时候别用
 

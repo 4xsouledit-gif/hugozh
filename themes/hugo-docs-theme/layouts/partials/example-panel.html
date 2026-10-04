@@ -1,0 +1,38 @@
+{{- /* 单个可运行示例的面板（HTML 出口）。
+     「示例」= layouts 里一个真实模板，加上 content 里的一段声明；两者靠 id 关联。
+
+     content 侧（页面 front matter）：
+       [[params.examples]]
+       id    = "strings/truncate-card-title"   # 对应 partials/examples/<id>.html
+       title = "给卡片标题限长"                 # 面板标题
+       args  = { size = 12, title = "…" }      # 传给示例的输入（模板里用 .args.xxx 读）
+       note  = "面板下方的补充说明"             # 可选，支持 Markdown
+       partial = "examples/…"                  # 可选：显式指定模板，默认 examples/<id>.html
+
+     面板里展示的「模板」是 os.ReadFile 直接读出来的示例文件本身，
+     「实际输出」是 partial 执行同一个文件的结果——**源码与产物不可能漂移**。
+
+     调用上下文：dict "page" <页面> "example" <上面那张表>。 */ -}}
+{{- $page := .page -}}
+{{- $ex := .example -}}
+{{- $id := $ex.id -}}
+{{- if not $id }}{{ errorf "示例缺少 id：%s" $page.File.Path }}{{ end -}}
+{{- $name := $ex.partial | default (printf "examples/%s.html" $id) -}}
+{{- $file := printf "themes/hugo-docs-theme/layouts/partials/%s" $name -}}
+{{- $src := os.ReadFile $file -}}
+{{- if not $src }}{{ errorf "示例 %q 的模板不存在：%s（约定：layouts/partials/examples/<id>.html）" $id $file }}{{ end -}}
+{{- $args := $ex.args | default dict -}}
+<figure class="example" id="example-{{ $id | anchorize }}">
+  <figcaption class="example-title">{{ $ex.title | default $id }}</figcaption>
+  <div class="example-src">
+    <p class="example-label">示例模板<span class="example-path">{{ $name }}</span></p>
+    {{ transform.Highlight (strings.TrimSpace $src) "go-html-template" }}
+  </div>
+  <div class="example-out">
+    <p class="example-label">实际输出<span class="example-hint">构建时由上面这份模板真跑出来的</span></p>
+    <div class="example-stage">{{ partial $name (dict "args" $args "page" $page) }}</div>
+  </div>
+  {{- with $ex.note }}
+  <p class="example-note">{{ . | markdownify }}</p>
+  {{- end }}
+</figure>

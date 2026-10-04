@@ -60,8 +60,8 @@
     },
     {
       "path": "references/shortcodes.md",
-      "bytes": 8738,
-      "sha256": "5db138296b608b87aa77ae026ed8cd4ef824b448b0b822d817c6b8c1f3a051d6",
+      "bytes": 10780,
+      "sha256": "f3b50b12a04333a13dd7366445a085b00a452a9918884b7dc740f72fdf2ad8f1",
       "url": "https://hugozh.cn/skill/references/shortcodes.md",
       "rawUrl": "https://raw.githubusercontent.com/hencter/hugozh/main/.agents/skills/hugo-static-site/references/shortcodes.md"
     },

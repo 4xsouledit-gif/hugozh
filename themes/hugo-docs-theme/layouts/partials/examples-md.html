@@ -1,0 +1,36 @@
+{{- /* 可运行示例的 Markdown 出口（随 single.md.md 输出到 /…/index.md）。
+     与 partials/examples.html 读同一份 [params.examples]，并执行同一个示例模板，
+     因此人类看到的与机器拿到的是同一份事实（不漂移）。
+
+     为什么不能只靠正文里的短代码：.md 出口的正文由 partials/md-body.html 从 RawContent
+     生成，独占一行的短代码定界符会被剥掉——示例面板不会出现在那里，所以这里显式补一遍。 */ -}}
+{{- $page := . -}}
+{{- with $page.Params.examples }}
+## 可运行示例
+
+> 下面是本站构建时**真实执行**的结果：模板来自 `layouts/partials/examples/`，输出由该模板现场产出。
+> HTML 版在同一位置渲染成带高亮的面板，两者同源。
+{{ range . }}
+{{- $id := .id -}}
+{{- $name := .partial | default (printf "examples/%s.html" $id) -}}
+{{- $file := printf "themes/hugo-docs-theme/layouts/partials/%s" $name -}}
+{{- $src := os.ReadFile $file -}}
+{{- if not $src }}{{ errorf "示例 %q 的模板不存在：%s" $id $file }}{{ end }}
+### {{ .title | default $id }}
+
+`{{ $name }}`
+
+```go-html-template
+{{ strings.TrimSpace $src | safeHTML }}
+```
+
+实际输出：
+
+```html
+{{ partial $name (dict "args" (.args | default dict) "page" $page) }}
+```
+{{ with .note }}
+{{ . | safeHTML }}
+{{ end }}
+{{- end }}
+{{- end -}}

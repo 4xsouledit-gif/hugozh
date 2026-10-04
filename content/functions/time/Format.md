@@ -10,6 +10,11 @@ source = "https://gohugo.io/functions/time/format/"
 signatures = ["time.Format LAYOUT INPUT"]
 returnType = "string"
 aliases = ["dateFormat"]
+
+[[params.examples]]
+id    = "time/format-layouts"
+title = "给文章加一行时间（本站配置下真实执行）"
+note  = "本站配置：`locale = 'zh-CN'`、`defaultContentLanguage = 'zh-cn'`、`timeZone = 'Asia/Shanghai'`。"
 +++
 
 ## 这一页解决什么问题
@@ -194,22 +199,9 @@ AM/PM 标记|`"PM"`
 
 ## 完整示例：给文章加一行时间
 
-```go-html-template {file="layouts/_partials/post-meta.html"}
-{{ $t := time.AsTime "2023-10-15T13:18:50-07:00" }}
-<p>{{ time.Format "2006-01-02 15:04" $t }}</p>
-<time datetime="{{ time.Format "2006-01-02T15:04:05Z07:00" $t }}">
-  {{ time.Format ":date_long" $t }}
-</time>
-```
+下面是本站构建时**真实执行**的结果（模板文件在 `layouts/partials/examples/time/format-layouts.html`）：
 
-Hugo 渲染为（本站配置：`locale = 'zh-CN'`、`defaultContentLanguage = 'zh-cn'`、`timeZone = 'Asia/Shanghai'`）：
-
-```html
-<p>2023-10-15 13:18</p>
-<time datetime="2023-10-15T13:18:50-07:00">
-  October 15, 2023
-</time>
-```
+{{< examples >}}
 
 **你应当看到什么**：第一行由布局字符串拼出，与站点语言无关；`datetime` 属性是机器可读的 ISO 形式；`<time>` 里的可见文本走本地化标记，在本站当前配置下实测是英文 `October 15, 2023`——原因与规避办法见上一小节。
 

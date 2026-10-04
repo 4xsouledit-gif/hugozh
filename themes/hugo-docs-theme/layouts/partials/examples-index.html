@@ -1,0 +1,37 @@
+{{- /* 全站「可运行示例」索引：按章节分组，列出所有声明了 [params.examples] 的页面。
+     数据来自内容页自己的 front matter，因此新增示例只需改 content，不必动模板。
+     与 partials/examples-index-md.html 同源（同一份数据、同一套筛选）。 */ -}}
+{{- $groups := slice -}}
+{{- $pageCount := 0 -}}
+{{- $exampleCount := 0 -}}
+{{- range site.Home.Sections.ByWeight -}}
+  {{- $section := . -}}
+  {{- $items := slice -}}
+  {{- range .RegularPagesRecursive -}}
+    {{- $page := . -}}
+    {{- with .Params.examples -}}
+      {{- $items = $items | append (dict "page" $page "examples" .) -}}
+      {{- $exampleCount = add $exampleCount (len .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $items -}}
+    {{- $groups = $groups | append (dict "section" $section "items" $items) -}}
+    {{- $pageCount = add $pageCount (len $items) -}}
+  {{- end -}}
+{{- end -}}
+
+<p class="examples-stat">目前共 <strong>{{ $exampleCount }}</strong> 个可运行示例，分布在 <strong>{{ $pageCount }}</strong> 个页面、<strong>{{ len $groups }}</strong> 个章节里。每个示例的模板都在 <code>layouts/partials/examples/</code> 下，输出由构建时现场执行产出。</p>
+
+{{- range $groups }}
+<h3 id="示例-{{ .section.LinkTitle | anchorize }}">{{ .section.LinkTitle }}</h3>
+<ul class="examples-list">
+  {{- range .items }}
+  <li>
+    <a href="{{ .page.RelPermalink }}">{{ .page.Title }}</a>
+    <span class="examples-tags">
+      {{- range $i, $e := .examples }}{{ if $i }} · {{ end }}{{ $e.title | default $e.id }}{{ end -}}
+    </span>
+  </li>
+  {{- end }}
+</ul>
+{{- end }}

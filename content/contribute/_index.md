@@ -75,7 +75,7 @@ Hugo 是一个由社区驱动的开源项目，任何人都可以参与其中。
 先看清本站是什么：
 
 - 本站是 **Hugo 官方文档的社区简体中文翻译站（非官方）**，站点地址 <https://hugozh.cn/>，源码仓库 <https://github.com/hencter/hugozh>；上游原文仓库是 <https://github.com/gohugoio/hugoDocs>，上游文档站点是 <https://gohugo.io/>。
-- 规模与结构（依据仓库根目录的 `README.md`）：全站 **948 个 Markdown 文件**、20 个一级章节目录，其中 19 章与上游 1:1 对应，另有 1 章是本站原创的「技能包」。
+- 规模与结构（依据仓库根目录的 `README.md`）：全站 **949 个 Markdown 文件**、21 个一级章节目录，其中 19 章与上游 1:1 对应，另有 2 章是本站原创的「技能包」与「[可运行示例](/examples/)」。
 - 站点配置在仓库根目录的 `hugo.toml`，`baseURL` 已指向线上域名；内容在 `content/`，版式在 `themes/` 的两个主题里。
 
 ### 本站欢迎什么样的改动

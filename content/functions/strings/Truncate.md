@@ -10,6 +10,12 @@ source = "https://gohugo.io/functions/strings/truncate/"
 signatures = ["strings.Truncate SIZE [ELLIPSIS] STRING"]
 returnType = "template.HTML"
 aliases = ["truncate"]
+
+[[params.examples]]
+id    = "strings/truncate-card-title"
+title = "给卡片标题限长：默认省略号、显式空省略号、安全 HTML"
+args  = { size = 12, title = "把你的 Hugo 站点部署到线上：从构建到发布" }
+note  = "第一行在 12 个字符处停住，并补上默认省略号；第二行把 `ELLIPSIS` 显式传成空字符串，于是没有省略号；第三行先转成安全 HTML，截断后 `<em>` 被自动补上闭合标签。"
 +++
 
 ## 这一页解决什么问题
@@ -44,22 +50,9 @@ aliases = ["truncate"]
 
 ## 完整示例：给卡片标题限长
 
-把下面这段直接放进任意会渲染 HTML 的模板（例如 `layouts/_partials/card.html`）：
+下面这个示例是**本站构建时真实执行**的：模板文件在 `layouts/partials/examples/strings/truncate-card-title.html`，输出由它现场产出。同一份文件既是页面上的代码，也是真正跑起来的那段实现——**代码与产物不可能不一致**。
 
-```go-html-template {file="layouts/_partials/card.html"}
-{{ $title := "把你的 Hugo 站点部署到线上：从构建到发布" }}
-<p>{{ $title | strings.Truncate 12 }}</p>
-<p>{{ $title | strings.Truncate 12 "" }}</p>
-<p>{{ "<em>Keep my HTML</em>" | safeHTML | strings.Truncate 10 }}</p>
-```
-
-Hugo 渲染为：
-
-```html
-<p>把你的 Hugo 站点部 …</p>
-<p>把你的 Hugo 站点部</p>
-<p><em>Keep my …</em></p>
-```
+{{< examples >}}
 
 **你应当看到什么**：第一行在 12 个字符处停住，并补上默认省略号；第二行把 `ELLIPSIS` 显式传成空字符串 `""`，于是没有省略号；第三行先转成安全 HTML，截断后 `<em>` 被自动补上闭合标签。
 

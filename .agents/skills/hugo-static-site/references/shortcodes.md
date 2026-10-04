@@ -174,3 +174,41 @@ hugo --ignoreCache --printUnusedTemplates    # a template nothing calls is liste
 Then read the generated page. A missing close, a wrong argument name, or a `warnf` from the template
 shows up in the HTML, and an unmatched call is a build error, not a silent no-op. Examples of
 shortcode syntax *inside content* must be escaped — see the iron rules in `SKILL.md`.
+
+## Runnable examples: the template *is* the code sample
+
+For reference pages whose examples call functions or methods, a stronger version of the same idea:
+keep the example as a **real template**, display its source, and execute it — so the code shown and
+the output shown cannot drift.
+
+Three layers, one job each:
+
+| Layer | Lives in | Holds |
+| --- | --- | --- |
+| Implementation | `layouts/partials/examples/<namespace>/<name>.html` | an ordinary template; context is `dict "args" … "page" …` |
+| Declaration | page front matter, e.g. `[[params.examples]]` | `id` (= template path), `title`, `args`, optional `note` |
+| Placement | one shortcode call in the body | where the panel appears |
+
+The panel partial does both things with the same file:
+
+```go-html-template
+{{- $src := os.ReadFile (printf "layouts/partials/examples/%s.html" $id) -}}
+{{ transform.Highlight (strings.TrimSpace $src) "go-html-template" }}
+{{ partial (printf "examples/%s.html" $id) (dict "args" $args "page" $page) }}
+```
+
+Why the ceremony pays off:
+
+- **Zero drift by construction** — the displayed source is read from disk and the output comes from
+  running that same file; there is no second copy to update;
+- **Examples are verified** — a typo fails the build instead of shipping a plausible lie; do not add
+  "tolerant" error handling that hides it;
+- **Contributors add examples through content**, not templates: write the template once, declare
+  `id`/`title`/`args` in front matter, drop the call where it belongs;
+- **Machines get the same facts** — give the Markdown output format its own partial reading the same
+  declaration. A page body's `.md` export is built from `RawContent`, so a body shortcode will *not*
+  appear there on its own (G24).
+
+Two practical notes: mark the read string `safeHTML` when the partial is an html/template but its
+consumer is a plain-text output format, or the code sample arrives full of `&#34;`; and guard the
+lookup with `errorf` so a renamed template fails loudly instead of rendering an empty panel.

@@ -780,6 +780,108 @@ a:hover {
   font-size: 0.85rem;
 }
 
+/* ---------- 可运行示例面板（partials/example-panel.html） ----------
+   示例由 layouts/partials/examples/ 下的真实模板执行而来；面板把「模板源码」与
+   「实际输出」上下排开——源码是 os.ReadFile 读出的同一个文件，因此不可能与产物漂移。 */
+
+.doc-body .examples {
+  margin: 1.5rem 0;
+}
+
+.doc-body .example {
+  margin: 1.75rem 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  overflow: hidden;
+}
+
+.doc-body .example-title {
+  display: block;
+  padding: 0.45rem 0.95rem;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg-inset);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.doc-body .example-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.35rem 0.95rem;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-faint);
+  font-size: 0.78rem;
+}
+
+.doc-body .example-path {
+  font-family: var(--font-mono);
+  font-size: 1em;
+  color: var(--text-soft);
+}
+
+.doc-body .example-hint {
+  font-size: 0.95em;
+}
+
+.doc-body .example-src .highlight,
+.doc-body .example-src pre {
+  margin: 0;
+  border-radius: 0;
+}
+
+.doc-body .example-stage {
+  padding: 0.9rem 1.1rem;
+  background: var(--bg);
+}
+
+.doc-body .example-stage > :first-child,
+.doc-body .example-rendered > :first-child {
+  margin-top: 0;
+}
+
+.doc-body .example-stage > :last-child,
+.doc-body .example-rendered > :last-child {
+  margin-bottom: 0;
+}
+
+.doc-body .example-note {
+  margin: 0;
+  padding: 0.5rem 0.95rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-soft);
+  font-size: 0.85rem;
+}
+
+/* 可运行示例索引（partials/examples-index.html，用于 /examples/） */
+
+.examples-stat {
+  margin: 1.2rem 0 1.6rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--brand);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.examples-list {
+  margin: 0.6rem 0 1.6rem;
+}
+
+.examples-list > li {
+  margin: 0.35rem 0;
+}
+
+.examples-tags {
+  display: block;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
 /* ---------- 教学层面板（partials/teach-box.html，数据来自前置元数据的 [teach]） ---------- */
 
 .teach {

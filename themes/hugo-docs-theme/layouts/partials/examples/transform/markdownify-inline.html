@@ -1,0 +1,4 @@
+{{ $s := "这是**加粗**文字，还有一个[站内链接](/functions/)。" }}
+<div>{{ $s | markdownify }}</div>
+<div>{{ "第一段\n\n第二段" | markdownify }}</div>
+<h2>{{ "Hugo 中文文档" | markdownify }}</h2>

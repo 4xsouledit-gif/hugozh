@@ -64,6 +64,48 @@ for (const [name, host] of [["youtube", "youtube.com/embed/"], ["vimeo", "player
 }
 await shot(page, "embeds");
 
+console.log("\n── 可运行示例（layouts 执行 + content 声明）───────");
+const examplePages = [
+  ["/functions/strings/truncate/", "strings.Truncate"],
+  ["/functions/collections/where/", "range where $books"],
+  ["/functions/time/format/", "time.Format"],
+  ["/functions/transform/markdownify/", "markdownify"],
+  ["/functions/strings/replacere/", "replaceRE"],
+  ["/methods/page/summary/", "site.GetPage"],
+];
+for (const [path, marker] of examplePages) {
+  await page.goto(BASE + path, { waitUntil: "load" });
+  const panel = await page.evaluate(() => {
+    const el = document.querySelector(".example");
+    if (!el) return null;
+    const src = el.querySelector(".example-src pre");
+    const stage = el.querySelector(".example-stage");
+    return {
+      title: el.querySelector(".example-title")?.textContent.trim() || "",
+      src: src ? src.textContent : "",
+      out: stage ? stage.textContent.trim() : "",
+      srcH: src ? Math.round(src.getBoundingClientRect().height) : 0,
+      outH: stage ? Math.round(stage.getBoundingClientRect().height) : 0,
+    };
+  });
+  check(`${path} 有示例面板`, !!panel && panel.title.length > 0, JSON.stringify(panel && panel.title));
+  check(`${path} 源码区显示的是模板本身`, !!panel && panel.src.includes(marker) && panel.srcH > 20, `含「${marker}」=${!!panel && panel.src.includes(marker)}`);
+  check(`${path} 输出区非空（真跑出来的）`, !!panel && panel.out.length > 0 && panel.outH > 10, `输出长度 ${panel ? panel.out.length : 0}`);
+}
+
+await page.goto(`${BASE}/examples/`, { waitUntil: "load" });
+const idx = await page.evaluate(() => ({
+  stat: document.querySelector(".examples-stat")?.textContent.trim() || "",
+  items: document.querySelectorAll(".examples-list li").length,
+  groups: document.querySelectorAll(".examples-list").length,
+  links: [...document.querySelectorAll(".examples-list a")].map((a) => a.getAttribute("href")),
+}));
+const n = parseInt((idx.stat.match(/共\s*(\d+)\s*个/) || [])[1] || "0", 10);
+check("/examples/ 统计出示例总数", n >= 6, idx.stat.slice(0, 60));
+check("/examples/ 按章节分组列出", idx.groups >= 1 && idx.items >= 6, JSON.stringify({ groups: idx.groups, items: idx.items }));
+check("/examples/ 每个条目都链到真实页面", idx.links.length >= 6 && idx.links.every((h) => (h || "").startsWith("/")), JSON.stringify(idx.links.slice(0, 3)));
+await shot(page, "examples-index");
+
 // instagram：blockquote + embed.js 都在（脚本在无网环境不执行，只断言产物存在）
 await page.goto(`${BASE}/shortcodes/instagram/`, { waitUntil: "domcontentloaded" });
 const ig = await page.evaluate(() => ({

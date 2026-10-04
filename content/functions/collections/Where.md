@@ -10,6 +10,11 @@ source = "https://gohugo.io/functions/collections/where/"
 signatures = ["collections.Where SLICE KEY [OPERATOR] VALUE"]
 returnType = "[]any"
 aliases = ["where"]
+
+[[params.examples]]
+id    = "collections/where-filter"
+title = "用 dict 切片跑通 where"
+note  = "`range` 循环本身会留下空行，这里就是真实产物（未做美化）。"
 +++
 
 ## 这一页解决什么问题
@@ -453,34 +458,9 @@ content/
 
 ## 完整示例：用 dict 切片跑通 where
 
-这个例子不依赖任何内容文件，复制进任意会渲染 HTML 的模板就能跑：
+这个例子不依赖任何内容文件，就是本站构建时**真实执行**的那段模板（文件在 `layouts/partials/examples/collections/where-filter.html`）：
 
-```go-html-template {file="layouts/_partials/price-list.html"}
-{{ $books := slice
-     (dict "title" "A 书" "price" 42)
-     (dict "title" "B 书" "price" 42.67)
-     (dict "title" "C 书") }}
-<ul>
-  {{ range where $books "price" "ge" 40 }}
-    <li>{{ .title }}</li>
-  {{ end }}
-</ul>
-<p>匹配到 {{ len (where $books "price" "ge" 40) }} 本</p>
-<p>有 price 的：{{ len (where $books "price" "ne" nil) }} 本</p>
-<p>没有 price 的：{{ len (where $books "price" "eq" nil) }} 本</p>
-```
-
-Hugo 渲染为（`range` 循环本身会留下空行，这里省略）：
-
-```html
-<ul>
-  <li>A 书</li>
-  <li>B 书</li>
-</ul>
-<p>匹配到 2 本</p>
-<p>有 price 的：2 本</p>
-<p>没有 price 的：1 本</p>
-```
+{{< examples >}}
 
 **你应当看到什么**：列表里只有 A 书与 B 书两行。第三本书**没有** `price` 字段，`ge` 比较不会把它算进来；只有与 `nil` 比较时它才会被选中——这就是「字段不存在」在 `where` 里的语义。
 

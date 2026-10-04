@@ -9,6 +9,12 @@ source = "https://gohugo.io/methods/page/summary/"
 [params.functions_and_methods]
 signatures = ["PAGE.Summary"]
 returnType = "template.HTML"
+
+[[params.examples]]
+id    = "methods/page-summary-vs-description"
+title = "真实页面上的 .Summary 与 .Description"
+args  = { path = "/getting-started/quick-start/" }
+note  = "上表那个 fixture 例子需要专门的测试内容；这一条跑的是**本站真实页面**，由 `site.GetPage` 取到后现场读取属性。"
 +++
 
 ## 这一页解决什么问题
@@ -116,6 +122,12 @@ summary = "手写摘要。"
 | `/posts/empty-body/`（正文为空） | 空字符串 | `false` |
 
 **你应当看到什么**：手动分隔符与自动摘要都带 `<p>` 包裹，而 front matter 的 `summary` **原样输出**（`手写摘要。` 没有 `<p>`）；前三种情况下 `.Truncated` 只有「内容确实被截断」时才为 `true`。
+
+### 本站实跑：真实页面上的 `.Summary`
+
+{{< examples >}}
+
+模板用 `site.GetPage` 取到本站一个真实页面，再现场读它的 `description`、`.Summary`、`.WordCount` 与 `.ReadingTime`——也就是列表页拿到的同一份数据。
 
 ## 返回值边界（实测）
 

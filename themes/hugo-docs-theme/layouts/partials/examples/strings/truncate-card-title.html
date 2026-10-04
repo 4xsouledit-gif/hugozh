@@ -1,0 +1,5 @@
+{{- $title := .args.title | default "把你的 Hugo 站点部署到线上：从构建到发布" -}}
+{{- $size := .args.size | default 12 -}}
+<p>{{ $title | strings.Truncate $size }}</p>
+<p>{{ $title | strings.Truncate $size "" }}</p>
+<p>{{ "<em>Keep my HTML</em>" | safeHTML | strings.Truncate 10 }}</p>

@@ -1,0 +1,5 @@
+{{ $t := time.AsTime "2023-10-15T13:18:50-07:00" }}
+<p>{{ time.Format "2006-01-02 15:04" $t }}</p>
+<time datetime="{{ time.Format "2006-01-02T15:04:05Z07:00" $t }}">
+  {{ time.Format ":date_long" $t }}
+</time>

@@ -4,7 +4,7 @@
 
 | | |
 | --- | --- |
-| 站点 | <https://hugozh.cn/> —— 20 个一级章节、948 个 Markdown 文件（上游 19 章 1:1 翻译 + 1 个原创「技能包」章节） |
+| 站点 | <https://hugozh.cn/> —— 21 个一级章节、949 个 Markdown 文件（上游 19 章 1:1 翻译 + 2 个原创章节：技能包与可运行示例） |
 | 技能包 | [`.agents/skills/hugo-static-site/`](.agents/skills/hugo-static-site/) —— MIT 许可，可单独取用；站内也有介绍页 <https://hugozh.cn/skill/> |
 | 许可 | 译文 [Apache-2.0](LICENSE-APACHE)（演绎自上游文档）· 代码与技能包 [MIT](LICENSE) · 署名见 [NOTICE](NOTICE) |
 | 远端仓库 | <https://github.com/hencter/hugozh>（`main` 分支与 `v1.0.0` / `v1.1.0` / `v1.2.0` 标签已推送） |
@@ -56,9 +56,10 @@ hugozh/                                   ← 仓库根 = 站点根
 ├── assets/
 │   ├── brand/                           # 首页横幅拼贴用的品牌切图
 │   └── images/examples/                 # 文档页演示用的全局资源
-├── content/                             # 20 个一级章节、948 个 Markdown 文件
+├── content/                             # 21 个一级章节、949 个 Markdown 文件
 │   ├── _index.md                        # 首页
 │   ├── getting-started/ … troubleshooting/   # 19 个译文章节（与上游 1:1 对应）
+│   ├── examples/                        # 原创：可运行示例索引（示例实现在 layouts/）
 │   └── skill/                           # 原创：技能包介绍页
 ├── data/glossary-alias.toml             # 术语别名表（HTML 钩子与 md 出口共用一份）
 ├── layouts/_default/baseof.html         # 项目约束层：只放跨主题共用的骨架（全项目仅此一个文件）
@@ -80,31 +81,36 @@ hugozh/                                   ← 仓库根 = 站点根
 
 ## 页面清单
 
-共 **20 个一级章节、948 个 Markdown 文件**（19 个译文章节 1:1 对应上游 + 1 个原创「技能包」章节）。「文件数」为该章节目录下 `*.md` 的实际数量（含该章的 `_index.md`）。
+共 **21 个一级章节、949 个 Markdown 文件**。其中 19 章与上游 1:1 对应，另有 2 章是本站原创：[可运行示例](/examples/)（示例实现在 `layouts/`，见下文「可运行示例」）与[技能包](/skill/)。「页数」为该章节目录下 `*.md` 的实际数量（含该章的 `_index.md`），顺序即侧栏顺序（按 `_index.md` 的 `weight`）。
 
-| # | 章节（中文） | 目录 / 上游路径 | 页数 |
-| --- | --- | --- | ---: |
-| 1 | 入门 | `content/getting-started/` · `/getting-started/` | 4 |
-| 2 | 安装 | `content/installation/` · `/installation/` | 5 |
-| 3 | 关于 | `content/about/` · `/about/` | 5 |
-| 4 | 内容管理 | `content/content-management/` · `/content-management/` | 23 |
-| 5 | 配置 | `content/configuration/` · `/configuration/` | 34 |
-| 6 | 命令 | `content/commands/` · `/commands/` | 45 |
-| 7 | 模板 | `content/templates/` · `/templates/` | 14 |
-| 8 | 渲染钩子 | `content/render-hooks/` · `/render-hooks/` | 9 |
-| 9 | 短代码 | `content/shortcodes/` · `/shortcodes/` | 12 |
-| 10 | Hugo 管道 | `content/hugo-pipes/` · `/hugo-pipes/` | 10 |
-| 11 | Hugo 模块 | `content/hugo-modules/` · `/hugo-modules/` | 5 |
-| 12 | 托管与部署 | `content/host-and-deploy/` · `/host-and-deploy/` | 15 |
-| 13 | 疑难解答 | `content/troubleshooting/` · `/troubleshooting/` | 7 |
-| 14 | 快速参考 | `content/quick-reference/` · `/quick-reference/` | 3 |
-| 15 | 工具 | `content/tools/` · `/tools/` | 6 |
-| 16 | 参与贡献 | `content/contribute/` · `/contribute/` | 4 |
-| — | **合计** | 16 章 | **201** |
+| # | 章节（中文） | 目录 / 站点路径 | 页数 | weight |
+| --- | --- | --- | ---: | ---: |
+| 1 | 技能包（原创） | `content/skill/` · `/skill/` | 1 | 5 |
+| 2 | 函数 | `content/functions/` · `/functions/` | 313 | 10 |
+| 3 | 入门 | `content/getting-started/` · `/getting-started/` | 4 | 10 |
+| 4 | 方法 | `content/methods/` · `/methods/` | 268 | 10 |
+| 5 | 动态 | `content/news/` · `/news/` | 1 | 10 |
+| 6 | 内容管理 | `content/content-management/` · `/content-management/` | 23 | 20 |
+| 7 | 命令 | `content/commands/` · `/commands/` | 45 | 30 |
+| 8 | 托管与部署 | `content/host-and-deploy/` · `/host-and-deploy/` | 15 | 40 |
+| 9 | Hugo Pipes | `content/hugo-pipes/` · `/hugo-pipes/` | 10 | 50 |
+| 10 | Hugo 模块 | `content/hugo-modules/` · `/hugo-modules/` | 5 | 60 |
+| 11 | 模板 | `content/templates/` · `/templates/` | 14 | 70 |
+| 12 | 渲染钩子 | `content/render-hooks/` · `/render-hooks/` | 9 | 80 |
+| 13 | 短代码 | `content/shortcodes/` · `/shortcodes/` | 12 | 90 |
+| 14 | 可运行示例（原创） | `content/examples/` · `/examples/` | 1 | 95 |
+| 15 | 配置 | `content/configuration/` · `/configuration/` | 34 | 100 |
+| 16 | 安装 | `content/installation/` · `/installation/` | 5 | 110 |
+| 17 | 故障排查 | `content/troubleshooting/` · `/troubleshooting/` | 7 | 120 |
+| 18 | 关于 | `content/about/` · `/about/` | 5 | 130 |
+| 19 | 速查 | `content/quick-reference/` · `/quick-reference/` | 166 | 140 |
+| 20 | 工具 | `content/tools/` · `/tools/` | 6 | 150 |
+| 21 | 参与贡献 | `content/contribute/` · `/contribute/` | 4 | 160 |
+| — | **合计** | **21 章** | **949** | |
 
-另有一页全站首页（`content/_index.md`）。规模最大的三章是 `functions/`（313 页）、`methods/`（268 页）与 `commands/`（45 页）；`quick-reference/glossary/` 收录 159 条术语。
+另有一页全站首页（`content/_index.md`，不在上表）。规模最大的三章是 `functions/`（313 页）、`methods/`（268 页）与 `quick-reference/`（166 页，其中 `glossary/` 收录 159 条术语）。
 
-> 上表统计的是**归位完成后**的状态：`getting-started/` 下的 `installation.md`、`configuration.md` 已移入 `/installation/`、`/configuration/`，`content-management/` 下的 `types.md`、`emojis.md`、`render-hooks.md`、`shortcodes.md` 已移入 `/templates/`、`/quick-reference/`、`/render-hooks/`、`/shortcodes/`。这 6 个旧文件已删除，`content/` 下 `.md` 总数与上表一致。
+> 上表按 `_index.md` 的 `weight` 排序，即侧栏顺序；早期归位调整（`getting-started/` 下的 `installation.md`、`configuration.md` 移入 `/installation/`、`/configuration/`，`content-management/` 下的 `types.md`、`emojis.md`、`render-hooks.md`、`shortcodes.md` 移入 `/templates/`、`/quick-reference/`、`/render-hooks/`、`/shortcodes/`）之后 `content/` 下 `.md` 总数与上表一致。
 
 ## 页面约定
 
@@ -244,6 +250,24 @@ Hugo 自带的一批短代码**不需要站点提供模板**就能调用。`/sho
 - 新增短代码：在 `layouts/_shortcodes/` 放一个与调用名同名的 `.html`（子目录即命名空间，如 `media/audio.html` → `{{</* media/audio */>}}`），主题里的同名文件可被项目覆盖；
 - 常用方法（`.Get`/`.Params`/`.IsNamedParams`/`.Inner`/`.InnerDeindent`/`.Parent`/`.Ordinal`/`.Page`…）、嵌套与渲染顺序、与 render hook 的分工，见 skill 的 `references/shortcodes.md`；
 - 验证：`hugo --ignoreCache --printUnusedTemplates` 会列出没人调用的模板；调用未闭合或模板不存在都会让整站构建失败。
+
+## 可运行示例（layouts 实现 + content 声明）
+
+文档页上的「示例」不是贴在正文里的代码，而是**真跑一遍**：`/examples/` 一章给出总览与写法，参考页（`functions/`、`methods/`）上的示例面板上半是模板源码、下半是同一份模板执行出来的结果。
+
+三层各司其职：
+
+| 层 | 位置 | 管什么 |
+| --- | --- | --- |
+| 实现 | `themes/hugo-docs-theme/layouts/partials/examples/<命名空间>/<名字>.html` | 就是一个普通模板：调用函数、输出 HTML；上下文是 `dict "args" … "page" …` |
+| 声明 | 内容页 front matter 的 `[[params.examples]]` | `id`（=模板路径）、`title`（面板标题）、`args`（传给模板的输入）、`note`（可选说明） |
+| 放置 | 正文里一行 `{{</* examples */>}}`（`id="…"` 可只放一个） | 决定示例出现在哪一节 |
+
+渲染由 `partials/example-panel.html` 负责：用 `os.ReadFile` 读出模板源码交给 `transform.Highlight` 高亮，再用 `partial` **执行同一个文件**——所以**源码与产物不可能漂移**，示例写错时构建直接失败。
+
+两个出口同源：Markdown 版本（任意页面 URL 后接 `index.md`）由 `partials/examples-md.html` 从同一份声明生成，带上模板源码与实际输出；`/examples/` 的索引由 `partials/examples-index.html` 与 `partials/examples-index-md.html` 分别产出 HTML 与 Markdown。
+
+新增一个示例的最小步骤：写模板 → 在页面 front matter 里声明 → 正文放一行短代码（`/examples/` 一页有完整说明）。
 
 ## SEO
 

@@ -22,3 +22,6 @@
 ---
 
 {{ partial "md-body.html" . }}
+{{- if .Params.examplesIndex }}
+{{ partial "examples-index-md.html" . }}
+{{- end }}

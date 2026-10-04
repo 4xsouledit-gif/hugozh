@@ -1,0 +1,12 @@
+{{ $books := slice
+     (dict "title" "A 书" "price" 42)
+     (dict "title" "B 书" "price" 42.67)
+     (dict "title" "C 书") }}
+<ul>
+  {{ range where $books "price" "ge" 40 }}
+    <li>{{ .title }}</li>
+  {{ end }}
+</ul>
+<p>匹配到 {{ len (where $books "price" "ge" 40) }} 本</p>
+<p>有 price 的：{{ len (where $books "price" "ne" nil) }} 本</p>
+<p>没有 price 的：{{ len (where $books "price" "eq" nil) }} 本</p>

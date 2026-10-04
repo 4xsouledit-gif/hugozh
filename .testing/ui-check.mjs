@@ -22,7 +22,7 @@ page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
 console.log("── 落地页 ─────────────────────────────────────────");
 await page.goto(BASE + "/", { waitUntil: "load" });
 check("任务卡渲染出 8 张", (await page.locator(".task-card").count()) === 8);
-check("章节总览列出 20 章", (await page.locator(".chapter-grid a").count()) === 20);
+check("章节总览列出 21 章", (await page.locator(".chapter-grid a").count()) === 21);
 check("常用入口胶囊存在", (await page.locator(".quick-links a").count()) >= 8);
 const heroNum = await page.locator(".hero-stats strong").first().innerText();
 check("hero 页数不是 0 或双倍数", /^\d+$/.test(heroNum) && +heroNum > 800 && +heroNum < 1000, `实际 ${heroNum}`);
@@ -81,7 +81,7 @@ console.log("\n── 章节下拉 ───────────────
 await page.click(".nav-dropdown > summary");
 await page.waitForSelector(".nav-dropdown[open] .nav-dropdown-panel");
 const dropLinks = await page.locator(".nav-dropdown-panel a").count();
-check("下拉列出全部章节", dropLinks === 20, `实际 ${dropLinks}`);
+check("下拉列出全部章节", dropLinks === 21, `实际 ${dropLinks}`);
 await page.click("body", { position: { x: 5, y: 400 } });
 check("点外部可收起", (await page.locator(".nav-dropdown[open]").count()) === 0);
 

@@ -10,6 +10,10 @@ source = "https://gohugo.io/functions/strings/replacere/"
 signatures = ["strings.ReplaceRE PATTERN REPLACEMENT STRING [LIMIT]"]
 returnType = "string"
 aliases = ["replaceRE"]
+
+[[params.examples]]
+id    = "strings/replacere-mask"
+title = "压缩连续短横与空白（本站真实执行）"
 +++
 
 ## 这一页解决什么问题
@@ -65,17 +69,9 @@ Go 的正则表达式包实现的是 [RE2 语法][]。大致来说，RE2 语法�
 
 ## 完整示例（实测）
 
-```go-html-template {file="layouts/_partials/normalize.html"}
-{{ replaceRE `(-{2,})` "-" "a-b--c---d" }}
-{{ replaceRE `\s+` " " "a   b\n c" }}
-```
+两行输出都是本站构建时**真实执行**的结果（模板文件在 `layouts/partials/examples/strings/replacere-mask.html`）：
 
-Hugo 0.167.0 实测输出：
-
-```text
-a-b-c-d
-a b c
-```
+{{< examples >}}
 
 **你应当看到什么**：第一行把连续短横压成单个；第二行把任意数量的空白（空格、换行）压成一个空格——这是「把模板里读来的多行文本整理成一行」的常用写法。
 

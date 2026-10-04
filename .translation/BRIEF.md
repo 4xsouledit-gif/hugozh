@@ -40,7 +40,22 @@
 {{< /demo >}}
 ```
 
-展示的对象本身是 Markdown 构造（链接、表格、代码块、引用块）时，**不要套 `demo`**，直接写在正文里，并说明它由哪个渲染钩子/默认行为产生。`
+展示的对象本身是 Markdown 构造（链接、表格、代码块、引用块）时，**不要套 `demo`**，直接写在正文里，并说明它由哪个渲染钩子/默认行为产生。
+
+#### 可运行示例（本站第三类短代码机制）
+
+参考页（`functions/`、`methods/`）上的「完整示例」不再是贴出来的代码，而是**真跑一遍**：
+
+| 层 | 位置 | 写什么 |
+| --- | --- | --- |
+| 实现 | `themes/hugo-docs-theme/layouts/partials/examples/<命名空间>/<名字>.html` | 普通模板，上下文是 `dict "args" … "page" …` |
+| 声明 | 页面 front matter 的 `[[params.examples]]` | `id`（=模板路径，如 `strings/truncate-card-title`）、`title`、`args`、`note`（可选） |
+| 放置 | 正文一行 `{{< examples >}}`（或 `{{< examples id="…" >}}`） | 决定它出现在哪一节 |
+
+- 面板上半是 `os.ReadFile` 读出的**模板源码**，下半是 `partial` 执行**同一个文件**的结果——文档里的代码与实际产物不可能漂移；
+- 示例写错（模板不存在、参数用错）**构建直接失败**，这是要的效果，不要用「容错」把它藏起来；
+- Markdown 出口由 `partials/examples-md.html` 从同一份声明生成，不要只改 HTML 一侧；
+- 总览与完整写法见站内 `/examples/` 一章。
 
 ### 2. 展示短代码写法时必须转义
 

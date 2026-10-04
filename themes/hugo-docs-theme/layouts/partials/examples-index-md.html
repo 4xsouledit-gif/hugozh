@@ -1,0 +1,33 @@
+{{- /* 「可运行示例」索引的 Markdown 出口（随 list.md.md 输出）。
+     与 partials/examples-index.html 读同一份 [params.examples]，保证人机同源。 */ -}}
+{{- $groups := slice -}}
+{{- $pageCount := 0 -}}
+{{- $exampleCount := 0 -}}
+{{- range site.Home.Sections.ByWeight -}}
+  {{- $section := . -}}
+  {{- $items := slice -}}
+  {{- range .RegularPagesRecursive -}}
+    {{- $page := . -}}
+    {{- with .Params.examples -}}
+      {{- $items = $items | append (dict "page" $page "examples" .) -}}
+      {{- $exampleCount = add $exampleCount (len .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $items -}}
+    {{- $groups = $groups | append (dict "section" $section "items" $items) -}}
+    {{- $pageCount = add $pageCount (len $items) -}}
+  {{- end -}}
+{{- end }}
+## 可运行示例索引
+
+共 {{ $exampleCount }} 个可运行示例，分布在 {{ $pageCount }} 个页面、{{ len $groups }} 个章节里。
+每个示例的模板文件都在 `layouts/partials/examples/` 下，输出由构建时执行该模板现场产出；
+页面的 Markdown 版本（本文件的同级 `index.md`）里会带上该页示例的模板源码与实际输出。
+
+{{ range $groups }}
+### {{ .section.Title }}
+
+{{- range .items }}
+- [{{ .page.Title }}]({{ .page.Permalink }}){{ with .page.OutputFormats.Get "md" }}（Markdown：{{ .Permalink }}）{{ end }}：{{ range $i, $e := .examples }}{{ if $i }} · {{ end }}{{ $e.title | default $e.id }}{{ end }}
+{{- end }}
+{{ end -}}

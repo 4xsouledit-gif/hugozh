@@ -25,7 +25,7 @@ Write-Output "`n══════ 5. 铁律扫描（未转义定界符 / 禁用
 $content = Join-Path $root 'content'
 $hits = Select-String -Path (Join-Path $content '*.md'), (Join-Path $content '*\*.md'), (Join-Path $content '*\*\*.md'), (Join-Path $content '*\*\*\*.md') -Pattern '\{\{[<%]\s*/*\s*([a-zA-Z0-9_.-]+)' -AllMatches -ErrorAction SilentlyContinue
 $names = @($hits | ForEach-Object { $_.Matches } | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
-Write-Output ("短代码调用名（本站自有：banner / demo / note / quick-reference / wrap；其余须是 Hugo 内置）: {0}" -f ($names -join ', '))
+Write-Output ("短代码调用名（本站自有：banner / demo / examples / examples-index / note / quick-reference / wrap；其余须是 Hugo 内置）: {0}" -f ($names -join ', '))
 $lit = @(Select-String -Path (Join-Path $content '*.md'), (Join-Path $content '*\*.md'), (Join-Path $content '*\*\*.md'), (Join-Path $content '*\*\*\*.md') -Pattern 'HAHAHUGOSHORTCODE' -ErrorAction SilentlyContinue)
 Write-Output ("HAHAHUGOSHORTCODE 命中: {0}" -f $lit.Count)
 

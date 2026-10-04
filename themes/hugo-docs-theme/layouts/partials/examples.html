@@ -1,0 +1,11 @@
+{{- /* 把当前页声明的全部示例（[params.examples]）依次渲染成面板。
+     HTML 出口由短代码 {{< examples >}} 就地调用；
+     Markdown 出口由 partials/examples-md.html 从同一份数据生成——人类与机器同源。 */ -}}
+{{- $page := . -}}
+{{- with $page.Params.examples }}
+<div class="examples">
+  {{- range . }}
+  {{ partial "example-panel.html" (dict "page" $page "example" .) }}
+  {{- end }}
+</div>
+{{- end -}}

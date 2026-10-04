@@ -1,0 +1,16 @@
+{{- /* 短代码 {{< examples >}}：把当前页 [params.examples] 声明的示例渲染成面板。
+     可选参数 id：只渲染指定 id 的那一个（{{< examples id="strings/truncate-card-title" >}}）。
+     声明在 content（front matter），实现在 layouts（partials/examples/），这里只决定“就地放哪儿”。
+     Markdown 出口见 partials/examples-md.html。 */ -}}
+{{- $page := .Page -}}
+{{- with .Get "id" -}}
+  {{- $hit := where $page.Params.examples "id" . -}}
+  {{- if not $hit }}{{ errorf "%s：没有声明 id 为 %q 的示例" $page.File.Path . }}{{ end -}}
+  <div class="examples">
+    {{- range $hit }}
+    {{ partial "example-panel.html" (dict "page" $page "example" .) }}
+    {{- end }}
+  </div>
+{{- else -}}
+  {{- partial "examples.html" $page -}}
+{{- end -}}

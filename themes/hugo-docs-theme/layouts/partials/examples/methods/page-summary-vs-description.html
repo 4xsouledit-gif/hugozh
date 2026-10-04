@@ -1,0 +1,9 @@
+{{- $path := .args.path | default "/getting-started/quick-start/" -}}
+{{- with site.GetPage $path }}
+<p>页面：<a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+<p><code>description</code>：{{ .Description }}</p>
+<p><code>.Summary | plainify</code>：{{ .Summary | plainify }}…</p>
+<p>字数：{{ .WordCount }} · 预计阅读：{{ .ReadingTime }} 分钟</p>
+{{- else }}
+<p>找不到页面：{{ $path }}</p>
+{{- end }}

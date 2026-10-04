@@ -32,3 +32,4 @@
 ---
 
 {{ partial "md-body.html" . }}
+{{ partial "examples-md.html" . }}

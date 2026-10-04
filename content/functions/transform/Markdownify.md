@@ -10,6 +10,11 @@ source = "https://gohugo.io/functions/transform/markdownify/"
 signatures = ["transform.Markdownify INPUT"]
 returnType = "template.HTML"
 aliases = ["markdownify"]
+
+[[params.examples]]
+id    = "transform/markdownify-inline"
+title = "渲染 front matter 里的 Markdown"
+note  = "本站配置 `markup.goldmark.renderer.unsafe = true`。"
 +++
 
 ## 这一页解决什么问题
@@ -45,22 +50,9 @@ aliases = ["markdownify"]
 
 ## 完整示例：渲染 front matter 里的 Markdown
 
-```go-html-template {file="layouts/_partials/hero.html"}
-{{ $s := "这是**加粗**文字，还有一个[站内链接](/functions/)。" }}
-<div>{{ $s | markdownify }}</div>
-<div>{{ "第一段\n\n第二段" | markdownify }}</div>
-<h2>{{ "Hugo 中文文档" | markdownify }}</h2>
-```
+下面三段是本站构建时**真实执行**的结果（模板文件在 `layouts/partials/examples/transform/markdownify-inline.html`）：
 
-Hugo 渲染为（本站配置 `markup.goldmark.renderer.unsafe = true`）：
-
-```html
-<div>这是<strong>加粗</strong>文字，还有一个<a href="/functions/">站内链接</a>。</div>
-<div><p>第一段</p>
-<p>第二段</p>
-</div>
-<h2>Hugo 中文文档</h2>
-```
+{{< examples >}}
 
 **你应当看到什么**：第一段外层只有 `<div>`，`p` 被去掉了（单段落规则）；第二段是多段落，`p` 被保留；第三段是纯文本，照原样输出。
 
